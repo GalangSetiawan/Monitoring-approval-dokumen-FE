@@ -1,0 +1,379 @@
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header" id="sidebarCollapse" uk-toggle="target: .closeImg">
+
+            <div style="text-align: center;">
+                <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
+                <img class="uk-preserve-width uk-border-circle img-small closeImg mb-2" src="https://getuikit.com/docs/images/avatar.jpg" width="40" alt="" hidden>
+                <img class="uk-preserve-width uk-border-circle img-large closeImg mb-2" src="https://getuikit.com/docs/images/avatar.jpg" width="80" alt="" >
+                <h3 style="color:white"><b>Monitoring Aproval Document</b></h3>
+
+            </div>
+
+            <strong>MAD</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li class="active" uk-tooltip="title: Home; pos: right">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
+                    <span>Home</span>
+                </a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li uk-tooltip="title: Portfolio; pos: right">
+                        <a href="#">Home 1</a>
+                    </li>
+                    <li uk-tooltip="title: Portfolio; pos: right">
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li uk-tooltip="title: Portfolio; pos: right">
+                        <a href="#">Home 3</a>
+                    </li>
+                </ul>
+            </li>
+           
+            <li uk-tooltip="title: Portfolio; pos: right">
+                <a href="#">
+                    <i  uk-icon="icon: nut" aria-hidden="true"></i>
+                    <span>Portfolio</span>
+                </a>
+            </li>
+            <li uk-tooltip="title: FAQ; pos: right">
+                <a href="#">
+                    <i  uk-icon="icon: settings" aria-hidden="true"></i>
+
+                    <span>FAQ</span>
+                </a>
+            </li>
+            <li uk-tooltip="title: Contact; pos: right">
+                <a href="#">
+                    <i  uk-icon="icon: cog" aria-hidden="true"></i>
+
+                    <span>Contact</span>
+                </a>
+            </li>
+
+            <li uk-tooltip="title: Contact; pos: right">
+                <a href="#" uk-toggle="target: #closeApp">
+                    <i  uk-icon="icon: sign-out" aria-hidden="true" style="color: white;"></i>
+
+                    <span>Close Aplication</span>
+                </a>
+            </li>
+
+            <li uk-tooltip="title: Contact; pos: right">
+                <a href="#" uk-toggle="target: #closeApp">
+                    <i  uk-icon="icon: info" aria-hidden="true" style="color: white;"></i>
+
+                    <span>About</span>
+                </a>
+            </li>
+
+            
+
+
+            
+        </ul>
+
+        
+    </nav>
+
+    <!-- Page Content  -->
+    <div class="row "id="content">
+
+        <div class="second-sidebar p-4"  style="max-width: 300px;">
+        
+            
+
+
+                <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+
+                    <li class="uk-nav-header bgRound bgBlue">Monitoring Approval Document</li>
+                    <li class="uk-nav-divider"></li>
+
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Finding Document</a></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span> Master KPA</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+
+
+
+                    <li class="uk-active"><a href="#">Active</a></li>
+                    <li class="uk-parent">
+                        <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+
+                <div class="bgRound bgBlue">
+                    Dashboard
+                </div>
+    
+                <div class="bgRound bgGreen">
+                    Home
+                </div>
+    
+                <div class="bgRound bgRed" onclick="plus()">
+                    Zoom In  &nbsp;  <span class="" type="span" uk-icon="icon: expand"></span>
+                </div>
+    
+                <div class="bgRound bgYellow" onclick="minus()">
+                    Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
+                </div>
+
+            
+           
+
+       
+        </div>
+
+       
+
+
+        <div class="col">
+
+
+            <!-- =============================== HEADER ================================= -->
+            <div class="row col-md-12">
+                <div class="col-md-5">
+                    <ul class="uk-breadcrumb">
+                        <li><a href="#" class="uk-text-primary">Home</a></li>
+                        <li class="uk-disabled"><a>Dashboard</a></li>
+                        <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li>
+                       
+                    </ul>
+                </div>
+
+                <div class="col-md-5" >
+                    
+                   
+                    <span class="uk-margin-medium-right" uk-icon="icon: settings" uk-toggle="target: #closeApp" style="display:inline !important"><span class="uk-badge">10</span></span>
+
+
+                    <div class="uk-inline uk-margin-medium-right" style="display:inline !important" >
+                        <span class="" type="span" uk-icon="icon: mail"><span class="uk-badge">5</span></span>
+                        <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px;">
+
+                            <div style="zoom: 0.75;">
+                                <h3>Notifications</h3>
+
+                                <div class="uk-comment">
+                                    <header class="uk-comment-header">
+                                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h4 class="uk-comment-title uk-margin-remove uk-text-primary"><a class="uk-link-reset" href="#">Approval Document</a></h4>
+                                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                    <li><a href="#" class="">12 days ago</a></li>
+                                                    <li><a href="#" class="uk-flex-right">Reply</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="uk-comment-body">
+                                        <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="uk-comment">
+                                    <header class="uk-comment-header">
+                                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h4 class="uk-comment-title uk-margin-remove uk-text-success"><a class="uk-link-reset" href="#">Finding Document</a></h4>
+                                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                    <li><a href="#" class="">12 days ago</a></li>
+                                                    <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="uk-comment-body">
+                                        <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                    </div>
+                                </div>
+                                <hr >
+
+                                <div class="uk-comment">
+                                    <header class="uk-comment-header">
+                                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h4 class="uk-comment-title uk-margin-remove uk-text-warning"><a class="uk-link-reset" href="#">Follow Up Document</a></h4>
+                                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                    <li><a href="#" class="">12 days ago</a></li>
+                                                    <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="uk-comment-body">
+                                        <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                    </div>
+                                </div>
+                                <hr >
+
+
+                                <div class="uk-comment">
+                                    <header class="uk-comment-header">
+                                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h4 class="uk-comment-title uk-margin-remove uk-text-danger"><a class="uk-link-reset" href="#">Deleting Document</a></h4>
+                                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                    <li><a href="#" class="">12 days ago</a></li>
+                                                    <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="uk-comment-body">
+                                        <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-5" >
+                                    <div class="uk-position-center">
+                                        <h4><a class="uk-link-heading" href="#">View All</a></h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="uk-inline uk-margin-medium-right"  style="display:inline !important">
+                        <span class="" type="span" uk-icon="icon: bell"><span class="uk-badge">5</span></span>
+                        <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px" >
+                            <div class="container" >
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis similique perferendis voluptate ut nostrum laborum distinctio quo sequi nisi tempora?
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                
+                <div class="col-md-2">
+                    
+                    <article class="uk-comment uk-flex uk-flex-center@m uk-flex-right@l">
+                        <header class="uk-comment-header">
+                            <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
+                                    <!-- <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg" width="40" alt=""> -->
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Galang</a></h4>
+                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                        <li><a href="#">Super Admin</a></li>
+                                        <li>
+                                            <span class="uk-margin-small-right" uk-icon="icon: chevron-down" uk-toggle="target: #closeApp"></span>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </header>
+                        
+                    </article>
+                    
+                </div>
+            </div>
+            <!-- =============================== HEADER ================================= -->
+
+            
+            <app-masterkpa></app-masterkpa>
+            
+            
+
+           
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- This is the modal -->
+<div id="closeApp" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title" >Quit Aplication</h2>
+        <p>Are you sure to close Aplication</p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button> &nbsp;
+            <button class="uk-button uk-button-primary" type="button"  uk-icon="icon: sign-out">OK </button>
+        </p>
+    </div>
+</div>
+
+
+
+<style>
+    .second-sidebar{
+        border-right: 2px solid #e3f2fd;
+    }
+
+    .bgRound{
+        /* text-align: center; */
+        padding-right: 2rem;
+        padding-left: 2rem;
+        border-radius: 10rem;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    .bgBlue{
+        color:#03a9f4 !important;
+        background-color: aliceblue;
+    }
+
+    .bgRed{
+        color:#ef5350;
+        background-color: #ffebee;
+    }
+
+    .bgGreen{
+        color:#8bc34a;
+        background-color: #f1f8e9;
+    }
+
+    .bgYellow{
+        color:#f9a825;
+        background-color: #fffde7;
+    }
+
+
+</style>

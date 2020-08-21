@@ -1,0 +1,294 @@
+<section [hidden]="windowMode != 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+  <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+      <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
+      <a (click)="getDataUser()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
+      <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >Create &nbsp;</a>
+  </div> 
+  
+  
+  
+  
+  <div class="card mb-4" id="toggle-usage">
+      <div class="card-body">
+          <div>
+              <div  class="uk-margin-small row" >
+  
+                  <div class="col-md-6">
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Username</label>
+                      <div class="uk-form-controls">
+                          <input class="uk-input " [(ngModel)]="filterData.username" type="text" placeholder="Masukan Username...">
+                      </div>
+                  </div>
+  
+                  <div class="col-md-6">
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Nama</label>
+                      <div class="uk-form-controls">
+                          <input class="uk-input " [(ngModel)]="filterData.nama" type="text" placeholder="Masukan nama user...">
+                      </div>
+                  </div>
+  
+                  <div class="col-md-6">  
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Email</label>
+                      <div class="uk-form-controls">
+                          <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email...">
+                      </div>
+                  </div>
+  
+  
+  
+                  <div class="col-md-6"></div>
+  
+                  <div class="col-md-12 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
+                    <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
+                    <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
+                  </div> 
+  
+                  
+  
+  
+              </div>
+  
+               
+             
+          </div>
+      </div>
+  </div>
+  
+  
+
+
+  <div class="">
+      <div class="card mt-5">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">Master User</h4>
+          <p class="card-category">New employees on 15th September, 2016</p>
+        </div>
+
+
+        <div class="p-5">
+          <dx-data-grid 
+              id="gridContainer"
+              [dataSource]="ListUser"
+              [showBorders]="true"
+              [allowColumnReordering]="true"
+              [columnAutoWidth]="true"
+              [allowColumnResizing]="true"
+              >    
+
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-export [enabled]="true" fileName="Orders"></dxo-export>
+              <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>    
+              <dxo-load-panel [enabled]="true"> </dxo-load-panel>
+              <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
+              <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+              <dxo-paging [pageSize]="5"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
+              
+              <dxi-column dataField="nama" caption="KPA" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="cabang" caption="Cabang" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="jabatan" caption="Jabatan" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="username" caption="Username" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="roleName" caption="Role" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="email" caption="Email" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+                  <div *dxTemplate="let cell of 'cellTemplate'">
+                      <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
+                          <a href="#modal-delete-user" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                          <a (click)="onEditClick(cell);" uk-icon="icon: pencil"></a> &nbsp;
+                          <a (click)="onViewClick(cell);" uk-icon="icon: file"></a> &nbsp;
+                      </div> 
+                  </div>
+          </dx-data-grid>
+        </div>
+        
+
+        
+      </div>
+    </div>
+
+
+</section >
+    
+
+<section [hidden]="windowMode == 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+  <form class="uk-form-horizontal uk-margin-large"  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+    <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+      <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
+      <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'" >Simpan</button>
+  
+    </div>
+
+    
+  
+  
+    <div class="card">
+      <div class="card-body m-5">
+
+        
+
+ 
+        <div class="uk-flex uk-flex-center">
+          <div class="uk-card uk-card-body">
+
+            <span style="color:red;" *ngIf="message">{{message}}</span>
+            <input #file type="file" accept='image/*' formControlName="foto" (change)="preview(file.files)" />
+            <img [src]="imgURL" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;" *ngIf="imgURL">
+
+          </div>
+        </div>
+  
+  
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-text">Nama</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
+              <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.nama.errors.required">Nama wajib diisi</div>
+              </div>
+          </div>
+        </div>
+  
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-text">Cabang</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="text" placeholder="Masukan Nama Cabang..." formControlName="cabang" [ngClass]="{ 'uk-form-danger': submitted && f.cabang.errors }">
+              <div *ngIf="submitted && f.cabang.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.cabang.errors.required">Cabang wajib diisi</div>
+              </div>
+          </div>
+        </div>
+  
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-text">Jabatan</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="text" placeholder="Masukan Jabatan..."  formControlName="jabatan" [ngClass]="{ 'uk-form-danger': submitted && f.jabatan.errors }">
+              <div *ngIf="submitted && f.jabatan.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.jabatan.errors.required">Jabatan wajib diisi</div>
+              </div>
+          </div>
+        </div>
+  
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-text">Email</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
+              [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
+              <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.email.errors.required">Email wajib diisi</div>
+                <div *ngIf="f.email.errors.email">Masukan Email yang valid</div>
+              </div>
+
+              <div *ngIf="!isValidEmail" class="uk-text-danger uk-text-italic">
+                <div>Email sudah terdaftar</div>
+              </div>
+
+              <div *ngIf="isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
+                <div>Email dapat digunakan</div>
+              </div>
+          </div>
+        </div>
+  
+  
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-select">User Role</label>
+          <div class="uk-form-controls">
+              <select class="uk-select" placeholder="---Pilih Role---" id="form-horizontal-select" formControlName="roleId" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
+                <option [ngValue]="50">Super Admin</option>
+                <option [ngValue]="40">Admin</option>
+                <option [ngValue]="30">Setdit</option>
+                <option [ngValue]="20">KPA</option>
+              </select>
+  
+              <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
+              </div>
+  
+          </div>
+        </div>
+  
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-text">Username</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="text" placeholder="Masukan Username..." formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
+              <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.username.errors.required">Username wajib diisi</div>
+              </div>
+          </div>
+        </div>
+
+        
+        <div class="uk-margin" *ngIf="windowMode != 'view'">
+          <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
+              [ngClass]="{ 'uk-form-danger': !isValidOldPassword || submitted && f.oldPassword.errors, 'uk-form-success': isValidOldPassword && modelRegister.oldPassword != ''}">
+              <div *ngIf="submitted && f.oldPassword.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.oldPassword.errors.required">Password Lama wajib diisi</div>
+                <div *ngIf="f.oldPassword.errors.minlength">Password Lama minimal 6 karakter</div>        
+              </div>
+
+              <div *ngIf="!isValidOldPassword" class="uk-text-danger uk-text-italic">
+                <div>Password Lama tidak valid</div>
+              </div>
+
+              <div *ngIf="isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-success uk-text-italic">
+                <div>Password Lama Valid</div>
+              </div>
+
+
+          </div>
+        </div>
+                                                                         
+  
+        <div class="uk-margin" *ngIf="windowMode != 'view'">
+          <label class="uk-form-label" for="form-horizontal-text">Password</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
+              <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.password.errors.required">Password wajib diisi</div>
+                <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
+              </div>
+          </div>
+        </div>
+  
+  
+        <div class="uk-margin" *ngIf="windowMode != 'view'">
+          <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
+              <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
+                <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi harus sesuai</div>
+            </div>
+          </div>
+        </div>
+
+
+       
+          
+          
+  
+  
+      </div>
+    </div>
+  
+  
+  </form>
+</section>
+
+
+
+<!-- modal-delete-user -->
+<div id="modal-delete-user" class="uk-flex-top" uk-modal>    
+  <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body">
+      <h2 class="uk-modal-title">Hapus data?</h2>
+      <p>Apakah anda yakin ingin menghpus data  <span style="font-weight: bold;">{{deleteDataUser}}</span> </p>
+      <p class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close" type="button" id="btnHapus">Batal</button> &nbsp;
+          <button class="uk-button uk-button-primary" (click)="doDelete()" type="button">Hapus</button>
+      </p>
+  </div>
+</div>
+<!-- modal-delete-user -->
