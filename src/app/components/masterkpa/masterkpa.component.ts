@@ -40,7 +40,7 @@ export class MasterkpaComponent implements OnInit {
         Validators.pattern('[\\w\\-\\s\\/]+')
       ])),
       idCabang      : new FormControl("",Validators.compose([Validators.required,])),
-      alamat: new FormControl("")
+      // alamat: new FormControl("")
        
     });
 
@@ -56,7 +56,7 @@ export class MasterkpaComponent implements OnInit {
     this.windowMode = mode;
 
     if(this.windowMode == 'create'){
-      this.formKPA = {namaKpa:null,idCabang:null, cabang:null, alamat:null, id:null};
+      this.formKPA = {namaKpa:null,idCabang:null, cabang:null, id:null};
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
