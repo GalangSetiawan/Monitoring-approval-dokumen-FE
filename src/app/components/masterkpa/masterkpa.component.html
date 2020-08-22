@@ -128,13 +128,6 @@
             <div class="card-body m-5"> 
                 
 
-                <!-- <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Nama KPA</label>
-                    <div class="col-md-10 col-lg-5" >
-                    <input type="email" class="uk-input" formControlName="namaKpa" [(ngModel)]="formKPA.namaKpa">
-                    </div>
-                </div> -->
-
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Nama KPA</label>
                     <div class="uk-form-controls">
@@ -145,17 +138,7 @@
                     </div>
                 </div>
 
-
-
-
-                <!-- <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Cabang</label>
-                    <div class="col-md-10 col-lg-5" >
-                    <input type="text" class="uk-input" formControlName="cabang"  [(ngModel)]="formKPA.cabang">
-                    </div>
-                </div> -->
-
-                <div class="uk-margin">
+                <!-- <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Nama Cabang</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" type="text" placeholder="Masukan Nama..."  formControlName="cabang"  [(ngModel)]="formKPA.cabang" [ngClass]="{ 'uk-form-danger': submitted && f.cabang.errors }">
@@ -163,16 +146,25 @@
                             <div *ngIf="f.cabang.errors.required">Nama Cabang wajib diisi</div>
                         </div>
                     </div>
+                </div> -->
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-select">Cabang</label>
+                    <div class="uk-form-controls">
+                        <select class="uk-select"  formControlName="idCabang" [(ngModel)]="formKPA.idCabang" [ngClass]="{ 'uk-form-danger': submitted && f.idCabang.errors }">
+                            <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
+                            <option [ngValue]="1">Dummy Cabang 100</option>
+                            <option [ngValue]="2">Dummy Cabang 200</option>
+                            <option [ngValue]="3">Dummy Cabang 300</option>
+                        </select>
+            
+                        <div *ngIf="submitted && f.idCabang.errors" class="uk-text-danger uk-text-italic">
+                            <div *ngIf="f.idCabang.errors.required">Nama Cabang wajib diisi</div>
+                        </div>
+            
+                    </div>
                 </div>
 
-
-
-                <!-- <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Alamat Cabang</label>
-                    <div class="col-md-10 col-lg-5" >
-                    <textarea class="uk-textarea" rows="5" placeholder="Masukan Alamat" formControlName="alamat"  [(ngModel)]="formKPA.alamat"></textarea>
-                    </div>
-                </div> -->
 
 
                 <div class="uk-margin">

@@ -14,7 +14,7 @@ export class MasterppkService {
   }
 
   updatePPK(dataPPK): Observable<any> {
-    return this.http.patch<any>('http://127.0.0.1:8000/api/ppk/edit-data/'+dataPPK.id, dataPPK);
+    return this.http.post<any>('http://127.0.0.1:8000/api/ppk/edit-data/'+dataPPK.id, dataPPK);
   }
 
   getPPK(): Observable<any> {

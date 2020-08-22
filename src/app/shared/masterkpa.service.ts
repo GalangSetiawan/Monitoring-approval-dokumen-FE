@@ -24,7 +24,7 @@ export class MasterkpaService {
     }
   
     updateKPA(dataKPA): Observable<any> {
-      return this.http.patch<any>('http://127.0.0.1:8000/api/kpa/edit-data/'+dataKPA.id, dataKPA);
+      return this.http.post<any>('http://127.0.0.1:8000/api/kpa/edit-data/'+dataKPA.id, dataKPA);
     }
   
     getKPA(): Observable<any> {

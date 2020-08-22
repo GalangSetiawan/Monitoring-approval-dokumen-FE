@@ -11,6 +11,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MasterppkComponent } from './components/masterppk/masterppk.component';
 import { TindaklanjutComponent } from './components/tindaklanjut/tindaklanjut.component';
 import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.component';
+import { CabangComponent } from './components/cabang/cabang.component';
+
 
 // add component
 
@@ -29,6 +31,8 @@ import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.compo
     { path: 'masterppk', component: MasterppkComponent },
     { path: 'tindaklanjut', component: TindaklanjutComponent },
     { path: 'approvaldoc', component: ApprovaldocComponent },
+    { path: 'cabang', component: CabangComponent },
+    
   ];
 
 @NgModule({

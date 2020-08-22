@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { TokenService } from '../../shared/token.service';
 import { AuthStateService } from '../../shared/auth-state.service';
 import { MasterkpaService } from './../../shared/masterkpa.service';
+import { MastercabangService } from './../../shared/mastercabang.service';
+
+
+
 import * as _ from "lodash";
 import * as $ from 'jquery'
 
@@ -22,6 +26,7 @@ export class MasterkpaComponent implements OnInit {
 
   constructor(
     public masterKpaService: MasterkpaService,
+    public masterCabangService: MastercabangService,
     private token: TokenService,
     private authState: AuthStateService,
   ) { }
@@ -34,12 +39,13 @@ export class MasterkpaComponent implements OnInit {
         Validators.minLength(3),
         Validators.pattern('[\\w\\-\\s\\/]+')
       ])),
-      cabang      : new FormControl("",Validators.compose([Validators.required,])),
+      idCabang      : new FormControl("",Validators.compose([Validators.required,])),
       alamat: new FormControl("")
        
     });
 
     this.getDataKPA();
+    this.getDataCabang();
 
 
   }
@@ -50,7 +56,7 @@ export class MasterkpaComponent implements OnInit {
     this.windowMode = mode;
 
     if(this.windowMode == 'create'){
-      this.formKPA = {namaKpa:null, cabang:null, alamat:null, id:null};
+      this.formKPA = {namaKpa:null,idCabang:null, cabang:null, alamat:null, id:null};
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
@@ -60,6 +66,23 @@ export class MasterkpaComponent implements OnInit {
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #create').remove();
     }
+  }
+
+  
+  ListCabang = [];
+  getDataCabang(){
+    this.masterCabangService.getCabang().subscribe(
+      data => {
+        console.log('Get data Cabang success | getCabang ===>',data);
+        this.ListCabang = data.result;
+
+        console.log('ListCabang ===>',this.ListCabang);
+      },
+      error => {
+        console.log('Get data Cabang error   | getCabang ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      }
+    )
   }
 
 
