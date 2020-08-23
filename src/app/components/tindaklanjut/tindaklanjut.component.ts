@@ -62,7 +62,7 @@ export class TindaklanjutComponent implements OnInit {
       tglKePpk   : ['', Validators.required],
       idKpa      : ['', Validators.required],
       idPpk      : ['', Validators.required],
-      fileDokumen: [undefined, Validators.required],
+      fileDokumen: [null],
     });
 
 
@@ -95,7 +95,7 @@ export class TindaklanjutComponent implements OnInit {
     this.windowMode = mode;
 
     if(this.windowMode == 'create'){
-      this.modelTindakLanjut = {id:null,noDokumen:null, namaDokumen:null,fileDokumen:undefined, tglDariBpk:null, tglKePpk:null , idKpa:null, idPpk:null, status:null, idUser:null};
+      // this.modelTindakLanjut = {id:null,noDokumen:null, namaDokumen:null,fileDokumen:undefined, tglDariBpk:null, tglKePpk:null , idKpa:null, idPpk:null, status:null, idUser:null};
       this.tindakLanjutForm.reset();
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>')
       $('.uk-breadcrumb #edit').remove();
@@ -113,6 +113,11 @@ export class TindaklanjutComponent implements OnInit {
 
   ListPPK = [];
   onKpaChange(id){
+    this.ListPPK = [];
+
+    this.modelTindakLanjut.idPpk = null;
+    this.filterData.idPpk = null;
+    this.tindakLanjutForm.patchValue({idPpk : null});
     this.masterPpkService.getPPK().subscribe(
       result => {
         console.log('Get data PPK success | getPPK ===>',result);        
@@ -188,8 +193,7 @@ export class TindaklanjutComponent implements OnInit {
 
 
   onDownloadClick(row){
-    console.log('row.data ===>',row.data);
-    this.isLoading = true
+    console.log('row.data ===>',row);
     // this.tindakLanjutService.downloadDocument(row.data.fileDokumen).subscribe(
     //   result => {
     //     this.isLoading = false; mmmmmmmmmmmmmmmmmmmmm
@@ -200,10 +204,12 @@ export class TindaklanjutComponent implements OnInit {
     //   }
     // );
 
+    if(row.fileDokumen == undefined){
+      row.fileDokumen = this.namafile
+    }
 
-    this.tindakLanjutService.downloadDocument(row.data.fileDokumen).subscribe(
+    this.tindakLanjutService.downloadDocument(row.fileDokumen).subscribe(
       (result:any) => {
-        this.isLoading = false;
         console.log('download dokumen sukses',result);
 
         const a = document.createElement('a')
@@ -215,17 +221,54 @@ export class TindaklanjutComponent implements OnInit {
 
 
 
-      },error =>{
-        this.isLoading = false;
-        console.log('download dokumen Gagal',error)
-        if(error.result !== undefined){
-          notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
-        }else{
-          notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        }
-      }
+      },
+      // error =>{
+      //   this.isLoading = false;
+      //   console.log('download dokumen Gagal',error)
+      //   if(error.result !== undefined){
+      //     notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }else{
+      //     notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }
+      // }
     );
     
+
+  }
+
+
+  cleanBlankKey(obj){
+    for (var propName in obj) { 
+      if (obj[propName] == null || obj[propName] == undefined || obj[propName] == "" ) {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
+
+  filterData = {tglKePpkDari:null,tglKePpkSampai:null, noDokumen:"", idKpa:null, idPpk:null, status:""}
+  doSearch(filter){
+    this.filterData = filter; 
+    console.log('doSearch ===>',this.filterData);
+
+    this.filterData = this.cleanBlankKey(this.filterData);
+
+    this.tindakLanjutService.searchTindakLanjut(this.filterData).subscribe(
+      data => {
+        console.log('searchPPK PPK success | searchPPK ===>',data);
+        this.ListTindakLanjut = data.result;
+      },
+      error => {
+        console.log('searchPPK PPK error   | searchPPK ===>',error);
+      }
+    )
+  }
+
+  doReset(){
+    console.log('this.filterData ===>',this.filterData)
+    this.filterData = {tglKePpkDari:null,tglKePpkSampai:null, noDokumen:"", idKpa:null, idPpk:null, status:""}
+
 
   }
 
@@ -243,12 +286,23 @@ export class TindaklanjutComponent implements OnInit {
 
 
 
+  isShowFormUpload = false;
+  toggleUploadFile(isUpdateDoc){ // 1 = update | 0 = no update
+    this.isShowFormUpload = this.isShowFormUpload? false :true;
+    if(isUpdateDoc == 0){
+      this.modelTindakLanjut.fileDokumen = null;
+      this.tindakLanjutForm.patchValue({fileDokumen : null})
+    }
+  }
 
   formKPA = {};
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
+    this.namafile = row.data.fileDokumen;
     this.windowModeView('edit');
-    this.modelTindakLanjut = row.data;
+    this.modelTindakLanjut = row.data; 
+    this.modelTindakLanjut.fileDokumen = null;
+    this.isShowFormUpload = false;
     this.tindakLanjutForm.patchValue({
       id         : row.data.id,
       created_at : row.data.created_at,
@@ -261,6 +315,7 @@ export class TindaklanjutComponent implements OnInit {
       isDeleted  : row.data.isDeleted,
       noDokumen  : row.data.noDokumen,
       namaDokumen: row.data.namaDokumen,
+      fileDokumen: null,
       tglDariBpk : row.data.tglDariBpk,
       tglKePpk   : row.data.tglKePpk,
       idKpa      : row.data.idKpa,
@@ -316,8 +371,10 @@ export class TindaklanjutComponent implements OnInit {
     return result; //01-08-2020
   }
 
+  namafile :any
   handleFileInput(files :FileList){
     console.log('handleFileInput ===>',files)
+    this.namafile = files[0].name;
     this.modelTindakLanjut.fileDokumen = files;
     console.log('uploadFileName ===>',this.modelTindakLanjut.fileDokumen);
   }
@@ -337,11 +394,12 @@ export class TindaklanjutComponent implements OnInit {
       console.log('this.windowMode ===>',this.windowMode)
 
       this.tindakLanjutService.createTindakLanjut(this.tindakLanjutForm.value).subscribe(
-        result => {
+        (data:any) => {
           this.isLoading = false;
-          console.log('create success | createTindakLanjut ===>',result)
+          console.log('create success | createTindakLanjut cok===>',data)
+          console.log('create success | createTindakLanjut cok 1===>',data.result)
           notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
-          this.ListTindakLanjut.push(result.result)
+          this.ListTindakLanjut.push(data.result)
           this.windowModeView('grid');
         },
         error => {
@@ -361,9 +419,10 @@ export class TindaklanjutComponent implements OnInit {
 
 
         this.tindakLanjutService.updateTindakLanjut(this.tindakLanjutForm.value).subscribe(
-          result => {
+          (data:any) => {
             this.isLoading = false;
-            console.log('update success | updateTindakLanjut ===>',result)
+            console.log('update success | updateTindakLanjut ===>',data)
+            console.log('update success | updateTindakLanjut 1===>',data.result)
             notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
             this.windowModeView('grid');
             console.log('ListTindakLanjut ===>',this.ListTindakLanjut);

@@ -103,6 +103,41 @@ export class MasterkpaComponent implements OnInit {
   }
 
 
+  doReset(){
+    console.log('this.filterData ===>',this.filterData)
+    this.filterData = {namaKpa:"", idCabang:null}
+  }
+
+  cleanBlankKey(obj){
+    for (var propName in obj) { 
+      if (obj[propName] == null || obj[propName] == undefined || obj[propName] == "" ) {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
+  filterData = {namaKpa:"", idCabang:null}
+  doSearch(filter){
+    this.filterData = filter; 
+    console.log('doSearch ===>',this.filterData);
+
+    this.filterData = this.cleanBlankKey(this.filterData);
+
+    this.masterKpaService.searchKPA(this.filterData).subscribe(
+      data => {
+        console.log('searchPPK PPK success | searchPPK ===>',data);
+        this.ListKPA = data.result;
+      },
+      error => {
+        console.log('searchPPK PPK error   | searchPPK ===>',error);
+      }
+    )
+  }
+
+
+
+
   KPAobject = { id:null };
   getDataKPAbyId(id){
     this.KPAobject = { id:null };
@@ -163,10 +198,13 @@ export class MasterkpaComponent implements OnInit {
     if(data.id == null){
       console.log('doSave | data ===>',data);
       this.masterKpaService.createKPA(this.form.value).subscribe(
-        result => {
-          console.log('create success | createKPA ===>',result)
+        data => {
+          console.log('create success | createKPA ===>',data)
           notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
-          this.ListKPA.push(result.result)
+          var findCabang = _.find(this.ListCabang, {'id':data.result.idCabang});
+          data.result.alamat = findCabang.alamat;
+          data.result.cabang = findCabang.cabang;
+          this.ListKPA.push(data.result)
           this.windowModeView('grid');
 
           

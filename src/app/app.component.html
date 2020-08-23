@@ -1,7 +1,9 @@
-
-
 <div class="wrapper"  *ngIf="isSignedIn">
   <!-- Sidebar  -->
+
+
+
+
   <nav id="sidebar" class="active">
       <div class="sidebar-header" id="sidebarCollapse" (click)="sidebarCollapse()"  uk-toggle="target: .closeImg">
 
@@ -86,66 +88,64 @@
 
       <div class="second-sidebar pr-4 pl-4" >
       
-          
+
+        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+
+            <li class="uk-nav-header bgRound bgBlue">Monitoring Approval Document</li>
+            <li class="uk-nav-divider"></li>
+            
+            <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+            <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
+            <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
+            <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
+            <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
+            <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
+            <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
+            <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
+            <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
+            <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
+            <li><a (click)="signOut()" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Log Out</a></li>
+
+            
+            <li class="uk-nav-divider"></li>
+            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+
+            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
 
 
-              <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+            <li class="uk-active"><a href="#">Active</a></li>
+            <li class="uk-parent">
+                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                <ul class="uk-nav-sub">
+                    <li><a href="#">Sub item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                </ul>
+            </li>
+            <li class="uk-parent">
+                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                <ul class="uk-nav-sub">
+                    <li><a href="#">Sub item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                </ul>
+            </li>
+            
+        </ul>
 
-                  <li class="uk-nav-header bgRound bgBlue">Monitoring Approval Document</li>
-                  <li class="uk-nav-divider"></li>
-                  
-                  <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
-                  <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
-                  <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
-                  <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
-                  <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
-                  <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
-                  <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
-                  <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
-                  <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
-                  <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
-                  <li><a (click)="signOut()" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Log Out</a></li>
+        <div class="bgRound bgBlue">
+            Dashboard
+        </div>
 
-                  
-                  <li class="uk-nav-divider"></li>
-                  <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+        <div class="bgRound bgGreen">
+            Home
+        </div>
 
-                  <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+        <div class="bgRound bgRed" (click)="zoomOut()">
+            Zoom In  &nbsp;  <span class="" type="span" uk-icon="icon: expand"></span>
+        </div>
 
-
-                  <li class="uk-active"><a href="#">Active</a></li>
-                  <li class="uk-parent">
-                      <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
-                      <ul class="uk-nav-sub">
-                          <li><a href="#">Sub item</a></li>
-                          <li><a href="#">Sub item</a></li>
-                      </ul>
-                  </li>
-                  <li class="uk-parent">
-                      <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
-                      <ul class="uk-nav-sub">
-                          <li><a href="#">Sub item</a></li>
-                          <li><a href="#">Sub item</a></li>
-                      </ul>
-                  </li>
-                  
-              </ul>
-
-              <div class="bgRound bgBlue">
-                  Dashboard
-              </div>
-  
-              <div class="bgRound bgGreen">
-                  Home
-              </div>
-  
-              <div class="bgRound bgRed" (click)="zoomOut()">
-                  Zoom In  &nbsp;  <span class="" type="span" uk-icon="icon: expand"></span>
-              </div>
-  
-              <div class="bgRound bgYellow" (click)="zoomIn()">
-                  Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
-              </div>
+        <div class="bgRound bgYellow" (click)="zoomIn()">
+            Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
+        </div>
 
           
          
@@ -156,183 +156,173 @@
      
 
 
-      <div class="col">
+      <div class="col content-panel">
+
+        <!-- =============================== HEADER ================================= -->
+        <div class="row col-sm-12">
+            <div class="col-sm-5">
+                <ul class="uk-breadcrumb">
+                    <li><a href="#" class="uk-text-primary">Home</a></li>
+                    <li class="uk-disabled"><a>Dashboard</a></li>
+                    <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
+                    
+                </ul>
+            </div>
+
+            <div class="col-sm-5" >
+                
+                
 
 
-          <!-- =============================== HEADER ================================= -->
-          <div class="row col-md-12">
-              <div class="col-md-5">
-                  <ul class="uk-breadcrumb">
-                      <li><a href="#" class="uk-text-primary">Home</a></li>
-                      <li class="uk-disabled"><a>Dashboard</a></li>
-                      <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
-                     
-                  </ul>
-              </div>
+                <div class="uk-inline uk-margin-medium-right" style="display:inline !important" >
+                    <span class="" type="span" uk-icon="icon: mail"><span class="uk-badge">5</span></span>
+                    <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px;">
 
-              <div class="col-md-5" >
-                  
-                 
+                        <div style="zoom: 0.75;">
+                            <h3>Notifications</h3>
 
+                            <div class="uk-comment">
+                                <header class="uk-comment-header">
+                                    <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                        <div class="uk-width-auto">
+                                            <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <h4 class="uk-comment-title uk-margin-remove uk-text-primary"><a class="uk-link-reset" href="#">Approval Document</a></h4>
+                                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                <li><a href="#" class="">12 days ago</a></li>
+                                                <li><a href="#" class="uk-flex-right">Reply</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                </div>
+                            </div>
 
-                  <div class="uk-inline uk-margin-medium-right" style="display:inline !important" >
-                      <span class="" type="span" uk-icon="icon: mail"><span class="uk-badge">5</span></span>
-                      <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px;">
+                            <hr>
 
-                          <div style="zoom: 0.75;">
-                              <h3>Notifications</h3>
+                            <div class="uk-comment">
+                                <header class="uk-comment-header">
+                                    <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                        <div class="uk-width-auto">
+                                            <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <h4 class="uk-comment-title uk-margin-remove uk-text-success"><a class="uk-link-reset" href="#">Finding Document</a></h4>
+                                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                <li><a href="#" class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                </div>
+                            </div>
+                            <hr >
 
-                              <div class="uk-comment">
-                                  <header class="uk-comment-header">
-                                      <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                          <div class="uk-width-auto">
-                                              <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
-                                          </div>
-                                          <div class="uk-width-expand">
-                                              <h4 class="uk-comment-title uk-margin-remove uk-text-primary"><a class="uk-link-reset" href="#">Approval Document</a></h4>
-                                              <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                  <li><a href="#" class="">12 days ago</a></li>
-                                                  <li><a href="#" class="uk-flex-right">Reply</a></li>
-                                              </ul>
-                                          </div>
-                                      </div>
-                                  </header>
-                                  <div class="uk-comment-body">
-                                      <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
-                                  </div>
-                              </div>
-
-                              <hr>
-
-                              <div class="uk-comment">
-                                  <header class="uk-comment-header">
-                                      <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                          <div class="uk-width-auto">
-                                              <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
-                                          </div>
-                                          <div class="uk-width-expand">
-                                              <h4 class="uk-comment-title uk-margin-remove uk-text-success"><a class="uk-link-reset" href="#">Finding Document</a></h4>
-                                              <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                  <li><a href="#" class="">12 days ago</a></li>
-                                                  <li class="uk-flex-right"><a href="#" >Reply</a></li>
-                                              </ul>
-                                          </div>
-                                      </div>
-                                  </header>
-                                  <div class="uk-comment-body">
-                                      <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
-                                  </div>
-                              </div>
-                              <hr >
-
-                              <div class="uk-comment">
-                                  <header class="uk-comment-header">
-                                      <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                          <div class="uk-width-auto">
-                                              <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
-                                          </div>
-                                          <div class="uk-width-expand">
-                                              <h4 class="uk-comment-title uk-margin-remove uk-text-warning"><a class="uk-link-reset" href="#">Follow Up Document</a></h4>
-                                              <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                  <li><a href="#" class="">12 days ago</a></li>
-                                                  <li class="uk-flex-right"><a href="#" >Reply</a></li>
-                                              </ul>
-                                          </div>
-                                      </div>
-                                  </header>
-                                  <div class="uk-comment-body">
-                                      <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
-                                  </div>
-                              </div>
-                              <hr >
+                            <div class="uk-comment">
+                                <header class="uk-comment-header">
+                                    <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                        <div class="uk-width-auto">
+                                            <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <h4 class="uk-comment-title uk-margin-remove uk-text-warning"><a class="uk-link-reset" href="#">Follow Up Document</a></h4>
+                                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                <li><a href="#" class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                </div>
+                            </div>
+                            <hr >
 
 
-                              <div class="uk-comment">
-                                  <header class="uk-comment-header">
-                                      <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                          <div class="uk-width-auto">
-                                              <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
-                                          </div>
-                                          <div class="uk-width-expand">
-                                              <h4 class="uk-comment-title uk-margin-remove uk-text-danger"><a class="uk-link-reset" href="#">Deleting Document</a></h4>
-                                              <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                  <li><a href="#" class="">12 days ago</a></li>
-                                                  <li class="uk-flex-right"><a href="#" >Reply</a></li>
-                                              </ul>
-                                          </div>
-                                      </div>
-                                  </header>
-                                  <div class="uk-comment-body">
-                                      <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
-                                  </div>
-                              </div>
+                            <div class="uk-comment">
+                                <header class="uk-comment-header">
+                                    <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                        <div class="uk-width-auto">
+                                            <span class="uk-margin-small-right" uk-icon="icon: nut"></span>
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <h4 class="uk-comment-title uk-margin-remove uk-text-danger"><a class="uk-link-reset" href="#">Deleting Document</a></h4>
+                                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                <li><a href="#" class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <p>Lorem ipsum dolor siptua. At vero eos et accorem ipsum dolor sit amet.</p>
+                                </div>
+                            </div>
 
-                              <div class="col-md-12 mt-5" >
-                                  <div class="uk-position-center">
-                                      <h4><a class="uk-link-heading" href="#">View All</a></h4>
-                                  </div>
-                              </div>
-                          </div>
+                            <div class="col-sm-12 mt-5" >
+                                <div class="uk-position-center">
+                                    <h4><a class="uk-link-heading" href="#">View All</a></h4>
+                                </div>
+                            </div>
+                        </div>
 
-                         
+                        
 
-                          
-                      </div>
-                  </div>
-                  
-                  
-                  <!-- <div class="uk-inline uk-margin-medium-right"  style="display:inline !important">
-                      <span class="" type="span" uk-icon="icon: bell"><span class="uk-badge">5</span></span>
-                      <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px" >
-                          <div class="container" >
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis similique perferendis voluptate ut nostrum laborum distinctio quo sequi nisi tempora?
-                          </div>
-                      </div>
-                  </div> -->
+                        
+                    </div>
+                </div>
+                
+                
+                <!-- <div class="uk-inline uk-margin-medium-right"  style="display:inline !important">
+                    <span class="" type="span" uk-icon="icon: bell"><span class="uk-badge">5</span></span>
+                    <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px" >
+                        <div class="container" >
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis similique perferendis voluptate ut nostrum laborum distinctio quo sequi nisi tempora?
+                        </div>
+                    </div>
+                </div> -->
 
-              </div>
+            </div>
 
-              
-              <div class="col-md-2" *ngIf="UserProfile != undefined">
-                  
-                  <article class="uk-comment uk-flex uk-flex-center@m uk-flex-right@l" uk-toggle="target: #closeApp">
-                      <header class="uk-comment-header">
-                          <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                              <div class="uk-width-auto">
-                                  <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
-                                  <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg"  width="40" alt="">
-                              </div>
-                              <div class="uk-width-expand">
-                                  <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">{{UserProfile.nama}}</a></h4>
-                                  <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                      <li><a style="text-transform:capitalize;">{{UserProfile.roleName}}</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </header>
-                      
-                  </article>
-                  
-              </div>
-          </div>
+            
+            <div class="col-sm-2">
+                
+                <article class="uk-comment uk-flex uk-flex-center@m uk-flex-right@l" uk-toggle="target: #profileModal">
+                    <header class="uk-comment-header">
+                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
+                                <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg"  width="40" alt="">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">{{UserProfile.nama}}</a></h4>
+                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                    <li><a style="text-transform:capitalize;">{{UserProfile.roleName}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    
+                </article>
+                
+            </div>
+        </div>
+        <!-- =============================== HEADER ================================= -->
 
-          <div class="row col-lg-12" id="headerName">  
-              <h1 class="uk-heading-small">{{titleHeader}}</h1>
-          </div>
-          <!-- =============================== HEADER ================================= -->
-
-          
-          
-          <router-outlet style="overflow: scroll;"></router-outlet>
-
-          
-          
-
-         
-
-
+        
+        
+        <router-outlet style="overflow: scroll;"></router-outlet>
 
       </div>
+
+
   </div>
 </div>
 
@@ -341,86 +331,244 @@
 
 <div class="container" *ngIf="!isSignedIn">
   <div class="auth-wrapper">
-      <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <h3 class="h3 mb-3 font-weight-normal text-center">Sign in</h3>
-    
-          <!-- Errors -->
-          <div *ngIf="errors?.username" class="alert alert-danger mt-3">
-              {{ errors?.username }}
-          </div>
-          <div *ngIf="errors?.password" class="alert alert-danger mt-3">
-              {{ errors?.password }}
-          </div>
-          <div *ngIf="errors?.error" class="alert alert-danger mt-3">
-              {{ errors?.error }}
-          </div>
-    
-          <!-- Login -->
-          <div class="form-group">
-              <label>Username</label>
-              <input type="username" class="form-control" formControlName="username">
-          </div>
-          <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control" formControlName="password">
-          </div>
-          <button type="submit" class="btn btn-block btn-primary">Log in</button>
-      </form>
+        <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <h3 class="h3 mb-3 font-weight-normal text-center">Sign in</h3>
+        
+            <!-- Errors -->
+            <div *ngIf="errors?.username" class="alert alert-danger mt-3">
+                {{ errors?.username }}
+            </div>
+            <div *ngIf="errors?.password" class="alert alert-danger mt-3">
+                {{ errors?.password }}
+            </div>
+            <div *ngIf="errors?.error" class="alert alert-danger mt-3">
+                {{ errors?.error }}
+            </div>
+
+            <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
+                Berhasil melakukan perubahan Password
+            </div>
+
+
+            
+        
+            <!-- Login -->
+            <div class="form-group">
+                <label>Username</label>
+                <input type="username" class="form-control" formControlName="username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" formControlName="password">
+            </div>
+            <button type="submit" class="btn btn-block btn-primary">Log in</button>
+        </form>
     </div>
 </div>
 
 
 
-<!-- This is the modal -->
+
+<!-- ========logout Modal======= -->
 <div id="closeApp" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
       <h2 class="uk-modal-title" >Quit Aplication</h2>
       <p>Are you sure to close Aplication</p>
       <p class="uk-text-right">
-          <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button> &nbsp;
+          <button class="uk-button uk-button-default uk-modal-close" uk-toggle="profileModal" type="button">Cancel</button> &nbsp;
           <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">OK </button>
       </p>
   </div>
 </div>
+<!-- ========logout Modal======= -->
+
+
+
+<!-- ========User Modal======= -->
+<div id="profileModal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">                              
+        
+
+        <div class="viewProfile" *ngIf="!isResetForm && !isLogoutForm">
+            <h2 class="uk-modal-title" > User Profile </h2>
+            <div class="uk-position-top-right uk-position-small uk-hidden-hover" ><a class="uk-link-muted uk-modal-close" uk-icon="icon: close"> </a></div>
+
+
+
+
+            <div class="mt-4">
+                <div class="uk-background-cover uk-background-blend-screen uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(assets/img/user_group.png);">
+                    <div class="bgProfile">
+                        <div class="uk-padding ">
+                            <!-- <h2 class="uk-heading-line uk-text-center"  style="text-transform: capitalize;"><span>{{UserProfile.nama}}</span></h2>
+
+                            <h2 style="text-transform: capitalize;"><span>{{UserProfile.email}}</span></h2>
+                        
+                            <h3 class="text-dark" >{{UserProfile.roleName}}  </h3>
+                            <hr class="uk-divider-vertical">
+                            <h3 class="text-dark" > {{UserProfile.jabatan}} </h3> -->
+
+
+                            <article class="uk-comment uk-visible-toggle mt-4 mb-4" tabindex="-1">
+                                <header class="uk-comment-header uk-position-relative">
+                                    <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                        <div class="uk-width-auto">
+                                            <img class="uk-comment-avatar" src="https://getuikit.com/docs/images/avatar.jpg" width="80" height="80" alt="">
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <h2 class="uk-comment-title uk-margin-remove" style="text-transform: capitalize;">{{UserProfile.nama}}</h2>
+                                            <h3 class="uk-margin-remove-top uk-text-emphasis">{{UserProfile.roleName}}</h3>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <h4 class="uk-text-emphasis">
+                                        <span>{{UserProfile.email}}</span> &nbsp; | &nbsp;
+                                        <span>{{UserProfile.jabatan}}</span>  &nbsp; | &nbsp;
+                                        <span>{{UserProfile.idCabang}}</span>
+                                    </h4>
+                                </div>
+                               
+                            </article>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+  
+            
+            <p class="uk-text-right mt-4">
+                <button class="uk-button uk-button-default" (click)="toggleResetPassword()" type="button">Reset</button> &nbsp;
+                <button class="uk-button uk-button-primary" type="button"uk-icon="icon: sign-out" (click)="toggleLogout()">Logout </button>
+            </p>
+        </div>
+
+        <!-- ==================== Logout Confirmation ====================== -->
+
+        <div *ngIf="isLogoutForm">
+            <h2 class="uk-modal-title" >Keluar Aplikasi</h2>
+            <p>Anda yakin ingin keluar aplikasi?</p>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Cancel</button> &nbsp;
+                <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">OK </button>
+            </p>
+          </div>
+        <!-- ==================== Logout Confirmation ====================== -->
+
+
+
+        <!-- ==================== Reset Password ====================== -->
+        <div class="formReset" *ngIf="isResetForm">
+                <h2 class="uk-modal-title" > Ganti Password </h2>
+    
+    
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="password" [(ngModel)]="modelReset.oldPassword" (change)="onOldPassType(modelReset.oldPassword)"  placeholder="Masukan Password Lama..." >
+                        <div *ngIf="!isValidOldPassword && modelReset.oldPassword != ''" class="uk-text-danger uk-text-italic">
+                            <div>Password Lama tidak valid</div>
+
+                        </div>
+                        <div *ngIf="isValidOldPassword" class="uk-text-success uk-text-italic">
+                            <div>Password Lama valid</div>
+                        </div>
+            
+                    </div>
+                  </div>
+                                                                                   
+            
+                  <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Password</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="password"  [(ngModel)]="modelReset.newPassword" placeholder="Masukan Password Baru..." >
+                        <div *ngIf="modelReset.newPassword.length < 6 &&  modelReset.newPassword !== ''" class="uk-text-danger uk-text-italic">
+                            <div>Password minimal 6 karakter</div>
+                        </div>
+                    </div>
+                  </div>
+            
+            
+                  <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="password" [(ngModel)]="modelReset.newPasswordConfirmation" placeholder="Konfirmasi Password Baru..." >
+                        <div *ngIf="modelReset.newPasswordConfirmation != modelReset.newPassword && modelReset.newPasswordConfirmation !== ''" class="uk-text-danger uk-text-italic">
+                            <div>Konfirmasi Password tidak valid</div>
+                        </div>
+
+                        <div *ngIf="modelReset.newPasswordConfirmation == modelReset.newPassword && modelReset.newPasswordConfirmation !== ''" class="uk-text-success uk-text-italic">
+                            <div>Konfirmasi Password valid</div>
+                        </div>
+                    </div>
+                  </div>
+          
+    
+    
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default"  (click)="toggleResetPassword()" type="button">Cancel</button> &nbsp;
+                <button class="uk-button uk-button-primary uk-modal-close" (click)="doResetPass(modelReset)" type="button"
+                    [disabled] = "modelReset.oldPassword == '' || modelReset.newPassword == '' || modelReset.newPasswordConfirmation == '' || (modelReset.newPasswordConfirmation != modelReset.newPassword) || !isValidOldPassword || modelReset.newPassword.length < 6
+                    ">Reset</button> &nbsp;
+            </p>
+        </div>
+        <!-- ==================== Reset Password ====================== -->
+
+
+        
+    </div>
+  </div>
+  <!-- ========User Modal======= -->
+  
+
+
+
 
 
 
 <style>
-  .second-sidebar{
-      border-right: 2px solid #e3f2fd;
-  }
-  ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* make scrollbar transparent */
-}
 
-  .bgRound{
-      /* text-align: center; */
-      padding-right: 2rem;
-      padding-left: 2rem;
-      border-radius: 10rem;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
-  }
+    .bgProfile{
+        width: 100%;
+        background-color: rgba(227,242,253,0.8);
+        border-radius: 10px;
+    }
 
-  .bgBlue{
-      color:#03a9f4 !important;
-      background-color: aliceblue;
-  }
+  
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
 
-  .bgRed{
-      color:#ef5350;
-      background-color: #ffebee;
-  }
+    .bgRound{
+        /* text-align: center; */
+        padding-right: 2rem;
+        padding-left: 2rem;
+        border-radius: 10rem;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
 
-  .bgGreen{
-      color:#8bc34a;
-      background-color: #f1f8e9;
-  }
+    .bgBlue{
+        color:#03a9f4 !important;
+        background-color: aliceblue;
+    }
 
-  .bgYellow{
-      color:#f9a825;
-      background-color: #fffde7;
-  }
+    .bgRed{
+        color:#ef5350;
+        background-color: #ffebee;
+    }
+
+    .bgGreen{
+        color:#8bc34a;
+        background-color: #f1f8e9;
+    }
+
+    .bgYellow{
+        color:#f9a825;
+        background-color: #fffde7;
+    }
 </style>

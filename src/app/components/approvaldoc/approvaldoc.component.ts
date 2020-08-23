@@ -67,7 +67,7 @@ export class ApprovaldocComponent implements OnInit {
       tglKePpk      : ['', Validators.required],
       idKpa         : ['', Validators.required],
       idPpk         : ['', Validators.required],
-      fileDokumen   : [undefined, Validators.required],
+      fileDokumen   : [undefined],
     });
 
     // =========================Get user==============================
@@ -81,6 +81,7 @@ export class ApprovaldocComponent implements OnInit {
   ngOnInit(): void {
     this.getDataTindakLanjut();
     this.getDataApprovalDoc();
+    this.getDataKPA();
   }
 
   get f() { return this.approvalForm.controls; }
@@ -111,6 +112,7 @@ export class ApprovaldocComponent implements OnInit {
 
   ListPPK = [];
   onKpaChange(id){
+    this.filterData.idPpk = null;
     this.masterPpkService.getPPK().subscribe(
       result => {
         console.log('Get data PPK success | getPPK ===>',result);        
@@ -187,7 +189,7 @@ export class ApprovaldocComponent implements OnInit {
   }
 
   onDownloadClick(row){
-    console.log('row.data ===>',row.data);
+    console.log('row.data ===>',row);
     this.isLoading = true
     // this.tindakLanjutService.downloadDocument(row.data.fileDokumen).subscribe(
     //   result => {
@@ -200,7 +202,11 @@ export class ApprovaldocComponent implements OnInit {
     // );
 
 
-    this.approvalDocService.downloadDocument(row.data.fileDokumen).subscribe(
+    if(row.fileDokumen == undefined){
+      row.fileDokumen = this.namafile
+    }
+
+    this.approvalDocService.downloadDocument(row.fileDokumen).subscribe(
       (result:any) => {
         this.isLoading = false;
         console.log('download dokumen sukses',result);
@@ -214,19 +220,59 @@ export class ApprovaldocComponent implements OnInit {
 
 
 
-      },error =>{
-        this.isLoading = false;
-        console.log('download dokumen Gagal',error);
-        if(error.result !== undefined){
-          notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
-        }else{
-          notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        }
-      }
+      },
+      // error =>{
+      //   this.isLoading = false;
+      //   console.log('download dokumen Gagal',error);
+      //   if(error.result !== undefined){
+      //     notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }else{
+      //     notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }
+      // }
     );
     
 
   }
+
+
+  cleanBlankKey(obj){
+    for (var propName in obj) { 
+      if (obj[propName] == null || obj[propName] == undefined || obj[propName] == "" ) {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
+
+  filterData = {tglKePpkDari:null,tglKePpkSampai:null, noDokumen:"",noDokumenTL:"", idKpa:null, idPpk:null}
+  doSearch(filter){
+    this.filterData = filter; 
+    console.log('doSearch ===>',this.filterData);
+
+    this.filterData = this.cleanBlankKey(this.filterData);
+
+    this.tindakLanjutService.searchTindakLanjut(this.filterData).subscribe(
+      data => {
+        console.log('searchPPK PPK success | searchPPK ===>',data);
+        this.ListTindakLanjut = data.result;
+      },
+      error => {
+        console.log('searchPPK PPK error   | searchPPK ===>',error);
+      }
+    )
+  }
+
+  doReset(){
+    console.log('this.filterData ===>',this.filterData)
+    this.filterData = {tglKePpkDari:null,tglKePpkSampai:null, noDokumen:"",noDokumenTL:"", idKpa:null, idPpk:null}
+
+
+  }
+
+
+  
 
  
   downloadImage() {
@@ -250,7 +296,6 @@ export class ApprovaldocComponent implements OnInit {
         this.isLoading = false;
         console.log('Get data Tindak Lanjut success | getTindakLanjutbyId ===>',data);
         if(data.result.length > 0){
-          
         
           this.approvalForm.patchValue({
             idKpa     : data.result[0].idKpa,
@@ -258,6 +303,7 @@ export class ApprovaldocComponent implements OnInit {
             tglKePpk  : data.result[0].tglKePpk,
             tglDariBpk: data.result[0].tglDariBpk,
           });
+
 
           this.masterPpkService.getPPK().subscribe(
             result => {
@@ -289,11 +335,24 @@ export class ApprovaldocComponent implements OnInit {
 
   }
 
+  isShowFormUpload = false;
+  toggleUploadFile(isUpdateDoc){ // 1 = update | 0 = no update
+    this.isShowFormUpload = this.isShowFormUpload? false :true;
+    if(isUpdateDoc == 0){
+      this.modelApprovalDoc.fileDokumen = null;
+      this.approvalForm.patchValue({fileDokumen : null})
+    }
+  }
+
+
   formKPA = {};
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.windowModeView('edit');
+    this.namafile = row.data.fileDokumen;
+    this.isShowFormUpload = false;
     this.modelApprovalDoc = row.data;
+    this.modelApprovalDoc.fileDokumen = null;
     this.approvalForm.patchValue({
       id            : row.data.id,
       created_at    : row.data.created_at,
@@ -305,6 +364,7 @@ export class ApprovaldocComponent implements OnInit {
       namaPpk       : row.data.namaPpk,
       isDeleted     : row.data.isDeleted,
       noDokumen     : row.data.noDokumen,
+      fileDokumen     :null,
       noDokumenApv  : row.data.noDokumen,
       namaDokumenApv: row.data.namaDokumen,
       tglDariBpk    : row.data.tglDariBpk,
@@ -374,8 +434,10 @@ export class ApprovaldocComponent implements OnInit {
     return result; //01-08-2020
   }
 
+  namafile :any
   handleFileInput(files :FileList){
     console.log('handleFileInput ===>',files)
+    this.namafile = files[0].name;
     this.modelApprovalDoc.fileDokumen = files;
     console.log('uploadFileName ===>',this.modelApprovalDoc.fileDokumen);
   }

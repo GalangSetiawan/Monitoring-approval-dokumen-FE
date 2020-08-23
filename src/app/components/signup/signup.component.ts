@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { FormBuilder, FormGroup,Validators, ValidatorFn,ValidationErrors } from "@angular/forms";
+import { MastercabangService } from './../../shared/mastercabang.service';
+
 
 import { MustMatch } from '../../_helper/must-match.validator';
 import * as _ from "lodash";
@@ -34,13 +36,14 @@ export class SignupComponent implements OnInit {
   constructor(
     public router: Router,
     public fb: FormBuilder,
+    public masterCabangService: MastercabangService,
     public authService: AuthService
   ) {
     this.registerForm = this.fb.group({
       id                   : [null],
       foto                 : [''],
       nama                 : ['', Validators.required],
-      cabang               : ['', Validators.required],
+      idCabang               : ['', Validators.required],
       jabatan              : ['', Validators.required],
       password_confirmation: ['', Validators.required],
       username             : ['', Validators.required],
@@ -57,6 +60,8 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataUser();
+    this.getDataCabang();
+
   }
 
   public comparisonValidator() : ValidatorFn{
@@ -124,6 +129,22 @@ export class SignupComponent implements OnInit {
     console.log('onOlPasswordChange ====>',pass);
 
 
+  }
+
+  ListCabang = [];
+  getDataCabang(){
+    this.masterCabangService.getCabang().subscribe(
+      data => {
+        console.log('Get data Cabang success | getCabang ===>',data);
+        this.ListCabang = data.result;
+
+        console.log('ListCabang ===>',this.ListCabang);
+      },
+      error => {
+        console.log('Get data Cabang error   | getCabang ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      }
+    )
   }
 
  
@@ -208,7 +229,7 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      cabang               : row.data.cabang,
+      idCabang               : row.data.idCabang,
       jabatan              : row.data.jabatan,
       // foto                 : row.data.foto,
     });
@@ -227,7 +248,7 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      cabang               : row.data.cabang,
+      idCabang               : row.data.idCabang,
       jabatan              : row.data.jabatan,
       foto                 : row.data.foto,
     });

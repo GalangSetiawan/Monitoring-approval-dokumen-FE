@@ -50,7 +50,11 @@ export class AuthService {
   checkEmail(email): Observable<any> {
     return this.http.post('http://127.0.0.1:8000/api/auth/check-email', email);
   }
-  
+
+  gantiPassword(id,password){
+    return this.http.post('http://127.0.0.1:8000/api/auth/change-password/' +id, password);
+
+  }
   
   checkPassword(id, password): Observable<any> {
     return this.http.post('http://127.0.0.1:8000/api/auth/check-password/' + id, password);

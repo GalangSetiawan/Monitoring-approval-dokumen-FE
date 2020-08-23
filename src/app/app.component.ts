@@ -4,6 +4,7 @@ import { TokenService } from './shared/token.service';
 import { AuthStateService } from './shared/auth-state.service';
 import { AuthService } from './shared/auth.service';
 import { FormBuilder, FormGroup } from "@angular/forms";
+declare var UIkit: any;
 
 
 import * as $ from 'jquery'
@@ -27,9 +28,12 @@ export class User {
 export class AppComponent implements OnInit{
   title = 'monitoring-approval-document';
   isSignedIn: boolean;
-  UserProfile: User;
+  UserProfile: any;
   loginForm: FormGroup;
   errors = null;
+  isResetForm = false;
+  isLogoutForm = false;
+  isWelcomeBar = false;
 
   constructor(
     private auth: AuthStateService,
@@ -53,8 +57,8 @@ export class AppComponent implements OnInit{
 
     console.log('this.auth.userAuthState ===>',this.auth)
 
-    if(this.UserProfile == undefined){
-
+    if(this.isSignedIn == true){
+      this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
     }
 
     console.log('this.isSignedIn ===>',this.isSignedIn);
@@ -62,12 +66,64 @@ export class AppComponent implements OnInit{
 
   }
 
+  toggleResetPassword(){
+    this.isResetForm = this.isResetForm? false:true;
+  }
+
+  toggleLogout(){
+    this.isLogoutForm = this.isLogoutForm? false:true;
+  }
+
+  modelReset = {oldPassword : '', newPassword:'', newPasswordConfirmation:''};
+  isSuccessResetPass = false;
+  doResetPass(data){
+    console.log('doResetPass ===>',data);
+    
+    this.authService.gantiPassword(this.UserProfile.id,this.modelReset).subscribe(
+      result => {
+        console.log('checkPassword OldPassword success | checkPassword ===>',result);
+        this.signOut();
+        
+      },
+      error => {
+        console.log('checkPassword OldPassword error   | checkPassword ===>',error);
+      }
+    )
+
+
+  }
+
+  isValidOldPassword = false
+  onOldPassType(pass){
+    console.log('onOldPassType ===>',pass);
+    this.authService.checkPassword(this.UserProfile.id,{password:this.modelReset.oldPassword}).subscribe(
+      result => {
+        console.log('checkPassword OldPassword success | checkPassword ===>',result);
+        this.isValidOldPassword = result;
+        
+      },
+      error => {
+        console.log('checkPassword OldPassword error   | checkPassword ===>',error);
+      }
+    )
+  }
+
+
+  UIkit:any
   onSubmit() {
     this.authService.signin(this.loginForm.value).subscribe(
       result => {
-        console.log('balikan login ===>',result);
-        this.UserProfile = result.user[0];
+        console.log('balikan login ===>',result); 
+        var jsonUserProfileString = JSON.stringify(result.user);
         this.responseHandler(result);
+        var user = localStorage.setItem("UserProfile", jsonUserProfileString);
+        this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
+        this.isResetForm = false;
+        this.isLogoutForm = false;
+        UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Selamat Datang '  + this.UserProfile.nama ,  status: 'success',pos: 'top-right'})
+
+
+
       },
       error => {
         this.errors = error.error;
@@ -119,6 +175,7 @@ export class AppComponent implements OnInit{
     this.auth.setAuthState(false);
     this.token.removeToken();
     this.router.navigate(['login']);
+    this.isSuccessResetPass = false;
   }
 
 

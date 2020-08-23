@@ -21,37 +21,61 @@
                     <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">No. Surat Approval</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " type="text" placeholder="Nomor Dokumen Tindak Lanjut">
+                            <input class="uk-input " type="text" [(ngModel)]="filterData.noDokumen" placeholder="Nomor Dokumen Approval">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">No. Dokumen Tindak Lanjut</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input " type="text"  [(ngModel)]="filterData.noDokumenTL" placeholder="Nomor Dokumen Tindak Lanjut">
                         </div>
                     </div>
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal Penyerahan Dokumen Tidak Lanjut</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal Approval - Dari</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " type="text" placeholder="Tanggl yang tertera pada surat dokumen tidak lanjut">
+                            <input class="uk-input" type="date" placeholder="" [(ngModel)]="filterData.tglApprovalDari"  (change)="onDateChange(filterData.tglApprovalDari)">                        
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal Approval - Sampai</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" type="date" placeholder="" [(ngModel)]="filterData.tglApprovalSampai"  (change)="onDateChange(filterData.tglApprovalSampai)">                        
                         </div>
                     </div>
     
-                    <div class="col-md-6">  
+                    <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">KPA</label>
-                        <div class="uk-form-controls">  
-                            <input class="uk-input " type="text" placeholder="Some text...">
+                        <div class="uk-form-controls">
+                            <select class="uk-select" [(ngModel)]="filterData.idKpa" (change)="onKpaChange(filterData.idKpa)">
+                                <option *ngFor="let kpa of ListKPA" [ngValue]="kpa.id">{{kpa.namaKpa}}</option>
+                                <!-- <option [ngValue]="1">Dummy 100</option>
+                                <option [ngValue]="2">Dummy 200</option>
+                                <option [ngValue]="3">Dummy 300</option> -->
+                            </select>                        
                         </div>
                     </div>
-    
-    
+
+
                     <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">PPK</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " type="text" placeholder="Some text...">
+                            <select class="uk-select" [(ngModel)]="filterData.idPpk">
+                                <option *ngFor="let ppk of ListPPK" [ngValue]="ppk.id" >{{ppk.namaPpk}}</option>
+                                <!-- <option [ngValue]="1">Dummy PPK 100</option>
+                                <option [ngValue]="2">Dummy PPK 200</option>
+                                <option [ngValue]="3">Dummy PPK 300</option> -->
+                            </select>                        
                         </div>
                     </div>
     
                     <div class="col-md-6"></div>
     
                     <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
-                        <button class="uk-button uk-button-default" >Reset</button>  &nbsp;
-                        <button class="uk-button uk-button-primary" uk-icon="icon: search">Search </button>
+                        <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
+                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
                     </div> 
     
                     
@@ -130,8 +154,7 @@
                     <div *dxTemplate="let cell of 'downloadTemplate'">
 
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
-                            <a (click)="onDownloadClick(cell);" class="uk-link-text uk-text-primary">Download</a> &nbsp;
-                            <a (click)="downloadImage(cell);" class="uk-link-text uk-text-primary">Img</a> &nbsp;
+                            <a (click)="onDownloadClick(cell.data);" class="uk-link-text uk-text-primary">Download</a> &nbsp;                            
                             
                         </div> 
                         
@@ -224,9 +247,9 @@
                     <div class="uk-form-controls">
                         <select class="uk-select" [(ngModel)]="modelApprovalDoc.idKpa" disabled="true" formControlName="idKpa" (change)="onKpaChange(modelApprovalDoc.idKpa)" [ngClass]="{ 'uk-form-danger': submitted && f.idKpa.errors }">
                             <option *ngFor="let kpa of ListKPA" [ngValue]="kpa.id">{{kpa.namaKpa}}</option>
-                            <option [ngValue]="1">Dummy 100</option>
+                            <!-- <option [ngValue]="1">Dummy 100</option>
                             <option [ngValue]="2">Dummy 200</option>
-                            <option [ngValue]="3">Dummy 300</option>
+                            <option [ngValue]="3">Dummy 300</option> -->
                         </select>
             
                         <div *ngIf="submitted && f.idKpa.errors" class="uk-text-danger uk-text-italic">
@@ -242,9 +265,9 @@
                     <div class="uk-form-controls">
                         <select class="uk-select" [(ngModel)]="modelApprovalDoc.idPpk" disabled="true" formControlName="idPpk" [ngClass]="{ 'uk-form-danger': submitted && f.idPpk.errors }">
                             <option *ngFor="let ppk of ListPPK" [ngValue]="ppk.id">{{ppk.namaPpk}}</option>
-                            <option [ngValue]="1">Dummy PPK 100</option>
+                            <!-- <option [ngValue]="1">Dummy PPK 100</option>
                             <option [ngValue]="2">Dummy PPK 200</option>
-                            <option [ngValue]="3">Dummy PPK 300</option>
+                            <option [ngValue]="3">Dummy PPK 300</option> -->
                         </select>
             
                         <div *ngIf="submitted && f.idPpk.errors" class="uk-text-danger uk-text-italic">
@@ -291,10 +314,53 @@
                 </div>
 
 
-                <div class="uk-margin">
+                <!-- <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">File Dokumen</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username..." formControlName="fileDokumen" [ngClass]="{ 'uk-form-danger': submitted && f.fileDokumen.errors }">
+                        <div *ngIf="submitted && f.fileDokumen.errors" class="uk-text-danger uk-text-italic">
+                            <div *ngIf="f.fileDokumen.errors.required">File Dokumen wajib diisi</div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="uk-margin" *ngIf="windowMode == 'create'">
+                    <label class="uk-form-label" for="form-horizontal-text">File Dokumen</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username..." formControlName="fileDokumen" [ngClass]="{ 'uk-form-danger': submitted && f.fileDokumen.errors }">
+                        <div *ngIf="submitted && f.fileDokumen.errors" class="uk-text-danger uk-text-italic">
+                            <div *ngIf="f.fileDokumen.errors.required">File Dokumen wajib diisi</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="uk-margin" *ngIf="windowMode != 'create' && !isShowFormUpload">
+                    <label class="uk-form-label" for="form-horizontal-text">Download Dokumen</label>
+                    <div class="uk-form-controls">
+
+                        <div class="uk-inline" style="min-width: 100%;">
+                            <button class="uk-button uk-button-default uk-width-1-1" type="button" >{{namafile}}</button>
+                            <div uk-dropdown>
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li><a  (click)="onDownloadClick(modelApprovalDoc)">Download File</a></li>
+                                    <li><a (click)="toggleUploadFile(1)" >Upload File Baru</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="uk-margin" *ngIf="isShowFormUpload">
+                    <label class="uk-form-label" for="form-horizontal-text">File Dokumen</label>
+                    <div class="uk-form-controls">
+                        <div class="uk-inline">
+                            <a class="uk-form-icon uk-form-icon-flip" (click)="toggleUploadFile(0)" uk-icon="icon: close"></a>
+                            <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username..." formControlName="fileDokumen" [ngClass]="{ 'uk-form-danger': submitted && f.fileDokumen.errors }">
+                        </div>
+
+
                         <div *ngIf="submitted && f.fileDokumen.errors" class="uk-text-danger uk-text-italic">
                             <div *ngIf="f.fileDokumen.errors.required">File Dokumen wajib diisi</div>
                         </div>

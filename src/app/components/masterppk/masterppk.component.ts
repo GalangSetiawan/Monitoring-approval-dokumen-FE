@@ -144,14 +144,6 @@ export class MasterppkComponent implements OnInit {
       data => {
         console.log('searchPPK PPK success | searchPPK ===>',data);
         this.ListPPK = data.result;
-        // if(this.ListKPA.length > 0){
-        //   for(var i in this.ListPPK){
-        //     var findKpa = _.find(this.ListKPA,{'id':this.ListPPK[i].idKpa})
-        //     this.ListPPK[i].namaKpa = findKpa.namaKpa;
-        //   }
-        // }
-
-
       },
       error => {
         console.log('searchPPK PPK error   | searchPPK ===>',error);

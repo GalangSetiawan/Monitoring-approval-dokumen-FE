@@ -4,6 +4,8 @@ import { HttpClient,HttpHeaders,HttpParams  } from '@angular/common/http';
 
 
 
+const API_URL = "http://127.0.0.1:8000/api";
+
 
 
 export class tindakLanjutStyle {
@@ -61,7 +63,7 @@ export class TindaklanjutService {
     
   
     console.log('createTindakLanjut | formData ====>',formData)
-    return this.http.post('http://127.0.0.1:8000/api/tindaklanjut/add-data', formData, {reportProgress: true, observe: 'events'});
+    return this.http.post(API_URL+'/tindaklanjut/add-data', formData, {reportProgress: true, observe: 'events'});
   }
 
   updateTindakLanjut(dataTindakLanjut:tindakLanjutStyle): Observable<any> {
@@ -76,13 +78,17 @@ export class TindaklanjutService {
       idKpa      : String(dataTindakLanjut.idKpa),
       idPpk      : String(dataTindakLanjut.idPpk),
       idUser     : String(dataTindakLanjut.idUser),
-      catatan     : String(dataTindakLanjut.catatan),
+      catatan    : String(dataTindakLanjut.catatan),
       status     : String(dataTindakLanjut.status),
     };
 
 
     var formData = new FormData();
-    Array.from(dataTindakLanjut.fileDokumen).forEach(f => formData.append('fileDokumen',f))
+    if(dataTindakLanjut.fileDokumen != null){
+      Array.from(dataTindakLanjut.fileDokumen).forEach(f => formData.append('fileDokumen',f))
+    }else{
+      formData.append('fileDokumen',null)
+    }
     formData.append('noDokumen',modelTindakLanjut.noDokumen)
     formData.append('namaDokumen',modelTindakLanjut.namaDokumen)
     formData.append('tglDariBpk',modelTindakLanjut.tglDariBpk)
@@ -93,24 +99,24 @@ export class TindaklanjutService {
     formData.append('idUser',modelTindakLanjut.idUser)
     formData.append('catatan',modelTindakLanjut.catatan)
 
-    return this.http.post<any>('http://127.0.0.1:8000/api/tindaklanjut/edit-data/'+dataTindakLanjut.id, formData, {reportProgress: true, observe: 'events'});
+    return this.http.post<any>(API_URL+'/tindaklanjut/edit-data/'+dataTindakLanjut.id, formData, {reportProgress: true, observe: 'events'});
   }
 
   getTindakLanjut(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/tindaklanjut/get-data');
+    return this.http.get(API_URL+'/tindaklanjut/get-data');
   }
 
   getTindakLanjutbyId(idTindakLanjut): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/tindaklanjut/get-data-by/'+idTindakLanjut);
+    return this.http.get(API_URL+'/tindaklanjut/get-data-by/'+idTindakLanjut);
   }
 
   deleteTindakLanjut(dataTindakLanjut): Observable<any> {
-    return this.http.delete('http://127.0.0.1:8000/api/tindaklanjut/delete-data/'+dataTindakLanjut.id);
+    return this.http.delete(API_URL+'/tindaklanjut/delete-data/'+dataTindakLanjut.id);
   }
 
 
   downloadDocument(fileName): Observable<any>{
-    return this.http.get('http://127.0.0.1:8000/api/tindaklanjut/search/'+fileName, 
+    return this.http.get(API_URL+'/tindaklanjut/search/'+fileName, 
       {
         headers: {
           "Content-Type": "application/json",
@@ -119,6 +125,10 @@ export class TindaklanjutService {
         responseType: "blob"
       } 
     );
+  }
+
+  searchTindakLanjut(filter): Observable<any> {
+    return this.http.post(API_URL+'/tindaklanjut/search',filter);
   }
 
 

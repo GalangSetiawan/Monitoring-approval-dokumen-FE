@@ -16,39 +16,30 @@
                 <div  class="uk-margin-small row" >
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">No Document</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">KPA</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text" placeholder="Some text...">
+                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.namaKpa" placeholder="Some text...">
                         </div>
                     </div>
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Status Document</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Cabang</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text" placeholder="Some text...">
+                            <select class="uk-select" [(ngModel)]="filterData.idCabang">
+                                <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
+                                <option [ngValue]="1">Dummy Cabang 100</option>
+                                <option [ngValue]="2">Dummy Cabang 200</option>
+                                <option [ngValue]="3">Dummy Cabang 300</option>
+                            </select>
                         </div>
                     </div>
-    
-                    <div class="col-md-6">  
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Date Start</label>
-                        <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text" placeholder="Some text...">
-                        </div>
-                    </div>
-    
-    
-                    <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Date End</label>
-                        <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text" placeholder="Some text...">
-                        </div>
-                    </div>
+                  
     
                     <div class="col-md-6"></div>
     
                     <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
-                        <button class="uk-button uk-button-default" >Reset</button>  &nbsp;
-                        <button class="uk-button uk-button-primary" uk-icon="icon: search">Search </button>
+                        <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
+                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
                     </div> 
     
                     

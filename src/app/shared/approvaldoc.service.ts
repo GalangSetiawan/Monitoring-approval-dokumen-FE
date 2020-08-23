@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient,HttpHeaders,HttpParams  } from '@angular/common/http';
 
+
+const API_URL = "http://127.0.0.1:8000/api";
+
 export class approvalDocFormat {
   id             : Number
   idTindakLanjut : Number
@@ -23,9 +26,7 @@ export class ApprovaldocService {
 
   createApprovalDoc(dataapprovaldoc:approvalDocFormat): Observable<any> {
     var modelApprovalDoc = {
-      // id             : String(dataapprovaldoc.id),
       idTindakLanjut: String(dataapprovaldoc.idTindakLanjut),
-      // idUser         : String(dataapprovaldoc.idUser),
       noDokumenApv   : String(dataapprovaldoc.noDokumenApv),
       tglApproval    : String(dataapprovaldoc.tglApproval),
       namaDokumenApv : String(dataapprovaldoc.namaDokumenApv),
@@ -35,18 +36,15 @@ export class ApprovaldocService {
 
     var formData = new FormData();
     Array.from(dataapprovaldoc.fileDokumen).forEach(f => formData.append('fileDokumen',f))
-    // formData.append('id',modelApprovalDoc.id)
     formData.append('idTindakLanjut',modelApprovalDoc.idTindakLanjut)
-    // formData.append('idUser',modelApprovalDoc.idUser)
     formData.append('noDokumenApv',modelApprovalDoc.noDokumenApv)
     formData.append('tglApproval',modelApprovalDoc.tglApproval)
-    
     formData.append('namaDokumenApv',modelApprovalDoc.namaDokumenApv)
     formData.append('catatan',modelApprovalDoc.catatan)
     
   
     console.log('createApprovalDoc | formData ====>',formData)
-    return this.http.post('http://127.0.0.1:8000/api/dokapproval/add-data', formData, {reportProgress: true, observe: 'events'});
+    return this.http.post(API_URL+'/dokapproval/add-data', formData, {reportProgress: true, observe: 'events'});
   }
 
   updateApprovalDoc(dataapprovaldoc:approvalDocFormat): Observable<any> {
@@ -55,7 +53,6 @@ export class ApprovaldocService {
     var modelApprovalDoc = {
       id             : String(dataapprovaldoc.id),
       idTindakLanjut: String(dataapprovaldoc.idTindakLanjut),
-      // idUser         : String(dataapprovaldoc.idUser),
       noDokumenApv   : String(dataapprovaldoc.noDokumenApv),
       tglApproval    : String(dataapprovaldoc.tglApproval),
       namaDokumenApv : String(dataapprovaldoc.namaDokumenApv),
@@ -64,33 +61,36 @@ export class ApprovaldocService {
 
 
     var formData = new FormData();
-    Array.from(dataapprovaldoc.fileDokumen).forEach(f => formData.append('fileDokumen',f))
+    if(dataapprovaldoc.fileDokumen != null){
+      Array.from(dataapprovaldoc.fileDokumen).forEach(f => formData.append('fileDokumen',f))
+    }else{
+      formData.append('fileDokumen',null)
+    }
     formData.append('id',modelApprovalDoc.id)
     formData.append('idTindakLanjut',modelApprovalDoc.idTindakLanjut)
-    // formData.append('idUser',modelApprovalDoc.idUser)
     formData.append('tglApproval',modelApprovalDoc.tglApproval)
     formData.append('noDokumenApv',modelApprovalDoc.noDokumenApv)
     formData.append('namaDokumenApv',modelApprovalDoc.namaDokumenApv)
     formData.append('catatan',modelApprovalDoc.catatan)
 
-    return this.http.post<any>('http://127.0.0.1:8000/api/dokapproval/edit-data/'+dataapprovaldoc.id, formData, {reportProgress: true, observe: 'events'});
+    return this.http.post<any>(API_URL+'/dokapproval/edit-data/'+dataapprovaldoc.id, formData, {reportProgress: true, observe: 'events'});
   }
 
   getApprovalDoc(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/dokapproval/get-data');
+    return this.http.get(API_URL+'/dokapproval/get-data');
   }
 
   getApprovalDocbyId(idApprovalDoc): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/dokapproval/get-data-by/'+idApprovalDoc);
+    return this.http.get(API_URL+'/dokapproval/get-data-by/'+idApprovalDoc);
   }
 
   deleteApprovalDoc(dataapprovaldoc): Observable<any> {
-    return this.http.delete('http://127.0.0.1:8000/api/dokapproval/delete-data/'+dataapprovaldoc.id);
+    return this.http.delete(API_URL+'/dokapproval/delete-data/'+dataapprovaldoc.id);
   }
 
 
   downloadDocument(fileName){
-    return this.http.get('http://127.0.0.1:8000/api/dokapproval/search/'+fileName, {responseType: 'blob'});
+    return this.http.get(API_URL+'/dokapproval/search/'+fileName, {responseType: 'blob'});
   }
 
 

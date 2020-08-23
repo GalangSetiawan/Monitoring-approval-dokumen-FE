@@ -103,9 +103,10 @@ span {
 
 }
 
-.second-sidebar{
+/* .second-sidebar{
     width: 300px;
-}
+} */
+
 
 @media  screen and (max-width: 1600px) {
     .second-sidebar{

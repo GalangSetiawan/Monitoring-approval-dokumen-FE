@@ -149,7 +149,7 @@
           </div>
         </div>
   
-        <div class="uk-margin">
+        <!-- <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Cabang</label>
           <div class="uk-form-controls">
               <input class="uk-input" type="text" placeholder="Masukan Nama Cabang..." formControlName="cabang" [ngClass]="{ 'uk-form-danger': submitted && f.cabang.errors }">
@@ -157,7 +157,26 @@
                 <div *ngIf="f.cabang.errors.required">Cabang wajib diisi</div>
               </div>
           </div>
-        </div>
+        </div> -->
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-select">Cabang</label>
+          <div class="uk-form-controls">
+              <select class="uk-select"  formControlName="idCabang" [(ngModel)]="modelRegister.idCabang" [ngClass]="{ 'uk-form-danger': submitted && f.idCabang.errors }">
+                  <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
+                  <option [ngValue]="1">Dummy Cabang 100</option>
+                  <option [ngValue]="2">Dummy Cabang 200</option>
+                  <option [ngValue]="3">Dummy Cabang 300</option>
+              </select>
+  
+              <div *ngIf="submitted && f.idCabang.errors" class="uk-text-danger uk-text-italic">
+                  <div *ngIf="f.idCabang.errors.required">Nama Cabang wajib diisi</div>
+              </div>
+  
+          </div>
+      </div>
+
+
   
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Jabatan</label>
@@ -219,7 +238,7 @@
         </div>
 
         
-        <div class="uk-margin" *ngIf="windowMode != 'view'">
+        <div class="uk-margin" *ngIf="windowMode == 'edit'">
           <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
           <div class="uk-form-controls">
               <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
