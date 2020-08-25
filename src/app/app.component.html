@@ -100,7 +100,6 @@
             <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
             <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
             <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
-            <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Satker</a></li>
             <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
             <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
             <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
@@ -330,12 +329,12 @@
 
 
 
-<!-- ==================== LOGIN PAGE ====================== -->
-<!-- <div class="container" *ngIf="!isSignedIn">
+<div class="container" *ngIf="!isSignedIn">
   <div class="auth-wrapper">
         <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <h3 class="h3 mb-3 font-weight-normal text-center">Sign in</h3>
         
+            <!-- Errors -->
             <div *ngIf="errors?.username" class="alert alert-danger mt-3">
                 {{ errors?.username }}
             </div>
@@ -349,8 +348,11 @@
             <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
                 Berhasil melakukan perubahan Password
             </div>
+
+
             
         
+            <!-- Login -->
             <div class="form-group">
                 <label>Username</label>
                 <input type="username" class="form-control" formControlName="username">
@@ -361,116 +363,8 @@
             </div>
             <button type="submit" class="btn btn-block btn-primary">Log in</button>
         </form>
-    </div>1
-</div> -->
-<!-- ==================== LOGIN PAGE ====================== -->
-
-
-<!-- ======================== LOGIN PAGE ========================== -->
-<div class="row" *ngIf="!isSignedIn">
-
-    <div class="col-md-9" style="padding-left: 0; padding-right: 0;">
-
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: push">
-
-            <ul class="uk-slideshow-items"  uk-height-viewport="min-height: 300">
-                <li>
-                    <img src="https://images.unsplash.com/photo-1547487398-b4a5e642575a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1233&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
-                        <h1 uk-slideshow-parallax="x: 100,-100">Heading 2</h1>
-                        <p uk-slideshow-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </li>
-                <li>
-                    <img img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
-                        <h1 uk-slideshow-parallax="x: 100,-100">Heading 1</h1>
-                        <p uk-slideshow-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://images.unsplash.com/photo-1547487398-b4a5e642575a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1233&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
-                        <h1 uk-slideshow-parallax="y: -50,0,0; opacity: 1,1,0">Headin 23g</h1>
-                        <p uk-slideshow-parallax="y: 50,0,0; opacity: 1,1,0">Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </li>
-            </ul>
-        
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-        
-        </div>
-
-
-        
-
-        
-    </div>
-
-    <div class="col-md-3 p-5" style="padding-left: 0; padding-right: 0;">
-
-        <div class=" loginSide" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
-
-            <div class="uk-inline uk-margin d-flex justify-content-center">
-                <h1 class="uk-heading-small uk-text-center" >Monitoring Approval Dokumen</h1>
-
-
-            </div>
-
-
-            <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt="">
-            <legend class="uk-legend uk-margin-small-bottom">Silahkan Masuk</legend>
-
-            <div *ngIf="errors?.username" class="alert alert-danger mt-3">
-                {{ errors?.username }}
-            </div>
-            <div *ngIf="errors?.password" class="alert alert-danger mt-3">
-                {{ errors?.password }}
-            </div>
-            <div *ngIf="errors?.error" class="alert alert-danger mt-3">
-                {{ errors?.error }}
-            </div>
-
-            <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
-                Berhasil melakukan perubahan Password
-            </div>
-
-
-
-            <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-                <div class="uk-margin">
-                    <input class="uk-input" type="text" formControlName="username" placeholder="Username">
-                </div>
-    
-                <div class="uk-margin">
-                    <input class="uk-input" type="password" formControlName="password" placeholder="Password">
-                </div>
-    
-    
-                <div class="uk-inline uk-margin d-flex justify-content-center">
-                    <button  type="submit" class="uk-button uk-button-primary">MASUK</button>
-    
-                </div>
-
-
-            </form>
-
-
-            
-
-        </div>
-
-
-        <div class="uk-position-small uk-position-bottom-center "><span>All right reserved @ 2020></span>KLHK - Monitoring Approval Documensasast</div>
-
-
-        
-
     </div>
 </div>
-<!-- ======================== LOGIN PAGE ========================== -->
 
 
 
