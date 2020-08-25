@@ -12,6 +12,7 @@ import { MasterppkComponent } from './components/masterppk/masterppk.component';
 import { TindaklanjutComponent } from './components/tindaklanjut/tindaklanjut.component';
 import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.component';
 import { CabangComponent } from './components/cabang/cabang.component';
+import { SatkerComponent } from './components/satker/satker.component';
 
 
 // add component
@@ -32,6 +33,7 @@ import { CabangComponent } from './components/cabang/cabang.component';
     { path: 'tindaklanjut', component: TindaklanjutComponent },
     { path: 'approvaldoc', component: ApprovaldocComponent },
     { path: 'cabang', component: CabangComponent },
+    { path: 'satker', component: SatkerComponent },
     
   ];
 

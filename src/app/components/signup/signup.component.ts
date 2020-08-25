@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { FormBuilder, FormGroup,Validators, ValidatorFn,ValidationErrors } from "@angular/forms";
-import { MastercabangService } from './../../shared/mastercabang.service';
+import { MastersatkerService } from './../../shared/mastersatker.service';
 
 
 import { MustMatch } from '../../_helper/must-match.validator';
@@ -36,14 +36,14 @@ export class SignupComponent implements OnInit {
   constructor(
     public router: Router,
     public fb: FormBuilder,
-    public masterCabangService: MastercabangService,
+    public masterSatkerService: MastersatkerService,
     public authService: AuthService
   ) {
     this.registerForm = this.fb.group({
       id                   : [null],
       foto                 : [''],
       nama                 : ['', Validators.required],
-      idCabang               : ['', Validators.required],
+      idSatker               : ['', Validators.required],
       jabatan              : ['', Validators.required],
       password_confirmation: ['', Validators.required],
       username             : ['', Validators.required],
@@ -60,7 +60,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataUser();
-    this.getDataCabang();
+    this.getDataSatker();
 
   }
 
@@ -131,17 +131,17 @@ export class SignupComponent implements OnInit {
 
   }
 
-  ListCabang = [];
-  getDataCabang(){
-    this.masterCabangService.getCabang().subscribe(
+  ListSatker = [];
+  getDataSatker(){
+    this.masterSatkerService.getSatker().subscribe(
       data => {
-        console.log('Get data Cabang success | getCabang ===>',data);
-        this.ListCabang = data.result;
+        console.log('Get data Satker success | getSatker ===>',data);
+        this.ListSatker = data.result;
 
-        console.log('ListCabang ===>',this.ListCabang);
+        console.log('ListSatker ===>',this.ListSatker);
       },
       error => {
-        console.log('Get data Cabang error   | getCabang ===>',error);
+        console.log('Get data Satker error   | getSatker ===>',error);
         notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
       }
     )
@@ -229,7 +229,7 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      idCabang               : row.data.idCabang,
+      idSatker               : row.data.idSatker,
       jabatan              : row.data.jabatan,
       // foto                 : row.data.foto,
     });
@@ -248,7 +248,7 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      idCabang               : row.data.idCabang,
+      idSatker               : row.data.idSatker,
       jabatan              : row.data.jabatan,
       foto                 : row.data.foto,
     });
@@ -291,12 +291,6 @@ export class SignupComponent implements OnInit {
         var roleName = "Super Admin"
         break;
       case 40:
-        var roleName = "Admin"
-        break;
-      case 30:
-        var roleName = "Setdit"
-        break;
-      case 20:
         var roleName = "KPA"
         break;
     }

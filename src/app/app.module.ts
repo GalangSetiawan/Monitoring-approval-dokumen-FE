@@ -23,6 +23,7 @@ import { MasterppkComponent } from './components/masterppk/masterppk.component';
 import { TindaklanjutComponent } from './components/tindaklanjut/tindaklanjut.component';
 import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.component';
 import { CabangComponent } from './components/cabang/cabang.component';
+import { SatkerComponent } from './components/satker/satker.component';
 
 
 
@@ -39,6 +40,7 @@ import { CabangComponent } from './components/cabang/cabang.component';
     TindaklanjutComponent,
     ApprovaldocComponent,
     CabangComponent,
+    SatkerComponent,
   ],
   imports: [
     BrowserModule,
