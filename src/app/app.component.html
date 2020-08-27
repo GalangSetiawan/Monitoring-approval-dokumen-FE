@@ -95,6 +95,13 @@
             <li class="uk-nav-divider"></li>
             
             <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+            <li class="uk-parent">
+                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Dokumen Temuan</a>
+                <ul class="uk-nav-sub">
+                    <li class="mb-1"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
+                    <li><a [routerLink]="['/temuaninspektorat']">Temuan Inspektorat</a></li>
+                </ul>
+            </li>
             <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
             <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
             <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
@@ -164,7 +171,7 @@
             <div class="col-sm-5">
                 <ul class="uk-breadcrumb">
                     <li><a href="#" class="uk-text-primary">Home</a></li>
-                    <li class="uk-disabled"><a>Dashboard</a></li>
+                    <li id="breadCrumbTitle" class="uk-disabled"><a>Dashboard</a></li>
                     <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
                     
                 </ul>

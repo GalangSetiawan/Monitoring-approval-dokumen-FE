@@ -13,7 +13,8 @@ import { TindaklanjutComponent } from './components/tindaklanjut/tindaklanjut.co
 import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.component';
 import { CabangComponent } from './components/cabang/cabang.component';
 import { SatkerComponent } from './components/satker/satker.component';
-
+import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
+import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
 
 // add component
 
@@ -34,6 +35,8 @@ import { SatkerComponent } from './components/satker/satker.component';
     { path: 'approvaldoc', component: ApprovaldocComponent },
     { path: 'cabang', component: CabangComponent },
     { path: 'satker', component: SatkerComponent },
+    { path: 'temuanbpk', component: TemuanbpkComponent },
+    { path: 'temuaninspektorat', component: TemuaninspektoratComponent },
     
   ];
 

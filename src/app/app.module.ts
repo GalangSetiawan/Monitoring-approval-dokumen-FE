@@ -8,8 +8,17 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppRoutingModule } from './app-routing.module';
 
 
+import { EscapeHtmlPipe } from './shared/keep-html.pipe';
+
+
 import { DxButtonModule } from 'devextreme-angular';
 import { DxDataGridModule } from 'devextreme-angular';
+import {
+  DxHtmlEditorComponent,
+  DxHtmlEditorModule,
+  DxPopupComponent,
+  DxPopupModule
+} from 'devextreme-angular';
 
 
 import { AppComponent } from './app.component';
@@ -24,12 +33,18 @@ import { TindaklanjutComponent } from './components/tindaklanjut/tindaklanjut.co
 import { ApprovaldocComponent } from './components/approvaldoc/approvaldoc.component';
 import { CabangComponent } from './components/cabang/cabang.component';
 import { SatkerComponent } from './components/satker/satker.component';
+import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
+import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
+
+
+
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    EscapeHtmlPipe,
     SigninComponent,
     SignupComponent,
     UserProfileComponent,
@@ -41,6 +56,8 @@ import { SatkerComponent } from './components/satker/satker.component';
     ApprovaldocComponent,
     CabangComponent,
     SatkerComponent,
+    TemuanbpkComponent,
+    TemuaninspektoratComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +70,9 @@ import { SatkerComponent } from './components/satker/satker.component';
 
 
     DxButtonModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxHtmlEditorModule,
+    DxPopupModule
   ],
   providers: [
     {
