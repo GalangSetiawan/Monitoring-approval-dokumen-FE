@@ -9,6 +9,7 @@ declare var UIkit: any;
 
 import * as $ from 'jquery'
 
+var toggleFullscreen = true;
 
 export class User {
   id      : Number;
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit{
   isLogoutForm = false;
   isWelcomeBar = false;
 
+
   constructor(
     private auth: AuthStateService,
     public router: Router,
@@ -51,6 +53,8 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {    
+    $('#breadCrumbTitle a').text('Dashboard');
+
     this.auth.userAuthState.subscribe(val => {
         this.isSignedIn = val;
     });
@@ -64,6 +68,33 @@ export class AppComponent implements OnInit{
     console.log('this.isSignedIn ===>',this.isSignedIn);
     console.log('this.loginForm.value ==>',this.loginForm.value);
 
+    $(document).keydown(function(e) {
+      if (e.keyCode === 13) $('.save').click();     // enter
+      if (e.keyCode === 27){ 
+        ExitfullScreen();
+      }   // esc
+    });
+
+    function ExitfullScreen(){
+      console.log('jancokk kon');
+      // if(toggleFullscreen == true){
+      //   toggleFullscreen = false;
+        $('#second-sidebar').show('fast')
+        $('#header1').show('fast')
+        $('#header2').show('fast')
+        $('#header3').show('fast')
+        $('#sidebar').show('fast')
+        $('#content').addClass('row');
+
+      // }
+      // else{
+      //   toggleFullscreen = true;
+      //   $('#second-sidebar').show('fast')
+      //   $('#header1').show('fast')
+      //   $('#header2').show('fast')
+      //   $('#header3').show('fast')
+      // }
+    }
   }
 
   toggleResetPassword(){
@@ -73,6 +104,43 @@ export class AppComponent implements OnInit{
   toggleLogout(){
     this.isLogoutForm = this.isLogoutForm? false:true;
   }
+
+  toggleSecondSidebar = true;
+  secondSidebarToggle(){
+    console.log('secondSidebarToggle ===>',this.toggleSecondSidebar)
+    if(this.toggleSecondSidebar == true){
+      this.toggleSecondSidebar = false;
+      $('#second-sidebar').hide('fast')
+    }else{
+      this.toggleSecondSidebar = true;
+      $('#second-sidebar').show('fast')
+    }
+    
+  }
+
+  fullScreenToggle(){
+    console.log('secondSidebarToggle ===>',toggleFullscreen)
+    // if(toggleFullscreen == true){
+    //   toggleFullscreen = false;
+      $('#second-sidebar').hide('fast')
+      $('#header1').hide('fast')
+      $('#header2').hide('fast')
+      $('#header3').hide('fast')
+      $('#sidebar').hide('fast')
+      $('#content').removeClass('row');
+
+    // }
+    // else{
+    //   toggleFullscreen = true;
+    //   $('#second-sidebar').show('fast')
+    //   $('#header1').show('fast')
+    //   $('#header2').show('fast')
+    //   $('#header3').show('fast')
+    // }
+    
+  }
+
+
 
   modelReset = {oldPassword : '', newPassword:'', newPasswordConfirmation:''};
   isSuccessResetPass = false;

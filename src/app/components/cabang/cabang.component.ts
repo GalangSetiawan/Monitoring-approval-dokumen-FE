@@ -32,6 +32,8 @@ export class CabangComponent implements OnInit {
     })
 
     this.getDataCabang();
+    $('#breadCrumbTitle a').text(this.titleHeader);
+
   }
 
 

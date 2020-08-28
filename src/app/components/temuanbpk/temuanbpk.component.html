@@ -131,6 +131,12 @@
                     </li>
                   </ol>
 
+                  <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin-large-bottom">
+                    <span *ngIf="showBtnTambahTemuan"><button class="uk-button uk-button-primary" uk-toggle="target: #modalInputSatker" >Tambah Temuan</button> &nbsp;</span> 
+                    <span *ngIf="showBtnSaveTemuan"><button class="uk-button uk-button-primary" (click)="saveTemuan()" >Simpan Temuan</button> &nbsp;</span>
+                    <button class="uk-button uk-button-default" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button>
+                </div>
+
                   
 
                 <div [hidden]='isProgress != 1'>
@@ -232,14 +238,6 @@
                     
                             <table class="previewSubheader">
                                 <tr>
-                                    <td colspan="3" class="uk-margin-small-bottom">
-                                        <span *ngIf="showBtnTambahTemuan"><button class="uk-button uk-button-primary" uk-toggle="target: #modalInputSatker" >Tambah Temuan</button> &nbsp;</span> 
-                                        <span *ngIf="showBtnSaveTemuan"><button class="uk-button uk-button-primary" (click)="saveTemuan()" >Simpan Temuan</button> &nbsp;</span>
-                                        <button class="uk-button uk-button-default" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button>
-                                    </td>
-                                    
-                                </tr>
-                                <tr>
                                   <td style="width:150px">Keadaan s.d. Bulan</td>
                                   <td style="width:15px">:</td> 
                                   <td> {{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
@@ -272,16 +270,16 @@
                             
                             <table style="width:100%" class="mt-3" border="1">
                                 <tr class="uk-text-center">
-                                  <td style="width:80px">No</td>
+                                  <td style="width:50px">No</td>
                                   <td style="width:300px">Uraian Temuan</td>
-                                  <td style="width:100px">Kode</td>
+                                  <td style="width:70px">Kode</td>
                                   <!-- <td style="width:250px; padding-right: 10px;padding-left: 10px;" colspan="2">Rekomendasi</td> -->
                                   <td style="width:250px; padding-right: 10px;padding-left: 10px;">Rekomendasi</td>
-                                  <td style="width:80px">Kode</td>
+                                  <td style="width:50px">Kode</td>
                                   <td style="width:350px">Ringkasan Tindak Lanjut</td>
                                   <td style="width:90px">Status Tindak Lanjut</td>
                                   <td style="width:150px">Tindak lanjut</td>
-                                  <td style="width:150px">Aksi</td>
+                                  <td style="width:80px">Aksi</td>
                                 </tr>
                                 
                                 <tr [hidden]=!showFormTemuan>
@@ -931,7 +929,7 @@
         padding-right: 15px;
         padding-left: 15px;
         /* border:1px solid black; */
-        width: 855px;
+        width: 100%;
         min-height: 595.28px;
         margin: auto;
     }

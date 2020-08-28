@@ -61,6 +61,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.getDataUser();
     this.getDataSatker();
+    $('#breadCrumbTitle a').text(this.titleHeader);
 
   }
 

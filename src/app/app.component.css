@@ -1,3 +1,4 @@
+
 /*
     DEMO STYLE
 */
@@ -8,6 +9,11 @@ body {
     background: #fafafa;
 }
 
+html, body {
+    height: 100%;
+}
+
+  
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1em;
@@ -110,8 +116,24 @@ span {
 
 @media  screen and (max-width: 1600px) {
     .second-sidebar{
-        width: 230px !important;
+        width: 330px !important;
+        position: fixed;
+        z-index: 10000 !important;
+        background-color: white;
+        margin-left: -5px;
+        margin-top: -20px;
+        padding-top: 10px;
+        box-shadow: 4px 0 5px -4px #888;
+        
+
     }
+
+    .content-panel{
+        position: relative;
+        z-index: 0;
+    }
+
+
 }
 
 

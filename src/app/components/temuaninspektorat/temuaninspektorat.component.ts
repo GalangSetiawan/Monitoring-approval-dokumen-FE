@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import * as _ from "lodash";
+import * as $ from 'jquery'
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas'
+import 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-temuaninspektorat',
@@ -10,6 +16,8 @@ export class TemuaninspektoratComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $('#breadCrumbTitle a').text('Dokumen Temuan Inspektorat');
+
   }
 
 }

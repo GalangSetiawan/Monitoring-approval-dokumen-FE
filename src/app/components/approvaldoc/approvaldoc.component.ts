@@ -82,6 +82,8 @@ export class ApprovaldocComponent implements OnInit {
     this.getDataTindakLanjut();
     this.getDataApprovalDoc();
     this.getDataKPA();
+    $('#breadCrumbTitle a').text(this.titleHeader);
+
   }
 
   get f() { return this.approvalForm.controls; }

@@ -5,154 +5,175 @@
 
 
   <nav id="sidebar" class="active">
-      <div class="sidebar-header" id="sidebarCollapse" (click)="sidebarCollapse()"  uk-toggle="target: .closeImg">
+    <div class="sidebar-header" id="sidebarCollapse" >
+        <!-- (click)="sidebarCollapse()"  uk-toggle="target: .closeImg"  untuk toggle sidebar biru -->
+        <div style="text-align: center;">
+            <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
+            <img class="uk-preserve-width uk-border-circle img-small closeImg mb-2 uk-animation-scale-down uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="40" alt="" >
+            <img class="uk-preserve-width uk-border-circle img-large closeImg mb-2 uk-animation-scale-up uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="80" alt="" hidden>
+            <h3 style="color:white"  (click)="signOut()" class="uk-animation-scale-up uk-transform-origin-top-center" ><b>Monitoring Aproval Document</b></h3>
 
-          <div style="text-align: center;">
-              <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
-              <img class="uk-preserve-width uk-border-circle img-small closeImg mb-2 uk-animation-scale-down uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="40" alt="" >
-              <img class="uk-preserve-width uk-border-circle img-large closeImg mb-2 uk-animation-scale-up uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="80" alt="" hidden>
-              <h3 style="color:white"  (click)="signOut()" class="uk-animation-scale-up uk-transform-origin-top-center" ><b>Monitoring Aproval Document</b></h3>
+        </div>
 
-          </div>
+        <strong class="uk-animation-scale-down uk-transform-origin-top-center">MAD</strong>
+    </div>
 
-          <strong class="uk-animation-scale-down uk-transform-origin-top-center">MAD</strong>
-      </div>
+    <ul class="list-unstyled components">
+        <li uk-tooltip="title: Home; pos: right">
+            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
+                <span>Home</span>
+            </a>
+            <ul class="collapse list-unstyled" id="homeSubmenu">
+                <li uk-tooltip="title: Portfolio; pos: right">
+                    <a href="#">Home 1</a>
+                </li>
+                <li uk-tooltip="title: Portfolio; pos: right">
+                    <a href="#">Home 2</a>
+                </li>
+                <li uk-tooltip="title: Portfolio; pos: right">
+                    <a href="#">Home 3</a>
+                </li>
+            </ul>
+        </li>
+        
+        <li uk-tooltip="title: Portfolio; pos: right">
+            <a href="#">
+                <i  uk-icon="icon: nut" aria-hidden="true"></i>
+                <span>Portfolio</span>
+            </a>
+        </li>
+        <li uk-tooltip="title: FAQ; pos: right">
+            <a href="#">
+                <i  uk-icon="icon: settings" aria-hidden="true"></i>
 
-      <ul class="list-unstyled components">
-          <li class="active" uk-tooltip="title: Home; pos: right">
-              <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                  <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
-                  <span>Home</span>
-              </a>
-              <ul class="collapse list-unstyled" id="homeSubmenu">
-                  <li uk-tooltip="title: Portfolio; pos: right">
-                      <a href="#">Home 1</a>
-                  </li>
-                  <li uk-tooltip="title: Portfolio; pos: right">
-                      <a href="#">Home 2</a>
-                  </li>
-                  <li uk-tooltip="title: Portfolio; pos: right">
-                      <a href="#">Home 3</a>
-                  </li>
-              </ul>
-          </li>
-         
-          <li uk-tooltip="title: Portfolio; pos: right">
-              <a href="#">
-                  <i  uk-icon="icon: nut" aria-hidden="true"></i>
-                  <span>Portfolio</span>
-              </a>
-          </li>
-          <li uk-tooltip="title: FAQ; pos: right">
-              <a href="#">
-                  <i  uk-icon="icon: settings" aria-hidden="true"></i>
+                <span>FAQ</span>
+            </a>
+        </li>
+        <li uk-tooltip="title: Contact; pos: right">
+            <a href="#">
+                <i  uk-icon="icon: cog" aria-hidden="true"></i>
 
-                  <span>FAQ</span>
-              </a>
-          </li>
-          <li uk-tooltip="title: Contact; pos: right">
-              <a href="#">
-                  <i  uk-icon="icon: cog" aria-hidden="true"></i>
+                <span>Contact</span>
+            </a>
+        </li>
 
-                  <span>Contact</span>
-              </a>
-          </li>
+        <li uk-tooltip="title: Contact; pos: right">
+            <a uk-toggle="target: #closeApp">
+                <i  uk-icon="icon: sign-out" aria-hidden="true"></i>
 
-          <li uk-tooltip="title: Contact; pos: right">
-              <a href="#" uk-toggle="target: #closeApp">
-                  <i  uk-icon="icon: sign-out" aria-hidden="true" style="color: white;"></i>
+                <span>Close Aplication</span>
+            </a>
+        </li>
 
-                  <span>Close Aplication</span>
-              </a>
-          </li>
+        <li uk-tooltip="title: Contact; pos: right">
+            <a uk-toggle="target: #closeApp">
+                <i  uk-icon="icon: info" aria-hidden="true"></i>
 
-          <li uk-tooltip="title: Contact; pos: right">
-              <a href="#" uk-toggle="target: #closeApp">
-                  <i  uk-icon="icon: info" aria-hidden="true" style="color: white;"></i>
+                <span>About</span>
+            </a>
+        </li>
 
-                  <span>About</span>
-              </a>
-          </li>
+        <li uk-tooltip="title: Contact; pos: right">
+            <a uk-toggle="target: #closeApp">
+                <i  uk-icon="icon: info" aria-hidden="true"></i>
 
-          
+                <span>About</span>
+            </a>
+        </li>
 
+        <li uk-tooltip="title: Toggle Side Menu; pos: right">
+            <a (click)="secondSidebarToggle()">
+                <i  uk-icon="icon: list" aria-hidden="false"></i>
+                <span>List Menu</span>
+            </a>
+        </li>
 
-          
-      </ul>
+        <li uk-tooltip="title: Full Screen; pos: right">
+            <a (click)="fullScreenToggle()">
+                <i  uk-icon="icon: expand" aria-hidden="false"></i>
+                <span>Full Screen</span>
+            </a>
+        </li>
+
+        
+    </ul>
 
       
   </nav>
 
   <!-- Page Content  -->
-  <div class="row "id="content">
+  <div class="row" id="content">
 
-      <div class="second-sidebar pr-4 pl-4" >
+      <div class="second-sidebar pr-4 pl-4 col-sm-2" id="second-sidebar">
       
 
-        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+        <div style="overflow:scroll">
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
 
-            <li class="uk-nav-header bgRound bgBlue">Monitoring Approval Document</li>
-            <li class="uk-nav-divider"></li>
-            
-            <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
-            <li class="uk-parent">
-                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Dokumen Temuan</a>
-                <ul class="uk-nav-sub">
-                    <li class="mb-1"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
-                    <li><a [routerLink]="['/temuaninspektorat']">Temuan Inspektorat</a></li>
-                </ul>
-            </li>
-            <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
-            <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
-            <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
-            <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
-            <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
-            <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Satker</a></li>
-            <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
-            <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
-            <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
-            <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
-            <li><a (click)="signOut()" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Log Out</a></li>
-
-            
-            <li class="uk-nav-divider"></li>
-            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
-
-            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
-
-
-            <li class="uk-active"><a href="#">Active</a></li>
-            <li class="uk-parent">
-                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
-                <ul class="uk-nav-sub">
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                </ul>
-            </li>
-            <li class="uk-parent">
-                <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
-                <ul class="uk-nav-sub">
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                </ul>
-            </li>
-            
-        </ul>
-
-        <div class="bgRound bgBlue">
-            Dashboard
-        </div>
-
-        <div class="bgRound bgGreen">
-            Home
-        </div>
-
-        <div class="bgRound bgRed" (click)="zoomOut()">
-            Zoom In  &nbsp;  <span class="" type="span" uk-icon="icon: expand"></span>
-        </div>
-
-        <div class="bgRound bgYellow" (click)="zoomIn()">
-            Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
+                <li class="uk-nav-header bgRound bgBlue uk-text-center">Monitoring Approval Document</li>
+                <li class="uk-nav-divider mt-3"></li>
+                
+                <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+                <li class="uk-parent">
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Dokumen Temuan</a>
+                    <ul class="uk-nav-sub">
+                        <li class="mb-1" style="font-size: 1.1em !important;"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
+                        <li style="font-size: 1.1em !important;"><a [routerLink]="['/temuaninspektorat']">Temuan Inspektorat</a></li>
+                    </ul>
+                </li>
+                <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
+                <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
+                <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
+                <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
+                <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
+                <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Satker</a></li>
+                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
+                <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
+                <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
+                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
+                <li><a (click)="signOut()" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Log Out</a></li>
+    
+                
+                <li class="uk-nav-divider"></li>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+    
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+    
+    
+                <li class="uk-active"><a href="#">Active</a></li>
+                <li class="uk-parent">
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">Sub item</a></li>
+                        <li><a href="#">Sub item</a></li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">Sub item</a></li>
+                        <li><a href="#">Sub item</a></li>
+                    </ul>
+                </li>
+                
+            </ul>
+    
+            <div class="bgRound bgBlue">
+                Dashboard
+            </div>
+    
+            <div class="bgRound bgGreen">
+                Home
+            </div>
+    
+            <div class="bgRound bgRed" (click)="zoomOut()">
+                Zoom In  &nbsp;  <span class="" type="span" uk-icon="icon: expand"></span>
+            </div>
+    
+            <div class="bgRound bgYellow" (click)="zoomIn()">
+                Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
+            </div>
         </div>
 
           
@@ -168,16 +189,16 @@
 
         <!-- =============================== HEADER ================================= -->
         <div class="row col-sm-12">
-            <div class="col-sm-5">
+            <div class="col-sm-5" id="header1">
                 <ul class="uk-breadcrumb">
-                    <li><a href="#" class="uk-text-primary">Home</a></li>
+                    <li><a class="uk-text-primary">Home</a></li>
                     <li id="breadCrumbTitle" class="uk-disabled"><a>Dashboard</a></li>
                     <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
                     
                 </ul>
             </div>
 
-            <div class="col-sm-5" >
+            <div class="col-sm-5" id="header2">
                 
                 
 
@@ -198,8 +219,8 @@
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove uk-text-primary"><a class="uk-link-reset" href="#">Approval Document</a></h4>
                                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                <li><a href="#" class="">12 days ago</a></li>
-                                                <li><a href="#" class="uk-flex-right">Reply</a></li>
+                                                <li><a class="">12 days ago</a></li>
+                                                <li><a class="uk-flex-right">Reply</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -220,8 +241,8 @@
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove uk-text-success"><a class="uk-link-reset" href="#">Finding Document</a></h4>
                                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                <li><a href="#" class="">12 days ago</a></li>
-                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                <li><a class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a >Reply</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -241,8 +262,8 @@
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove uk-text-warning"><a class="uk-link-reset" href="#">Follow Up Document</a></h4>
                                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                <li><a href="#" class="">12 days ago</a></li>
-                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                <li><a class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a >Reply</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -263,8 +284,8 @@
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove uk-text-danger"><a class="uk-link-reset" href="#">Deleting Document</a></h4>
                                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                <li><a href="#" class="">12 days ago</a></li>
-                                                <li class="uk-flex-right"><a href="#" >Reply</a></li>
+                                                <li><a class="">12 days ago</a></li>
+                                                <li class="uk-flex-right"><a >Reply</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -300,8 +321,7 @@
             </div>
 
             
-            <div class="col-sm-2">
-                
+            <div class="col-sm-2" id="header3">
                 <article class="uk-comment uk-flex uk-flex-center@m uk-flex-right@l" uk-toggle="target: #profileModal">
                     <header class="uk-comment-header">
                         <div class="uk-grid-medium uk-flex-middle" uk-grid>
@@ -323,9 +343,6 @@
             </div>
         </div>
         <!-- =============================== HEADER ================================= -->
-
-        
-        
         <router-outlet style="overflow: scroll;"></router-outlet>
 
       </div>
@@ -404,8 +421,8 @@
                 </li>
             </ul>
         
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" uk-slidenav-next uk-slideshow-item="next"></a>
         
         </div>
 

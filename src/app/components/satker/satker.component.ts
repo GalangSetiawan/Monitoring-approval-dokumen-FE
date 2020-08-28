@@ -32,6 +32,9 @@ export class SatkerComponent implements OnInit {
     })
 
     this.getDataSatker();
+
+
+    $('#breadCrumbTitle a').text(this.titleHeader);
   }
 
 

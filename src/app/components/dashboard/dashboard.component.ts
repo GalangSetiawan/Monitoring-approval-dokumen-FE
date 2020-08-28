@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    $('#breadCrumbTitle a').text(this.titleHeader);
 
   }
 

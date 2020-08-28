@@ -40,6 +40,8 @@ export class TemuanbpkComponent implements OnInit {
     this.getDataSatker();
     this.getDataDokumenTemuan();
     this.isiHardcode();
+    $('#breadCrumbTitle a').text('Dokumen Temuan BPK');
+
   }
 
 
