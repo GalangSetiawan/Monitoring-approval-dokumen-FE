@@ -17,7 +17,7 @@ import {
   DxHtmlEditorComponent,
   DxHtmlEditorModule,
   DxPopupComponent,
-  DxPopupModule
+  DxPopupModule,DxTemplateModule
 } from 'devextreme-angular';
 
 
@@ -35,6 +35,7 @@ import { CabangComponent } from './components/cabang/cabang.component';
 import { SatkerComponent } from './components/satker/satker.component';
 import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
 import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
+import { BlogComponent } from './components/blog/blog.component';
 
 
 
@@ -58,6 +59,7 @@ import { TemuaninspektoratComponent } from './components/temuaninspektorat/temua
     SatkerComponent,
     TemuanbpkComponent,
     TemuaninspektoratComponent,
+    BlogComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ import { TemuaninspektoratComponent } from './components/temuaninspektorat/temua
     DxButtonModule,
     DxDataGridModule,
     DxHtmlEditorModule,
-    DxPopupModule
+    DxPopupModule,
+    DxTemplateModule
   ],
   providers: [
     {

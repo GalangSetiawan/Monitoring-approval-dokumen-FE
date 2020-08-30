@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { FormBuilder, FormGroup,Validators, ValidatorFn,ValidationErrors } from "@angular/forms";
 import { MastersatkerService } from './../../shared/mastersatker.service';
+import { MasterppkService } from './../../shared/masterppk.service';
 
 
 import { MustMatch } from '../../_helper/must-match.validator';
@@ -24,7 +25,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   errors = null;
-  modelRegister = {email:'', oldPassword:''};
+  modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null};
   isValidEmail = true;
 
 
@@ -32,19 +33,24 @@ export class SignupComponent implements OnInit {
   imgURL: any;
   public message: string;
 
+  
+
 
   constructor(
     public router: Router,
     public fb: FormBuilder,
     public masterSatkerService: MastersatkerService,
+    public masterPpkService   : MasterppkService,
+
     public authService: AuthService
   ) {
     this.registerForm = this.fb.group({
       id                   : [null],
       foto                 : [''],
       nama                 : ['', Validators.required],
-      idSatker               : ['', Validators.required],
-      jabatan              : ['', Validators.required],
+      NIP                  : ['', Validators.required],
+      satkerId             : ['', Validators.required],
+      ppkId                : ['', Validators.required],
       password_confirmation: ['', Validators.required],
       username             : ['', Validators.required],
       oldPassword          : [''],         
@@ -67,16 +73,37 @@ export class SignupComponent implements OnInit {
 
   public comparisonValidator() : ValidatorFn{
     return (group: FormGroup): ValidationErrors => {
-       const control1 = group.controls['myControl1'];
-       const control2 = group.controls['myControl2'];
-       if (control1.value !== control2.value) {
+      const control1 = group.controls['myControl1'];
+      const control2 = group.controls['myControl2'];
+      if (control1.value !== control2.value) {
           control2.setErrors({notEquivalent: true});
-       } else {
+      } else {
           control2.setErrors(null);
-       }
-       return;
- };
-}
+      }
+      return;
+    };
+  }
+
+    
+  preview(files) {
+    if (files.length === 0)
+      return;
+
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
+    }
+
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
+    }
+  }
+  
+
 
   ListUser = [];
   getDataUser(){
@@ -108,11 +135,15 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #view').remove();
       this.registerForm.enable();
+      this.submitted = false;
+
     }else if (this.windowMode == 'view'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>View</a></li>')
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #edit').remove();
       this.registerForm.disable();
+      this.submitted = false;
+
     }else if(this.windowMode == 'grid'){
       this.submitted = false;
       $('.uk-breadcrumb #edit').remove();
@@ -138,11 +169,27 @@ export class SignupComponent implements OnInit {
       data => {
         console.log('Get data Satker success | getSatker ===>',data);
         this.ListSatker = data.result;
-
         console.log('ListSatker ===>',this.ListSatker);
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      }
+    )
+  }
+
+  ListPpk = [];
+  onSatkerChange(id){
+    this.modelRegister.ppkId = null;
+    console.log('onSatkerChange ===>',id);
+    this.masterPpkService.getPPKbyId(id).subscribe(
+      data => {
+        console.log('Get data PPK success | getPPKbyId ===>',data);
+        this.ListPpk = data.result;
+        console.log('ListPpk ===>',this.ListPpk);
+      },
+      error => {
+        console.log('Get data PPK error   | getPPKbyId ===>',error);
         notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
       }
     )
@@ -298,24 +345,6 @@ export class SignupComponent implements OnInit {
     return roleName;
   }
 
-
-  preview(files) {
-    if (files.length === 0)
-      return;
- 
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
-      return;
-    }
- 
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
-      this.imgURL = reader.result; 
-    }
-  }
 
 
   onSubmit() {

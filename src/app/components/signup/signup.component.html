@@ -86,7 +86,6 @@
               
               <dxi-column dataField="nama" caption="KPA" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="jabatan" caption="Jabatan" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="username" caption="Username" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="roleName" caption="Role" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="email" caption="Email" [allowSearch]="true"></dxi-column>
@@ -131,9 +130,21 @@
         <div class="uk-flex uk-flex-center">
           <div class="uk-card uk-card-body">
 
+          
             <span style="color:red;" *ngIf="message">{{message}}</span>
-            <input #file type="file" accept='image/*' formControlName="foto" (change)="preview(file.files)" />
-            <img [src]="imgURL" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;" *ngIf="imgURL">
+            <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+            <div class="uk-inline uk-dark">
+              <img [src]="imgURL" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;" *ngIf="imgURL">
+              <img src="https://getuikit.com/docs/images/avatar.jpg" class="rounded-circle img-thumbnail" *ngIf="!imgURL" style="width: 150px; height: 150px;" >
+            </div>
+
+<!--         
+            <div class="js-upload" uk-form-custom>
+                <input type="file" multiple>
+                <span type="button"  uk-icon="heart" tabindex="-1"></span>
+            </div>
+ -->
+
 
           </div>
         </div>
@@ -148,36 +159,61 @@
               </div>
           </div>
         </div>
-  
-        <!-- <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">Cabang</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Nama Cabang..." formControlName="cabang" [ngClass]="{ 'uk-form-danger': submitted && f.cabang.errors }">
-              <div *ngIf="submitted && f.cabang.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.cabang.errors.required">Cabang wajib diisi</div>
-              </div>
-          </div>
-        </div> -->
 
         <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-select">Cabang</label>
+          <label class="uk-form-label" for="form-horizontal-text">NIP</label>
           <div class="uk-form-controls">
-              <select class="uk-select"  formControlName="idCabang" [(ngModel)]="modelRegister.idCabang" [ngClass]="{ 'uk-form-danger': submitted && f.idCabang.errors }">
-                  <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
-                  <option [ngValue]="1">Dummy Cabang 100</option>
-                  <option [ngValue]="2">Dummy Cabang 200</option>
-                  <option [ngValue]="3">Dummy Cabang 300</option>
+              <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
+              <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.NIP.errors.required">NIP wajib diisi</div>
+              </div>
+          </div>
+        </div>
+
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-select">User Role</label>
+          <div class="uk-form-controls">
+              <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId"  id="form-horizontal-select" formControlName="roleId" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
+                <option [ngValue]="50">Super Admin</option>
+                <option [ngValue]="40">Satker</option>
               </select>
   
-              <div *ngIf="submitted && f.idCabang.errors" class="uk-text-danger uk-text-italic">
-                  <div *ngIf="f.idCabang.errors.required">Nama Cabang wajib diisi</div>
+              <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
               </div>
   
           </div>
-      </div>
+        </div>
+        
 
+        <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+          <label class="uk-form-label" for="form-horizontal-text">Satker</label>
+          <div class="uk-form-controls">
+              <select class="uk-select" [(ngModel)]="modelRegister.satkerId"  formControlName="satkerId" (change)="onSatkerChange(modelRegister.satkerId)" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
+                  <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+              </select>
+              <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
+            </div>
+          </div>
+         </div>
 
+         <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+          <label class="uk-form-label" for="form-horizontal-text">PPK</label>
+          <div class="uk-form-controls">
+              <select class="uk-select" [(ngModel)]="modelRegister.ppkId"  formControlName="ppkId" [ngClass]="{ 'uk-form-danger': submitted && f.ppkId.errors }" >
+                  <option *ngFor="let ppk of ListPpk" [ngValue]="ppk.id">{{ppk.namaPpk}}</option>
+              </select>
+              <div *ngIf="submitted && f.ppkId.errors" class="uk-text-danger uk-text-italic">
+                <div *ngIf="f.ppkId.errors.required">PPK wajib diisi</div>
+            </div>
+          </div>
+         </div>
   
+        
+
+<!--   
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Jabatan</label>
           <div class="uk-form-controls">
@@ -186,7 +222,7 @@
                 <div *ngIf="f.jabatan.errors.required">Jabatan wajib diisi</div>
               </div>
           </div>
-        </div>
+        </div> -->
   
 
         <div class="uk-margin">
@@ -209,24 +245,7 @@
           </div>
         </div>
   
-  
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-select">User Role</label>
-          <div class="uk-form-controls">
-              <select class="uk-select" placeholder="---Pilih Role---" id="form-horizontal-select" formControlName="roleId" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
-                <option [ngValue]="50">Super Admin</option>
-                <option [ngValue]="40">Admin</option>
-                <option [ngValue]="30">Setdit</option>
-                <option [ngValue]="20">KPA</option>
-              </select>
-  
-              <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
-              </div>
-  
-          </div>
-        </div>
-  
+
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Username</label>
           <div class="uk-form-controls">

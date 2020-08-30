@@ -15,6 +15,7 @@ import { CabangComponent } from './components/cabang/cabang.component';
 import { SatkerComponent } from './components/satker/satker.component';
 import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
 import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
+import { BlogComponent } from './components/blog/blog.component';
 
 // add component
 
@@ -37,6 +38,7 @@ import { TemuaninspektoratComponent } from './components/temuaninspektorat/temua
     { path: 'satker', component: SatkerComponent },
     { path: 'temuanbpk', component: TemuanbpkComponent },
     { path: 'temuaninspektorat', component: TemuaninspektoratComponent },
+    { path: 'blog', component: BlogComponent },
     
   ];
 

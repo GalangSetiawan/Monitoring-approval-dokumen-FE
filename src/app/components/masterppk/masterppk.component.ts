@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { TokenService } from '../../shared/token.service';
 import { AuthStateService } from '../../shared/auth-state.service';
-import { MasterkpaService } from './../../shared/masterkpa.service';
+import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
@@ -22,7 +22,7 @@ export class MasterppkComponent implements OnInit {
 
 
   constructor(
-    public masterKpaService: MasterkpaService,
+    public masterSatkerService: MastersatkerService,
     public masterPpkService: MasterppkService,
     private token: TokenService,
     private authState: AuthStateService,
@@ -35,14 +35,16 @@ export class MasterppkComponent implements OnInit {
         Validators.minLength(3),
         Validators.pattern('[\\w\\-\\s\\/]+')
       ])),
-      idKpa     : new FormControl("",Validators.compose([
+      satkerId     : new FormControl("",Validators.compose([
         Validators.required,
       ])),
        
     });
 
-    this.getDataKPA();
+    this.getDataSatker();
     this.getDataPPK();
+    $('#breadCrumbTitle a').text(this.titleHeader);
+
   }
 
 
@@ -51,7 +53,7 @@ export class MasterppkComponent implements OnInit {
   windowModeView(mode){
     this.windowMode = mode;
     if(this.windowMode == 'create'){
-      this.formPPK = {idKpa:null, namaPpk:null,id:null};
+      this.formPPK = {satkerId:null, namaPpk:null,id:null};
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
@@ -63,18 +65,16 @@ export class MasterppkComponent implements OnInit {
     }
   }
 
-
-
-  ListKPA = [];
-  getDataKPA(){
-    this.masterKpaService.getKPA().subscribe(
+  ListSatker = [];
+  getDataSatker(){
+    this.masterSatkerService.getSatker().subscribe(
       result => {
-        console.log('Get data KPA success | getKPA ===>',result);
-        this.ListKPA = result.result;
-        console.log('ListKPA ===>',this.ListKPA);
+        console.log('Get data Satker success | getSatker ===>',result);
+        this.ListSatker = result.result;
+        console.log('ListSatker ===>',this.ListSatker);
       },
       error => {
-        console.log('Get data KPA error   | getKPA ===>',error);
+        console.log('Get data Satker error   | getSatker ===>',error);
         notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
       }
     )
@@ -96,26 +96,7 @@ export class MasterppkComponent implements OnInit {
     )
   }
 
-
-
-
-  KPAobject = { id:null };
-  getDataKPAbyId(id){
-    this.KPAobject = { id:null };
-    this.masterKpaService.getKPAbyId(id).subscribe(
-      result => {
-        console.log('Get data KPA by id success | getKPA ===>',result);
-        this.KPAobject = result.result[0];
-      },
-      error => {
-        console.log('Get data KPA by id error   | getKPA ===>',error);
-        notify({ message: "Whoops! failed to Get data KPA by ID",position: {my: "center top",at: "center top"}}, "error", 3000)
-      }
-    )
-  }
-
   
-
   formPPK = {};
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
@@ -133,7 +114,7 @@ export class MasterppkComponent implements OnInit {
   }
 
 
-  filterData = {idKpa:null, namaPpk:""}
+  filterData = {satkerId:null, namaPpk:""}
   doSearch(filter){
     this.filterData = filter; 
     console.log('doSearch ===>',this.filterData);
@@ -153,7 +134,7 @@ export class MasterppkComponent implements OnInit {
 
   doReset(){
     console.log('this.filterData ===>',this.filterData)
-    this.filterData = {idKpa:null, namaPpk:""}
+    this.filterData = {satkerId:null, namaPpk:""}
   }
 
   deleteDataPpk = "";
@@ -199,10 +180,10 @@ export class MasterppkComponent implements OnInit {
           notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
           this.windowModeView('grid');
 
-          var findKPA = _.find(this.ListKPA,{"id":result.result.idKpa});
-          result.result.namaKpa = findKPA.namaKpa;
+          var findSatker = _.find(this.ListSatker,{"id":result.result.satkerId});
+          result.result.namaSatker = findSatker.namaSatker;
           this.ListPPK.push(result.result)
-          console.log('ListKPA after create ===>',this.ListPPK)
+          console.log('ListSatker after create ===>',this.ListPPK)
 
         },
         error => {
@@ -217,7 +198,7 @@ export class MasterppkComponent implements OnInit {
           console.log('update success | updatePPK ===>',result)
           notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
           this.windowModeView('grid');
-          console.log('ListKPA ===>',this.ListKPA);
+          console.log('ListSatker ===>',this.ListSatker);
 
         },
         error => {

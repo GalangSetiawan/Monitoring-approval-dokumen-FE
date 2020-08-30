@@ -32,6 +32,16 @@ export class DokumenserviceService {
 
 
 
+  getDokumenTemuanGridView(): Observable<any> {
+    return this.http.get(API_URL+'/dokumentemuan/grid-view');
+  }
+
+  getDetailDokumenTemuanGridView(id): Observable<any> {
+    return this.http.get(API_URL+'/dokumentemuan/get-detail-data/'+id);
+  }
+
+  
+
 
   // =========== DOKUMEN TEMUAN =============
   createDokumenTemuan(dataDokumenTemuan): Observable<any> {

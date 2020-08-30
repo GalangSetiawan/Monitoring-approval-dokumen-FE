@@ -66,22 +66,6 @@
             </a>
         </li>
 
-        <li uk-tooltip="title: Contact; pos: right">
-            <a uk-toggle="target: #closeApp">
-                <i  uk-icon="icon: info" aria-hidden="true"></i>
-
-                <span>About</span>
-            </a>
-        </li>
-
-        <li uk-tooltip="title: Contact; pos: right">
-            <a uk-toggle="target: #closeApp">
-                <i  uk-icon="icon: info" aria-hidden="true"></i>
-
-                <span>About</span>
-            </a>
-        </li>
-
         <li uk-tooltip="title: Toggle Side Menu; pos: right">
             <a (click)="secondSidebarToggle()">
                 <i  uk-icon="icon: list" aria-hidden="false"></i>
@@ -116,7 +100,7 @@
                 
                 <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
                 <li class="uk-parent">
-                    <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Dokumen Temuan</a>
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="icon: album"></span>Dokumen Temuan</a>
                     <ul class="uk-nav-sub">
                         <li class="mb-1" style="font-size: 1.1em !important;"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
                         <li style="font-size: 1.1em !important;"><a [routerLink]="['/temuaninspektorat']">Temuan Inspektorat</a></li>
@@ -127,8 +111,9 @@
                 <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
                 <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
                 <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
-                <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Satker</a></li>
-                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
+                <li><a [routerLink]="['/blog']" ><span class="uk-margin-small-right" uk-icon="icon: copy" ></span> Berita</a></li>
+                <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
+                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: users" ></span> Master User</a></li>
                 <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
                 <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
                 <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
@@ -207,7 +192,7 @@
                     <span class="" type="span" uk-icon="icon: mail"><span class="uk-badge">5</span></span>
                     <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px;">
 
-                        <div style="zoom: 0.75;">
+                        <div style="zoom: 0.9;">
                             <h3>Notifications</h3>
 
                             <div class="uk-comment">
@@ -400,15 +385,24 @@
             <ul class="uk-slideshow-items"  uk-height-viewport="min-height: 300">
                 <li>
                     <img src="https://images.unsplash.com/photo-1547487398-b4a5e642575a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1233&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
-                        <h1 uk-slideshow-parallax="x: 100,-100">Heading 2</h1>
-                        <p uk-slideshow-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+                    <div class="uk-position-center">
+                       
+                        <div class="jumbotron">
+                            <h1 class="display-4">Hello, world!</h1>
+                            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                            <hr class="my-4">
+                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                          </div>
+
                     </div>
                 </li>
                 <li>
                     <img img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
+                    <div class="uk-position-center uk-text-center">
                         <h1 uk-slideshow-parallax="x: 100,-100">Heading 1</h1>
+                        <h1 class="uk-heading-medium">Medium</h1>
+
                         <p uk-slideshow-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
                     </div>
                 </li>
@@ -502,11 +496,11 @@
 <!-- ========logout Modal======= -->
 <div id="closeApp" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
-      <h2 class="uk-modal-title" >Quit Aplication</h2>
-      <p>Are you sure to close Aplication</p>
+      <h2 class="uk-modal-title" >Keluar aplikasi</h2>
+      <p>Apakah anda yakin ingin keluar dari aplikasi?</p>
       <p class="uk-text-right">
-          <button class="uk-button uk-button-default uk-modal-close" uk-toggle="profileModal" type="button">Cancel</button> &nbsp;
-          <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">OK </button>
+          <button class="uk-button uk-button-default uk-modal-close" uk-toggle="profileModal" type="button">Batal</button> &nbsp;
+          <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">Keluar &nbsp;</button>
       </p>
   </div>
 </div>
@@ -570,8 +564,8 @@
   
             
             <p class="uk-text-right mt-4">
-                <button class="uk-button uk-button-default" (click)="toggleResetPassword()" type="button">Reset</button> &nbsp;
-                <button class="uk-button uk-button-primary" type="button"uk-icon="icon: sign-out" (click)="toggleLogout()">Logout </button>
+                <button class="uk-button uk-button-default" (click)="toggleResetPassword()" type="button">Ganti Password</button> &nbsp;
+                <button class="uk-button uk-button-primary" type="button"uk-icon="icon: sign-out" (click)="toggleLogout()">Keluar </button>
             </p>
         </div>
 
@@ -581,8 +575,8 @@
             <h2 class="uk-modal-title" >Keluar Aplikasi</h2>
             <p>Anda yakin ingin keluar aplikasi?</p>
             <p class="uk-text-right">
-                <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Cancel</button> &nbsp;
-                <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">OK </button>
+                <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Batak</button> &nbsp;
+                <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">Keluar </button>
             </p>
           </div>
         <!-- ==================== Logout Confirmation ====================== -->
@@ -638,7 +632,7 @@
     
     
             <p class="uk-text-right">
-                <button class="uk-button uk-button-default"  (click)="toggleResetPassword()" type="button">Cancel</button> &nbsp;
+                <button class="uk-button uk-button-default"  (click)="toggleResetPassword()" type="button">Batal</button> &nbsp;
                 <button class="uk-button uk-button-primary uk-modal-close" (click)="doResetPass(modelReset)" type="button"
                     [disabled] = "modelReset.oldPassword == '' || modelReset.newPassword == '' || modelReset.newPasswordConfirmation == '' || (modelReset.newPasswordConfirmation != modelReset.newPassword) || !isValidOldPassword || modelReset.newPassword.length < 6
                     ">Reset</button> &nbsp;

@@ -22,13 +22,13 @@
     
                    
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">KPA</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
                         <div class="uk-form-controls">
-                            <select class="uk-select" [(ngModel)]="filterData.idKpa">
-                                <option *ngFor="let kpa of ListKPA" [ngValue]="kpa.id">{{kpa.namaKpa}}</option>
-                                <option [ngValue]="1">Dummy KPA 100</option>
-                                <option [ngValue]="2">Dummy KPA 200</option>
-                                <option [ngValue]="3">Dummy KPA 300</option>
+                            <select class="uk-select" [(ngModel)]="filterData.satkerId">
+                                <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                                <option [ngValue]="1">Dummy Satker Filter 100</option>
+                                <option [ngValue]="2">Dummy Satker Filter 200</option>
+                                <option [ngValue]="3">Dummy Satker Filter 300</option>
                             </select>
                         </div>
                     </div>
@@ -83,9 +83,9 @@
                 <dxo-paging [pageSize]="5"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
                 
-                <dxi-column dataField="namaPpk" caption="Nama" [allowSearch]="true"></dxi-column>
-                <dxi-column dataField="idKpa" caption="KPA ID"  alignment="left" [allowSearch]="true"></dxi-column>
-                <dxi-column dataField="namaKpa" caption="nama KPA" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="namaPpk" caption="PPK" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="alamat" caption="Alamat" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
@@ -134,17 +134,19 @@
                         
         
                         <div class="uk-margin">
-                            <label class="uk-form-label" for="form-horizontal-select">KPA</label>
+                            <label class="uk-form-label" for="form-horizontal-select">Satker</label>
                             <div class="uk-form-controls">
-                                <select class="uk-select"  formControlName="idKpa" [(ngModel)]="formPPK.idKpa" [ngClass]="{ 'uk-form-danger': submitted && f.idKpa.errors }">
-                                    <option *ngFor="let kpa of ListKPA" [ngValue]="kpa.id">{{kpa.namaKpa}}</option>
-                                    <option [ngValue]="1">Dummy KPA 100</option>
-                                    <option [ngValue]="2">Dummy KPA 200</option>
-                                    <option [ngValue]="3">Dummy KPA 300</option>
+                                <select class="uk-select"  formControlName="satkerId" [(ngModel)]="formPPK.satkerId" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }">
+                                    <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                                    <option [ngValue]="1">Dummy Satker 100</option>
+                                    <option [ngValue]="2">Dummy Satker 200</option>
+                                    <option [ngValue]="3">Dummy Satker 300</option>
                                 </select>
+
+                               
                     
-                                <div *ngIf="submitted && f.idKpa.errors" class="uk-text-danger uk-text-italic">
-                                    <div *ngIf="f.idKpa.errors.required">KPA wajib diisi</div>
+                                <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
+                                    <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
                                 </div>
                     
                             </div>
