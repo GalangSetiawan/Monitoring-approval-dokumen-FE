@@ -252,14 +252,22 @@
                         </div>
                     </div>
 
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="form-horizontal-text">Tgl LHA</label>
+                      <div class="uk-form-controls">
+                          <input class="uk-input" type="date" [(ngModel)]="modelDokumenTemuan.tglLHA" (change)="onFullDateChange(modelDokumenTemuan.tglLHA)">
+                          
+                      </div>
+                    </div>
+
 
                     <div class="uk-margin">
                       <label class="uk-form-label" for="form-horizontal-text">Deadline Dokumen Temuan</label>
                       <div class="uk-form-controls">
                           <input class="uk-input" type="date" [(ngModel)]="modelDokumenTemuan.deadlineDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.deadlineDokumenTemuan)">
-                         
+                          
                       </div>
-                  </div>
+                    </div>
     
     
                     

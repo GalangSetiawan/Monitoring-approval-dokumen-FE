@@ -101,6 +101,7 @@ export class TemuanbpkComponent implements OnInit {
       displayKeadaanSdBulan        : 'Desember 2020',
       displayTglTerimaDokumenTemuan: '31',
       noLHA                        : 'LHA. 26/Itjen-Ins.3/Rhs/2016',
+      tglLHA                       : '2021-01-31',
       footer                       : '<p>Jakarta, September 2017 <br> Kepala Bagian Keuangan dan Umum</p><p></p><p><br></p><p><strong><u>S u w a r t i, S H</u></strong> <br>NIP 19671014 199303 2 001</p>',
       header                       : 'MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN',
     }
@@ -147,6 +148,7 @@ export class TemuanbpkComponent implements OnInit {
     displayKeadaanSdBulan         : null,
     displayTglTerimaDokumenTemuan : null,
     noLHA                         : null,
+    tglLHA                        : null,
     footer                        : null,
     header                        : null,
   }
@@ -385,6 +387,7 @@ export class TemuanbpkComponent implements OnInit {
       displayKeadaanSdBulan         : null,
       displayTglTerimaDokumenTemuan : null,
       noLHA                         : null,
+      tglLHA                        : null,
       footer                        : null,
       header                        : null,
     }
@@ -685,8 +688,8 @@ export class TemuanbpkComponent implements OnInit {
         console.log('getDetailDokumenTemuanGridView Detail success | getDetailDokumenTemuanGridView ===>',data);
 
         this.modelDokumenTemuan = data.result;
-        var keadaanSdBulan = this.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
-        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(keadaanSdBulan);
+        // var keadaanSdBulan = this.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
+        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan );
         
         console.log('this.modelDokumenTemuan ===>', this.modelDokumenTemuan)
         this.batchDokumen.push(data.result.dataDokumen);
@@ -1339,17 +1342,24 @@ export class TemuanbpkComponent implements OnInit {
     console.log('this.tasksDataSourceStorage ===>',this.tasksDataSourceStorage)
 
  
-      var item = {
-          key: key,
-          dataSourceInstance: new DataSource({
-              store: new ArrayStore({
-                  data: this.tasks,
-                  key: "ID"
-              }),
-              filter: ["EmployeeID", "=", key]
-          })
-      };
+    let item = this.tasksDataSourceStorage.find((i) => i.key === key);
+    console.log('item ===>',item)
 
+0
+    if (!item) {
+        item = {
+            key: key,
+            dataSourceInstance: new DataSource({
+                store: new ArrayStore({
+                    data: this.tasks,
+                    key: "ID"
+                }),
+                filter: ["EmployeeID", "=", key]
+            })
+        };
+        this.tasksDataSourceStorage.push(item)
+    }
+    return item.dataSourceInstance;
 
   }
     
