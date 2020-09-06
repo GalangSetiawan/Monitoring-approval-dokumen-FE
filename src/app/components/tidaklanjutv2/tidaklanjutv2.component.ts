@@ -5,10 +5,9 @@ import { AuthStateService } from '../../shared/auth-state.service';
 import { DokumenserviceService } from './../../shared/dokumenservice.service';
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
+import { TindaklanjutService } from './../../shared/tindaklanjut.service';
 
 declare var UIkit: any;
-
-
 
 import * as _ from "lodash";
 import * as $ from 'jquery'
@@ -16,26 +15,24 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas'
 import 'jspdf-autotable';
 
-
 import notify from 'devextreme/ui/notify';
 
-import DataSource from 'devextreme/data/data_source';
-import ArrayStore from 'devextreme/data/array_store';
-
 @Component({
-  selector: 'app-temuanbpk',
-  templateUrl: './temuanbpk.component.html',
-  styleUrls: ['./temuanbpk.component.css']
+  selector: 'app-tidaklanjutv2',
+  templateUrl: './tidaklanjutv2.component.html',
+  styleUrls: ['./tidaklanjutv2.component.css']
 })
-export class TemuanbpkComponent implements OnInit {
+export class Tidaklanjutv2Component implements OnInit {
 
   dokumenTemuanForm: FormGroup;
   public titleHeader = "Master DokumenTemuan";
+  isLoading   = false;
 
   constructor(
     public masterSatkerService: MastersatkerService,
     public dokumenService     : DokumenserviceService,
     public masterPpkService   : MasterppkService,
+    public tindakLanjutService: TindaklanjutService,
 
     private token             : TokenService,
     public fb                 : FormBuilder,
@@ -46,7 +43,28 @@ export class TemuanbpkComponent implements OnInit {
     this.getDataJenisDokumenTemuan();
     this.getDataSatker();
     this.getDataDokumenTemuan();
+    this.getDataTindakLanjut();
     $('#breadCrumbTitle a').text('Dokumen Temuan BPK');
+    this.modelDokumenTemuan.footer = `<p>Jakarta, September 2017 <br> Kepala Bagian Keuangan dan Umum</p><p></p><p><br></p><p><strong><u>S u w a r t i, S H</u></strong> <br>NIP 19671014 199303 2 001</p>'`
+  }
+
+  
+  ListTindakLanjut = [];
+  getDataTindakLanjut(){
+    this.isLoading = true;
+    this.tindakLanjutService.getTindakLanjut().subscribe(
+      data => {
+        this.isLoading = false;
+        console.log('Get data TindakLanjut success | TindakLanjut ===>',data);
+        this.ListTindakLanjut = data.result;
+        console.log('ListTindakLanjut ===>',this.ListTindakLanjut);
+      },
+      error => {
+        this.isLoading = false;
+        console.log('Get data TindakLanjut error   | TindakLanjut ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      }
+    )
   }
 
 
@@ -105,7 +123,7 @@ export class TemuanbpkComponent implements OnInit {
 
 
   batchDokumen = [];
-  isiHardcode(){
+  isiHardcodeTemuan(){
     this.modelDokumenTemuan = {
       id                           : 2,
       jenisDokumenTemuanId         : 2,
@@ -117,63 +135,49 @@ export class TemuanbpkComponent implements OnInit {
       namaInstansi                 : "Ditjen Penegakan Lingkungan Hidup dan Kehutanan (PHLHK)",
       unitKerjaEselon1             : "Ditjen PHLHK",
       displayKeadaanSdBulan        : 'Desember 2020',
-      displayTglTerimaDokumenTemuan: '31',
+      displayTglLHA: '31',
       noLHA                        : 'LHA. 26/Itjen-Ins.3/Rhs/2016',
       tglLHA                       : '2021-01-31',
       footer                       : '<style>br{margin-top: -50px !important;}</style>'+'<p>Jakarta, September 2017 <br> Kepala Bagian Keuangan dan Umum</p><p></p><p><br></p><p><strong><u>S u w a r t i, S H</u></strong> <br>NIP 19671014 199303 2 001</p>',
       header                       : 'MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN',
     }
-
-    this.batchDokumen = [
-      {
-        flagId                   : 999999,
-        tipeDokumenId            : 1,
-        satkerId                 : 1,
-        statusTindakLanjut       : "Open",
-        noUraianTemuan           : '1',
-        kodeRekomendasi          : '3.03.07',
-        subNomorRekomendasi      : 'B.',
-        kodeRingkasanTindakLanjut: '06',
-        uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
-        rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
-        ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
-        tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
-        dokumenTemuanId          : null,
-        tindakLanjutId           : null,
-        responDokumenTemuanId    : null,
-        titleHeader              : 'Kelemahan Aspek Pendukung',
-        nomorHeader              : 'A.2.',
-        ppkId                    : 1
-      },
-    ]
   }
 
 
   
 
+  modelTindakLanjut = {
+    dokumenTemuanId    : null,
+    tglTindakLanjut    : null,
+    ppkId              : null,
+    dokumenId          : null,
+    dokumenTindakLanjut: undefined,
+    isiDokumen :{},
+
+  }
   
 
   modelDokumenTemuan = {
-    id                            : null,
-    jenisDokumenTemuanId          : null,
-    tglTerimaDokumenTemuan        : null,
-    deadlineDokumenTemuan         : null,
-    keadaanSdBulan                : null,
-    forSavekeadaanSdBulan         : null,
-    namaKegiatan                  : null,
-    namaInstansi                  : null,
-    unitKerjaEselon1              : null,
-    displayKeadaanSdBulan         : null,
-    displayTglTerimaDokumenTemuan : null,
-    noLHA                         : null,
-    tglLHA                        : null,
-    footer                        : null,
-    header                        : null,
+    id                    : null,
+    jenisDokumenTemuanId  : null,
+    tglTerimaDokumenTemuan: null,
+    deadlineDokumenTemuan : null,
+    keadaanSdBulan        : null,
+    forSavekeadaanSdBulan : null,
+    namaKegiatan          : null,
+    namaInstansi          : null,
+    unitKerjaEselon1      : null,
+    displayKeadaanSdBulan : null,
+    displayTglLHA         : null,
+    noLHA                 : null,
+    tglLHA                : null,
+    footer                : null,
+    header                : null,
   }
 
 
   modelIsiDokumen = {
-    flagId                   : null,
+    id                       : null,
     statusTindakLanjut       : null,
     noUraianTemuan           : null,
     kodeRekomendasi          : null,
@@ -192,20 +196,6 @@ export class TemuanbpkComponent implements OnInit {
     nomorHeader              : null,
   }
 
-  closeAlldokumenForm(){
-    this.is_noUraianTemuan            = false;
-    this.is_kodeRekomendasi           = false;
-    this.is_subNomorRekomendasi       = false;
-    this.is_kodeRingkasanTindakLanjut = false;
-    this.is_statusTindakLanjut        = false;
-    this.is_uraianTemuan              = false;
-    this.is_rekomendasi               = false;
-    this.is_tindakLanjut              = false;
-    this.is_ringkasanTindakLanjut     = false;   
-    this.is_nomorHeader               = false;
-    this.is_titleHeader               = false; 
-  }
-
   is_noUraianTemuan            = false;
   is_kodeRekomendasi           = false;
   is_subNomorRekomendasi       = false;
@@ -215,12 +205,10 @@ export class TemuanbpkComponent implements OnInit {
   is_rekomendasi               = false;
   is_tindakLanjut              = false;
   is_ringkasanTindakLanjut     = false;
-  is_nomorHeader               = false;
-  is_titleHeader               = false;
   lightInputDokumenTitle       = "";
-  tmpValue = "";
-  tmpKey = ""
-  isOpenEachFormTemuan = false;
+  tmpValue                     = "";
+  tmpKey                       = ""
+  isOpenEachFormTemuan         = false;
   modalLightInput(title,key){
     console.log('modalLightInput ===>',title,key);
     this.lightInputDokumenTitle = title;
@@ -236,9 +224,7 @@ export class TemuanbpkComponent implements OnInit {
       this.is_uraianTemuan              = false;
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;   
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.is_ringkasanTindakLanjut     = false;    
     }else if(key == 'kodeRekomendasi'){
       this.tmpValue = this.modelIsiDokumen.kodeRekomendasi;
       this.is_noUraianTemuan            = false;
@@ -250,8 +236,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'subNomorRekomendasi'){
       this.tmpValue = this.modelIsiDokumen.subNomorRekomendasi;
       this.is_noUraianTemuan            = false;
@@ -263,8 +247,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'kodeRingkasanTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.kodeRingkasanTindakLanjut;
       this.is_noUraianTemuan            = false;
@@ -276,8 +258,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'statusTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.statusTindakLanjut;
       this.is_noUraianTemuan            = false;
@@ -289,8 +269,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'uraianTemuan'){ //==============================================
       this.tmpValue = this.modelIsiDokumen.uraianTemuan;
       this.is_noUraianTemuan            = false;
@@ -302,8 +280,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'rekomendasi'){
       this.tmpValue = this.modelIsiDokumen.rekomendasi;
       this.is_noUraianTemuan            = false;
@@ -315,8 +291,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = true;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'tindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.tindakLanjut;
       this.is_noUraianTemuan            = false;
@@ -328,8 +302,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = true;
       this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'ringkasanTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.ringkasanTindakLanjut;
       this.is_noUraianTemuan            = false;
@@ -341,34 +313,6 @@ export class TemuanbpkComponent implements OnInit {
       this.is_rekomendasi               = false;
       this.is_tindakLanjut              = false;
       this.is_ringkasanTindakLanjut     = true;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
-    }else if(key == 'nomorHeader'){
-      this.tmpValue = this.modelIsiDokumen.nomorHeader;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = true;
-      this.is_titleHeader               = false; 
-    }else if(key == 'titleHeader'){
-      this.tmpValue = this.modelIsiDokumen.titleHeader;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = true; 
     }
   }
 
@@ -418,9 +362,9 @@ export class TemuanbpkComponent implements OnInit {
     this.showBtnSaveTemuan = true;
     this.showBtnCancelTemuan = true;
     this.showBtnTambahTemuan = false;
-    this.closeAlldokumenForm();
+
     this.clearModel_isiDokumen();
-    this.modelIsiDokumen.flagId = new Date().getTime(),      
+    this.modelIsiDokumen.id = new Date().getTime(),      
     this.modelIsiDokumen.satkerId = satkerId,   
     this.modelIsiDokumen.ppkId = ppkId  
 
@@ -431,8 +375,8 @@ export class TemuanbpkComponent implements OnInit {
 
   clearModel_isiDokumen(){
     this.modelIsiDokumen = {
-      flagId                   : null,    
-      statusTindakLanjut       : "Tersedia",
+      id                   : null,    
+      statusTindakLanjut       : "",
       noUraianTemuan           : "",
       kodeRekomendasi          : "",
       subNomorRekomendasi      : "",
@@ -463,7 +407,7 @@ export class TemuanbpkComponent implements OnInit {
       namaInstansi                  : null,
       unitKerjaEselon1              : null,
       displayKeadaanSdBulan         : null,
-      displayTglTerimaDokumenTemuan : null,
+      displayTglLHA : null,
       noLHA                         : null,
       tglLHA                        : null,
       footer                        : null,
@@ -479,7 +423,7 @@ export class TemuanbpkComponent implements OnInit {
     if(flagEdit == 1){ // edit Temuan
       console.log('saveTemuan | flagEdit | edit 1 ===>',flagEdit)
       for(var i in this.batchDokumen){
-        if(this.modelIsiDokumen.flagId == this.batchDokumen[i].flagId){
+        if(this.modelIsiDokumen.id == this.batchDokumen[i].id){
           this.batchDokumen[i] = this.modelIsiDokumen;
         }
       }
@@ -501,20 +445,29 @@ export class TemuanbpkComponent implements OnInit {
   batalTemuan(){
     this.showFormTemuan = false;
 
-    this.clearModel_isiDokumen()
-
     this.showBtnTambahTemuan = true;
     this.showBtnSaveTemuan = false;
     this.showBtnCancelTemuan = false;
 
-    console.log('batalTemuan | modelIsiDokumen, id ===>',this.modelIsiDokumen,this.modelIsiDokumen.flagId);
+    console.log('batalTemuan | modelIsiDokumen, id ===>',this.modelIsiDokumen,this.modelIsiDokumen.id);
     console.log('batalTemuan | batchDokumen ===>',this.batchDokumen);
-    console.log('tmpEditDdokumen | batchDokumen ===>',this.tmpEditDdokumen);
+    console.log('batalTemuan | tmpEditDdokumen ===>',this.tmpEditDdokumen);
 
-    var findID = _.findIndex(this.batchDokumen, {"flagId":this.modelIsiDokumen.flagId})
-    console.log('find ID ===>',findID)
+    // var findID = _.findIndex(this.batchDokumen, {"id":this.modelIsiDokumen.id})
+    // console.log('find ID ===>',findID);
+
+    for(var i in this.batchDokumen){
+      if(this.batchDokumen[i].id == this.modelIsiDokumen.id){
+        console.log('batalTemuan | replaced successfully')
+        this.batchDokumen[i] = this.tmpEditDdokumen
+      }else{
+        console.log('batalTemuan | replace fail')
+      }
+    }
+
     
-    this.batchDokumen.push(this.tmpEditDdokumen);
+    
+    // this.batchDokumen.push(this.tmpEditDdokumen);
   
 
   }
@@ -590,7 +543,7 @@ export class TemuanbpkComponent implements OnInit {
   onFullDateChange(date){
     var dateString = date.split('-');
     var bulanIdx = parseInt(dateString[1])
-    this.modelDokumenTemuan.displayTglTerimaDokumenTemuan =  dateString[2] + ' ' + this.bulan[bulanIdx] + ' ' + dateString[0];
+    this.modelDokumenTemuan.displayTglLHA =  dateString[2] + ' ' + this.bulan[bulanIdx] + ' ' + dateString[0];
     var result = dateString[2] + ' ' + this.bulan[bulanIdx] + ' ' + dateString[0];
     return result;
   }
@@ -650,7 +603,6 @@ export class TemuanbpkComponent implements OnInit {
     if(this.windowMode == 'create'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>');
       $('.uk-breadcrumb #edit').remove();
-      this.isiHardcode();
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
       $('.uk-breadcrumb #create').remove();
@@ -753,8 +705,8 @@ export class TemuanbpkComponent implements OnInit {
     console.log('onDeleteTemmuanClick | data ====>',data);
 
     this.batchDokumen = _.remove(this.batchDokumen, function(n){
-      if(typeof data.flagId != undefined){
-        return n.flagId != data.flagId
+      if(typeof data.id != undefined){
+        return n.id != data.id
       }else{
         return n.id != data.id
       }
@@ -772,33 +724,65 @@ export class TemuanbpkComponent implements OnInit {
     this.showBtnCancelTemuan = true;
     
     this.showFormTemuan = true;
+    this.tmpEditDdokumen = {...data};
     this.modelIsiDokumen = data;
-    this.tmpEditDdokumen = data;
+    this.modelIsiDokumen.statusTindakLanjut = "Dalam Proses";
+    
+
+    
     console.log('onEditTemuanClick | modelIsiDokumen ====>',this.modelIsiDokumen);
 
 
   }
 
+  getTodayDateString(){
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth()+1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);  
+
+    var result = year+'-'+month+'-'+day
+    return result
+  }
+
+
+
+
 
   ModelDokumenTemuan = {};
-  onEditClick(row){
+  onEditGridClick(row){
     console.log('btnEdit ===>',row);
     this.windowModeView('edit');
     
 
-    this.dokumenService.getDetailDokumenTemuanGridView(row.data.id).subscribe(
-      data => {
+    this.tindakLanjutService.getDetailTindakLanjut(row.data.id,row.data.dokumenTemuanId).subscribe(
+      (data:any) => {
         console.log('getDetailDokumenTemuanGridView Detail success | getDetailDokumenTemuanGridView ===>',data);
 
-        this.modelDokumenTemuan = data.result;
-        // var keadaanSdBulan = this.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
-        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan );
-        
-        console.log('this.modelDokumenTemuan ===>', this.modelDokumenTemuan)
-        this.batchDokumen = data.result.resultDokumen;
+        this.modelDokumenTemuan = data.result.dataDokumenTemuan;
+        var keadaanSdBulan = this.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
+        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+
+        var TglTerimaDokumenTemuan = this.modelDokumenTemuan.tglLHA
+        this.modelDokumenTemuan.displayTglLHA = this.onFullDateChange(this.modelDokumenTemuan.tglLHA)
+
+
+        this.batchDokumen = [];
+        this.batchDokumen.push(data.result.dataDokumen);
+
+
       },
       error => {
         console.log('getDetailDokumenTemuanGridView Detail error   | getDetailDokumenTemuanGridView ===>',error);
+        
+        this.batchDokumen = [];
+        this.batchDokumen.push(row.data)
+
+        UIkit.notification({message: '<span uk-icon=\'icon: shrink\'></span> tekan ini pake data dummy, blm berhasil get detail '  ,  status: 'primary',pos: 'top-right'})
+
+        this.isiHardcodeTemuan()
+
+
       }
     )
 
@@ -936,7 +920,38 @@ export class TemuanbpkComponent implements OnInit {
 
   
   doEditGeneral(){
-    this.dokumenService.updateDokumenTemuan(this.modelDokumenTemuan ).subscribe(
+
+    var modelTindakLanjut = {
+      dokumenTemuanId    : this.batchDokumen[0].dokumenTemuanId,
+      tglTindakLanjut    : this.getTodayDateString(),
+      ppkId              : this.batchDokumen[0].ppkId,
+      dokumenId          : this.batchDokumen[0].id,
+      dokumenTindakLanjut: this.tmpFileDokumen,
+
+      _tipeDokumenId            : this.batchDokumen[0].tipeDokumenId == null ? "" :this.batchDokumen[0].tipeDokumenId,
+      _noUraianTemuan           : this.batchDokumen[0].noUraianTemuan == null ? "":this.batchDokumen[0].noUraianTemuan,
+      _uraianTemuan             : this.batchDokumen[0].uraianTemuan == null ? "":this.batchDokumen[0].uraianTemuan,
+      _rekomendasi              : this.batchDokumen[0].rekomendasi == null ? "":this.batchDokumen[0].rekomendasi,
+      _kodeRekomendasi          : this.batchDokumen[0].kodeRekomendasi == null ? "":this.batchDokumen[0].kodeRekomendasi,
+      _kodeRingkasanTindakLanjut: this.batchDokumen[0].kodeRingkasanTindakLanjut == null ? "":this.batchDokumen[0].kodeRingkasanTindakLanjut,
+      _ringkasanTindakLanjut    : this.batchDokumen[0].ringkasanTindakLanjut == null ? "":this.batchDokumen[0].ringkasanTindakLanjut,
+      _statusTindakLanjut       : this.batchDokumen[0].statusTindakLanjut == null ? "":this.batchDokumen[0].statusTindakLanjut,
+      _tindakLanjut             : this.batchDokumen[0].tindakLanjut == null ? "":this.batchDokumen[0].tindakLanjut,
+      _subNomorRekomendasi      : this.batchDokumen[0].subNomorRekomendasi == null ? "":this.batchDokumen[0].subNomorRekomendasi,
+      _nomorHeader              : this.batchDokumen[0].nomorHeader == null ? "":this.batchDokumen[0].nomorHeader,
+      _titleHeader              : this.batchDokumen[0].titleHeader == null ? "":this.batchDokumen[0].titleHeader,
+      _satkerId                 : this.batchDokumen[0].satkerId == null ? "":this.batchDokumen[0].satkerId,
+      _ppkId                    : this.batchDokumen[0].ppkId == null ? "":this.batchDokumen[0].ppkId,
+      _dokumenTemuanId          : this.batchDokumen[0].dokumenTemuanId == null ? "":this.batchDokumen[0].dokumenTemuanId,
+      _tindakLanjutId           : this.batchDokumen[0].tindakLanjutId == null ? "":this.batchDokumen[0].tindakLanjutId,
+      _responDokumenTemuanId    : this.batchDokumen[0].responDokumenTemuanId == null ? "":this.batchDokumen[0].responDokumenTemuanId,
+    }
+    
+    
+    
+
+
+    this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
       (data:any)=>{
         console.log('updateDokumenTemuan Success ===>',data.result);   
       },
@@ -971,6 +986,16 @@ export class TemuanbpkComponent implements OnInit {
 
     // Download PDF document  
     doc.save('table.pdf');
+  }
+
+  namafile :any
+  tmpFileDokumen:any
+  handleFileInput(files :FileList){
+    console.log('handleFileInput ===>',files)
+    this.namafile = files[0].name;
+    this.modelTindakLanjut.dokumenTindakLanjut = files;
+    this.tmpFileDokumen = files;
+    // console.log('uploadFileName ===>',this.modelApprovalDoc.fileDokumen);
   }
 
 
@@ -1051,3 +1076,4 @@ export class TemuanbpkComponent implements OnInit {
   }
 
 }
+

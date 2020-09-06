@@ -36,6 +36,7 @@ import { SatkerComponent } from './components/satker/satker.component';
 import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
 import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
 import { BlogComponent } from './components/blog/blog.component';
+import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2.component';
 
 
 
@@ -60,6 +61,7 @@ import { BlogComponent } from './components/blog/blog.component';
     TemuanbpkComponent,
     TemuaninspektoratComponent,
     BlogComponent,
+    Tidaklanjutv2Component,
   ],
   imports: [
     BrowserModule,

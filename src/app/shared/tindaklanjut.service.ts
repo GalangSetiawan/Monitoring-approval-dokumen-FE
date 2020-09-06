@@ -9,17 +9,29 @@ const API_URL = "http://127.0.0.1:8000/api";
 
 
 export class tindakLanjutStyle {
-  id         : Number;
-  noDokumen  : String; 
-  namaDokumen: String;
-  fileDokumen: FileList; 
-  tglDariBpk : String; 
-  tglKePpk   : String; 
-  idKpa      : Number;  
-  idPpk      : Number;
-  status     : String; 
-  idUser     : Number;
-  catatan    : String;
+  dokumenTemuanId           : Number;
+  ppkId                     : Number;
+  dokumenId                 : Number;
+  tglTindakLanjut           : string;
+  dokumenTindakLanjut       : FileList;
+
+  _tipeDokumenId            : String;
+  _noUraianTemuan           : String;
+  _uraianTemuan             : String;
+  _rekomendasi              : String;
+  _kodeRekomendasi          : String;
+  _kodeRingkasanTindakLanjut: String;
+  _ringkasanTindakLanjut    : String;
+  _statusTindakLanjut       : String;
+  _tindakLanjut             : String;
+  _subNomorRekomendasi      : String;
+  _nomorHeader              : String;
+  _titleHeader              : String;
+  _satkerId                 : String;
+  _ppkId                    : String;
+  _dokumenTemuanId          : String;
+  _tindakLanjutId           : String;
+  _responDokumenTemuanId    : String;
   } 
 
 
@@ -32,74 +44,98 @@ export class TindaklanjutService {
   constructor(private http: HttpClient) { }
 
 
+
+
+
+  getDetailTindakLanjut(id,dokumenTemuanId){
+    return this.http.get(API_URL+'/tindaklanjut/get-detail-data/'+id+'/'+dokumenTemuanId);
+  }
+
+
   createTindakLanjut(dataTindakLanjut:tindakLanjutStyle): Observable<any> {
     console.log('dataTindakLanjut createTindakLanjut ===>',dataTindakLanjut)
 
     var modelTindakLanjut = {
-      // id         : String(dataTindakLanjut.id),
-      noDokumen  : String(dataTindakLanjut.noDokumen),
-      namaDokumen: String(dataTindakLanjut.namaDokumen),
-      tglDariBpk : String(dataTindakLanjut.tglDariBpk),
-      tglKePpk   : String(dataTindakLanjut.tglKePpk),
-      idKpa      : String(dataTindakLanjut.idKpa),
-      idPpk      : String(dataTindakLanjut.idPpk),
-      status     : String(dataTindakLanjut.status),
-      idUser     : String(dataTindakLanjut.idUser),
-      catatan    : String(dataTindakLanjut.catatan),
+      dokumenTemuanId           : String(dataTindakLanjut.dokumenTemuanId),
+      ppkId                     : String(dataTindakLanjut.ppkId),
+      dokumenId                 : String(dataTindakLanjut.dokumenId),
+      tglTindakLanjut           : String(dataTindakLanjut.tglTindakLanjut),
+
+      _tipeDokumenId            : String(dataTindakLanjut._tipeDokumenId),
+      _noUraianTemuan           : String(dataTindakLanjut._noUraianTemuan),
+      _uraianTemuan             : String(dataTindakLanjut._uraianTemuan),
+      _rekomendasi              : String(dataTindakLanjut._rekomendasi),
+      _kodeRekomendasi          : String(dataTindakLanjut._kodeRekomendasi),
+      _kodeRingkasanTindakLanjut: String(dataTindakLanjut._kodeRingkasanTindakLanjut),
+      _ringkasanTindakLanjut    : String(dataTindakLanjut._ringkasanTindakLanjut),
+      _statusTindakLanjut       : String(dataTindakLanjut._statusTindakLanjut),
+      _tindakLanjut             : String(dataTindakLanjut._tindakLanjut),
+      _subNomorRekomendasi      : String(dataTindakLanjut._subNomorRekomendasi),
+      _nomorHeader              : String(dataTindakLanjut._nomorHeader),
+      _titleHeader              : String(dataTindakLanjut._titleHeader),
+      _satkerId                 : String(dataTindakLanjut._satkerId),
+      _ppkId                    : String(dataTindakLanjut._ppkId),
+      _dokumenTemuanId          : String(dataTindakLanjut._dokumenTemuanId),
+      _tindakLanjutId           : String(dataTindakLanjut._tindakLanjutId),
+      _responDokumenTemuanId    : String(dataTindakLanjut._responDokumenTemuanId),
+
+
     };
 
-
     var formData = new FormData();
-    Array.from(dataTindakLanjut.fileDokumen).forEach(f => formData.append('fileDokumen',f))
-    formData.append('noDokumen',modelTindakLanjut.noDokumen)
-    formData.append('namaDokumen',modelTindakLanjut.namaDokumen)
-    formData.append('tglDariBpk',modelTindakLanjut.tglDariBpk)
-    formData.append('tglKePpk',modelTindakLanjut.tglKePpk)
-    formData.append('idKpa',modelTindakLanjut.idKpa)
-    formData.append('idPpk',modelTindakLanjut.idPpk)
-    formData.append('status',modelTindakLanjut.status)
-    formData.append('idUser',modelTindakLanjut.idUser)
-    formData.append('catatan',modelTindakLanjut.catatan)
-    
+    Array.from(dataTindakLanjut.dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+    formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
+    formData.append('ppkId',modelTindakLanjut.ppkId)
+    formData.append('dokumenId',modelTindakLanjut.dokumenId)
+    formData.append('tglTindakLanjut',modelTindakLanjut.tglTindakLanjut)
+
+    formData.append('_tipeDokumenId',modelTindakLanjut._tipeDokumenId)
+    formData.append('_noUraianTemuan',modelTindakLanjut._noUraianTemuan)
+    formData.append('_uraianTemuan',modelTindakLanjut._uraianTemuan)
+    formData.append('_rekomendasi',modelTindakLanjut._rekomendasi)
+    formData.append('_kodeRingkasanTindakLanjut',modelTindakLanjut._kodeRingkasanTindakLanjut)
+    formData.append('_ringkasanTindakLanjut',modelTindakLanjut._ringkasanTindakLanjut)
+    formData.append('_subNomorRekomendasi',modelTindakLanjut._subNomorRekomendasi)
+    formData.append('_statusTindakLanjut',modelTindakLanjut._statusTindakLanjut)
+    formData.append('_dokumenTemuanId',modelTindakLanjut._dokumenTemuanId)
+    formData.append('_nomorHeader',modelTindakLanjut._nomorHeader)
+    formData.append('_titleHeader',modelTindakLanjut._titleHeader)
+    formData.append('_satkerId',modelTindakLanjut._satkerId)
+    formData.append('_ppkId',modelTindakLanjut._ppkId)
+    formData.append('_tindakLanjut',modelTindakLanjut._tindakLanjut)
+    formData.append('_tindakLanjutId',modelTindakLanjut._tindakLanjutId)
+    formData.append('_kodeRekomendasi',modelTindakLanjut._kodeRekomendasi)
+    formData.append('_responDokumenTemuanId',modelTindakLanjut._responDokumenTemuanId)
+
+
   
     console.log('createTindakLanjut | formData ====>',formData)
     return this.http.post(API_URL+'/tindaklanjut/add-data', formData, {reportProgress: true, observe: 'events'});
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   updateTindakLanjut(dataTindakLanjut:tindakLanjutStyle): Observable<any> {
     console.log("dataTindakLanjut | updateTindakLanjut ====>",dataTindakLanjut)
-
-    var modelTindakLanjut = {
-      // id         : String(dataTindakLanjut.id),
-      noDokumen  : String(dataTindakLanjut.noDokumen),
-      namaDokumen: String(dataTindakLanjut.namaDokumen),
-      tglDariBpk : String(dataTindakLanjut.tglDariBpk),
-      tglKePpk   : String(dataTindakLanjut.tglKePpk),
-      idKpa      : String(dataTindakLanjut.idKpa),
-      idPpk      : String(dataTindakLanjut.idPpk),
-      idUser     : String(dataTindakLanjut.idUser),
-      catatan    : String(dataTindakLanjut.catatan),
-      status     : String(dataTindakLanjut.status),
-    };
-
-
-    var formData = new FormData();
-    if(dataTindakLanjut.fileDokumen != null){
-      Array.from(dataTindakLanjut.fileDokumen).forEach(f => formData.append('fileDokumen',f))
-    }else{
-      formData.append('fileDokumen',null)
-    }
-    formData.append('noDokumen',modelTindakLanjut.noDokumen)
-    formData.append('namaDokumen',modelTindakLanjut.namaDokumen)
-    formData.append('tglDariBpk',modelTindakLanjut.tglDariBpk)
-    formData.append('tglKePpk',modelTindakLanjut.tglKePpk)
-    formData.append('idKpa',modelTindakLanjut.idKpa)
-    formData.append('idPpk',modelTindakLanjut.idPpk)
-    formData.append('status',modelTindakLanjut.status)
-    formData.append('idUser',modelTindakLanjut.idUser)
-    formData.append('catatan',modelTindakLanjut.catatan)
-
-    return this.http.post<any>(API_URL+'/tindaklanjut/edit-data/'+dataTindakLanjut.id, formData, {reportProgress: true, observe: 'events'});
+    return this.http.post<any>(API_URL+'/tindaklanjut/edit-data/', {reportProgress: true, observe: 'events'});
   }
 
   getTindakLanjut(): Observable<any> {

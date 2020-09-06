@@ -71,67 +71,84 @@
                 [showBorders]="true"
                 [allowColumnReordering]="true"
                 [columnAutoWidth]="true"
-
                 [allowColumnResizing]="true"
+
+                (onSelectionChanged)="selectionChanged($event)"
+                (onContentReady)="contentReady($event)"
+                [masterDetail]="{ enabled: false, template: 'detail' }"
+                [selectedRowKeys]="[]"
+
                 >    
 
                 <dxo-export [enabled]="true" fileName="Orders"></dxo-export>
                 <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>    
                 <dxo-load-panel [enabled]="true"> </dxo-load-panel>
-                <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
-                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+]                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+
+                <dxo-selection mode="multiple"></dxo-selection>
+
+
                 <dxo-search-panel [visible]="true"></dxo-search-panel>
                 <dxo-paging [pageSize]="5"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
                 
                 <dxi-column dataField="noLHA" caption="Nomor LHA" [allowSearch]="true"></dxi-column>
-				<dxi-column dataField="namaKegiatan" caption="Nama Kegiatan" [allowSearch]="true"></dxi-column>
-				<dxi-column dataField="unitKerjaEselon1" caption="Unit Kerja Eselon 1" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="namaKegiatan" caption="Nama Kegiatan" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="unitKerjaEselon1" caption="Unit Kerja Eselon 1" [allowSearch]="true"></dxi-column>
 				
                 <dxi-column dataField="status" caption="Status Tindak Lanjut" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
+                        <a href="#modal-delete-kpa" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                        <a (click)="onEditClick(cell);" uk-icon="icon: pencil"></a> &nbsp;
+                    </div> 
+                </div>
+
+
+                <div *dxTemplate="let tindakLanjut of 'detail'">
+                  <div class="master-detail-caption">{{ "Nomor LHA : " + tindakLanjut.data.noLHA}}</div>
+                  <dx-data-grid 
+                    [dataSource]="tindakLanjut.data.dataTindakLanjut"
+                    [showBorders]="true"
+                    [height]="150">
+                
+                    <dxi-column dataField="noUraianTemuan"  caption="No. Uraian" [width]="100"></dxi-column>
+                    <dxi-column dataField="namaSatker" caption="Satker"></dxi-column>
+                    <dxi-column dataField="namaPpk" caption="PPK"></dxi-column>
+                    <dxi-column dataField="statusTindakLanjut" caption="Status Tindak Lanjut"></dxi-column>
+
+                    <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
-                            <a href="#modal-delete-kpa" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                            <a href="#modal-delete-kpa" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: file-edit" ></a> &nbsp;
                             <a (click)="onEditClick(cell);" uk-icon="icon: pencil"></a> &nbsp;
                         </div> 
                     </div>
+
+
+                  </dx-data-grid> 
+
+                  <!-- <table border="1" style="width: 100%;">
+                    <tr>
+                      <th>Status Tindak Lanjut</th>
+                    </tr>
+
+                    <tr *ngFor="let dataTL of tindakLanjut.data.dataTindakLanjut">
+                      <td> {{dataTL.statusTindakLanjut}}</td>
+                    </tr>
+                  </table> -->
+
+
+                </div>
+
+
+
             </dx-data-grid>
           </div>
 
 
-          <div class="p-5 mt-5">
-            <dx-data-grid id="gridContainer"
-              [dataSource]="employees"
-              [masterDetail]="{ enabled: true, template: 'detail' }"
-              keyExpr="ID"
-              (onSelectionChanged)="selectionChanged($event)"
-              [showBorders]="true">
-              <dxo-selection mode="single"></dxo-selection>
-
-              <dxi-column dataField="Prefix" [width]="70" caption="Title"></dxi-column>
-              <dxi-column dataField="FirstName"></dxi-column>
-              <dxi-column dataField="LastName"></dxi-column>
-              <dxi-column dataField="Position" [width]="170"></dxi-column>
-              <dxi-column dataField="State" [width]="125"></dxi-column>
-              <dxi-column dataField="BirthDate" dataType="date"></dxi-column>
-
-              <div *dxTemplate="let employee of 'detail'">
-                  <div class="master-detail-caption">{{employee.data.FirstName + " " + employee.data.LastName + "'s Tasks:"}}</div>
-                  <dx-data-grid 
-                      [dataSource]="getTasks(employee.key)"
-                      [showBorders]="true"
-                      [columnAutoWidth]="true">
-                          <dxi-column dataField="Subject"></dxi-column>
-                          <dxi-column dataField="StartDate" dataType="date"></dxi-column>
-                          <dxi-column dataField="DueDate" dataType="date"></dxi-column>
-                          <dxi-column dataField="Priority"></dxi-column>
-                          <dxi-column  dataType="boolean" caption="Completed" [calculateCellValue]="completedValue"></dxi-column>
-                  </dx-data-grid>       
-              </div>
-          </dx-data-grid>
-          </div>
-          
+              
 
           
         </div>
@@ -153,7 +170,7 @@
         
 
         <div class="card">
-            <div class="card-body m-5" uk-scrollspy="target: > div; cls: uk-animation-fade; delay: 500"> 
+            <div class="card-body m-5"> 
 
 
                 <ol class="steps">
@@ -174,7 +191,7 @@
 
                   
 
-                <div [hidden]='isProgress != 1' uk-scrollspy-class="uk-animation-slide-right">
+                <div [hidden]='isProgress != 1'>
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-horizontal-select">Jenis Dokumen Temuan</label>
                         <div class="uk-form-controls">
@@ -274,7 +291,7 @@
                     
                 </div>
 
-                <div [hidden]='isProgress != 2' uk-scrollspy-class="uk-animation-slide-right">
+                <div [hidden]='isProgress != 2'>
                     <div class="kertasa4">
                         <div class="">
                             <p class="uk-text-center previewHeader mb-5"> {{modelDokumenTemuan.header}} </p>
@@ -333,11 +350,11 @@
                                 <tr *ngFor="let data of batchDokumen">
                                 
                                   <td class="uk-text-center uk-text-top">
-                                    {{data.noUraianTemuan}}
+                                   <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}}</span>
                                   </td>
                                   
                                   <td class="pr-2 pl-2 uk-text-top escapeHTML" >
-                                    <div [innerHTML]="data.uraianTemuan | keepHtml"></div>
+                                    <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
                                   </td> 
                                   
                                   <td class="uk-text-center uk-text-top" >
@@ -367,7 +384,6 @@
 
                                   <td class="uk-text-center uk-text-top">
                                     <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" (click)="onDeleteTemmuanClick(data)" ></a> <br>
-                                    <a uk-icon="icon: close" class="mt-2 mb-2"  uk-tooltip="Batal Edit" (click)="onBatalEditTemuanClick(data)" ></a> <br>
                                     <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
                                   </td>
               
@@ -396,7 +412,7 @@
                     </div>
                 </div>
 
-                <div [hidden]='isProgress != 3' uk-scrollspy-class="uk-animation-slide-right">
+                <div [hidden]='isProgress != 3'>
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-horizontal-text">Footer Dokumen</label>
                         <div class="uk-form-controls">
@@ -567,12 +583,12 @@
                     <tr *ngFor="let data of batchDokumen">
                                   
                         <td class="uk-text-center uk-text-top">
-                          {{data.noUraianTemuan}}
+                          <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}} </span>
                         </td>
                         
                         
                         <td class="pr-2 pl-2 uk-text-top escapeHTML">
-                          <div [innerHTML]="data.uraianTemuan | keepHtml"></div>
+                          <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
                         </td> 
                         
                         
@@ -691,37 +707,68 @@
         <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan" (click)="simpanForm()" type="button">SIMPAN</button>
       </p>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true"  [hidden]="!is_noUraianTemuan">
+      <div class="card"  [hidden]="!is_titleHeader">
         <div class="card-body">
-          <input class="uk-input uk-margin" type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+            </div>
         </div>
       </div>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_kodeRekomendasi">
+      <div class="card"  [hidden]="!is_nomorHeader">
         <div class="card-body">
-          <input class="uk-input uk-margin" type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
+            </div>
+        </div>
+      </div>
+
+
+      <div class="card"  [hidden]="!is_noUraianTemuan">
+        <div class="card-body">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+            </div>
+        </div>
+      </div>
+
+      <div class="card" [hidden]="!is_kodeRekomendasi">
+        <div class="card-body">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
+            </div>
         </div>
       </div>
     
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_subNomorRekomendasi">
+      <div class="card" [hidden]="!is_subNomorRekomendasi">
         <div class="card-body">
-          <input class="uk-input uk-margin" type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
+            </div>
         </div>
       </div>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_kodeRingkasanTindakLanjut">
+      <div class="card" [hidden]="!is_kodeRingkasanTindakLanjut">
         <div class="card-body">
-          <input class="uk-input uk-margin" type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                <input class="uk-input uk-margin" type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
+            </div>
         </div>
       </div>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_statusTindakLanjut">
+      <div class="card" [hidden]="!is_statusTindakLanjut">
         <div class="card-body">
           <div class="uk-margin" [hidden]="!is_statusTindakLanjut">
-            <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+            <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
             <div class="uk-form-controls">
               <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut">
-                <option value="Buka">Buka</option>
+                <option value="Tersedia">Buka</option>
                 <option value="Dalam Proses">Dalam Proses</option>
                 <option value="Selesai">Selesai</option>
               </select>
@@ -732,7 +779,7 @@
       </div>
 
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_uraianTemuan">
+      <div class="card" [hidden]="!is_uraianTemuan">
         <div class="card-body">
           <dx-html-editor height="550px" class="uk-margin"  [(value)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan">
               <dxo-toolbar [multiline]="isMultiline">
@@ -777,7 +824,7 @@
         </div>
       </div>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_rekomendasi">
+      <div class="card" [hidden]="!is_rekomendasi">
         <div class="card-body">
           <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(value)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi">
             <dxo-toolbar [multiline]="isMultiline">
@@ -822,7 +869,7 @@
         </div>
       </div>
 
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_tindakLanjut">
+      <div class="card" [hidden]="!is_tindakLanjut">
         <div class="card-body">
           <dx-html-editor height="550px" class="uk-margin"  [(value)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut">
             <dxo-toolbar [multiline]="isMultiline">
@@ -867,8 +914,7 @@
         </div>
       </div>
 
-
-      <div class="card" uk-scrollspy="cls: uk-animation-slide-left; repeat: true" [hidden]="!is_ringkasanTindakLanjut">
+      <div class="card" [hidden]="!is_ringkasanTindakLanjut">
         <div class="card-body">
           <dx-html-editor height="550px" class="uk-margin"  [(value)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut">
             <dxo-toolbar [multiline]="isMultiline">
@@ -913,8 +959,6 @@
         </div>
       </div>
 
-          
-    
       <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
         <div *ngIf="is_uraianTemuan">{{modelIsiDokumen.uraianTemuan}}</div>
         <div *ngIf="is_rekomendasi">{{modelIsiDokumen.rekomendasi}}</div>
@@ -943,80 +987,84 @@
 
 				<!-- ====================== INPUT AREA ===================== -->
 				<tr [hidden]=!showFormTemuan>
-					<td class="uk-text-center">
-					 <a uk-icon="icon: plus" uk-tooltip="Nomor Header" class="mt-2 mb-2"></a>
+					<td class="uk-text-center"> <!-- Nomor Header -->
+           <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.nomorHeader == ''" uk-tooltip="Nomor Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Tinjauan','nomorHeader')"></a>
+            <div *ngIf="modelIsiDokumen.nomorHeader != ''">
+              {{modelIsiDokumen.nomorHeader}} <br>
+              <a (click)="modalLightInput('Nomor Tinjauan','nomorHeader')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
-					<td colspan="6" class="pr-2 pl-2">
-					  <a uk-icon="icon: plus" uk-tooltip="Title Header" class="mt-2 mb-2"></a>
-					</td>
-					<td></td>
-				  </tr>
+					<td colspan="7" class="pr-2 pl-2"> <!-- Title Header -->
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.titleHeader == ''" uk-tooltip="Judul Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Judul Tinjauan','titleHeader')"></a>
+            <div *ngIf="modelIsiDokumen.titleHeader != ''">
+              {{modelIsiDokumen.titleHeader}} <br>
+              <a (click)="modalLightInput('Judul Tinjauan','titleHeader')" uk-icon="icon: pencil"></a>
+            </div>          
+          </td>
+          
+
+				</tr>
 
 
 				<tr>
-					<td class="uk-text-center uk-text-top">
-					<a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.noUraianTemuan == ''" uk-tooltip="Nomor Dokumen Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')"></a>
-					<div *ngIf="modelIsiDokumen.noUraianTemuan != ''">
-						{{modelIsiDokumen.noUraianTemuan}} <br>
-						<a (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')" uk-icon="icon: pencil"></a>
-					</div>
+					<td class="uk-text-center uk-text-top"> <!--Nomor Dokumen Temuan -->
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.noUraianTemuan == ''" uk-tooltip="Nomor Dokumen Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')"></a>
+            <div *ngIf="modelIsiDokumen.noUraianTemuan != ''">
+              {{modelIsiDokumen.noUraianTemuan}} <br>
+              <a (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
-					<td class="pr-2 pl-2 uk-text-top ">
-					<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.uraianTemuan == ''" uk-tooltip="Uraian Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Uraian Temuan','uraianTemuan')" ></a>
-					<div *ngIf="modelIsiDokumen.uraianTemuan != ''" class="escapeHTML">
-						<div [innerHTML]="modelIsiDokumen.uraianTemuan | keepHtml"></div> <br>
-						<a (click)="modalLightInput('Uraian Temuan','uraianTemuan')" uk-icon="icon: pencil"></a>
-					</div>
+					<td class="pr-2 pl-2 uk-text-top ">  <!-- Uraian Temuan -->
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.uraianTemuan == ''" uk-tooltip="Uraian Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Uraian Temuan','uraianTemuan')" ></a>
+            <div *ngIf="modelIsiDokumen.uraianTemuan != ''" class="escapeHTML">
+              <div [innerHTML]="modelIsiDokumen.uraianTemuan | keepHtml"></div> <br>
+              <a (click)="modalLightInput('Uraian Temuan','uraianTemuan')" uk-icon="icon: pencil"></a>
+            </div>
 					</td> 
 					
-					<td class="uk-text-center uk-text-top" >
-					<a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.kodeRekomendasi == ''" uk-tooltip="Kode Rekomendasi" class="mt-2 mb-2"  (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')"></a>
-					<div *ngIf="modelIsiDokumen.kodeRekomendasi != ''">
-						{{modelIsiDokumen.kodeRekomendasi}} <br>
-						<a (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')" uk-icon="icon: pencil"></a>
-					</div>
+					<td class="uk-text-center uk-text-top" > <!-- Kode Rekomendasi -->
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.kodeRekomendasi == ''" uk-tooltip="Kode Rekomendasi" class="mt-2 mb-2"  (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')"></a>
+            <div *ngIf="modelIsiDokumen.kodeRekomendasi != ''">
+              {{modelIsiDokumen.kodeRekomendasi}} <br>
+              <a (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
-					<td class="pr-2 pl-2 uk-text-top "> 
-					<div style="width: 150px;">
-						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.rekomendasi == ''" uk-tooltip="Rekomendasi" class="mt-2 mb-2" (click)="modalLightInput('Rekomendasi','rekomendasi')"></a>
-						<div *ngIf="modelIsiDokumen.rekomendasi != ''" class="escapeHTML">
-							<div [innerHTML]="modelIsiDokumen.rekomendasi | keepHtml"></div> <br>
-							<a (click)="modalLightInput('Rekomendasi','rekomendasi')" uk-icon="icon: pencil"></a>
-						</div>
-					</div>
+					<td class="pr-2 pl-2 uk-text-top "> <!-- Rekomendasi -->
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.rekomendasi == ''" uk-tooltip="Rekomendasi" class="mt-2 mb-2" (click)="modalLightInput('Rekomendasi','rekomendasi')"></a>
+            <div *ngIf="modelIsiDokumen.rekomendasi != ''" class="escapeHTML">
+              <div [innerHTML]="modelIsiDokumen.rekomendasi | keepHtml"></div> <br>
+              <a (click)="modalLightInput('Rekomendasi','rekomendasi')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
-					<td class="uk-text-center uk-text-top">
+					<td class="uk-text-center uk-text-top"> <!-- Kode Ringkasan Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut == ''" uk-tooltip="Kode Ringkasan Tindak Lanjut" class="mt-2 mb-2"  (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut != ''">
-						{{modelIsiDokumen.kodeRingkasanTindakLanjut}} <br>
-						<a (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')" uk-icon="icon: pencil"></a>
-					</div>
+              {{modelIsiDokumen.kodeRingkasanTindakLanjut}} <br>
+              <a (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 
-					
-
-					<td class=" pr-2 pl-2 uk-text-top">
+					<td class=" pr-2 pl-2 uk-text-top">  <!-- Ringkasan Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.ringkasanTindakLanjut == ''" uk-tooltip="Ringkasan Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Ringkasan Tindak Lanjut','ringkasanTindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.ringkasanTindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.ringkasanTindakLanjut | keepHtml"></div> <br>
 							<a (click)="modalLightInput('Ringkasan Tindak Lanjut','ringkasanTindakLanjut')" uk-icon="icon: pencil"></a>
 						</div>
-						</td>
+					</td>
 					
-					<td class="uk-text-center uk-text-top" >
-					<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
-					<div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
-						{{modelIsiDokumen.statusTindakLanjut}} <br>
-						<a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" uk-icon="icon: pencil"></a>
-					</div>
+					<td class="uk-text-center uk-text-top" > <!-- Status Tindak Lanjut -->
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" [hidden]="flagEdit == 0" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
+            <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
+              {{modelIsiDokumen.statusTindakLanjut}} <br>
+              <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" [hidden]="flagEdit == 0" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 
-					
-					<td class=" pr-2 pl-2 uk-text-top">
+					<td class=" pr-2 pl-2 uk-text-top"> <!-- Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
@@ -1038,7 +1086,7 @@
 
 			<p class="uk-text-right uk-margin-medium-top" >
 				<button class="uk-button uk-button-default uk-modal-close" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button> &nbsp;
-				<span *ngIf="showBtnSaveTemuan"><button class="uk-button uk-button-primary uk-modal-close" (click)="saveTemuan()" >Simpan Temuan</button></span>
+				<span *ngIf="showBtnSaveTemuan"><button class="uk-button uk-button-primary uk-modal-close" (click)="saveTemuan(flagEdit)" >Simpan Temuan</button></span>
 			</p>
 
 
@@ -1193,9 +1241,7 @@
 
 
     /* ==================================ESCAPE HTML ============================ */
-    .escapeHTML p br{
-      margin-top: -50px !important;
-    }
+    .escapeHTML p br{margin-top: -50px !important;}
     /* ==================================ESCAPE HTML ============================ */
 
 
