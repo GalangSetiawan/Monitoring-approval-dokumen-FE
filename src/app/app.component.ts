@@ -63,6 +63,7 @@ export class AppComponent implements OnInit{
 
     if(this.isSignedIn == true){
       this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
+      console.log('this.UserProfile ===>',this.UserProfile);
     }
 
     console.log('this.isSignedIn ===>',this.isSignedIn);
@@ -163,8 +164,8 @@ export class AppComponent implements OnInit{
     this.authService.signin(this.loginForm.value).subscribe(
       result => {
         console.log('balikan login ===>',result); 
-        var jsonUserProfileString = JSON.stringify(result.user);
         this.responseHandler(result);
+        var jsonUserProfileString = JSON.stringify(result.user);
         var user = localStorage.setItem("UserProfile", jsonUserProfileString);
         this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
         this.isResetForm = false;

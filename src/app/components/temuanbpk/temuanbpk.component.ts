@@ -126,6 +126,7 @@ export class TemuanbpkComponent implements OnInit {
 
     this.batchDokumen = [
       {
+        id                       : 999999, 
         flagId                   : 999999,
         tipeDokumenId            : 1,
         satkerId                 : 1,
@@ -143,7 +144,8 @@ export class TemuanbpkComponent implements OnInit {
         responDokumenTemuanId    : null,
         titleHeader              : 'Kelemahan Aspek Pendukung',
         nomorHeader              : 'A.2.',
-        ppkId                    : 1
+        ppkId                    : 1,
+        responTindakLanjut       : ''
       },
     ]
   }
@@ -173,6 +175,7 @@ export class TemuanbpkComponent implements OnInit {
 
 
   modelIsiDokumen = {
+    id                       : null, 
     flagId                   : null,
     statusTindakLanjut       : null,
     noUraianTemuan           : null,
@@ -190,6 +193,7 @@ export class TemuanbpkComponent implements OnInit {
     responDokumenTemuanId    : null,
     titleHeader              : null,
     nomorHeader              : null,
+    responTindakLanjut       : null,
   }
 
   closeAlldokumenForm(){
@@ -204,6 +208,7 @@ export class TemuanbpkComponent implements OnInit {
     this.is_ringkasanTindakLanjut     = false;   
     this.is_nomorHeader               = false;
     this.is_titleHeader               = false; 
+    this.is_responTindakLanjut        = false;
   }
 
   is_noUraianTemuan            = false;
@@ -217,6 +222,7 @@ export class TemuanbpkComponent implements OnInit {
   is_ringkasanTindakLanjut     = false;
   is_nomorHeader               = false;
   is_titleHeader               = false;
+  is_responTindakLanjut        = false;
   lightInputDokumenTitle       = "";
   tmpValue = "";
   tmpKey = ""
@@ -228,178 +234,65 @@ export class TemuanbpkComponent implements OnInit {
     this.isOpenEachFormTemuan = true;
     if(key == 'noUraianTemuan' ){
       this.tmpValue = this.modelIsiDokumen.noUraianTemuan;
-      this.is_noUraianTemuan            = true;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;   
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_noUraianTemuan = true;
     }else if(key == 'kodeRekomendasi'){
       this.tmpValue = this.modelIsiDokumen.kodeRekomendasi;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = true;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_kodeRekomendasi = true;
     }else if(key == 'subNomorRekomendasi'){
       this.tmpValue = this.modelIsiDokumen.subNomorRekomendasi;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = true;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_subNomorRekomendasi = true;
     }else if(key == 'kodeRingkasanTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.kodeRingkasanTindakLanjut;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
+      this.closeAlldokumenForm();
       this.is_kodeRingkasanTindakLanjut = true;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
     }else if(key == 'statusTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.statusTindakLanjut;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = true;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
-    }else if(key == 'uraianTemuan'){ //==============================================
+      this.closeAlldokumenForm();
+      this.is_statusTindakLanjut = true;
+    }else if(key == 'uraianTemuan'){ 
       this.tmpValue = this.modelIsiDokumen.uraianTemuan;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = true;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_uraianTemuan = true;
     }else if(key == 'rekomendasi'){
       this.tmpValue = this.modelIsiDokumen.rekomendasi;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = true;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_rekomendasi = true;
     }else if(key == 'tindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.tindakLanjut;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = true;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_tindakLanjut = true;
     }else if(key == 'ringkasanTindakLanjut'){
       this.tmpValue = this.modelIsiDokumen.ringkasanTindakLanjut;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = true;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_ringkasanTindakLanjut = true;
     }else if(key == 'nomorHeader'){
       this.tmpValue = this.modelIsiDokumen.nomorHeader;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = true;
-      this.is_titleHeader               = false; 
+      this.closeAlldokumenForm();
+      this.is_nomorHeader = true;
     }else if(key == 'titleHeader'){
       this.tmpValue = this.modelIsiDokumen.titleHeader;
-      this.is_noUraianTemuan            = false;
-      this.is_kodeRekomendasi           = false;
-      this.is_subNomorRekomendasi       = false;
-      this.is_kodeRingkasanTindakLanjut = false;
-      this.is_statusTindakLanjut        = false;
-      this.is_uraianTemuan              = false;
-      this.is_rekomendasi               = false;
-      this.is_tindakLanjut              = false;
-      this.is_ringkasanTindakLanjut     = false;
-      this.is_nomorHeader               = false;
-      this.is_titleHeader               = true; 
+      this.closeAlldokumenForm();
+      this.is_titleHeader = true;
+    }else if(key == 'responTindakLanjut'){
+      this.tmpValue = this.modelIsiDokumen.responTindakLanjut;
+      this.closeAlldokumenForm();
+      this.is_responTindakLanjut = true;
     }
   }
 
   simpanForm(){
     this.isOpenEachFormTemuan = false;
     console.log('simpanForm ====>')
-    this.is_noUraianTemuan            = false;
-    this.is_kodeRekomendasi           = false;
-    this.is_subNomorRekomendasi       = false;
-    this.is_kodeRingkasanTindakLanjut = false;
-    this.is_statusTindakLanjut        = false;
-    this.is_uraianTemuan              = false;
-    this.is_rekomendasi               = false;
-    this.is_tindakLanjut              = false;
-    this.is_ringkasanTindakLanjut     = false;
+    this.closeAlldokumenForm();
   }
   
 
   onCancelFormIsiDokumen(key){
     this.isOpenEachFormTemuan = false;
-
-    this.is_noUraianTemuan            = false;
-    this.is_kodeRekomendasi           = false;
-    this.is_subNomorRekomendasi       = false;
-    this.is_kodeRingkasanTindakLanjut = false;
-    this.is_statusTindakLanjut        = false;
-    this.is_uraianTemuan              = false;
-    this.is_rekomendasi               = false;
-    this.is_tindakLanjut              = false;
-    this.is_ringkasanTindakLanjut     = false;
-
+    this.closeAlldokumenForm();
 
     console.log('onCancelFormIsiDokumen | before ===>',this.tmpValue);
     this.modelIsiDokumen[this.tmpKey] = this.tmpValue
@@ -431,7 +324,8 @@ export class TemuanbpkComponent implements OnInit {
 
   clearModel_isiDokumen(){
     this.modelIsiDokumen = {
-      flagId                   : null,    
+      flagId                   : null,   
+      id                       : null, 
       statusTindakLanjut       : "Tersedia",
       noUraianTemuan           : "",
       kodeRekomendasi          : "",
@@ -448,6 +342,7 @@ export class TemuanbpkComponent implements OnInit {
       responDokumenTemuanId    : null,
       titleHeader              : "",
       nomorHeader              : "",
+      responTindakLanjut       : "",
     }
   }
 
@@ -507,16 +402,41 @@ export class TemuanbpkComponent implements OnInit {
     this.showBtnSaveTemuan = false;
     this.showBtnCancelTemuan = false;
 
+
+    
+
     console.log('batalTemuan | modelIsiDokumen, id ===>',this.modelIsiDokumen,this.modelIsiDokumen.flagId);
     console.log('batalTemuan | batchDokumen ===>',this.batchDokumen);
     console.log('tmpEditDdokumen | batchDokumen ===>',this.tmpEditDdokumen);
 
-    var findID = _.findIndex(this.batchDokumen, {"flagId":this.modelIsiDokumen.flagId})
-    console.log('find ID ===>',findID)
+    // var findID = _.findIndex(this.batchDokumen, {"flagId":this.modelIsiDokumen.flagId})
+    // console.log('find ID ===>',findID)
     
-    this.batchDokumen.push(this.tmpEditDdokumen);
+    // this.batchDokumen.push(this.tmpEditDdokumen);
+
+    for(var i in this.batchDokumen){
+      if(this.isResponseTL || this.batchDokumen[i].id != null){
+        if(this.batchDokumen[i].id == this.modelIsiDokumen.id){
+          console.log('batalTemuan | replaced successfully')
+          this.batchDokumen[i] = this.tmpEditDdokumen
+        }else{
+          console.log('batalTemuan | replace fail')
+        }
+      }else{
+        if(this.batchDokumen[i].flagId == this.modelIsiDokumen.flagId){
+          console.log('batalTemuan | replaced successfully')
+          this.batchDokumen[i] = this.tmpEditDdokumen
+        }else{
+          console.log('batalTemuan | replace fail')
+        }
+      }
+    }
   
 
+  }
+
+  downloadDokumenTindakLanjut(data){
+    console.log('downloadDokumenTindakLanjut ===>',data)
   }
 
 
@@ -650,6 +570,7 @@ export class TemuanbpkComponent implements OnInit {
     if(this.windowMode == 'create'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>');
       $('.uk-breadcrumb #edit').remove();
+      this.isResponseTL = false;
       this.isiHardcode();
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
@@ -770,19 +691,30 @@ export class TemuanbpkComponent implements OnInit {
     this.showBtnTambahTemuan = false;
     this.showBtnSaveTemuan = true;
     this.showBtnCancelTemuan = true;
+
+    this.closeAlldokumenForm();
     
     this.showFormTemuan = true;
     this.modelIsiDokumen = data;
     this.tmpEditDdokumen = data;
     console.log('onEditTemuanClick | modelIsiDokumen ====>',this.modelIsiDokumen);
+  }
 
+
+  onEditTindakLanjutGridClick(row){
+    console.log('onEditTindakLanjutGridClick ===>',row);
+    this.windowModeView('edit');
+    this.isResponseTL = true;
+    this.isiHardcode();
 
   }
 
 
   ModelDokumenTemuan = {};
-  onEditClick(row){
+  isResponseTL = false;
+  onEditTemuanGridClick(row){
     console.log('btnEdit ===>',row);
+    this.isResponseTL = false;
     this.windowModeView('edit');
     
 
@@ -1031,10 +963,10 @@ export class TemuanbpkComponent implements OnInit {
       e.component.selectRowsByIndexes(0);
   }
   selectionChanged(e) {
-    console.log('selectionChanged ===>',e.selectedRowsData[0])
+    console.log('selectionChanged selectedRowsData ===>',e.selectedRowsData[0])
+    console.log('selectionChanged event ===>',e)
       e.component.collapseAll(-1);
       e.component.expandRow(e.currentSelectedRowKeys[0]);
-      e.selectedRowsData[0].dataTindakLanjut = [];
       this.dokumenService.getDetailDokumenTemuanGridView(e.selectedRowsData[0].id).subscribe(
         data => {
           console.log('selectionChanged Detail success ===>',data);  

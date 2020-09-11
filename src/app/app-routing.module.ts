@@ -24,10 +24,11 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
 
 
 
+
   const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: SigninComponent },
-    { path: 'register', component: SignupComponent },
+    { path: 'register', component: SignupComponent }, 
     { path: 'profile', component: UserProfileComponent },
     { path: 'sidebar', component: SidebarComponent },
     { path: 'masterkpa', component: MasterkpaComponent },
@@ -41,7 +42,6 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
     { path: 'temuaninspektorat', component: TemuaninspektoratComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'tindaklanjutv2', component: Tidaklanjutv2Component },
-    
   ];
 
 @NgModule({

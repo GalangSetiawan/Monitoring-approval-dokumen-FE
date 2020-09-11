@@ -171,7 +171,7 @@
      
 
 
-      <div class="col content-panel">
+      <div class="col content-panel" style="padding: 5px !important;">
 
         <!-- =============================== HEADER ================================= -->
         <div class="row col-sm-12">
@@ -315,9 +315,9 @@
                                 <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg"  width="40" alt="">
                             </div>
                             <div class="uk-width-expand">
-                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">{{UserProfile.nama}}</a></h4>
+                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">Galang Setiawan</a></h4>
                                 <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                    <li><a style="text-transform:capitalize;">{{UserProfile.roleName}}</a></li>
+                                    <li><a style="text-transform:capitalize;">Admin</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -524,7 +524,7 @@
                 <div class="uk-background-cover uk-background-blend-screen uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(assets/img/user_group.png);">
                     <div class="bgProfile">
                         <div class="uk-padding ">
-                  
+                
 
 
                             <article class="uk-comment uk-visible-toggle mt-4 mb-4" tabindex="-1">
@@ -546,7 +546,7 @@
                                         <span>{{UserProfile.idCabang}}</span>
                                     </h4>
                                 </div>
-                               
+                            
                             </article>
 
 
@@ -555,7 +555,7 @@
                 </div>
             </div>
 
-  
+
             
             <p class="uk-text-right mt-4">
                 <button class="uk-button uk-button-default" (click)="toggleResetPassword()" type="button">Ganti Password</button> &nbsp;
@@ -572,7 +572,7 @@
                 <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Batak</button> &nbsp;
                 <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">Keluar </button>
             </p>
-          </div>
+        </div>
         <!-- ==================== Logout Confirmation ====================== -->
 
 
@@ -595,10 +595,10 @@
                         </div>
             
                     </div>
-                  </div>
-                                                                                   
+                </div>
+                                                                                
             
-                  <div class="uk-margin">
+                <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Password</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" type="password"  [(ngModel)]="modelReset.newPassword" placeholder="Masukan Password Baru..." >
@@ -606,10 +606,10 @@
                             <div>Password minimal 6 karakter</div>
                         </div>
                     </div>
-                  </div>
+                </div>
             
             
-                  <div class="uk-margin">
+                <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" type="password" [(ngModel)]="modelReset.newPasswordConfirmation" placeholder="Konfirmasi Password Baru..." >
@@ -621,8 +621,8 @@
                             <div>Konfirmasi Password valid</div>
                         </div>
                     </div>
-                  </div>
-          
+                </div>
+        
     
     
             <p class="uk-text-right">
@@ -637,9 +637,9 @@
 
         
     </div>
-  </div>
-  <!-- ========User Modal======= -->
-  
+</div>
+<!-- ========User Modal======= -->
+    
 
 
 
