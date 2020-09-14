@@ -1,4 +1,4 @@
-<section [hidden]="windowMode != 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode != 'grid'">
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataPPK()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
@@ -26,9 +26,9 @@
                         <div class="uk-form-controls">
                             <select class="uk-select" [(ngModel)]="filterData.satkerId">
                                 <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
-                                <option [ngValue]="1">Dummy Satker Filter 100</option>
+                                <!-- <option [ngValue]="1">Dummy Satker Filter 100</option>
                                 <option [ngValue]="2">Dummy Satker Filter 200</option>
-                                <option [ngValue]="3">Dummy Satker Filter 300</option>
+                                <option [ngValue]="3">Dummy Satker Filter 300</option> -->
                             </select>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
 
 </section >
 
-<section [hidden]="windowMode == 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode == 'grid'">
 
     <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">

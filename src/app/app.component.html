@@ -1,3 +1,5 @@
+<!-- ======================== CONTENT PAGE ========================== -->
+
 <div class="wrapper"  *ngIf="isSignedIn">
   <!-- Sidebar  -->
 
@@ -89,39 +91,38 @@
   <!-- Page Content  -->
   <div class="row" id="content">
 
+    
       <div class="second-sidebar pr-4 pl-4 col-sm-2" id="second-sidebar">
       
 
         <div style="overflow:scroll">
-            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav id="listMenu">
 
                 <li class="uk-nav-header bgRound bgBlue uk-text-center">Monitoring Approval Document</li>
                 <li class="uk-nav-divider mt-3"></li>
                 
-                <li><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
-                <li class="uk-parent">
+                <li class="listMenu" (click)="selectMenu()" id="dashboard"><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+                <li class="listMenu" id="dokumenTemuan" class="uk-parent" *ngIf="UserProfile.roleId == 50">
                     <a href="#"><span class="uk-margin-small-right" uk-icon="icon: album"></span>Dokumen Temuan</a>
                     <ul class="uk-nav-sub">
-                        <li class="mb-1" style="font-size: 1.1em !important;"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
-                        <li style="font-size: 1.1em !important;"><a [routerLink]="['/temuaninspektorat']">Temuan Inspektorat</a></li>
+                        <li class="mb-1" style="font-size: 1.1em !important;"  (click)="selectMenu()"><a [routerLink]="['/temuanbpk']">Temuan BPK</a></li>
+                        <li style="font-size: 1.1em !important;" (click)="selectMenu()"><a [routerLink]="['/temuaninspektorat']" >Temuan Inspektorat</a></li>
                     </ul>
                 </li>
-                <li><a [routerLink]="['/tindaklanjutv2']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut v2</a></li>
-                <li><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li>
-                <li><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li>
-                <li><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li>
-                <li><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
-                <li><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li>
-                <li><a [routerLink]="['/blog']" ><span class="uk-margin-small-right" uk-icon="icon: copy" ></span> Berita</a></li>
-                <li><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
-                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: users" ></span> Master User</a></li>
-                <li><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li>
-                <li><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li>
-                <li><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Register</a></li>
-                <li><a (click)="signOut()" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Log Out</a></li>
+                <li class="listMenu" (click)="selectMenu()" id="tindaklanjutv2"><a [routerLink]="['/tindaklanjutv2']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut </a></li>
+                <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
+                <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right" uk-icon="icon: push"></span> Approval Document</a></li> -->
+                <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
+                <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master PPK</a></li>
+                <!-- <li class="listMenu" (click)="selectMenu()" id="cabang"><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Master Cabang</a></li> -->
+                <li class="listMenu" (click)="selectMenu()" id="blog"><a [routerLink]="['/blog']" ><span class="uk-margin-small-right" uk-icon="icon: copy" ></span> Berita</a></li>
+                <li class="listMenu" (click)="selectMenu()" id="satker" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/satker']" ><span class="uk-margin-small-right" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
+                <li class="listMenu" (click)="selectMenu()" id="register" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/register']" ><span class="uk-margin-small-right" uk-icon="icon: users" ></span> Master User</a></li>
+                <!-- <li class="listMenu" (click)="selectMenu()" id="login"><a [routerLink]="['/login']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Login</a></li> -->
+                <!-- <li class="listMenu" (click)="selectMenu()" id="profile"><a [routerLink]="['/profile']" ><span class="uk-margin-small-right" uk-icon="icon: nut" ></span> Profile</a></li> -->
     
                 
-                <li class="uk-nav-divider"></li>
+                <!-- <li class="uk-nav-divider"></li>
                 <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
     
                 <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
@@ -131,6 +132,7 @@
                 <li class="uk-parent">
                     <a href="#"><span class="uk-margin-small-right" uk-icon="icon: nut"></span>Parent</a>
                     <ul class="uk-nav-sub">
+
                         <li><a href="#">Sub item</a></li>
                         <li><a href="#">Sub item</a></li>
                     </ul>
@@ -141,11 +143,11 @@
                         <li><a href="#">Sub item</a></li>
                         <li><a href="#">Sub item</a></li>
                     </ul>
-                </li>
+                </li> -->
                 
             </ul>
     
-            <div class="bgRound bgBlue">
+            <!-- <div class="bgRound bgBlue">
                 Dashboard
             </div>
     
@@ -159,7 +161,7 @@
     
             <div class="bgRound bgYellow" (click)="zoomIn()">
                 Zoom Out  &nbsp;  <span class="" type="span" uk-icon="icon: shrink"></span>
-            </div>
+            </div> -->
         </div>
 
           
@@ -177,7 +179,7 @@
         <div class="row col-sm-12">
             <div class="col-sm-5" id="header1">
                 <ul class="uk-breadcrumb">
-                    <li><a class="uk-text-primary">Home</a></li>
+                    <li><div uk-spinner id="spinner" class="mr-4"></div> <a [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
                     <li id="breadCrumbTitle" class="uk-disabled"><a>Dashboard</a></li>
                     <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
                     
@@ -315,9 +317,9 @@
                                 <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg"  width="40" alt="">
                             </div>
                             <div class="uk-width-expand">
-                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">Galang Setiawan</a></h4>
+                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">{{UserProfile.nama}}</a></h4>
                                 <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                    <li><a style="text-transform:capitalize;">Admin</a></li>
+                                    <li><a style="text-transform:capitalize;">{{UserProfile.roleName}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -335,84 +337,33 @@
 
   </div>
 </div>
+<!-- ======================== CONTENT PAGE ========================== -->
 
 
 
-
-<!-- ==================== LOGIN PAGE ====================== -->
-<!-- <div class="container" *ngIf="!isSignedIn">
-  <div class="auth-wrapper">
-        <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <h3 class="h3 mb-3 font-weight-normal text-center">Sign in</h3>
-        
-            <div *ngIf="errors?.username" class="alert alert-danger mt-3">
-                {{ errors?.username }}
-            </div>
-            <div *ngIf="errors?.password" class="alert alert-danger mt-3">
-                {{ errors?.password }}
-            </div>
-            <div *ngIf="errors?.error" class="alert alert-danger mt-3">
-                {{ errors?.error }}
-            </div>
-
-            <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
-                Berhasil melakukan perubahan Password
-            </div>
-            
-        
-            <div class="form-group">
-                <label>Username</label>
-                <input type="username" class="form-control" formControlName="username">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" formControlName="password">
-            </div>
-            <button type="submit" class="btn btn-block btn-primary">Log in</button>
-        </form>
-    </div>1
-</div> -->
-<!-- ==================== LOGIN PAGE ====================== -->
 
 
 <!-- ======================== LOGIN PAGE ========================== -->
-<div class="row" *ngIf="!isSignedIn">
+<div class="row" *ngIf="!isSignedIn" style="height: 100vh;">
 
     <div class="col-md-9" style="padding-left: 0; padding-right: 0;">
 
         <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: push">
 
-            <ul class="uk-slideshow-items"  uk-height-viewport="min-height: 300">
-                <li>
-                    <img src="https://images.unsplash.com/photo-1547487398-b4a5e642575a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1233&q=80" alt="" uk-cover>
-                    <div class="uk-position-center">
-                       
-                        <div class="jumbotron">
-                            <h1 class="display-4">Hello, world!</h1>
-                            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                            <hr class="my-4">
-                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                          </div>
+            <ul class="uk-slideshow-items"  uk-height-viewport="min-height: 300" >
 
-                    </div>
-                </li>
-                <li>
-                    <img img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-text-center">
-                        <h1 uk-slideshow-parallax="x: 100,-100">Heading 1</h1>
-                        <h1 class="uk-heading-medium">Medium</h1>
+                <li *ngFor="let berita of ListBerita">
+                
 
-                        <p uk-slideshow-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+                    <div class="uk-inline">
+                        <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
+                        <div class="uk-overlay uk-light uk-position-bottom">
+                            <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
                     </div>
+
                 </li>
-                <li>
-                    <img src="https://images.unsplash.com/photo-1547487398-b4a5e642575a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1233&q=80" alt="" uk-cover>
-                    <div class="uk-position-center uk-position-small uk-text-center">
-                        <h1 uk-slideshow-parallax="y: -50,0,0; opacity: 1,1,0">Headin 23g</h1>
-                        <p uk-slideshow-parallax="y: 50,0,0; opacity: 1,1,0">Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </li>
+                
             </ul>
         
             <a class="uk-position-center-left uk-position-small uk-hidden-hover" uk-slidenav-previous uk-slideshow-item="previous"></a>
@@ -481,7 +432,7 @@
         </div>
 
 
-        <div class="uk-position-small uk-position-bottom-center "><span>All right reserved @ 2020></span>KLHK - Monitoring Approval Documensasast</div>
+        <div class="uk-position-small uk-position-bottom-center "><span>All right reserved | Copyright @ 2020 </span> <br> KLHK - Monitoring Approval Document</div>
 
 
         
@@ -527,7 +478,7 @@
                 
 
 
-                            <article class="uk-comment uk-visible-toggle mt-4 mb-4" tabindex="-1">
+                            <article class="uk-comment uk-visible-toggle mt-4 mb-4" tabindex="-1" *ngIf="UserProfile!=null">
                                 <header class="uk-comment-header uk-position-relative">
                                     <div class="uk-grid-medium uk-flex-middle" uk-grid>
                                         <div class="uk-width-auto">
@@ -540,13 +491,13 @@
                                     </div>
                                 </header>
                                 <div class="uk-comment-body">
-                                    <h4 class="uk-text-emphasis">
-                                        <span>{{UserProfile.email}}</span> &nbsp; | &nbsp;
-                                        <span>{{UserProfile.jabatan}}</span>  &nbsp; | &nbsp;
-                                        <span>{{UserProfile.idCabang}}</span>
-                                    </h4>
+                                    <table style="width:100%;" >
+                                        <tr><td>Nama</td><th>{{UserProfile.nama}}</th></tr>
+                                        <tr><td>Email</td><th>{{UserProfile.email}}</th></tr>
+                                        <tr><td>Satker</td><th>{{UserProfile.namaSatker}}</th></tr>
+                                        <tr *ngIf="UserProfile.roleId != 50"><td>PPK</td><th>{{UserProfile.namaPpk}}</th></tr>
+                                    </table>
                                 </div>
-                            
                             </article>
 
 
@@ -569,7 +520,7 @@
             <h2 class="uk-modal-title" >Keluar Aplikasi</h2>
             <p>Anda yakin ingin keluar aplikasi?</p>
             <p class="uk-text-right">
-                <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Batak</button> &nbsp;
+                <button class="uk-button uk-button-default" uk-toggle="profileModal"  (click)="toggleLogout()" type="button">Batal</button> &nbsp;
                 <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">Keluar </button>
             </p>
         </div>

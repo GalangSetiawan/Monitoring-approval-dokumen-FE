@@ -1,4 +1,4 @@
-<section [hidden]="windowMode != 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode != 'grid'">
   <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
       <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
       <a (click)="getDataUser()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
@@ -109,7 +109,7 @@
 </section >
     
 
-<section [hidden]="windowMode == 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode == 'grid'">
   <form class="uk-form-horizontal uk-margin-large"  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
 
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
@@ -239,7 +239,7 @@
                 <div>Email sudah terdaftar</div>
               </div>
 
-              <div *ngIf="isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
+              <div *ngIf="isValidEmail && (modelRegister.email != '' || modelRegister.email != null)" class="uk-text-success uk-text-italic">
                 <div>Email dapat digunakan</div>
               </div>
           </div>

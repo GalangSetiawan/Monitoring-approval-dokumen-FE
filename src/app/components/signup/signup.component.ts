@@ -68,7 +68,38 @@ export class SignupComponent implements OnInit {
     this.getDataUser();
     this.getDataSatker();
     $('#breadCrumbTitle a').text(this.titleHeader);
+    this.selectActiveMenu('register')
+  }
 
+  selectActiveMenu(opened){
+    $('#listMenu ul .listMenu').removeClass('uk-active');
+    if(opened == 'dashboard'){
+      $('#listMenu #dashboard').addClass('uk-active');
+    }else if(opened == 'dokumenTemuan'){
+      $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'tindaklanjutv2'){
+      $('#listMenu #tindaklanjutv2').addClass('uk-active');
+    }else if(opened == 'tindaklanjut'){
+      $('#listMenu #tindaklanjut').addClass('uk-active');
+    }else if(opened == 'approvaldoc'){
+      $('#listMenu #approvaldoc').addClass('uk-active');
+    }else if(opened == 'masterkpa'){
+      $('#listMenu #masterkpa').addClass('uk-active');
+    }else if(opened == 'masterppk'){
+      $('#listMenu #masterppk').addClass('uk-active');
+    }else if(opened == 'cabang'){
+      $('#listMenu #cabang').addClass('uk-active');
+    }else if(opened == 'satker'){
+      $('#listMenu #satker').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }else if(opened == 'login'){
+      $('#listMenu #login').addClass('uk-active');
+    }else if(opened == 'profile'){
+      $('#listMenu #profile').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }
   }
 
   public comparisonValidator() : ValidatorFn{
@@ -126,7 +157,7 @@ export class SignupComponent implements OnInit {
     this.windowMode = mode;
     if(this.windowMode == 'create'){
       this.registerForm.reset();
-      $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>')
+      $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
       this.registerForm.enable();
@@ -138,7 +169,7 @@ export class SignupComponent implements OnInit {
       this.submitted = false;
 
     }else if (this.windowMode == 'view'){
-      $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>View</a></li>')
+      $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>Lihat</a></li>')
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #edit').remove();
       this.registerForm.disable();
@@ -308,7 +339,7 @@ export class SignupComponent implements OnInit {
   selectedForDelete = {};
   modalDelete(row){
     console.log('modalDelete ===>',row.data);
-    this.deleteDataUser = row.data.namaPpk;
+    this.deleteDataUser = row.data.nama;
     this.selectedForDelete = row.data;
   }
 
@@ -339,12 +370,13 @@ export class SignupComponent implements OnInit {
         var roleName = "Super Admin"
         break;
       case 40:
-        var roleName = "KPA"
+        var roleName = "Satker"
         break;
     }
     return roleName;
   }
 
+  
 
 
   onSubmit() {

@@ -13,6 +13,13 @@ html, body {
     height: 100vh;
 }
 
+.imageCover{
+    width: 100%;
+    background-image: url("/assets/img/wallpaper.jpeg");
+    height: 100vh;
+    background-size:contain;
+
+}
   
 p {
     font-family: 'Poppins', sans-serif;

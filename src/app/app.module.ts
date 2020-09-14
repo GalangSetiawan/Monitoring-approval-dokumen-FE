@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 
 import { EscapeHtmlPipe } from './shared/keep-html.pipe';
+import { ChartsModule } from 'ng2-charts';
+
 
 
 import { DxButtonModule } from 'devextreme-angular';
@@ -71,6 +73,7 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
     FormsModule,
 
     AppRoutingModule,
+    ChartsModule,
 
 
     DxButtonModule,

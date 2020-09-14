@@ -40,6 +40,30 @@ export class DokumenserviceService {
     return this.http.get(API_URL+'/dokumentemuan/get-detail-data/'+id);
   }
 
+
+  
+  getDetailTindaKlanjutByID(id){
+    return this.http.get(API_URL+'/dokumentemuan/get-detail-tindaklanjut/'+id);
+  }
+
+  saveResponTindakLanjut(data){
+    return this.http.post(API_URL+'/tindaklanjut/add-data-respon/'+data.tindakLanjutId, data);
+  }
+
+
+  
+  downloadDocumentTindakLanjut(fileName): Observable<any>{
+    return this.http.get(API_URL+'/tindaklanjut/search/'+fileName, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept"      : "*/*",
+        },
+        responseType: "blob"
+      } 
+    );
+  }
+
   
 
 

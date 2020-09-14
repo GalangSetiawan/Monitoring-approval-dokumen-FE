@@ -15,6 +15,7 @@ import * as $ from 'jquery'
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas'
 import 'jspdf-autotable';
+import * as html2pdf from 'html2pdf.js'
 
 
 import notify from 'devextreme/ui/notify';
@@ -47,21 +48,61 @@ export class TemuanbpkComponent implements OnInit {
     this.getDataSatker();
     this.getDataDokumenTemuan();
     $('#breadCrumbTitle a').text('Dokumen Temuan BPK');
+    this.selectActiveMenu('dokumenTemuan')
+    $('#spinner').hide();
+  }
+
+  selectActiveMenu(opened){
+    this.removeActiveMenu();
+    if(opened == 'dashboard'){
+      $('#listMenu #dashboard').addClass('uk-active');
+    }else if(opened == 'blog'){
+      $('#listMenu #blog').addClass('uk-active');
+    }else if(opened == 'dokumenTemuan'){
+      $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'tindaklanjutv2'){
+      $('#listMenu #tindaklanjutv2').addClass('uk-active');
+    }else if(opened == 'tindaklanjut'){
+      $('#listMenu #tindaklanjut').addClass('uk-active');
+    }else if(opened == 'approvaldoc'){
+      $('#listMenu #approvaldoc').addClass('uk-active');
+    }else if(opened == 'masterkpa'){
+      $('#listMenu #masterkpa').addClass('uk-active');
+    }else if(opened == 'masterppk'){
+      $('#listMenu #masterppk').addClass('uk-active');
+    }else if(opened == 'cabang'){
+      $('#listMenu #cabang').addClass('uk-active');
+    }else if(opened == 'satker'){
+      $('#listMenu #satker').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }else if(opened == 'login'){
+      $('#listMenu #login').addClass('uk-active');
+    }else if(opened == 'profile'){
+      $('#listMenu #profile').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }
   }
 
 
-  head = [['ID', 'Country', 'Rank', 'Capital']]
+  removeActiveMenu(){
+    $('#listMenu #dashboard').removeClass('uk-active');
+    $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #tindaklanjutv2').removeClass('uk-active');
+    $('#listMenu #tindaklanjut').removeClass('uk-active');
+    $('#listMenu #approvaldoc').removeClass('uk-active');
+    $('#listMenu #masterppk').removeClass('uk-active');
+    $('#listMenu #cabang').removeClass('uk-active');
+    $('#listMenu #blog').removeClass('uk-active');
+    $('#listMenu #satker').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
+    $('#listMenu #login').removeClass('uk-active');
+    $('#listMenu #profile').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
+  }
 
-  data = [
-    [1, 'Finland', 7.632, 'Helsinki'],
-    [2, 'Norway', 7.594, 'Oslo'],
-    [3, 'Denmark', 7.555, 'Copenhagen'],
-    [4, 'Iceland', 7.495, 'Reykjavík'],
-    [5, 'Switzerland', 7.487, 'Bern'],
-    [9, 'Sweden', 7.314, 'Stockholm'],
-    [73, 'Belarus', 5.483, 'Minsk'],
-  ]
-
+  
   
 
   bulan = ["kwkw","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -120,11 +161,11 @@ export class TemuanbpkComponent implements OnInit {
       displayTglTerimaDokumenTemuan: '31',
       noLHA                        : 'LHA. 26/Itjen-Ins.3/Rhs/2016',
       tglLHA                       : '2021-01-31',
-      footer                       : '<style>br{margin-top: -50px !important;}</style>'+'<p>Jakarta, September 2017 <br> Kepala Bagian Keuangan dan Umum</p><p></p><p><br></p><p><strong><u>S u w a r t i, S H</u></strong> <br>NIP 19671014 199303 2 001</p>',
+      footer                       : '<p>Ini Footer</p>',
       header                       : 'MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN',
     }
 
-    this.batchDokumen = [
+    this.batchDokumen.push(
       {
         id                       : 999999, 
         flagId                   : 999999,
@@ -146,8 +187,9 @@ export class TemuanbpkComponent implements OnInit {
         nomorHeader              : 'A.2.',
         ppkId                    : 1,
         responTindakLanjut       : ''
-      },
-    ]
+      }
+    )
+    
   }
 
 
@@ -395,9 +437,6 @@ export class TemuanbpkComponent implements OnInit {
 
   batalTemuan(){
     this.showFormTemuan = false;
-
-    this.clearModel_isiDokumen()
-
     this.showBtnTambahTemuan = true;
     this.showBtnSaveTemuan = false;
     this.showBtnCancelTemuan = false;
@@ -435,8 +474,33 @@ export class TemuanbpkComponent implements OnInit {
 
   }
 
-  downloadDokumenTindakLanjut(data){
-    console.log('downloadDokumenTindakLanjut ===>',data)
+  downloadDokumenTindakLanjut(documentName){
+    console.log('downloadDokumenTindakLanjut ===>',documentName);
+    this.dokumenService.downloadDocumentTindakLanjut(documentName).subscribe(
+      (result:any) => {
+        console.log('download dokumen sukses',result);
+
+        const a = document.createElement('a')
+        const objectUrl = URL.createObjectURL(result)
+        a.href = objectUrl
+        a.download = 'archive.jpg';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+
+
+
+      },
+      // error =>{
+      //   this.isLoading = false;
+      //   console.log('download dokumen Gagal',error)
+      //   if(error.result !== undefined){
+      //     notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }else{
+      //     notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
+      //   }
+      // }
+    );
+
   }
 
 
@@ -481,7 +545,6 @@ export class TemuanbpkComponent implements OnInit {
   editorValue: string;
   editorValueFooter: string;  
   popupVisible: boolean;
-  header = "MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN";
 
   toolbarButtonOptions :any = {
       text: 'Show markup',
@@ -516,15 +579,23 @@ export class TemuanbpkComponent implements OnInit {
   }
 
   onHalfDateChange(date){
+
     console.log('onHalfDateChange | date ===>',date)
     var dateString = date.split('-');
     var bulanIdx = parseInt(dateString[1])
     this.modelDokumenTemuan.displayKeadaanSdBulan = this.bulan[bulanIdx] + ' ' + dateString[0];
-    this.modelDokumenTemuan.forSavekeadaanSdBulan = date;
-    var result = this.bulan[bulanIdx] + ' ' + dateString[0];
 
-    console.log('onHalfDateChange | result ===>',result)
-    return result;
+
+    if(this.windowMode == 'create'){
+      this.modelDokumenTemuan.forSavekeadaanSdBulan = date+'-01';
+      this.modelDokumenTemuan.keadaanSdBulan = date;
+    }else{
+      this.modelDokumenTemuan.forSavekeadaanSdBulan = date
+      this.modelDokumenTemuan.keadaanSdBulan = dateString[0]+"-"+dateString[1];
+    }
+
+    return this.modelDokumenTemuan.keadaanSdBulan;
+
   }
 
   fullDateToHalfDate(date){
@@ -532,6 +603,11 @@ export class TemuanbpkComponent implements OnInit {
     var splitDate = date.split('-');
     var result = splitDate[0]+'-'+splitDate[1];
     console.log('fullDateToHalfDate | result ===>',result)
+  }
+
+  btnTambahTemuan(){
+    this.modelIsiDokumen.satkerId = "";
+    this.modelIsiDokumen.ppkId = ""
   }
 
 
@@ -550,6 +626,33 @@ export class TemuanbpkComponent implements OnInit {
       this.showBtnSimpan = false;
       $('#step1').addClass('is-complete');
       $('#step2').addClass('is-active');
+
+      this.batchDokumen.push(
+        {
+          id                       : 999999, 
+          flagId                   : 999999,
+          tipeDokumenId            : 1,
+          satkerId                 : 1,
+          statusTindakLanjut       : "Open",
+          noUraianTemuan           : '1',
+          kodeRekomendasi          : '3.03.07',
+          subNomorRekomendasi      : 'B.',
+          kodeRingkasanTindakLanjut: '06',
+          uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
+          rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
+          ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
+          tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
+          dokumenTemuanId          : null,
+          tindakLanjutId           : null,
+          responDokumenTemuanId    : null,
+          titleHeader              : 'Kelemahan Aspek Pendukung',
+          nomorHeader              : 'A.2.',
+          ppkId                    : 1,
+          responTindakLanjut       : ''
+        }
+      )
+
+
     }else if(step == 3){
       if(this.batchDokumen.length > 0){
         this.showBtnSimpan = true;
@@ -568,10 +671,13 @@ export class TemuanbpkComponent implements OnInit {
     this.windowMode = mode;
 
     if(this.windowMode == 'create'){
-      $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Create</a></li>');
+      $('.uk-breadcrumb').append('<li class="uk-disabled" id="Buat"><a>Create</a></li>');
       $('.uk-breadcrumb #edit').remove();
       this.isResponseTL = false;
+      // this.clearModel_DokumenTemuan();
+      // this.clearModel_isiDokumen();
       this.isiHardcode();
+      this.batchDokumen.splice(0);
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
       $('.uk-breadcrumb #create').remove();
@@ -701,11 +807,34 @@ export class TemuanbpkComponent implements OnInit {
   }
 
 
+  modelTindakLanjut = {id:null};
   onEditTindakLanjutGridClick(row){
     console.log('onEditTindakLanjutGridClick ===>',row);
     this.windowModeView('edit');
     this.isResponseTL = true;
-    this.isiHardcode();
+
+    this.dokumenService.getDetailTindaKlanjutByID(row.data.id).subscribe(
+      (data:any)=>{
+        console.log('onEditTindakLanjutGridClick | getDetailTindaKlanjutByID Success',data);
+
+        this.modelTindakLanjut = data.result.resultTindakLanjut[0];
+        this.modelDokumenTemuan = data.result;
+        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+        this.batchDokumen.splice(0);
+        data.result.resultDokumen[0].responTindakLanjut = ''
+        data.result.resultDokumen[0].dokumenTindakLanjut = data.result.resultTindakLanjut[0].dokumenTindakLanjut;
+        this.batchDokumen.push(data.result.resultDokumen[0])
+        console.log('onEditTindakLanjutGridClick | this.modelTindakLanjut',this.modelTindakLanjut);
+
+      },
+      error =>{
+        console.log('onEditTindakLanjutGridClick | getDetailTindaKlanjutByID Error',error)
+        this.isiHardcode();
+
+      }
+    )
+
+
 
   }
 
@@ -809,11 +938,66 @@ export class TemuanbpkComponent implements OnInit {
   }
 
 
+  getTodayString(){
+    var originalDate = new Date();
+    var day = ("0" + originalDate.getDate()).slice(-2);
+    var month = ("0" + (originalDate.getMonth() + 1)).slice(-2);
+    var year = originalDate.getFullYear();
+    var result = year+'-'+month+'-'+day;
+    console.log('getTodayString | result ===>',result);
+    return result
+  }
+
+
+  optionsHtml2Pdf = {
+    filename:'HTML2PDF.pdf',
+    image:{type:"jpeg"},
+    html2canvas:{},
+    jsPDF:{orientation:'landscape'}
+
+  }
+  downloadHtml2Pdf(){
+
+    var element = document.getElementById('kertasa4-forPrint');
+
+    html2pdf()
+    .from(element)
+    .set(this.optionsHtml2Pdf)
+    .save()
+  }
+
+
+
+  doSaveResponTL(){
+    console.log('doSaveResponTL | this.modelTindakLanjut',this.modelTindakLanjut);
+
+    var modelResponTL = {
+      tindakLanjutId        : this.modelTindakLanjut.id,
+      tglResponDokumenTemuan: this.getTodayString(),
+      responTindakLanjut    : this.batchDokumen[0].responTindakLanjut,
+      dokumenId             : this.batchDokumen[0].id,
+      isRevisi       : this.batchDokumen[0].statusTindakLanjut == "Dalam Proses"? 1 : 0
+    }
+
+
+    console.log('doSaveResponTL | modelResponTL ===>',modelResponTL);
+
+    this.dokumenService.saveResponTindakLanjut(modelResponTL).subscribe(
+      data =>{
+        console.log('doSaveResponTL | saveResponTindakLanjut Success ===>',data);
+        this.windowModeView('grid');
+      },
+      error =>{
+        console.log('doSaveResponTL | saveResponTindakLanjut error ===>',error);
+      }
+    )
+
+
+  }
+
+
   onSubmit(){
-
-
-
-    console.log('onSubmit | ModelDokumenTemuan',this.ModelDokumenTemuan);
+    console.log('onSubmit | ModelDokumenTemuan',this.modelDokumenTemuan);
     this.modelDokumenTemuan.keadaanSdBulan = this.modelDokumenTemuan.forSavekeadaanSdBulan;
 
 
@@ -821,8 +1005,9 @@ export class TemuanbpkComponent implements OnInit {
       (data:any)=>{
         console.log('createDokumenTemuan Success ===>',data.result);
         var tmpDokTemuan = data.result;
+        this.windowModeView('grid');
 
-
+ 
         for(var i in this.batchDokumen){
           this.batchDokumen[i].dokumenTemuanId = tmpDokTemuan.id;
           if(this.batchDokumen[i].dokumenTemuanId != null){
@@ -879,9 +1064,39 @@ export class TemuanbpkComponent implements OnInit {
   }
 
 
+  head = [['No.', 'Uraian Temuan', 'Kode', 'Rekomendasi', 'Kode', 'Ringkasan Tindak Lanjut', 'Status Tindak Lanjut', 'Tindak lanjut']]
 
+  data = [
+    [1, 'Finland', 7.632, 'Helsinki'],
+    [2, 'Norway', 7.594, 'Oslo'],
+    [3, 'Denmark', 7.555, 'Copenhagen'],
+    [4, 'Iceland', 7.495, 'Reykjavík'],
+    [5, 'Switzerland', 7.487, 'Bern'],
+    [9, 'Sweden', 7.314, 'Stockholm'],
+    [73, 'Belarus', 5.483, 'Minsk'],
+  ]
+
+  header = "MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN";
+
+  dataPrint = [];
+  
   createPdf() {
     var doc = new jsPDF('l', 'pt', [841.89, 595.28]);
+
+
+    for(var i in this.batchDokumen){
+      this.dataPrint.push(
+        [
+          this.batchDokumen[i].noUraianTemuan,
+          this.batchDokumen[i].kodeRekomendasi,
+          this.batchDokumen[i].rekomendasi,
+          this.batchDokumen[i].kodeRingkasanTindakLanjut,
+          this.batchDokumen[i].ringkasanTindakLanjut,
+          this.batchDokumen[i].statusTindakLanjut,
+          this.batchDokumen[i].tindaklanjut
+        ]
+      )
+    }
 
     doc.setFontSize(14);
     doc.text(this.header, 11, 8);
@@ -891,7 +1106,7 @@ export class TemuanbpkComponent implements OnInit {
 
     (doc as any).autoTable({
       head: this.head,
-      body: this.data,
+      body: this.dataPrint,
       theme: 'plain',
       didDrawCell: data => {
         console.log(data.column.index)
@@ -973,6 +1188,7 @@ export class TemuanbpkComponent implements OnInit {
           // for(var i in data.result.resultDokumen){
           //   data.result.resultDokumen[i].DisplayUraianTemuan = this.removeTags(data.result.resultDokumen[i].uraianTemuan);
           // }
+          console.log('is array ? ',Array.isArray(data.result.resultDokumen))
           e.selectedRowsData[0].dataTindakLanjut = data.result.resultDokumen;
         },
         error => {

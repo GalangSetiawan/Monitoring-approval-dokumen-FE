@@ -1,6 +1,6 @@
 
 
-<section [hidden]="windowMode != 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode != 'grid'" >
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataDokumenTemuan()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
@@ -85,7 +85,7 @@
                 <dxo-load-panel [enabled]="true"> </dxo-load-panel>
                 <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
 
-                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-selection mode="single"></dxo-selection>
 
 
                 <dxo-search-panel [visible]="true"></dxo-search-panel>
@@ -117,6 +117,7 @@
                     <dxi-column dataField="noUraianTemuan"  caption="No. Uraian" [width]="100"></dxi-column>
                     <dxi-column dataField="namaSatker" caption="Satker"></dxi-column>
                     <dxi-column dataField="namaPpk" caption="PPK"></dxi-column>
+                    <dxi-column dataField="nomorDraft" [width]="100" alignment="center" caption="No. Draft"></dxi-column>
                     <dxi-column dataField="statusTindakLanjut" caption="Status Tindak Lanjut"></dxi-column>
 
                     <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
@@ -158,14 +159,14 @@
 
 </section >
 
-<section [hidden]="windowMode == 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode == 'grid'">
 
     <!-- <form class="uk-form-horizontal uk-margin-large" [formGroup]="dokumenTemuanForm" (ngSubmit)="doSave(dokumenTemuanForm.value)"> -->
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
           &nbsp; <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> 
           &nbsp; <input type="submit" value="SIMPAN" *ngIf="windowMode=='create' && showBtnSimpan" (click)="onSubmit()" class="uk-button uk-button-primary">
-          &nbsp; <input type="submit" value="TAMBAH TEMUAN" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2)"  class="uk-button uk-button-primary"> 
-          &nbsp; <input type="submit" value="PERBARUI" *ngIf="windowMode=='edit'" (click)="doEditGeneral()" class="uk-button uk-button-primary">
+          &nbsp; <input type="submit" value="TAMBAH TEMUAN" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary"> 
+          &nbsp; <input type="submit" value="PERBARUI responTindakLanjut" *ngIf="windowMode=='edit' && isResponseTL" (click)="doSaveResponTL()" class="uk-button uk-button-primary">
         </div>  
 
         
@@ -392,7 +393,7 @@
                                   <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL" style="background-color: yellow">
                                     <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
                                     <hr>
-                                    <a (click)="downloadDokumenTindakLanjut(data)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
+                                    <a (click)="downloadDokumenTindakLanjut(data.dokumenTindakLanjut);" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
                                   </td>
 
                                   <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL">
@@ -459,7 +460,6 @@
                     </div>
                     
                     <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" href="#previewDokumen" uk-toggle (click)="previewDokumen()" style="color:white">Preview Dokumen</a>
-                    <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" (click)="downloadDokumen()" style="color:white">Download Dokumen</a>
                 </div>            
             </div>
         </div>
@@ -668,6 +668,7 @@
         </div>
 
         <button (click)="createPdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Create PDF</button>
+        <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML2PDF Download</button>
 
         <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" (click)="downloadDokumen()" style="color:white">Download Dokumen</a>
 
@@ -1145,7 +1146,7 @@
               
               <span *ngIf="isResponseTL">
                 <hr>
-                <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
+                <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
               </span>
 
 						</div>

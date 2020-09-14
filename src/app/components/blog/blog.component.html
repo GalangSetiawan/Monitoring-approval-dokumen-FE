@@ -1,1 +1,240 @@
-<p>blog works!</p>
+<section [hidden]="windowMode != 'grid'">
+    <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+        <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
+        <a (click)="getDataBerita()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
+        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >Create &nbsp;</a>
+    </div> 
+    
+    
+    
+    
+    <div class="card mb-4" id="toggle-usage" >
+        <div class="card-body">
+            <div>
+                <div  class="uk-margin-small row" >
+    
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Nama PPK</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" type="text" [(ngModel)]="filterData.namaPpk" placeholder="Nama PPK...">
+                        </div>
+                    </div>
+    
+                   
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
+                        <div class="uk-form-controls">
+                            <select class="uk-select" [(ngModel)]="filterData.satkerId">
+                                <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                                <option [ngValue]="1">Dummy Satker Filter 100</option>
+                                <option [ngValue]="2">Dummy Satker Filter 200</option>
+                                <option [ngValue]="3">Dummy Satker Filter 300</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6"></div>
+    
+                    <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
+                        <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
+                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
+                    </div> 
+    
+                    
+    
+    
+                </div>
+    
+                 
+               
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+    <div >
+        <div class="card mt-5">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Berita</h4>
+            <p class="card-category">New employees on 15th September, 2016</p>
+          </div>
+
+
+          <div class="p-5">
+            <dx-data-grid 
+                id="gridContainer"
+                [dataSource]="ListBerita"
+                [showBorders]="true"
+                [allowColumnReordering]="true"
+                [columnAutoWidth]="true"
+                [allowColumnResizing]="true"
+                >    
+
+                <dxo-export [enabled]="true" fileName="Orders"></dxo-export>
+                <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>    
+                <dxo-load-panel [enabled]="true"> </dxo-load-panel>
+                <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
+                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
+                
+                <dxi-column dataField="title" caption="Judul Berita" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="isActive" caption="Status" alignment="center" [width]="100" cellTemplate="activeSwitch"></dxi-column>
+
+
+                <div *dxTemplate="let row of 'activeSwitch'">
+                    <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle" >
+
+                        <i class="fa fa-toggle-on text-primary" style="font-size: 20px;" aria-hidden="true" *ngIf="row.data.isActive == 1" (click)="activeSwitch(row)"></i>
+                        <i class="fa fa-toggle-off text-secondary" style="font-size: 20px;"  aria-hidden="true"  *ngIf="row.data.isActive == 0" (click)="activeSwitch(row)"></i>
+
+
+
+                    </div> 
+                </div>
+
+
+
+                <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
+                        <a href="#modal-delete-ppk" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                        <a (click)="onEditClick(cell);" uk-icon="icon: pencil" class="text-primary"></a> &nbsp;
+                    </div> 
+                </div>
+
+
+
+            </dx-data-grid>
+          </div>
+          
+
+          
+        </div>
+      </div>
+
+
+</section >
+
+<section [hidden]="windowMode == 'grid'">
+
+    <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
+        <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
+            <input type="submit" [disabled]="!form.valid" value="Save" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
+            <input type="submit" [disabled]="!form.valid" value="Update" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
+        </div>  
+
+        
+
+        <div class="card">
+            <div class="card-body m-5"> 
+                
+
+
+               
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Latar Belakang</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..." formControlName="bgImage"  [ngClass]="{ 'uk-form-danger': submitted && f.bgImage.errors }">
+                        <div *ngIf="submitted && f.bgImage.errors" class="uk-text-danger uk-text-italic">
+                          <div *ngIf="f.bgImage.errors.required">Judul berita wajib diisi</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Judul Berita</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="title" [(ngModel)]="beritaForm.title" [ngClass]="{ 'uk-form-danger': submitted && f.title.errors }">
+                        <div *ngIf="submitted && f.title.errors" class="uk-text-danger uk-text-italic">
+                            <div *ngIf="f.title.errors.required">Judul berita wajib diisi</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="col-md-6">
+                    <dx-html-editor height="550px" class="uk-margin"  [(value)]="beritaForm.body" formControlName="body">
+                        <dxo-toolbar [multiline]="isMultiline">
+                        <dxi-item formatName="undo"></dxi-item>
+                        <dxi-item formatName="redo"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                        <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="bold"></dxi-item>
+                        <dxi-item formatName="italic"></dxi-item>
+                        <dxi-item formatName="strike"></dxi-item>
+                        <dxi-item formatName="underline"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="alignLeft"></dxi-item>
+                        <dxi-item formatName="alignCenter"></dxi-item>
+                        <dxi-item formatName="alignRight"></dxi-item>
+                        <dxi-item formatName="alignJustify"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="orderedList"></dxi-item>
+                        <dxi-item formatName="bulletList"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="color"></dxi-item>
+                        <dxi-item formatName="background"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="link"></dxi-item>
+                        <dxi-item formatName="image"></dxi-item>
+                        <dxi-item formatName="separator"></dxi-item>
+                        <dxi-item formatName="clear"></dxi-item>
+                        <dxi-item formatName="codeBlock"></dxi-item>
+                        <dxi-item formatName="blockquote"></dxi-item>
+                        <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+                
+                        </dxo-toolbar>
+                        <dxo-media-resizing
+                        [enabled]=true>
+                        </dxo-media-resizing>
+                    
+                    </dx-html-editor>
+                    <div *ngIf="submitted && f.body.errors" class="uk-text-danger uk-text-italic">
+                        <div *ngIf="f.body.errors.required">Judul berita wajib diisi</div>
+                    </div>
+    
+                    <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+                        <div>{{beritaForm.body}}</div>
+                    </dx-popup>
+                </div>
+                
+
+                <div class="col-md-6">
+                    <img src='{{ "assets/images/" + beritaForm.bgImage  }}'>
+
+                </div>
+               
+            </div>
+        </div>
+    </form>
+
+
+
+</section>
+
+
+
+<!-- modal-delete-ppk -->
+<div id="modal-delete-ppk" class="uk-flex-top" uk-modal>    
+    <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body">
+        <h2 class="uk-modal-title">Hapus data?</h2>
+        <p>Apakah anda yakin ingin menghapus data  <span style="font-weight: bold;">{{deleteDataPpk}}</span> </p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button" id="btnHapus">Batal</button> &nbsp;
+            <button class="uk-button uk-button-primary" (click)="doDelete()" type="button">Hapus</button>
+        </p>
+    </div>
+</div>
+<!-- modal-delete-ppk -->

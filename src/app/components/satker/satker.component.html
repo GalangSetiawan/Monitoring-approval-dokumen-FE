@@ -1,4 +1,4 @@
-<section [hidden]="windowMode != 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode != 'grid'">
 
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
@@ -95,7 +95,7 @@
 
 </section >
 
-<section [hidden]="windowMode == 'grid'" uk-scrollspy="cls: uk-animation-slide-right; repeat: false">
+<section [hidden]="windowMode == 'grid'">
 
     <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
