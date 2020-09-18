@@ -573,7 +573,7 @@
                 </table>
 
 
-                <table style="width:100%" class="mt-3" border="1">
+                <table style="width:100%" class="mt-3" border="1" >
                     <tr class="uk-text-center">
                       <td style="width:80px">No</td>
                       <td style="width:300px">Uraian Temuan</td>
@@ -667,10 +667,10 @@
             </div>
         </div>
 
-        <button (click)="createPdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Create PDF</button>
-        <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML2PDF Download</button>
+        <button (click)="createPDFAutoTable()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF AUTOTABLE</button>
+        <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML 2 PDF Download</button>
 
-        <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" (click)="downloadDokumen()" style="color:white">Download Dokumen</a>
+        <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" (click)="downloadDokumenHTML2CANVAS()" style="color:white">HTML 2 CANVAS</a>
 
 
 
@@ -1231,7 +1231,7 @@
         padding-right: 15px;
         padding-left: 15px;
         /* border:1px solid black; */
-        width: 855px;
+        width: 1100px;
         min-height: 595.28px;
         margin: auto;
     }

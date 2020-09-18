@@ -505,7 +505,7 @@ export class TemuanbpkComponent implements OnInit {
 
 
 
-  downloadDokumen(){
+  downloadDokumenHTML2CANVAS(){
     // console.log('downloadDokumen ===>')
 
     var HTML_Width = $("#kertasa4-forPrint").width();
@@ -951,9 +951,11 @@ export class TemuanbpkComponent implements OnInit {
 
   optionsHtml2Pdf = {
     filename:'HTML2PDF.pdf',
-    image:{type:"jpeg"},
-    html2canvas:{},
-    jsPDF:{orientation:'landscape'}
+    jsPDF:{orientation:'landscape'},
+
+    margin: [10,2],
+    image:        { type: 'png' },
+    html2canvas:  { scale: 4 },
 
   }
   downloadHtml2Pdf(){
@@ -1080,7 +1082,7 @@ export class TemuanbpkComponent implements OnInit {
 
   dataPrint = [];
   
-  createPdf() {
+  createPDFAutoTable() {
     var doc = new jsPDF('l', 'pt', [841.89, 595.28]);
 
 
@@ -1090,7 +1092,7 @@ export class TemuanbpkComponent implements OnInit {
           this.batchDokumen[i].noUraianTemuan,
           this.batchDokumen[i].kodeRekomendasi,
           this.batchDokumen[i].rekomendasi,
-          this.batchDokumen[i].kodeRingkasanTindakLanjut,
+          '<div> [innerHTML]="'+this.batchDokumen[i].kodeRingkasanTindakLanjut+'" | keepHtml</div>',
           this.batchDokumen[i].ringkasanTindakLanjut,
           this.batchDokumen[i].statusTindakLanjut,
           this.batchDokumen[i].tindaklanjut
