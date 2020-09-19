@@ -280,10 +280,24 @@ export class BlogComponent implements OnInit {
       // this.form.patchValue({bgImage:this.beritaForm.bgImage, imageName:this.beritaForm.imageName})
       this.newsService.createNews(this.beritaForm).subscribe(
         data => {
-          console.log('create success | createNews ===>',data.result)
+          console.log('create success | createNews ===>',data)
+         
+          var result = data;
+          // this.getDataBerita();
+
+          this.newsService.getNewsbyId(result).subscribe(
+            (data:any)=>{
+              console.log('doEditGeneral | getDataGridById  success ===>',data)
+  
+              this.ListBerita.push(data.result);
+  
+            },error =>{
+              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+            }
+          )
+
           notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
           this.windowModeView('grid');
-          this.getDataBerita();
 
         },
         error => {

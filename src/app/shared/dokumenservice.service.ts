@@ -95,6 +95,14 @@ export class DokumenserviceService {
 
 
     // =========== DOKUMEN TINDAK LANJUT =============
+
+
+    getDataGridById(id){
+      return this.http.get(API_URL+'/tindaklanjut/get-data-grid/'+id);
+    }
+
+
+
     createTindakLanjut(dataTindakLanjut): Observable<any> {
       return this.http.post(API_URL+'/tindaklanjut/add-data', dataTindakLanjut);
     }

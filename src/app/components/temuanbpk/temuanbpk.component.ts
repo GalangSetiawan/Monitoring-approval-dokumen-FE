@@ -627,30 +627,30 @@ export class TemuanbpkComponent implements OnInit {
       $('#step1').addClass('is-complete');
       $('#step2').addClass('is-active');
 
-      this.batchDokumen.push(
-        {
-          id                       : 999999, 
-          flagId                   : 999999,
-          tipeDokumenId            : 1,
-          satkerId                 : 1,
-          statusTindakLanjut       : "Open",
-          noUraianTemuan           : '1',
-          kodeRekomendasi          : '3.03.07',
-          subNomorRekomendasi      : 'B.',
-          kodeRingkasanTindakLanjut: '06',
-          uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
-          rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
-          ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
-          tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
-          dokumenTemuanId          : null,
-          tindakLanjutId           : null,
-          responDokumenTemuanId    : null,
-          titleHeader              : 'Kelemahan Aspek Pendukung',
-          nomorHeader              : 'A.2.',
-          ppkId                    : 1,
-          responTindakLanjut       : ''
-        }
-      )
+      // this.batchDokumen.push(
+      //   {
+      //     id                       : 999999, 
+      //     flagId                   : 999999,
+      //     tipeDokumenId            : 1,
+      //     satkerId                 : 1,
+      //     statusTindakLanjut       : "Open",
+      //     noUraianTemuan           : '1',
+      //     kodeRekomendasi          : '3.03.07',
+      //     subNomorRekomendasi      : 'B.',
+      //     kodeRingkasanTindakLanjut: '06',
+      //     uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
+      //     rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
+      //     ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
+      //     tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
+      //     dokumenTemuanId          : null,
+      //     tindakLanjutId           : null,
+      //     responDokumenTemuanId    : null,
+      //     titleHeader              : 'Kelemahan Aspek Pendukung',
+      //     nomorHeader              : 'A.2.',
+      //     ppkId                    : 1,
+      //     responTindakLanjut       : ''
+      //   }
+      // )
 
 
     }else if(step == 3){
@@ -676,7 +676,7 @@ export class TemuanbpkComponent implements OnInit {
       this.isResponseTL = false;
       // this.clearModel_DokumenTemuan();
       // this.clearModel_isiDokumen();
-      this.isiHardcode();
+      // this.isiHardcode();
       this.batchDokumen.splice(0);
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
@@ -817,13 +817,11 @@ export class TemuanbpkComponent implements OnInit {
       (data:any)=>{
         console.log('onEditTindakLanjutGridClick | getDetailTindaKlanjutByID Success',data);
 
-        this.modelTindakLanjut = data.result.resultTindakLanjut[0];
         this.modelDokumenTemuan = data.result;
         this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
         this.batchDokumen.splice(0);
-        data.result.resultDokumen[0].responTindakLanjut = ''
-        data.result.resultDokumen[0].dokumenTindakLanjut = data.result.resultTindakLanjut[0].dokumenTindakLanjut;
-        this.batchDokumen.push(data.result.resultDokumen[0])
+        data.result.resultDokumen.responTindakLanjut = ''
+        this.batchDokumen.push(data.result.resultDokumen)
         console.log('onEditTindakLanjutGridClick | this.modelTindakLanjut',this.modelTindakLanjut);
 
       },
@@ -973,18 +971,15 @@ export class TemuanbpkComponent implements OnInit {
   doSaveResponTL(){
     console.log('doSaveResponTL | this.modelTindakLanjut',this.modelTindakLanjut);
 
-    var modelResponTL = {
-      tindakLanjutId        : this.modelTindakLanjut.id,
-      tglResponDokumenTemuan: this.getTodayString(),
-      responTindakLanjut    : this.batchDokumen[0].responTindakLanjut,
-      dokumenId             : this.batchDokumen[0].id,
-      isRevisi       : this.batchDokumen[0].statusTindakLanjut == "Dalam Proses"? 1 : 0
-    }
+    var modelResponTL = this.batchDokumen[0];
+    modelResponTL.tglResponTindakLanjut= this.getTodayString();
+    modelResponTL.responTindakLanjut   = this.batchDokumen[0].responTindakLanjut;
+    modelResponTL.isRevisi             = this.batchDokumen[0].statusTindakLanjut == "Dalam Proses"? 1: 0;
+    console.log('doSaveResponTL | modelResponTL',modelResponTL);
 
 
-    console.log('doSaveResponTL | modelResponTL ===>',modelResponTL);
 
-    this.dokumenService.saveResponTindakLanjut(modelResponTL).subscribe(
+    this.dokumenService.createResponTindakLanjut(modelResponTL).subscribe(
       data =>{
         console.log('doSaveResponTL | saveResponTindakLanjut Success ===>',data);
         this.windowModeView('grid');

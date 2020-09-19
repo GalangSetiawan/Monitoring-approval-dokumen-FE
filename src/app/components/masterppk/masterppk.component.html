@@ -80,12 +80,12 @@
                 <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
                 <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
                 <dxo-search-panel [visible]="true"></dxo-search-panel>
-                <dxo-paging [pageSize]="5"></dxo-paging>
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
                 
                 <dxi-column dataField="namaPpk" caption="PPK" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
-                <dxi-column dataField="alamat" caption="Alamat" [allowSearch]="true"></dxi-column>
+                <!-- <dxi-column dataField="alamat" caption="Alamat" [allowSearch]="true"></dxi-column> -->
                 <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">

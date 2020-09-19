@@ -801,11 +801,17 @@ export class Tidaklanjutv2Component implements OnInit {
 
 
 
-
+  isUpdateMenungguRespon = false;
   ModelDokumenTemuan = {};
   onEditGridClick(row){
     console.log('btnEdit ===>',row);
     this.windowModeView('edit');
+    
+    if(row.data.keterangan == 'Menunggu Respon'){
+      this.isUpdateMenungguRespon = true;
+    }else{
+      this.isUpdateMenungguRespon = false;
+    }
     
 
     this.tindakLanjutService.getDetailTindakLanjut(row.data.id,row.data.dokumenTemuanId).subscribe(
@@ -870,96 +876,6 @@ export class Tidaklanjutv2Component implements OnInit {
   }
 
 
-  doSave(data){
-
-    if(this.windowMode == 'edit'){
-      data = this.ModelDokumenTemuan;
-    }
-
-    if(data.id == null){
-      console.log('doSave | data ===>',data);
-      this.dokumenService.createDokumenTemuan(this.dokumenTemuanForm.value).subscribe(
-        data => {
-          console.log('create success | createDokumenTemuan ===>',data)
-          notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
-          this.ListDokumenTemuan.push(data.result)
-          this.windowModeView('grid');
-
-          
-
-        },
-        error => {
-          console.log('create error   | createDokumenTemuan ===>',error);
-          notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        }
-      )
-    }else{
-      console.log('do update Data ===>',data)
-      this.dokumenService.updateDokumenTemuan(data).subscribe(
-        result => {
-          console.log('update success | updateDokumenTemuan ===>',result)
-          notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
-          this.windowModeView('grid');
-          console.log('ListDokumenTemuan ===>',this.ListDokumenTemuan);
-
-        },
-        error => {
-          console.log('update error   | updateDokumenTemuan ===>',error);
-          notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        }
-      )
-    }
-    
-    
-  }
-
-
-  onSubmit(){
-
-
-
-    console.log('onSubmit | ModelDokumenTemuan',this.ModelDokumenTemuan);
-    this.modelDokumenTemuan.keadaanSdBulan = this.modelDokumenTemuan.forSavekeadaanSdBulan;
-
-
-    this.dokumenService.createDokumenTemuan(this.modelDokumenTemuan).subscribe(
-      (data:any)=>{
-        console.log('createDokumenTemuan Success ===>',data.result);
-        var tmpDokTemuan = data.result;
-        this.windowModeView('grid');
-
-
-        for(var i in this.batchDokumen){
-          this.batchDokumen[i].dokumenTemuanId = tmpDokTemuan.id;
-          if(this.batchDokumen[i].dokumenTemuanId != null){
-            this.batchDokumen[i].tipeDokumenId = 1;
-
-          }
-        }
-
-
-        console.log('onSubmit | createDokumen | batchDokumen ====>',this.batchDokumen)
-        this.dokumenService.createDokumen(this.batchDokumen).subscribe(
-          (data:any)=>{
-            console.log('createDokumen Success ===>',data.result);   
-          },
-          error =>{
-            console.log('createDokumen Gagal ===>',error)
-          }
-        )
-
-        
-
-      },
-      error =>{
-        console.log('createDokumenTemuan Gagal ===>',error)
-      }
-    )
-
-
-  }
-
-
   testToast(req){
     if(req=='success'){
       notify({ message: "Yosssh! Success to Create data",position: {my: "center top",at: "center top"}}, "success", 3000)
@@ -972,8 +888,14 @@ export class Tidaklanjutv2Component implements OnInit {
     }
   }
 
+  getDataGridViewById(data){
+    
+
+  }
+
   
-  doEditGeneral(){
+  tempCreateTL = {};
+  doSave(){
 
     var modelTindakLanjut = {
       dokumenTemuanId    : this.batchDokumen[0].dokumenTemuanId,
@@ -981,6 +903,7 @@ export class Tidaklanjutv2Component implements OnInit {
       ppkId              : this.batchDokumen[0].ppkId,
       dokumenId          : this.batchDokumen[0].id,
       dokumenTindakLanjut: this.tmpFileDokumen,
+      id                 : this.batchDokumen[0].id,
 
       _tipeDokumenId            : this.batchDokumen[0].tipeDokumenId == null ? "" :this.batchDokumen[0].tipeDokumenId,
       _noUraianTemuan           : this.batchDokumen[0].noUraianTemuan == null ? "":this.batchDokumen[0].noUraianTemuan,
@@ -997,22 +920,73 @@ export class Tidaklanjutv2Component implements OnInit {
       _satkerId                 : this.batchDokumen[0].satkerId == null ? "":this.batchDokumen[0].satkerId,
       _ppkId                    : this.batchDokumen[0].ppkId == null ? "":this.batchDokumen[0].ppkId,
       _dokumenTemuanId          : this.batchDokumen[0].dokumenTemuanId == null ? "":this.batchDokumen[0].dokumenTemuanId,
-      _tindakLanjutId           : this.batchDokumen[0].tindakLanjutId == null ? "":this.batchDokumen[0].tindakLanjutId,
-      _responDokumenTemuanId    : this.batchDokumen[0].responDokumenTemuanId == null ? "":this.batchDokumen[0].responDokumenTemuanId,
+      
     }
     
     
     
 
+    if(!this.isUpdateMenungguRespon){//create
+      var isSuccess = false;
+      var getId = null;
+      this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
+        data=>{
+          console.log('createDokumenTemuan Success ===>',data.result); 
+          this.dokumenService.getDataGridById(data.result.id).subscribe(
+            (data:any)=>{
+              console.log('doEditGeneral | getDataGridById  success ===>',data)
+  
+              this.ListTindakLanjut.push(data.result);
+  
+            },error =>{
+              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+            }
+          )
+          
+  
+          console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+          this.windowModeView('grid');
+          
+  
+        },
+        error =>{
+          console.log('createDokumenTemuan Gagal ===>',error)
+        }
+      )
+    }else if(this.isUpdateMenungguRespon){ //update
+      this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
+        data=>{
+          console.log('updateDokumenTemuan Success ===>',data.result); 
+          this.dokumenService.getDataGridById(data.result.id).subscribe(
+            (data:any)=>{
+              console.log('doEditGeneral | getDataGridById  success ===>',data);
 
-    this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
-      (data:any)=>{
-        console.log('updateDokumenTemuan Success ===>',data.result);   
-      },
-      error =>{
-        console.log('updateDokumenTemuan Gagal ===>',error)
-      }
-    )
+
+              this.ListTindakLanjut = _.remove(this.ListTindakLanjut, function(n){
+                return n.id != modelTindakLanjut.id
+              })
+  
+              this.ListTindakLanjut.push(data.result);
+  
+            },error =>{
+              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+            }
+          )
+          
+  
+          console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+          this.windowModeView('grid');
+          
+  
+        },
+        error =>{
+          console.log('updateDokumenTemuan Gagal ===>',error)
+        }
+      )
+    }
+
+
+   
   }
 
 

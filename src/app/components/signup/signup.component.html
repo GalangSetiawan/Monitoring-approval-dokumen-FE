@@ -2,7 +2,7 @@
   <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
       <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
       <a (click)="getDataUser()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-      <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >Create &nbsp;</a>
+      <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >TAMBAH &nbsp;</a>
   </div> 
   
   
@@ -39,8 +39,8 @@
                   <div class="col-md-6"></div>
   
                   <div class="col-md-12 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
-                    <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
-                    <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
+                    <button class="uk-button uk-button-default" (click)="doReset()">RESET</button>  &nbsp;
+                    <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">CARI </button>
                   </div> 
   
                   
@@ -113,8 +113,8 @@
   <form class="uk-form-horizontal uk-margin-large"  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
 
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
-      <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
-      <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'" >Simpan</button>
+      <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
+      <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'" [disabled]="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != ''" >SIMPAN</button>
   
     </div>
 
@@ -213,33 +213,21 @@
   
         
 
-<!--   
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">Jabatan</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Jabatan..."  formControlName="jabatan" [ngClass]="{ 'uk-form-danger': submitted && f.jabatan.errors }">
-              <div *ngIf="submitted && f.jabatan.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.jabatan.errors.required">Jabatan wajib diisi</div>
-              </div>
-          </div>
-        </div> -->
-  
-
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Email</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
+              <input class="uk-input" type="text" [disabled]="windowMode=='edit'" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
               [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
               <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.email.errors.required">Email wajib diisi</div>
                 <div *ngIf="f.email.errors.email">Masukan Email yang valid</div>
               </div>
 
-              <div *ngIf="!isValidEmail" class="uk-text-danger uk-text-italic">
+              <div *ngIf="windowMode!='edit' && !isValidEmail && modelRegister.email != ''" class="uk-text-danger uk-text-italic">
                 <div>Email sudah terdaftar</div>
               </div>
 
-              <div *ngIf="isValidEmail && (modelRegister.email != '' || modelRegister.email != null)" class="uk-text-success uk-text-italic">
+              <div *ngIf="windowMode!='edit' && isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
                 <div>Email dapat digunakan</div>
               </div>
           </div>
@@ -249,10 +237,21 @@
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Username</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Username..." formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
+              <input class="uk-input" type="text" [disabled]="windowMode=='edit'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
               <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.username.errors.required">Username wajib diisi</div>
+                <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
+
               </div>
+
+              <div *ngIf="windowMode!='edit' && !isValidUsername && modelRegister.username != ''" class="uk-text-danger uk-text-italic">
+                <div>Username sudah terdaftar</div>
+              </div>
+
+              <div *ngIf="windowMode!='edit' && isValidUsername && modelRegister.username != ''" class="uk-text-success uk-text-italic">
+                <div>Username dapat digunakan</div>
+              </div>
+
           </div>
         </div>
 
@@ -283,7 +282,7 @@
         <div class="uk-margin" *ngIf="windowMode != 'view'">
           <label class="uk-form-label" for="form-horizontal-text">Password</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
+              <input class="uk-input" type="password" placeholder="Masukan Username..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
               <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.password.errors.required">Password wajib diisi</div>
                 <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
@@ -295,11 +294,17 @@
         <div class="uk-margin" *ngIf="windowMode != 'view'">
           <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
+              <input class="uk-input" type="password" placeholder="Masukan Username..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
               <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
-                <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi harus sesuai</div>
-            </div>
+                <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>
+              </div>
+
+
+                <div *ngIf="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != '' " class="uk-text-danger uk-text-italic">
+                  Konfirmasi Password harus sesuai
+                </div>
+
           </div>
         </div>
 

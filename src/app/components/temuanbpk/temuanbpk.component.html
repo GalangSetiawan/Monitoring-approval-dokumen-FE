@@ -346,9 +346,9 @@
                                   <td style="width:250px; padding-right: 10px;padding-left: 10px;">Rekomendasi</td>
                                   <td style="width:50px">Kode</td>
                                   <td style="width:350px">Ringkasan Tindak Lanjut</td>
-                                  <td style="width:90px">Status Tindak Lanjut</td>
-                                  <td style="width:150px">Tindak lanjut</td>
-                                  <td style="width:150px" *ngIf="isResponseTL">Respon Tindak lanjut</td>
+                                  <td style="width:90px" >Status Tindak Lanjut</td>
+                                  <td style="width:150px" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
+                                  <td style="width:150px" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" *ngIf="isResponseTL">Respon Tindak lanjut</td>
                                   <td style="width:80px">Aksi</td>
                                 </tr>
                                 
@@ -386,16 +386,11 @@
                                       {{data.statusTindakLanjut}}
                                   </td>
                                   
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="!isResponseTL">
+                                  <td class="pr-2 pl-2 uk-text-top escapeHTML"  [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">
                                       <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
                                   </td>
 
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL" style="background-color: yellow">
-                                    <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
-                                    <hr>
-                                    <a (click)="downloadDokumenTindakLanjut(data.dokumenTindakLanjut);" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
-                                  </td>
-
+          
                                   <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL">
                                     <div [innerHTML]="data.responTindakLanjut | keepHtml"></div>
                                   </td>
@@ -1044,9 +1039,9 @@
 					<td style="width:250px;">Rekomendasi</td>
 					<td style="width:50px">Kode</td>
 					<td style="width:350px">Ringkasan Tindak Lanjut</td>
-					<td style="width:90px">Status Tindak Lanjut</td>
-					<td style="width:150px">Tindak lanjut</td>
-					<td style="width:150px" *ngIf="isResponseTL">Respon Tindak lanjut</td>
+					<td style="width:90px" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Status Tindak Lanjut</td>
+					<td style="width:150px" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" >Tindak lanjut</td>
+					<td style="width:150px" *ngIf="isResponseTL" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Respon Tindak lanjut</td>
 					<!-- <td style="width:80px">Aksi</td> -->
 				  </tr>
 
@@ -1130,7 +1125,7 @@
 						</div>
 					</td>
 					
-					<td class="uk-text-center uk-text-top" > <!-- Status Tindak Lanjut -->
+					<td class="uk-text-center uk-text-top" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
             <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" [hidden]="flagEdit == 0" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
             <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
               {{modelIsiDokumen.statusTindakLanjut}} <br>
@@ -1138,7 +1133,7 @@
             </div>
 					</td>
 
-					<td class=" pr-2 pl-2 uk-text-top"> <!-- Tindak Lanjut -->
+					<td class=" pr-2 pl-2 uk-text-top" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'"> <!-- Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
@@ -1152,7 +1147,7 @@
 						</div>
           </td>
           
-          <td class=" pr-2 pl-2 uk-text-top" *ngIf="isResponseTL"> <!-- Respon Tindak Lanjut -->
+          <td class=" pr-2 pl-2 uk-text-top" *ngIf="isResponseTL" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'"> <!-- Respon Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.responTindakLanjut == ''" uk-tooltip="Respon Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Respon Tindak Lanjut','responTindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.responTindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.responTindakLanjut | keepHtml"></div> <br>
@@ -1245,6 +1240,15 @@
 
     .kertasa4-forPrint .previewSubheader-forPrint{
         font-size: 12px;
+    }
+
+
+    .isResponseTL{
+      background-color: yellow;
+    }
+
+    .notResponseTL{
+      background-color: transparent;
     }
     
     /* ==== FOR PRINT ======== */

@@ -203,7 +203,7 @@ export class MasterppkComponent implements OnInit {
     this.masterPpkService.deletePPK(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deletePPK ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        notify({ message: "Yayyy! Berhasil menghapus data",position: { my: "center top",at: "center top"}}, "success", 3000);
         this.ListPPK = _.remove(this.ListPPK, function(data){
           return data.id != result.result.id;
         })
@@ -211,7 +211,7 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deletePPK ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        notify({ message: "Whoops! Gagal menghapus data",position: {my: "center top",at: "center top"}}, "error", 3000)
       }
     )
 
@@ -229,18 +229,17 @@ export class MasterppkComponent implements OnInit {
       this.masterPpkService.createPPK(this.form.value).subscribe(
         result => {
           console.log('create success | createPPK ===>',result)
-          notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          notify({ message: "Yayyy! Berhasil Menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
           this.windowModeView('grid');
 
-          var findSatker = _.find(this.ListSatker,{"id":result.result.satkerId});
-          result.result.namaSatker = findSatker.namaSatker;
           this.ListPPK.push(result.result)
+
           console.log('ListSatker after create ===>',this.ListPPK)
 
         },
         error => {
           console.log('create error   | createPPK ===>',error);
-          notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          notify({ message: "Whoops! Gagal Menambahkan data, "+ error.error.message +" ",position: {my: "center top",at: "center top"}}, "error", 3000)
         }
       )
     }else{
@@ -248,14 +247,14 @@ export class MasterppkComponent implements OnInit {
       this.masterPpkService.updatePPK(data).subscribe(
         result => {
           console.log('update success | updatePPK ===>',result)
-          notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          notify({ message: "Yayyy! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
           this.windowModeView('grid');
           console.log('ListSatker ===>',this.ListSatker);
 
         },
         error => {
           console.log('update error   | updatePPK ===>',error);
-          notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          notify({ message: "Whoops! Gagal update data",position: {my: "center top",at: "center top"}}, "error", 3000)
         }
       )
     }

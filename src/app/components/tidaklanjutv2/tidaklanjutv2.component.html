@@ -4,7 +4,7 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataTindakLanjut()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a>
+        <!-- <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a> -->
     </div> 
     
     
@@ -79,25 +79,35 @@
               <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
               <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
               <dxo-search-panel [visible]="true"></dxo-search-panel>
-              <dxo-paging [pageSize]="5"></dxo-paging>
-              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
               
               <dxi-column dataField="noLHA" caption="No. Dokumen Temuan" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="namaDokumen" caption="Nama Dokumen" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="tglDariBpk" caption="Tgl Dokumen Masuk" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="tglKePpk" caption="Tgl Dokumen Keluar" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="namaKpa" caption="KPA" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="namaPpk" caption="PPK" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="nama" caption="User" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="keterangan" caption="Keterangan" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="tglTerimaDokumenTemuan" caption="Tgl Dokumen Masuk" [allowSearch]="true"></dxi-column>
+              
+              <dxi-column dataField="noUraianTemuan" caption="No. Uraian Temuan" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="nomorDraft" caption="No. Draft" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="statusTindakLanjut" caption="Status" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="fileDokumen" caption="Dokumen" [allowSearch]="true" cellTemplate="downloadTemplate"></dxi-column>
               <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="actionTemplate"></dxi-column>
                   <div *dxTemplate="let cell of 'actionTemplate'">
 
                       <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
-                          <a href="#modal-delete-tindaklanjut" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
-                          <a (click)="onEditGridClick(cell);" uk-icon="icon: pencil"></a> &nbsp;  
+
+                          <tr>
+                            <td width="30">
+                              <a href="#modal-delete-tindaklanjut" *ngIf="cell.data.keterangan == 'Menunggu Respon'" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a>
+                            </td>
+                            <td width="30">
+                              <a (click)="onEditGridClick(cell);" *ngIf="cell.data.statusTindakLanjut != 'Selesai'" uk-icon="icon: pencil"></a> &nbsp;  
+                            </td>
+                          </tr>
+
                       </div> 
+
+
+                    
                           
                   </div>
 
@@ -126,7 +136,8 @@
     <!-- <form class="uk-form-horizontal uk-margin-large" [formGroup]="dokumenTemuanForm" (ngSubmit)="doSave(dokumenTemuanForm.value)"> -->
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
           &nbsp; <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> 
-          &nbsp; <input type="submit" value="SIMPAN" *ngIf="windowMode=='edit'" (click)="doEditGeneral()" class="uk-button uk-button-primary">
+          &nbsp; <input type="submit" value="SIMPAN" *ngIf="windowMode=='edit' && !isUpdateMenungguRespon" (click)="doSave()" class="uk-button uk-button-primary">
+          &nbsp; <input type="submit" value="PERBARUI" *ngIf="windowMode=='edit' && isUpdateMenungguRespon" (click)="doSave()" class="uk-button uk-button-primary">
         </div>  
 
         
@@ -186,7 +197,7 @@
                                   <td style="width:50px">Kode</td>
                                   <td style="width:350px">Ringkasan Tindak Lanjut</td>
                                   <td style="width:90px">Status Tindak Lanjut</td>
-                                  <td style="width:150px">Tindak lanjut</td>
+                                  <td style="width:150px; background-color: yellow;">Tindak lanjut</td>
                                   <td style="width:80px">Aksi</td>
                                 </tr>
                                 
@@ -224,7 +235,7 @@
                                       {{data.statusTindakLanjut}}
                                   </td>
                                   
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                                  <td class="pr-2 pl-2 uk-text-top escapeHTML" style="background-color: yellow;">
                                       <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
                                   </td>
                                   
@@ -784,29 +795,29 @@
 
 			<table style="width:100%" class="mt-3" border="1">
 				<tr class="uk-text-center">
-					<td style="width:50px">No</td>
-					<td style="width:300px">Uraian Temuan</td>
-					<td style="width:70px">Kode</td>
-					<td style="width:250px;">Rekomendasi</td>
-					<td style="width:50px">Kode</td>
-					<td style="width:350px">Ringkasan Tindak Lanjut</td>
-					<td style="width:90px">Status Tindak Lanjut</td>
-					<td style="width:150px">Tindak lanjut</td>
-					<!-- <td style="width:80px">Aksi</td> -->
-				  </tr>
+					<td class="pr-2 pl-2" style="width:50px">No</td>
+					<td class="pr-2 pl-2" style="width:300px">Uraian Temuan</td>
+					<td class="pr-2 pl-2" style="width:70px">Kode</td>
+					<td class="pr-2 pl-2" style="width:250px;">Rekomendasi</td>
+					<td class="pr-2 pl-2" style="width:50px">Kode</td>
+					<td class="pr-2 pl-2" style="width:350px">Ringkasan Tindak Lanjut</td>
+					<td class="pr-2 pl-2" style="width:90px">Status Tindak Lanjut</td>
+					<td class="pr-2 pl-2" style="width:150px; background-color: yellow;">Tindak lanjut</td>
+					<!-- <td class="pr-2 pl-2" style="width:80px">Aksi</td> -->
+				</tr>
 
 
 				<!-- ====================== INPUT AREA ===================== -->
 				<tr [hidden]=!showFormTemuan>
                     <td class="uk-text-center"> <!-- Nomor Header -->
                         {{modelIsiDokumen.nomorHeader}}
-					 <a uk-icon="icon: plus" uk-tooltip="Nomor Header" class="mt-2 mb-2"></a>
+					 <!-- <a uk-icon="icon: plus" uk-tooltip="Nomor Header" class="mt-2 mb-2"></a> -->
 					</td>
 					
                     <td colspan="6" class="pr-2 pl-2"> <!-- Title Header -->
                         {{modelIsiDokumen.titleHeader}}
 
-					  <a uk-icon="icon: plus" uk-tooltip="Title Header" class="mt-2 mb-2"></a>
+					  <!-- <a uk-icon="icon: plus" uk-tooltip="Title Header" class="mt-2 mb-2"></a> -->
 					</td>
 					<td></td>
 				  </tr>
@@ -869,7 +880,7 @@
             </div>
 					</td>
 
-					<td class=" pr-2 pl-2 uk-text-top"> <!-- Tindak Lanjut -->
+					<td class=" pr-2 pl-2 uk-text-top" style="background-color: yellow;"> <!-- Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
@@ -893,7 +904,7 @@
 				<button class="uk-button uk-button-default uk-modal-close" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button> &nbsp;
 				<span *ngIf="showBtnSaveTemuan">
           <button class="uk-button uk-button-primary uk-modal-close" 
-            [disabled]="modelIsiDokumen.tindakLanjut == '' || modelIsiDokumen.tindakLanjut == null || tmpFileDokumen.length == 0 ||namafile == '' ||namafile == undefined " 
+            [disabled]="modelIsiDokumen.tindakLanjut == '' || modelIsiDokumen.tindakLanjut == null ||namafile == '' ||namafile == undefined " 
             (click)="saveTemuan(flagEdit)" >Simpan Temuan
           </button>
         </span>
@@ -1060,4 +1071,3 @@
 </style>
 
 
-x

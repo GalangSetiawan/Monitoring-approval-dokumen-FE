@@ -25,8 +25,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   errors = null;
-  modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null};
-  isValidEmail = true;
+  modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:null};
 
 
   public imagePath;
@@ -52,7 +51,7 @@ export class SignupComponent implements OnInit {
       satkerId             : ['', Validators.required],
       ppkId                : ['', Validators.required],
       password_confirmation: ['', Validators.required],
-      username             : ['', Validators.required],
+      username             : ['',[Validators.required, Validators.minLength(6)]],
       oldPassword          : [''],         
       roleId               : ['', Validators.required],
       email                : ['', [Validators.required, Validators.email]],
@@ -157,10 +156,12 @@ export class SignupComponent implements OnInit {
     this.windowMode = mode;
     if(this.windowMode == 'create'){
       this.registerForm.reset();
+      this.registerForm.enable();
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
-      this.registerForm.enable();
+      this.modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:''};
+
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
       $('.uk-breadcrumb #create').remove();
@@ -278,6 +279,7 @@ export class SignupComponent implements OnInit {
     )
   }
 
+  isValidEmail = true;
   onEmailType(email){
     console.log('onEmailType ===>',email);
     console.log('modelRegister =>',this.modelRegister);
@@ -290,6 +292,23 @@ export class SignupComponent implements OnInit {
       },
       error => {
         console.log('checkEmail register error   | checkEmail ===>',error);
+      }
+    )
+  }
+
+  isValidUsername = true;
+  onUsernameType(username){
+    console.log('onUsernameType ===>',username);
+    console.log('modelRegister =>',this.modelRegister);
+
+    this.authService.checkUsername({username:this.modelRegister.username}).subscribe(
+      result => {
+        console.log('checkUsername register success | checkUsername ===>',result);
+        this.isValidUsername = result;
+        
+      },
+      error => {
+        console.log('checkUsername register error   | checkUsername ===>',error);
       }
     )
 
@@ -308,7 +327,7 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      idSatker               : row.data.idSatker,
+      idSatker             : row.data.idSatker,
       jabatan              : row.data.jabatan,
       // foto                 : row.data.foto,
     });
@@ -392,18 +411,22 @@ export class SignupComponent implements OnInit {
       if(this.registerForm.value.id == null){ //do save
         console.log('do save ===>',this.registerForm.value)
         this.authService.register(this.registerForm.value).subscribe(
-          result => {
-            console.log(result);
-            this.ListUser.push(result.user);
+          data => {
+
+            console.log('onSubmit create data | success ===>',data.result);
+            this.ListUser.push(data.result);
+            notify({ message: "Yayyy! Berhasil menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
+
+            this.windowModeView('grid');
+            
           },
           error => {
             this.errors = error.error;
-          },
-          () => {
-            this.registerForm.reset()
-            // this.router.navigate(['login']);
-            this.windowModeView('grid');
+
+            notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+
           }
+            
         )
         
       }else{//do update

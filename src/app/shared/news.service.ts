@@ -19,7 +19,7 @@ export class NewsService {
 
   constructor(private http: HttpClient) { }
 
-  createNews(dataNews:newsStyle): Observable<any> {
+  createNews(dataNews:newsStyle) {
 
     var modelBerita = {
       id       : String(dataNews.id),
@@ -38,7 +38,7 @@ export class NewsService {
     formData.append('imageName',modelBerita.imageName)
 
 
-    return this.http.post(API_URL+'/news/add-data', formData, {reportProgress: true, observe: 'events'});
+    return this.http.post(API_URL+'/news/add-data', formData);
   }
 
   updateNews(dataNews:newsStyle): Observable<any> {
@@ -75,8 +75,8 @@ export class NewsService {
     return this.http.get(API_URL+'/download/download-image/'+imageName);
   }
 
-  getNewsbyId(idNews): Observable<any> {
-    return this.http.get(API_URL+'/news/get-data-by/'+idNews);
+  getNewsbyId(data) {
+    return this.http.get(API_URL+'/news/get-data-by/'+data.result.id);
   }
 
   deleteNews(dataNews): Observable<any> {

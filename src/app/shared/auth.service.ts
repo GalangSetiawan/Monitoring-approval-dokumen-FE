@@ -47,6 +47,11 @@ export class AuthService {
   }
 
 
+  checkUsername(username): Observable<any> {
+    return this.http.post('http://127.0.0.1:8000/api/auth/check-username', username);
+  }
+
+
   checkEmail(email): Observable<any> {
     return this.http.post('http://127.0.0.1:8000/api/auth/check-email', email);
   }
