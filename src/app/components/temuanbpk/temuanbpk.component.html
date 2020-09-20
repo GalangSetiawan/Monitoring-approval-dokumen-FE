@@ -356,52 +356,64 @@
 
 
                                 <!-- ================================ SHOW INPUTED AREA ========================= -->
-                                <tr *ngFor="let data of batchDokumen">
+
+                                <tbody *ngFor="let data of batchDokumen">
+
+                                  <tr>
+                                    <td  class="pr-2 pl-2">1</td>
+                                    <td  class="pr-2 pl-2" colspan="8">Judul Tinjauan</td>
+                                  </tr>
+
+
+                                  <tr >
                                 
-                                  <td class="uk-text-center uk-text-top">
-                                   <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}}</span>
-                                  </td>
-                                  
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML" >
-                                    <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
-                                  </td> 
-                                  
-                                  <td class="uk-text-center uk-text-top" >
-                                    {{data.kodeRekomendasi}}
-                                  </td>
-                                  
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
-                                      <div [innerHTML]="data.rekomendasi | keepHtml"></div>
-                                  </td>
-                                  
-                                  <td class="uk-text-center uk-text-top">
-                                      {{data.kodeRingkasanTindakLanjut}}
-                                  </td>
-                                  
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML">
-                                      <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
-                                  </td>
-                                  
-                                  <td class="uk-text-center uk-text-top">
-                                      {{data.statusTindakLanjut}}
-                                  </td>
-                                  
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML"  [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">
-                                      <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
-                                  </td>
+                                    <td class="uk-text-center uk-text-top">
+                                     <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}}</span>
+                                    </td>
+                                    
+                                    <td class="pr-2 pl-2 uk-text-top escapeHTML" >
+                                      <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
+                                    </td> 
+                                    
+                                    <td class="uk-text-center uk-text-top" >
+                                      {{data.kodeRekomendasi}}
+                                    </td>
+                                    
+                                    <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
+                                        <div [innerHTML]="data.rekomendasi | keepHtml"></div>
+                                    </td>
+                                    
+                                    <td class="uk-text-center uk-text-top">
+                                        {{data.kodeRingkasanTindakLanjut}}
+                                    </td>
+                                    
+                                    <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                                        <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
+                                    </td>
+                                    
+                                    <td class="uk-text-center uk-text-top">
+                                        {{data.statusTindakLanjut}}
+                                    </td>
+                                    
+                                    <td class="pr-2 pl-2 uk-text-top escapeHTML"  [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">
+                                        <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
+                                    </td>
+  
+            
+                                    <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL">
+                                      <div [innerHTML]="data.responTindakLanjut | keepHtml"></div>
+                                    </td>
+                                    
+  
+                                    <td class="uk-text-center uk-text-top">
+                                      <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" *ngIf="!isResponseTL" (click)="onDeleteTemmuanClick(data)" ></a> <br>
+                                      <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
+                                    </td>
+                
+                                  </tr>
+                                </tbody>
 
-          
-                                  <td class="pr-2 pl-2 uk-text-top escapeHTML" *ngIf="isResponseTL">
-                                    <div [innerHTML]="data.responTindakLanjut | keepHtml"></div>
-                                  </td>
-                                  
-
-                                  <td class="uk-text-center uk-text-top">
-                                    <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" *ngIf="!isResponseTL" (click)="onDeleteTemmuanClick(data)" ></a> <br>
-                                    <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
-                                  </td>
-              
-                                </tr>
+                                
                                 <!-- ================================ SHOW INPUTED AREA ========================= -->
 
                     
