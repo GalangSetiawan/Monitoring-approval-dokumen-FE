@@ -46,6 +46,10 @@ export class AuthService {
     return this.http.post('http://127.0.0.1:8000/api/auth/register', user);
   }
 
+  updateUser(user): Observable<any> {
+    return this.http.post('http://127.0.0.1:8000/api/auth/edit-data/' +user.id, user);
+  }
+
 
   checkUsername(username): Observable<any> {
     return this.http.post('http://127.0.0.1:8000/api/auth/check-username', username);

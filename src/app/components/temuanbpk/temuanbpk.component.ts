@@ -1182,10 +1182,6 @@ export class TemuanbpkComponent implements OnInit {
       this.dokumenService.getDetailDokumenTemuanGridView(e.selectedRowsData[0].id).subscribe(
         data => {
           console.log('selectionChanged Detail success ===>',data);  
-          // for(var i in data.result.resultDokumen){
-          //   data.result.resultDokumen[i].DisplayUraianTemuan = this.removeTags(data.result.resultDokumen[i].uraianTemuan);
-          // }
-          console.log('is array ? ',Array.isArray(data.result.resultDokumen))
           e.selectedRowsData[0].dataTindakLanjut = data.result.resultDokumen;
         },
         error => {

@@ -81,8 +81,8 @@
               <dxo-load-panel [enabled]="true"> </dxo-load-panel>
               <dxo-selection mode="multiple" selectAllMode="page">   <!-- or "allPages" --> </dxo-selection>
               <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
-              <dxo-paging [pageSize]="5"></dxo-paging>
-              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"> </dxo-pager>
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
               
               <dxi-column dataField="nama" caption="KPA" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
@@ -216,7 +216,7 @@
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Email</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="text" [disabled]="windowMode=='edit'" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
+              <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
               [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
               <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.email.errors.required">Email wajib diisi</div>
@@ -237,7 +237,7 @@
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-text">Username</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="text" [disabled]="windowMode=='edit'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
+              <input class="uk-input" type="text" autocomplete="false" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
               <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.username.errors.required">Username wajib diisi</div>
                 <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
@@ -259,19 +259,19 @@
         <div class="uk-margin" *ngIf="windowMode == 'edit'">
           <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="password" placeholder="Masukan Username..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
+              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
               [ngClass]="{ 'uk-form-danger': !isValidOldPassword || submitted && f.oldPassword.errors, 'uk-form-success': isValidOldPassword && modelRegister.oldPassword != ''}">
               <div *ngIf="submitted && f.oldPassword.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.oldPassword.errors.required">Password Lama wajib diisi</div>
                 <div *ngIf="f.oldPassword.errors.minlength">Password Lama minimal 6 karakter</div>        
               </div>
 
-              <div *ngIf="!isValidOldPassword" class="uk-text-danger uk-text-italic">
-                <div>Password Lama tidak valid</div>
+              <div *ngIf="!isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-danger uk-text-italic">
+                <div>Password lama tidak valid</div>
               </div>
 
               <div *ngIf="isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-success uk-text-italic">
-                <div>Password Lama Valid</div>
+                <div>Password lama Valid</div>
               </div>
 
 
@@ -282,7 +282,7 @@
         <div class="uk-margin" *ngIf="windowMode != 'view'">
           <label class="uk-form-label" for="form-horizontal-text">Password</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="password" placeholder="Masukan Username..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
+              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
               <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.password.errors.required">Password wajib diisi</div>
                 <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
@@ -294,7 +294,7 @@
         <div class="uk-margin" *ngIf="windowMode != 'view'">
           <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
           <div class="uk-form-controls">
-              <input class="uk-input" type="password" placeholder="Masukan Username..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
+              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Konfirmasi Password..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
               <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
                 <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
                 <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>

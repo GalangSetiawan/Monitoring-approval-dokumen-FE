@@ -169,6 +169,10 @@ export class SignupComponent implements OnInit {
       this.registerForm.enable();
       this.submitted = false;
 
+      this.registerForm.controls['username'].disable();
+      this.registerForm.controls['email'].disable();
+
+
     }else if (this.windowMode == 'view'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>Lihat</a></li>')
       $('.uk-breadcrumb #create').remove();
@@ -265,12 +269,13 @@ export class SignupComponent implements OnInit {
   }
 
 
+  isValidOldPassword = true
   onOldPassType(pass){
     console.log('onOldPassType ===>',pass);
     this.authService.checkPassword(this.registerForm.value.id,{password:this.modelRegister.oldPassword}).subscribe(
       result => {
         console.log('checkPassword OldPassword success | checkPassword ===>',result);
-        this.isValidEmail = result;
+        this.isValidOldPassword = result;
         
       },
       error => {
@@ -327,11 +332,14 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      idSatker             : row.data.idSatker,
+      satkerId             : row.data.satkerId,
       jabatan              : row.data.jabatan,
+      ppkId                : row.data.ppkId,
       // foto                 : row.data.foto,
     });
-    console.log('this.registerForm Clik Edit ===>',this.registerForm.value)
+    console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
+
+    this.onSatkerChange(row.data.satkerId)
   }
 
   onViewClick(row){
@@ -346,9 +354,10 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
-      idSatker               : row.data.idSatker,
+      satkerId             : row.data.satkerId,
       jabatan              : row.data.jabatan,
       foto                 : row.data.foto,
+      ppkId                : row.data.ppkId,
     });
     console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
   }
@@ -431,6 +440,25 @@ export class SignupComponent implements OnInit {
         
       }else{//do update
         console.log('do update ===>',this.registerForm.value)
+
+        this.authService.updateUser(this.registerForm.value).subscribe(
+          data => {
+
+            console.log('onSubmit Update data | success ===>',data.result);
+            this.ListUser.push(data.result);
+            notify({ message: "Yayyy! Berhasil memperbaharui data",position: { my: "center top",at: "center top"}}, "success", 3000);
+
+            this.windowModeView('grid');
+            
+          },
+          error => {
+            this.errors = error.error;
+
+            notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+
+          }
+            
+        )
 
       }
 
