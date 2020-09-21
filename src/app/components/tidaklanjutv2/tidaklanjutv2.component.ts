@@ -526,6 +526,45 @@ export class Tidaklanjutv2Component implements OnInit {
   }
 
 
+  onDownloadClick(row){
+    console.log('row.data ===>',row);
+
+    // if(row.fileDokumen == undefined){
+    //   row.fileDokumen = this.namafile
+    // }
+    this.isLoading = true;
+
+    this.dokumenService.downloadDocumentTindakLanjut(row.dokumenTindakLanjut).subscribe(
+      (result:any) => {
+        console.log('download dokumen sukses',result);
+
+        const a = document.createElement('a')
+        const objectUrl = URL.createObjectURL(result)
+        a.href = objectUrl
+        a.download = row.dokumenTindakLanjut+'.jpg';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+
+        this.isLoading = false;
+
+
+      },
+      error =>{
+        this.isLoading = false;
+        console.log('download dokumen Gagal',error)
+        if(error.result !== undefined){
+          notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+        }else{
+          // notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        }
+      }
+    );
+    
+
+  }
+  
+
+
 
   downloadDokumen(){
     // console.log('downloadDokumen ===>')
