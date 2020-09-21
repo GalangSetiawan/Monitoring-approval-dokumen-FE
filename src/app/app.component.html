@@ -179,7 +179,7 @@
         <div class="row col-sm-12">
             <div class="col-sm-5" id="header1">
                 <ul class="uk-breadcrumb">
-                    <li><div uk-spinner id="spinner" class="mr-4"></div> <a [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
+                    <li><a [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
                     <li id="breadCrumbTitle" class="uk-disabled"><a>Dashboard</a></li>
                     <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
                     
@@ -346,50 +346,77 @@
 <!-- ======================== LOGIN PAGE ========================== -->
 <div class="row" *ngIf="!isSignedIn" style="height: 100vh;">
 
-    <div class="col-md-9" style="padding-left: 0; padding-right: 0;">
+    <div class="col-md-9" style="height: 100vh;" >
 
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: push">
 
-            <ul class="uk-slideshow-items"  uk-height-viewport="min-height: 300" >
+        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow >
 
+            <ul class="uk-slideshow-items" style="height: 100vh !important; ">
                 <li *ngFor="let berita of ListBerita">
-                
+                    <img data-src="https://getuikit.com/docs/images/photo.jpg" alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
 
-                    <div class="uk-inline">
-                        <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
-                        <div class="uk-overlay uk-light uk-position-bottom">
-                            <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div class="uk-position-cover" >
+                        <div class="contentBerita uk-position-cover m-3" style="background-color: rgba(227,242,253,0); height: 100%;">
+
+
+
+                            
+
+                            <div class="uk-position-center">
+                                <div class="absoluteCenter mt-5 pl-5 pr-5 container-fluid">
+                                    <div class="container">
+                                        <h1 class="uk-heading-small" style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent;" > &nbsp; {{berita.title}}</h1>
+
+                                    </div>
+                                </div>
+    
+                                <div class="absoluteCenter container" >
+                                    <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" style="overflow: scroll; max-height: 65vh;background-color: rgba(227,242,253,0.9)">
+                                        <div [innerHTML]="berita.body | keepHtml"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+
+
+
                         </div>
                     </div>
+    
+                  
+
 
                 </li>
                 
             </ul>
         
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" uk-slidenav-next uk-slideshow-item="next"></a>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
         
         </div>
-
-
         
 
         
     </div>
 
-    <div class="col-md-3 p-5" style="padding-left: 0; padding-right: 0;">
+    <div class="col-md-3" style="padding-right: 45px;padding-top: 50px;">
 
-        <div class=" loginSide" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
+        <div class="loginSide" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
 
-            <div class="uk-inline uk-margin d-flex justify-content-center">
-                <h1 class="uk-heading-small uk-text-center" >Monitoring Approval Dokumen</h1>
+            <div class="uk-inline uk-margin d-flex justify-content-center ">
+                <h1 class="uk-heading-large uk-text-center">Monitoring Approval Dokumen</h1>
 
 
             </div>
 
+            <div class="justify-content-center" id="imgLogo" style="width: 80%;">
+                <img src="assets/img/delesign-free-designs-folder.png" style="width: 100%;" >
+            </div>
 
-            <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt="">
-            <legend class="uk-legend uk-margin-small-bottom">Silahkan Masuk</legend>
+
+            <!-- <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt=""> -->
+            <p class="uk-legend uk-heading-small uk-margin-small-bottom" style="color: darkgray;">Silahkan Masuk</p>
 
             <div *ngIf="errors?.username" class="alert alert-danger mt-3">
                 {{ errors?.username }}
@@ -407,14 +434,22 @@
 
 
 
+
             <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
                 <div class="uk-margin">
-                    <input class="uk-input" type="text" formControlName="username" placeholder="Username">
+                    <div class="uk-inline" style="width: 100vh;">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                        <input class="uk-input" type="text" formControlName="username" placeholder="Masukan Username Anda" >
+                    </div>
                 </div>
     
                 <div class="uk-margin">
-                    <input class="uk-input" type="password" formControlName="password" placeholder="Password">
+                    <div class="uk-inline" style="width: 100vh;">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                        <input class="uk-input" type="password" formControlName="password" placeholder="Masukan Password Anda">
+                    </div>
+
                 </div>
     
     
@@ -428,16 +463,22 @@
 
 
             
+            
 
         </div>
 
 
-        <div class="uk-position-small uk-position-bottom-center "><span>All right reserved | Copyright @ 2020 </span> <br> KLHK - Monitoring Approval Document</div>
+        <div class="footer d-flex justify-content-center">
+            All right reserved | Copyright @ 2020  
+            <br>
+            KLHK - Monitoring Approval Document
+        </div>
 
-
+      
         
 
     </div>
+    
 </div>
 <!-- ======================== LOGIN PAGE ========================== -->
 
@@ -494,7 +535,7 @@
                                     <table style="width:100%;" >
                                         <tr><td>Nama</td><th>{{UserProfile.nama}}</th></tr>
                                         <tr><td>Email</td><th>{{UserProfile.email}}</th></tr>
-                                        <tr><td>Satker</td><th>{{UserProfile.namaSatker}}</th></tr>
+                                        <tr *ngIf="UserProfile.roleId != 50"><td>Satker</td><th>{{UserProfile.namaSatker}}</th></tr>
                                         <tr *ngIf="UserProfile.roleId != 50"><td>PPK</td><th>{{UserProfile.namaPpk}}</th></tr>
                                     </table>
                                 </div>
@@ -598,6 +639,28 @@
 
 
 <style>
+
+    
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding-right: 2rem;
+        /* background-color: #efefef; */
+        text-align: center;
+    }
+
+
+    .absoluteCenter {
+        /* margin: auto; */
+        /* position: absolute; */
+        top: 0; left: 0; bottom: 0; right: 0;
+        display: flex; 
+        /* align-items: center;  */
+        justify-content: center;
+        text-align: center; 
+    }
 
     .bgProfile{
         width: 100%;

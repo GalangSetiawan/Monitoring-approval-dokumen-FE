@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 
 import { EscapeHtmlPipe } from './shared/keep-html.pipe';
-import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -19,8 +18,10 @@ import {
   DxHtmlEditorComponent,
   DxHtmlEditorModule,
   DxPopupComponent,
-  DxPopupModule,DxTemplateModule
+  DxPopupModule,DxTemplateModule,
+  DxChartModule, DxSelectBoxModule
 } from 'devextreme-angular';
+
 
 
 import { AppComponent } from './app.component';
@@ -71,16 +72,18 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-
+    
     AppRoutingModule,
-    ChartsModule,
 
 
     DxButtonModule,
     DxDataGridModule,
     DxHtmlEditorModule,
     DxPopupModule,
-    DxTemplateModule
+    DxTemplateModule,
+    DxChartModule,
+    DxSelectBoxModule
+
   ],
   providers: [
     {

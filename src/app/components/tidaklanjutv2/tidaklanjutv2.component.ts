@@ -14,6 +14,7 @@ import * as $ from 'jquery'
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas'
 import 'jspdf-autotable';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 import notify from 'devextreme/ui/notify';
 
@@ -115,7 +116,12 @@ export class Tidaklanjutv2Component implements OnInit {
       error => {
         this.isLoading = false;
         console.log('Get data TindakLanjut error   | TindakLanjut ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Tindak Lanjut', 
+          'error'
+        )
       }
     )
   }
@@ -148,7 +154,12 @@ export class Tidaklanjutv2Component implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Mengambil Data Satker', 
+          'error'
+        )
       }
     )
   }
@@ -627,7 +638,12 @@ export class Tidaklanjutv2Component implements OnInit {
       },
       error => {
         console.log('Get data PPK error   | getPPKbyId ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Satker', 
+          'error'
+        )
       }
     )
   }
@@ -729,7 +745,12 @@ export class Tidaklanjutv2Component implements OnInit {
       },
       error => {
         console.log('Get data getJenisDokumenTemuan error   | getJenisDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Jenis Dokumen Temuan', 
+          'error'
+        )
       }
     )
 
@@ -745,7 +766,12 @@ export class Tidaklanjutv2Component implements OnInit {
       },
       error => {
         console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Dokumen Temuan', 
+          'error'
+        )
       }
     )
 
@@ -900,7 +926,12 @@ export class Tidaklanjutv2Component implements OnInit {
     this.dokumenService.deleteDokumenTemuan(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deleteDokumenTemuan ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
         this.ListDokumenTemuan = _.remove(this.ListDokumenTemuan, function(data){
           return data.id != result.result.id;
         })
@@ -908,7 +939,12 @@ export class Tidaklanjutv2Component implements OnInit {
       },
       error => {
         console.log('Delete error   | deleteDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 

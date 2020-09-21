@@ -17,7 +17,7 @@ import html2canvas from 'html2canvas'
 import 'jspdf-autotable';
 import * as html2pdf from 'html2pdf.js'
 
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import notify from 'devextreme/ui/notify';
 
 import DataSource from 'devextreme/data/data_source';
@@ -119,7 +119,12 @@ export class TemuanbpkComponent implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Satker', 
+          'error'
+        )
       }
     )
   }
@@ -566,7 +571,12 @@ export class TemuanbpkComponent implements OnInit {
       },
       error => {
         console.log('Get data PPK error   | getPPKbyId ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data PPK', 
+          'error'
+        )
       }
     )
   }
@@ -717,7 +727,12 @@ export class TemuanbpkComponent implements OnInit {
       },
       error => {
         console.log('Get data getJenisDokumenTemuan error   | getJenisDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Jenis Dokumen Temuan', 
+          'error'
+        )
       }
     )
 
@@ -733,7 +748,12 @@ export class TemuanbpkComponent implements OnInit {
       },
       error => {
         console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data Dokumen Temuan', 
+          'error'
+        )
       }
     )
 
@@ -882,7 +902,12 @@ export class TemuanbpkComponent implements OnInit {
     this.dokumenService.deleteDokumenTemuan(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deleteDokumenTemuan ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
         this.ListDokumenTemuan = _.remove(this.ListDokumenTemuan, function(data){
           return data.id != result.result.id;
         })
@@ -890,7 +915,12 @@ export class TemuanbpkComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deleteDokumenTemuan ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 
@@ -908,7 +938,12 @@ export class TemuanbpkComponent implements OnInit {
       this.dokumenService.createDokumenTemuan(this.dokumenTemuanForm.value).subscribe(
         data => {
           console.log('create success | createDokumenTemuan ===>',data)
-          notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil ditambahkan', 
+            'success'
+          )
           this.ListDokumenTemuan.push(data.result)
           this.windowModeView('grid');
 
@@ -917,7 +952,12 @@ export class TemuanbpkComponent implements OnInit {
         },
         error => {
           console.log('create error   | createDokumenTemuan ===>',error);
-          notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil ditambahkan', 
+            'error'
+          )
         }
       )
     }else{
@@ -925,14 +965,24 @@ export class TemuanbpkComponent implements OnInit {
       this.dokumenService.updateDokumenTemuan(data).subscribe(
         result => {
           console.log('update success | updateDokumenTemuan ===>',result)
-          notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil disimpan', 
+            'success'
+          )
           this.windowModeView('grid');
           console.log('ListDokumenTemuan ===>',this.ListDokumenTemuan);
 
         },
         error => {
           console.log('update error   | updateDokumenTemuan ===>',error);
-          notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil simpan', 
+            'error'
+          )
         }
       )
     }
@@ -1052,7 +1102,12 @@ export class TemuanbpkComponent implements OnInit {
         this.isLoading = false;
         console.log('download dokumen Gagal',error)
         if(error.result !== undefined){
-          notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak mengambil data'+ error.result, 
+            'error'
+          )
         }else{
           // notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
         }

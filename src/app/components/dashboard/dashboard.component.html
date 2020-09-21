@@ -1,64 +1,416 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- <div class="col-md-4">
+      <div class="card card-chart" style="background: linear-gradient(60deg, #66bb6a, #43a047);">
+        <div class="card-header card-header-success" style="background:white">
+          <div class="ct-chart">
+            <div id="chart-demo">
 
-
-
-
-<div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <div class="card card-stats">
-        <div class="card-header card-header-warning card-header-icon">
-          <div class="card-icon">
-            <i class="fa fa-tags"></i>
-          </div>
-          <p class="card-category"> Finding Document</p>
-          <h3 class="card-title">49/50
-            <!-- <small>GB</small> -->
-          </h3>
-        </div>
-        <div class="card-footer">
-            <div class="stats">
-                <i class="material-icons">Open</i>
+              <dx-chart
+                  palette="Violet"
+                  [dataSource]="countriesInfo">
+                  <dxi-series
+                      *ngFor="let energy of energySources"
+                      [valueField]="energy.value"
+                      [name]="energy.name">
+                  </dxi-series>
+                  <dxo-common-series-settings #seriesSettings
+                      argumentField="country"
+                      [type]="types[0]">
+                  </dxo-common-series-settings>
+                  <dxo-margin [bottom]="20"></dxo-margin>
+                  <dxo-argument-axis
+                      [valueMarginsEnabled]="false"
+                      discreteAxisDivisionMode="crossLabels">
+                      <dxo-grid [visible]="true"></dxo-grid>
+                  </dxo-argument-axis>
+                  <dxo-legend
+                      verticalAlignment="bottom"
+                      horizontalAlignment="center"
+                      itemTextPosition="bottom">
+                  </dxo-legend>
+                  <dxo-title
+                      text="Energy Consumption in 2004">
+                      <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+                      </dxo-subtitle>
+                  </dxo-title>
+                  <dxo-export [enabled]="true"></dxo-export>
+                  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+              </dx-chart>
+                
             </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <div class="card card-stats">
-        <div class="card-header card-header-success card-header-icon">
-          <div class="card-icon">
-            <i class="fa fa-ticket"></i>
-          </div>
-          <p class="card-category">Approval Document</p>
-          <h3 class="card-title">34</h3>
-        </div>
-        <div class="card-footer">
-          <div class="stats">
-            <i class="material-icons">On-Progres</i>
           </div>
         </div>
+        <div class="card-body">
+          <h4 class="card-title">Dokumen Tersedia</h4>
+          <p class="card-category text-light">
+            <span class="text-light"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+        </div>
+        
       </div>
-    </div>
-   
+    </div> -->
 
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <div class="card card-stats">
-        <div class="card-header card-header-info card-header-icon">
-          <div class="card-icon">
-            <i class="fa fa-twitter"></i>
+
+
+    <!-- <div class="col-md-4">
+      <div class="card card-chart" style="background: linear-gradient(60deg, #ffa726, #fb8c00);">
+        <div class="card-header card-header-warning" style="background: white;"> 
+          <div class="ct-chart">
+
+
+            <dx-chart
+                  palette="Violet"
+                  [dataSource]="countriesInfo">
+                  <dxi-series
+                      *ngFor="let energy of energySources"
+                      [valueField]="energy.value"
+                      [name]="energy.name">
+                  </dxi-series>
+                  <dxo-common-series-settings #seriesSettings
+                      argumentField="country"
+                      [type]="types[0]">
+                  </dxo-common-series-settings>
+                  <dxo-margin [bottom]="20"></dxo-margin>
+                  <dxo-argument-axis
+                      [valueMarginsEnabled]="false"
+                      discreteAxisDivisionMode="crossLabels">
+                      <dxo-grid [visible]="true"></dxo-grid>
+                  </dxo-argument-axis>
+                  <dxo-legend
+                      verticalAlignment="bottom"
+                      horizontalAlignment="center"
+                      itemTextPosition="bottom">
+                  </dxo-legend>
+                  <dxo-title
+                      text="Energy Consumption in 2004">
+                      <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+                      </dxo-subtitle>
+                  </dxo-title>
+                  <dxo-export [enabled]="true"></dxo-export>
+                  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+              </dx-chart>
+
           </div>
-          <p class="card-category">Summary</p>
-          <h3 class="card-title">+245</h3>
         </div>
-        <div class="card-footer">
-          <div class="stats">
-            <i class="material-icons">Close</i>          
-         </div>
+        <div class="card-body">
+          <h4 class="card-title">Dokumen Dalam Proses</h4>
+          <p class="card-category text-light">Last Campaign Performance</p>
         </div>
+        
+      </div>
+    </div> -->
+
+
+
+
+    <div class="col-md-12">
+      <div class="card card-chart" style="background: linear-gradient(60deg, #3998F8, #0F7AE5);">
+        <div class="card-header card-header-info" style="background: white;">
+          <div class="ct-chart">
+
+
+            <dx-chart
+                  palette="Violet"
+                  [dataSource]="countriesInfo">
+                  <dxi-series
+                      *ngFor="let energy of energySources"
+                      [valueField]="energy.value"
+                      [name]="energy.name">
+                  </dxi-series>
+                  <dxo-common-series-settings #seriesSettings
+                      argumentField="country"
+                      [type]="types[0]">
+                  </dxo-common-series-settings>
+                  <dxo-margin [bottom]="20"></dxo-margin>
+                  <dxo-argument-axis
+                      [valueMarginsEnabled]="false"
+                      discreteAxisDivisionMode="crossLabels">
+                      <dxo-grid [visible]="true"></dxo-grid>
+                  </dxo-argument-axis>
+                  <dxo-legend
+                      verticalAlignment="bottom"
+                      horizontalAlignment="center"
+                      itemTextPosition="bottom">
+                  </dxo-legend>
+                  <dxo-title
+                      text="Monitoring Dokumen Temuan">
+                      <dxo-subtitle text="(Data diambil dari 14 Satker)">
+                      </dxo-subtitle>
+                  </dxo-title>
+                  <dxo-export [enabled]="true"></dxo-export>
+                  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+              </dx-chart>
+
+
+          </div>
+        </div>
+        <div class="card-body">
+           <h4 class="card-title text-light"> <i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp; Monitoring Dokumen Temuan</h4>
+          <p class="card-category text-light">Menampilkan Data dari 14 Satker </p>
+        </div>
+       
       </div>
     </div>
-
 
 
   </div>
+
+
+
+
+
+
+
+ <!-- ============================================================== -->
+ <div class="container-fluid card">
+  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
+  </div>
+
+  <div class=" row ">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-success card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-folder-open"></i>
+        </div>
+        <p class="card-category">Approval Document</p>
+        <h3 class="card-title">34</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">On-Progres</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-edit"></i>
+        </div>
+        <p class="card-category"> Finding Document</p>
+        <h3 class="card-title">49/50
+          <!-- <small>GB</small> -->
+        </h3>
+      </div>
+      <div class="card-footer">
+          <div class="stats">
+              <i class="material-icons">Open</i>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-info card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-check"></i>
+        </div>
+        <p class="card-category">Summary</p>
+        <h3 class="card-title">+245</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">Close</i>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+ </div>
+ <!-- =============================================================  -->
+ <div class="container-fluid card">
+  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
+  </div>
+
+  <div class=" row ">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-success card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-folder-open"></i>
+        </div>
+        <p class="card-category">Approval Document</p>
+        <h3 class="card-title">34</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">On-Progres</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-edit"></i>
+        </div>
+        <p class="card-category"> Finding Document</p>
+        <h3 class="card-title">49/50
+          <!-- <small>GB</small> -->
+        </h3>
+      </div>
+      <div class="card-footer">
+          <div class="stats">
+              <i class="material-icons">Open</i>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-info card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-check"></i>
+        </div>
+        <p class="card-category">Summary</p>
+        <h3 class="card-title">+245</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">Close</i>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+ </div>
+ <!-- =============================================================  -->
+ <div class="container-fluid card">
+  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
+  </div>
+
+  <div class=" row ">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-success card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-folder-open"></i>
+        </div>
+        <p class="card-category">Approval Document</p>
+        <h3 class="card-title">34</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">On-Progres</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-edit"></i>
+        </div>
+        <p class="card-category"> Finding Document</p>
+        <h3 class="card-title">49/50
+          <!-- <small>GB</small> -->
+        </h3>
+      </div>
+      <div class="card-footer">
+          <div class="stats">
+              <i class="material-icons">Open</i>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-info card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-check"></i>
+        </div>
+        <p class="card-category">Summary</p>
+        <h3 class="card-title">+245</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">Close</i>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+ </div>
+ <!-- =============================================================  -->
+ <div class="container-fluid card">
+  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
+  </div>
+
+  <div class=" row ">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-success card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-folder-open"></i>
+        </div>
+        <p class="card-category">Approval Document</p>
+        <h3 class="card-title">34</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">On-Progres</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-edit"></i>
+        </div>
+        <p class="card-category"> Finding Document</p>
+        <h3 class="card-title">49/50
+          <!-- <small>GB</small> -->
+        </h3>
+      </div>
+      <div class="card-footer">
+          <div class="stats">
+              <i class="material-icons">Open</i>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header card-header-info card-header-icon">
+        <div class="card-icon">
+          <i class="fa fa-check"></i>
+        </div>
+        <p class="card-category">Summary</p>
+        <h3 class="card-title">+245</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <i class="material-icons">Close</i>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+ </div>
+ <!-- =============================================================  -->
+
+
+
+</div>

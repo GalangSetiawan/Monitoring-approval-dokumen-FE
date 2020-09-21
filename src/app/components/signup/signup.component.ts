@@ -70,7 +70,10 @@ export class SignupComponent implements OnInit {
     this.selectActiveMenu('register')
   }
 
+  
+
   selectActiveMenu(opened){
+    this.removeActiveMenu();
     $('#listMenu ul .listMenu').removeClass('uk-active');
     if(opened == 'dashboard'){
       $('#listMenu #dashboard').addClass('uk-active');
@@ -99,6 +102,23 @@ export class SignupComponent implements OnInit {
     }else if(opened == 'register'){
       $('#listMenu #register').addClass('uk-active');
     }
+  }
+
+  
+  removeActiveMenu(){
+    $('#listMenu #dashboard').removeClass('uk-active');
+    $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #tindaklanjutv2').removeClass('uk-active');
+    $('#listMenu #tindaklanjut').removeClass('uk-active');
+    $('#listMenu #approvaldoc').removeClass('uk-active');
+    $('#listMenu #masterppk').removeClass('uk-active');
+    $('#listMenu #cabang').removeClass('uk-active');
+    $('#listMenu #blog').removeClass('uk-active');
+    $('#listMenu #satker').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
+    $('#listMenu #login').removeClass('uk-active');
+    $('#listMenu #profile').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
   }
 
   public comparisonValidator() : ValidatorFn{
