@@ -131,11 +131,8 @@
         
 
         <div class="card">
-            <div class="card-body m-5"> 
+            <div class="card-body m-5" > 
                 
-
-
-               
 
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Latar Belakang</label>
@@ -158,63 +155,73 @@
                     </div>
                 </div>
 
+                <div class="uk-child-width-expand@s uk-text-center" uk-grid uk-height-match="target: > div > .uk-card">
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            
+                                <dx-html-editor height="550px" class="uk-margin"  [(value)]="beritaForm.body" formControlName="body">
+                                    <dxo-toolbar [multiline]="isMultiline">
+                                    <dxi-item formatName="undo"></dxi-item>
+                                    <dxi-item formatName="redo"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                                    <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="bold"></dxi-item>
+                                    <dxi-item formatName="italic"></dxi-item>
+                                    <dxi-item formatName="strike"></dxi-item>
+                                    <dxi-item formatName="underline"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="alignLeft"></dxi-item>
+                                    <dxi-item formatName="alignCenter"></dxi-item>
+                                    <dxi-item formatName="alignRight"></dxi-item>
+                                    <dxi-item formatName="alignJustify"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="orderedList"></dxi-item>
+                                    <dxi-item formatName="bulletList"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="color"></dxi-item>
+                                    <dxi-item formatName="background"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="link"></dxi-item>
+                                    <dxi-item formatName="image"></dxi-item>
+                                    <dxi-item formatName="separator"></dxi-item>
+                                    <dxi-item formatName="clear"></dxi-item>
+                                    <dxi-item formatName="codeBlock"></dxi-item>
+                                    <dxi-item formatName="blockquote"></dxi-item>
+                                    <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+                            
+                                    </dxo-toolbar>
+                                    <dxo-media-resizing
+                                    [enabled]=true>
+                                    </dxo-media-resizing>
+                                
+                                </dx-html-editor>
+                                <div *ngIf="submitted && f.body.errors" class="uk-text-danger uk-text-italic">
+                                    <div *ngIf="f.body.errors.required">Judul berita wajib diisi</div>
+                                </div>
                 
+                                <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+                                    <div>{{beritaForm.body}}</div>
+                                </dx-popup>
 
-                <div class="col-md-6">
-                    <dx-html-editor height="550px" class="uk-margin"  [(value)]="beritaForm.body" formControlName="body">
-                        <dxo-toolbar [multiline]="isMultiline">
-                        <dxi-item formatName="undo"></dxi-item>
-                        <dxi-item formatName="redo"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
-                        <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="bold"></dxi-item>
-                        <dxi-item formatName="italic"></dxi-item>
-                        <dxi-item formatName="strike"></dxi-item>
-                        <dxi-item formatName="underline"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="alignLeft"></dxi-item>
-                        <dxi-item formatName="alignCenter"></dxi-item>
-                        <dxi-item formatName="alignRight"></dxi-item>
-                        <dxi-item formatName="alignJustify"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="orderedList"></dxi-item>
-                        <dxi-item formatName="bulletList"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="color"></dxi-item>
-                        <dxi-item formatName="background"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="link"></dxi-item>
-                        <dxi-item formatName="image"></dxi-item>
-                        <dxi-item formatName="separator"></dxi-item>
-                        <dxi-item formatName="clear"></dxi-item>
-                        <dxi-item formatName="codeBlock"></dxi-item>
-                        <dxi-item formatName="blockquote"></dxi-item>
-                        <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
-                
-                        </dxo-toolbar>
-                        <dxo-media-resizing
-                        [enabled]=true>
-                        </dxo-media-resizing>
-                    
-                    </dx-html-editor>
-                    <div *ngIf="submitted && f.body.errors" class="uk-text-danger uk-text-italic">
-                        <div *ngIf="f.body.errors.required">Judul berita wajib diisi</div>
+                        </div>
+                     </div>
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
+                                <div [innerHTML]="beritaForm.body | keepHtml"></div>
+                            </td>
+                        </div>
                     </div>
-    
-                    <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
-                        <div>{{beritaForm.body}}</div>
-                    </dx-popup>
+                    
                 </div>
+
                 
 
-                <div class="col-md-6">
-                    <img src='{{ "assets/images/" + beritaForm.bgImage  }}'>
-
-                </div>
+              
                
             </div>
         </div>
