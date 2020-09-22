@@ -21,7 +21,7 @@
     </div>
 
     <ul class="list-unstyled components">
-        <li uk-tooltip="title: Home; pos: right">
+        <!-- <li uk-tooltip="title: Home; pos: right">
             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
                 <span>Home</span>
@@ -37,15 +37,15 @@
                     <a href="#">Home 3</a>
                 </li>
             </ul>
-        </li>
+        </li> -->
         
-        <li uk-tooltip="title: Portfolio; pos: right">
-            <a href="#">
-                <i  uk-icon="icon: nut" aria-hidden="true"></i>
-                <span>Portfolio</span>
+        <li uk-tooltip="title: Dashboard; pos: right"  [routerLink]="['/dashboard']">
+            <a>
+                <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
+                <span>Dashboard</span>
             </a>
         </li>
-        <li uk-tooltip="title: FAQ; pos: right">
+        <!-- <li uk-tooltip="title: FAQ; pos: right">
             <a href="#">
                 <i  uk-icon="icon: settings" aria-hidden="true"></i>
 
@@ -58,13 +58,13 @@
 
                 <span>Contact</span>
             </a>
-        </li>
+        </li> -->
 
-        <li uk-tooltip="title: Contact; pos: right">
+        <li uk-tooltip="title: Logout; pos: right">
             <a uk-toggle="target: #closeApp">
                 <i  uk-icon="icon: sign-out" aria-hidden="true"></i>
 
-                <span>Close Aplication</span>
+                <span>Keluar Aplikasi</span>
             </a>
         </li>
 
