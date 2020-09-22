@@ -10,6 +10,7 @@ import { MustMatch } from '../../_helper/must-match.validator';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 @Component({
