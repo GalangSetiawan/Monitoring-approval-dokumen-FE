@@ -71,6 +71,11 @@ export class NewsService {
     return this.http.get(API_URL+'/news/get-data');
   }
 
+  getActiveNews(): Observable<any> {
+    return this.http.get(API_URL+'/news/get-active');
+  }
+
+
   downloadImage(imageName): Observable<any> {
     return this.http.get(API_URL+'/download/download-image/'+imageName);
   }

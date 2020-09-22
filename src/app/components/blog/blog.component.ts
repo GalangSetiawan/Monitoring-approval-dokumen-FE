@@ -8,6 +8,7 @@ import { NewsService } from './../../shared/news.service';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 @Component({
@@ -123,7 +124,12 @@ export class BlogComponent implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data', 
+          'error'
+        )
       }
     )
   }
@@ -140,10 +146,20 @@ export class BlogComponent implements OnInit {
     this.newsService.switchActiveData(row.data).subscribe(
       result => {
         console.log('switch success | switchActiveData ===>',result)
+        Swal.fire(
+          'Yay Success!', 
+          'Berhasil mengubah status berita', 
+          'success'
+        )
       },
       error => {
         console.log('switch error   | switchActiveData ===>',error);
-        notify({ message: "Whoops! failed to switchActiveData data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to switchActiveData data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Error!', 
+          'data Tidak Berhasil mengubah Status Aktifasi Berita', 
+          'success'
+        )
       }
     )
 
@@ -162,7 +178,12 @@ export class BlogComponent implements OnInit {
       },
       error => {
         console.log('Get data PPK error   | getNews ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil mengambil data', 
+          'error'
+        )
       }
     )
   }
@@ -185,7 +206,12 @@ export class BlogComponent implements OnInit {
       },
       error => {
         console.log('onEditClick error   | downloadImage ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil mengambil data', 
+          'error'
+        )
       }
     )
 
@@ -254,7 +280,12 @@ export class BlogComponent implements OnInit {
     this.newsService.deleteNews(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deleteNews ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
         this.ListBerita = _.remove(this.ListBerita, function(data){
           return data.id != result.result.id;
         })
@@ -262,7 +293,12 @@ export class BlogComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deleteNews ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 
@@ -296,13 +332,23 @@ export class BlogComponent implements OnInit {
             }
           )
 
-          notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil ditambahkan', 
+            'success'
+          )
           this.windowModeView('grid');
 
         },
         error => {
           console.log('create error   | createNews ===>',error);
-          notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil ditambahkan', 
+            'error'
+          )
         }
       )
     }else{
@@ -310,13 +356,23 @@ export class BlogComponent implements OnInit {
       this.newsService.updateNews(data).subscribe(
         result => {
           console.log('update success | updateNews ===>',result)
-          notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil disimpan', 
+            'success'
+          )
           this.windowModeView('grid');
           this.getDataBerita();
         },
         error => {
           console.log('update error   | updateNews ===>',error);
-          notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil simpan', 
+            'error'
+          )
         }
       )
     }

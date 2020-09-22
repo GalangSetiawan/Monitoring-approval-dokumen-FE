@@ -8,6 +8,7 @@ import { MasterppkService } from './../../shared/masterppk.service';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 @Component({
@@ -127,7 +128,12 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Mengambil Data', 
+          'error'
+        )
       }
     )
   }
@@ -143,7 +149,12 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('Get data PPK error   | getPPK ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Mengambil Data', 
+          'error'
+        )
       }
     )
   }
@@ -180,6 +191,11 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('searchPPK PPK error   | searchPPK ===>',error);
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menemukan Data', 
+          'error'
+        )
       }
     )
   }
@@ -203,7 +219,12 @@ export class MasterppkComponent implements OnInit {
     this.masterPpkService.deletePPK(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deletePPK ===>',result)
-        notify({ message: "Yayyy! Berhasil menghapus data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yayyy! Berhasil menghapus data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
         this.ListPPK = _.remove(this.ListPPK, function(data){
           return data.id != result.result.id;
         })
@@ -211,7 +232,12 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deletePPK ===>',error);
-        notify({ message: "Whoops! Gagal menghapus data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! Gagal menghapus data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 
@@ -229,7 +255,12 @@ export class MasterppkComponent implements OnInit {
       this.masterPpkService.createPPK(this.form.value).subscribe(
         result => {
           console.log('create success | createPPK ===>',result)
-          notify({ message: "Yayyy! Berhasil Menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yayyy! Berhasil Menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil ditambahkan', 
+            'success'
+          )
           this.windowModeView('grid');
 
           this.ListPPK.push(result.result)
@@ -239,7 +270,12 @@ export class MasterppkComponent implements OnInit {
         },
         error => {
           console.log('create error   | createPPK ===>',error);
-          notify({ message: "Whoops! Gagal Menambahkan data, "+ error.error.message +" ",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! Gagal Menambahkan data, "+ error.error.message +" ",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil ditambahkan', 
+            'error'
+          )
         }
       )
     }else{
@@ -247,14 +283,24 @@ export class MasterppkComponent implements OnInit {
       this.masterPpkService.updatePPK(data).subscribe(
         result => {
           console.log('update success | updatePPK ===>',result)
-          notify({ message: "Yayyy! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yayyy! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil disimpan', 
+            'success'
+          )
           this.windowModeView('grid');
           console.log('ListSatker ===>',this.ListSatker);
 
         },
         error => {
           console.log('update error   | updatePPK ===>',error);
-          notify({ message: "Whoops! Gagal update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! Gagal update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil simpan', 
+            'error'
+          )
         }
       )
     }

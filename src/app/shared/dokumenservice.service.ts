@@ -50,9 +50,14 @@ export class DokumenserviceService {
     return this.http.post(API_URL+'/tindaklanjut/add-data-respon/'+data.tindakLanjutId, data);
   }
 
+  getDataGeneratePDF(id): Observable<any>{
+    return this.http.get(API_URL+'/dokumentemuan/get-preview-dokumen/'+id);
+  }
+
+
 
   
-  downloadDocumentTindakLanjut(fileName): Observable<any>{
+  downloadDocumentTindakLanjut(fileName){
     return this.http.get(API_URL+'/tindaklanjut/search/'+fileName, 
       {
         headers: {

@@ -8,6 +8,7 @@ import { MastersatkerService } from './../../shared/mastersatker.service';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-satker',
@@ -118,7 +119,12 @@ export class SatkerComponent implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data', 
+          'error'
+        )
       }
     )
   }
@@ -165,7 +171,14 @@ export class SatkerComponent implements OnInit {
     this.masterSatkerService.deleteSatker(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deleteSatker ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
+
         this.ListSatker = _.remove(this.ListSatker, function(data){
           return data.id != result.result.id;
         })
@@ -173,7 +186,12 @@ export class SatkerComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deleteSatker ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 
@@ -206,7 +224,13 @@ export class SatkerComponent implements OnInit {
       this.masterSatkerService.createSatker(this.form.value).subscribe(
         data => {
           console.log('create success | createSatker ===>',data)
-          notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil ditambahkan', 
+            'success'
+          )
+
           this.windowModeView('grid');
 
           this.ListSatker.push(data.result)
@@ -215,7 +239,12 @@ export class SatkerComponent implements OnInit {
         },
         error => {
           console.log('create error   | createSatker ===>',error);
-          notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Create data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil ditambahkan', 
+            'error'
+          )
         }
       )
     }else{
@@ -223,13 +252,23 @@ export class SatkerComponent implements OnInit {
       this.masterSatkerService.updateSatker(data).subscribe(
         result => {
           console.log('update success | updateSatker ===>',result)
-          notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          // notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasil disimpan', 
+            'success'
+          )
           this.windowModeView('grid');
 
         },
         error => {
           console.log('update error   | updateSatker ===>',error);
-          notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          // notify({ message: "Whoops! failed to Update data",position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak berhasil simpan', 
+            'error'
+          )
         }
       )
     }

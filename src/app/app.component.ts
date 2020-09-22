@@ -11,6 +11,7 @@ import { NewsService } from './shared/news.service';
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 var toggleFullscreen = true;
 
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {    
     $('#breadCrumbTitle a').text('Dashboard');
+    this.selectActiveMenu('dashboard');
 
     this.auth.userAuthState.subscribe(val => {
         this.isSignedIn = val;
@@ -97,10 +99,63 @@ export class AppComponent implements OnInit{
   }
 
 
+  
+
+  selectActiveMenu(opened){
+    this.removeActiveMenu();
+    if(opened == 'dashboard'){
+      $('#listMenu #dashboard').addClass('uk-active');
+    }else if(opened == 'blog'){
+      $('#listMenu #blog').addClass('uk-active');
+    }else if(opened == 'dokumenTemuan'){
+      $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'tindaklanjutv2'){
+      $('#listMenu #tindaklanjutv2').addClass('uk-active');
+    }else if(opened == 'tindaklanjut'){
+      $('#listMenu #tindaklanjut').addClass('uk-active');
+    }else if(opened == 'approvaldoc'){
+      $('#listMenu #approvaldoc').addClass('uk-active');
+    }else if(opened == 'masterkpa'){
+      $('#listMenu #masterkpa').addClass('uk-active');
+    }else if(opened == 'masterppk'){
+      $('#listMenu #masterppk').addClass('uk-active');
+    }else if(opened == 'cabang'){
+      $('#listMenu #cabang').addClass('uk-active');
+    }else if(opened == 'satker'){
+      $('#listMenu #satker').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }else if(opened == 'login'){
+      $('#listMenu #login').addClass('uk-active');
+    }else if(opened == 'profile'){
+      $('#listMenu #profile').addClass('uk-active');
+    }else if(opened == 'register'){
+      $('#listMenu #register').addClass('uk-active');
+    }
+  }
+
+
+  removeActiveMenu(){
+    $('#listMenu #dashboard').removeClass('uk-active');
+    $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #tindaklanjutv2').removeClass('uk-active');
+    $('#listMenu #tindaklanjut').removeClass('uk-active');
+    $('#listMenu #approvaldoc').removeClass('uk-active');
+    $('#listMenu #masterppk').removeClass('uk-active');
+    $('#listMenu #cabang').removeClass('uk-active');
+    $('#listMenu #blog').removeClass('uk-active');
+    $('#listMenu #satker').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
+    $('#listMenu #login').removeClass('uk-active');
+    $('#listMenu #profile').removeClass('uk-active');
+    $('#listMenu #register').removeClass('uk-active');
+  }
+
+
 
   ListBerita = [];
   getDataBerita(){
-    this.newsService.getNews().subscribe(
+    this.newsService.getActiveNews().subscribe(
       data => {
         console.log('getDataBerita success | getNews ===>',data);
         this.ListBerita = data.result;
@@ -254,6 +309,8 @@ export class AppComponent implements OnInit{
     this.token.removeToken();
     this.router.navigate(['login']);
     this.isSuccessResetPass = false;
+    this.getDataBerita();
+
   }
 
 
