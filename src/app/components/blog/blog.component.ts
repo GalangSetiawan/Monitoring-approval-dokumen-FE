@@ -30,17 +30,6 @@ export class BlogComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-
-      id     : new FormControl(null),
-      bgImage     : new FormControl("",Validators.compose([Validators.required,])),
-      title     : new FormControl("",Validators.compose([Validators.required,])),
-      body     : new FormControl("",Validators.compose([Validators.required,])),
-      isActive  : new FormControl(1,Validators.compose([Validators.required,])),
-      imageName :new FormControl(""),
-       
-    });
-
     this.getDataSatker();
     this.getDataBerita();
     $('#breadCrumbTitle a').text(this.titleHeader);
@@ -102,7 +91,9 @@ export class BlogComponent implements OnInit {
   windowModeView(mode){
     this.windowMode = mode;
     if(this.windowMode == 'create'){
-      this.beritaForm = {title:null, body:null,id:null, bgImage:undefined, isActive:null,imageName:null};
+      this.beritaForm = {title:'', body:'',id:null, bgImage:undefined, isActive:null,imageName:''};
+      this.imageUrl = undefined;
+      this.isEditImage = true;
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
@@ -111,6 +102,7 @@ export class BlogComponent implements OnInit {
     }else if(this.windowMode == 'grid'){
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #create').remove();
+      // this.getDataBerita();
     }
   }
 
@@ -146,9 +138,12 @@ export class BlogComponent implements OnInit {
     this.newsService.switchActiveData(row.data).subscribe(
       result => {
         console.log('switch success | switchActiveData ===>',result)
+
+        var status = result.result.isActive == 0? 'Non-Aktif' : 'Aktif'
+
         Swal.fire(
           'Yay Success!', 
-          'Berhasil mengubah status berita', 
+          'Berhasil mengubah status berita menjadi ' + status, 
           'success'
         )
       },
@@ -188,34 +183,40 @@ export class BlogComponent implements OnInit {
     )
   }
 
-  
-  beritaForm = {title:null, body:null,id:null, bgImage:undefined, isActive:null,imageName:null};
-  onEditClick(row){
-    console.log('btnEdit ===>',row.data);
-    this.windowModeView('edit');
-    this.beritaForm = row.data;
-
-    
-
-    this.newsService.downloadImage(this.beritaForm.bgImage).subscribe(
+  downloadedImage = undefined;
+  downloadImg(imgName){
+    this.newsService.downloadImage(imgName).subscribe(
       data => {
-        console.log('onEditClick success | downloadImage ===>',data);
-        this.ListBerita = data.result;
-
-        console.log('ListBerita ===>',this.ListBerita);
+        console.log('downloadImg success | downloadImage ===>',data);
+        this.imageUrl = data
       },
       error => {
-        console.log('onEditClick error   | downloadImage ===>',error);
-        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        console.log('downloadImg error   | downloadImage ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
         Swal.fire(
           'Whoops Failed', 
-          'Tidak berhasil mengambil data', 
+          'Tidak berhasil mengambil gambar berita', 
           'error'
         )
       }
     )
+  }
 
 
+
+  btnCancelUpload(){
+    console.log('btnCancelUpload | beritaForm ===>', this.beritaForm)
+    this.isEditImage = false;
+  }
+
+  beritaForm = {title:'', body:'',id:null, bgImage:undefined, isActive:null,imageName:''};
+  onEditClick(row){
+    console.log('btnEdit ===>',row.data);
+    this.windowModeView('edit');
+    this.beritaForm = row.data;
+    this.isEditImage = false;
+
+    this.downloadImg(this.beritaForm.bgImage)
   }
 
   cleanBlankKey(obj){
@@ -228,16 +229,25 @@ export class BlogComponent implements OnInit {
   }
 
   imageUrl:any
+  isEditImage = false;
   handleFileInput(files :FileList){
+    if(this.windowMode == 'edit'){
+      this.isEditImage = true;
+    }
+
     console.log('handleFileInput ===>',files)
     this.beritaForm.bgImage = files;
     this.beritaForm.imageName = files[0].name;
     console.log('handleFileInput |  this.beritaForm ===>',this.beritaForm)
 
-    var reader = new FileReader();
+
+    var fileToUpload = files.item(0)
+    let reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
     }
+    reader.readAsDataURL(fileToUpload);
+
     console.log('handleFileInput |  this.imageUrl ===>',this.imageUrl)
 
   }
@@ -305,16 +315,13 @@ export class BlogComponent implements OnInit {
   }
 
 
-  doSave(data){
 
-    if(this.windowMode == 'edit'){
-      data = this.beritaForm;
-    }
+  doSave(data){
 
     if(data.id == null){
       console.log('doSave | data ===>',data);
       // this.form.patchValue({bgImage:this.beritaForm.bgImage, imageName:this.beritaForm.imageName})
-      this.newsService.createNews(this.beritaForm).subscribe(
+      this.newsService.createNews(data).subscribe(
         data => {
           console.log('create success | createNews ===>',data)
          
@@ -353,7 +360,10 @@ export class BlogComponent implements OnInit {
       )
     }else{
       console.log('do update Data ===>',data)
-      this.newsService.updateNews(data).subscribe(
+
+   
+
+      this.newsService.updateNews(data,this.isEditImage).subscribe(
         result => {
           console.log('update success | updateNews ===>',result)
           // notify({ message: "Yosssh! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);

@@ -11,13 +11,13 @@
         <!-- (click)="sidebarCollapse()"  uk-toggle="target: .closeImg"  untuk toggle sidebar biru -->
         <div style="text-align: center;">
             <!-- <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""> -->
-            <img class="uk-preserve-width uk-border-circle img-small closeImg mb-2 uk-animation-scale-down uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="40" alt="" >
-            <img class="uk-preserve-width uk-border-circle img-large closeImg mb-2 uk-animation-scale-up uk-transform-origin-top-center" src="https://getuikit.com/docs/images/avatar.jpg" width="80" alt="" hidden>
+            <img class="uk-preserve-width uk-border-circle img-small closeImg mb-2 uk-animation-scale-down uk-transform-origin-top-center" src="assets/img/folder.png" width="40" alt="" >
+            <img class="uk-preserve-width uk-border-circle img-large closeImg mb-2 uk-animation-scale-up uk-transform-origin-top-center" src="assets/img/folder.png" width="80" alt="" hidden>
             <h3 style="color:white"  (click)="signOut()" class="uk-animation-scale-up uk-transform-origin-top-center" ><b>Monitoring Aproval Document</b></h3>
 
         </div>
 
-        <strong class="uk-animation-scale-down uk-transform-origin-top-center">MAD</strong>
+        <strong class="uk-animation-scale-down uk-transform-origin-top-center">MTT</strong>
     </div>
 
     <ul class="list-unstyled components">
@@ -98,7 +98,14 @@
         <div style="overflow:scroll">
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav id="listMenu">
 
-                <li class="uk-nav-header bgRound bgBlue uk-text-center">Monitoring Approval Document</li>
+                
+                <li>
+                    <div class="uk-inline uk-margin d-flex justify-content-center ">
+                        <img src="assets/img/logo.png" style="width: 70%;" >
+                    </div>
+                </li>
+                
+                <!-- <li class="uk-nav-header bgRound bgBlue uk-text-center">Monitoring Approval Document</li> -->
                 <li class="uk-nav-divider mt-3"></li>
                 
                 <li class="listMenu" (click)="selectMenu()" id="dashboard"><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
@@ -314,7 +321,9 @@
                     <header class="uk-comment-header">
                         <div class="uk-grid-medium uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
-                                <img class="uk-preserve-width uk-border-circle" src="https://getuikit.com/docs/images/avatar.jpg"  width="40" alt="">
+                                
+                                <img class="uk-preserve-width uk-border-circle" *ngIf="imageUrl" [src]="imageUrl"  width="40" height="40" alt="">
+                                <img class="uk-preserve-width uk-border-circle" *ngIf="imageUrl == undefined" src="https://getuikit.com/docs/images/avatar.jpg"  width="40"  height="40" alt="">
                             </div>
                             <div class="uk-width-expand">
                                 <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" style="text-transform:capitalize;">{{UserProfile.nama}}</a></h4>
@@ -344,7 +353,7 @@
 
 
 <!-- ======================== LOGIN PAGE ========================== -->
-<div class="row" *ngIf="!isSignedIn" style="height: 100vh;">
+<div class="row" *ngIf="!isSignedIn" style="height: 100vh; background: rgba(227,242,253, 0.1);">
 
     <div class="col-md-9" style="height: 100vh;" >
 
@@ -402,21 +411,24 @@
 
     <div class="col-md-3" style="padding-right: 45px;padding-top: 50px;">
 
-        <div class="loginSide" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
+        <div class="loginSide mt-5" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
 
             <div class="uk-inline uk-margin d-flex justify-content-center ">
-                <h1 class="uk-heading-large uk-text-center">Monitoring Approval Dokumen</h1>
-
-
+                <img src="assets/img/logo.png" style="width: 60%;" >
             </div>
 
-            <div class="justify-content-center" id="imgLogo" style="width: 80%;">
-                <img src="assets/img/delesign-free-designs-folder.png" style="width: 100%;" >
-            </div>
 
+            <p class="uk-legend uk-heading-small uk-margin-small-bottom" style="color: #03a9f4;font-size: 30px; font-weight: 400;">Login</p>
+
+
+
+            <p class="uk-legend uk-heading-small mb-5" style="font-size: 20px; letter-spacing: 1.2px;">
+                Bagi kamu yang sudah terdaftar, silakan masuk
+
+            </p>
+          
 
             <!-- <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt=""> -->
-            <p class="uk-legend uk-heading-small uk-margin-small-bottom" style="color: darkgray;">Silahkan Masuk</p>
 
             <div *ngIf="errors?.username" class="alert alert-danger mt-3">
                 {{ errors?.username }}
@@ -435,7 +447,7 @@
 
 
 
-            <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <form class="form-signin mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
                 <div class="uk-margin">
                     <div class="uk-inline" style="width: 100vh;">
@@ -444,7 +456,7 @@
                     </div>
                 </div>
     
-                <div class="uk-margin">
+                <div class="uk-margin mb-5" >
                     <div class="uk-inline" style="width: 100vh;">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                         <input class="uk-input" type="password" formControlName="password" placeholder="Masukan Password Anda">
@@ -453,7 +465,7 @@
                 </div>
     
     
-                <div class="uk-inline uk-margin d-flex justify-content-center">
+                <div class="">
                     <button  type="submit" class="uk-button uk-button-primary">MASUK</button>
     
                 </div>
@@ -523,7 +535,8 @@
                                 <header class="uk-comment-header uk-position-relative">
                                     <div class="uk-grid-medium uk-flex-middle" uk-grid>
                                         <div class="uk-width-auto">
-                                            <img class="uk-comment-avatar" src="https://getuikit.com/docs/images/avatar.jpg" width="80" height="80" alt="">
+                                            <img class="uk-comment-avatar" *ngIf="imageUrl == undefined" src="https://getuikit.com/docs/images/avatar.jpg" width="80" height="80" alt="">
+                                            <img class="uk-comment-avatar" *ngIf="imageUrl" [src]="imageUrl" width="80" height="80" alt="">
                                         </div>
                                         <div class="uk-width-expand">
                                             <h2 class="uk-comment-title uk-margin-remove" style="text-transform: capitalize;">{{UserProfile.nama}}</h2>
@@ -640,7 +653,13 @@
 
 <style>
 
-    
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+
+    .quickSand{
+        font-family: 'Quicksand', sans-serif !important;
+    }
+
     .footer {
         position: absolute;
         right: 0;

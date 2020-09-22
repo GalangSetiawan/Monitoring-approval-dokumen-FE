@@ -121,11 +121,10 @@
 
 <section [hidden]="windowMode == 'grid'">
 
-    <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
+    <div class="uk-form-horizontal uk-margin-large" >
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
             <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
-            <input type="submit" [disabled]="!form.valid" value="Save" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
-            <input type="submit" [disabled]="!form.valid" value="Update" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
+            <input type="submit" [disabled]="beritaForm.body == '' || beritaForm.title == '' || beritaForm.imageName == '' " (click)="doSave(beritaForm)" value="SIMPAN" class="uk-button uk-button-primary">
         </div>  
 
         
@@ -135,11 +134,34 @@
                 
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="form-horizontal-text">Latar Belakang</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..." formControlName="bgImage"  [ngClass]="{ 'uk-form-danger': submitted && f.bgImage.errors }">
-                        <div *ngIf="submitted && f.bgImage.errors" class="uk-text-danger uk-text-italic">
-                          <div *ngIf="f.bgImage.errors.required">Judul berita wajib diisi</div>
+                    <!-- data-src="{{imageUrl}}" -->
+
+                    
+                    <div class="uk-cover-container uk-height-medium" *ngIf="imageUrl != undefined">
+                        <img data-src="{{imageUrl}}" alt="" uk-cover>
+                        <a class="uk-position-absolute uk-transform-center"  href="#modal-edit-image" uk-toggle style="
+                        left: 20%; 
+                        top: 30%; 
+                        background: #0F7AE5; 
+                        color: white;     
+                        border-radius: 50%;
+                        width: 30px;
+                        height: 30px;
+                        padding: 5px;"
+                        uk-icon="icon: pencil" >
+                        </a>
+                        <h1 class="uk-position-center">
+                            <span style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent; color: white;">  &nbsp; {{beritaForm.title}} </span> 
+                        </h1>
+                    </div>
+
+
+
+                    <label class="uk-form-label" for="form-horizontal-text"  *ngIf="imageUrl == undefined">Latar Belakang</label>  
+                    <div class="uk-form-controls"  *ngIf="imageUrl == undefined"> 
+                        <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."   [ngClass]="{ 'uk-form-danger':  beritaForm.imageName == '' }">
+                        <div *ngIf=" beritaForm.imageName == ''" class="uk-text-danger uk-text-italic">
+                          <div >Judul berita wajib diisi</div>
                         </div>
                     </div>
                 </div>
@@ -148,84 +170,90 @@
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Judul Berita</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="title" [(ngModel)]="beritaForm.title" [ngClass]="{ 'uk-form-danger': submitted && f.title.errors }">
-                        <div *ngIf="submitted && f.title.errors" class="uk-text-danger uk-text-italic">
-                            <div *ngIf="f.title.errors.required">Judul berita wajib diisi</div>
+                        <input class="uk-input" type="text" placeholder="Masukan Nama..." [(ngModel)]="beritaForm.title" [ngClass]="{ 'uk-form-danger': beritaForm.title == '' }">
+                        <div *ngIf=" beritaForm.title == ''" class="uk-text-danger uk-text-italic">
+                            <div>Judul berita wajib diisi</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="uk-child-width-expand@s uk-text-center" uk-grid uk-height-match="target: > div > .uk-card">
+                <div class="uk-child-width-expand@s" uk-grid uk-height-match="target: > div > .uk-card">
                     <div>
                         <div class="uk-card uk-card-default uk-card-body">
+
+                        
+                            <dx-html-editor class="uk-margin"  [(ngModel)]="beritaForm.body">
+                                <dxo-toolbar [multiline]="isMultiline">
+                                <dxi-item formatName="undo"></dxi-item>
+                                <dxi-item formatName="redo"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                                <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="bold"></dxi-item>
+                                <dxi-item formatName="italic"></dxi-item>
+                                <dxi-item formatName="strike"></dxi-item>
+                                <dxi-item formatName="underline"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="alignLeft"></dxi-item>
+                                <dxi-item formatName="alignCenter"></dxi-item>
+                                <dxi-item formatName="alignRight"></dxi-item>
+                                <dxi-item formatName="alignJustify"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="orderedList"></dxi-item>
+                                <dxi-item formatName="bulletList"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="color"></dxi-item>
+                                <dxi-item formatName="background"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="link"></dxi-item>
+                                <dxi-item formatName="image"></dxi-item>
+                                <dxi-item formatName="separator"></dxi-item>
+                                <dxi-item formatName="clear"></dxi-item>
+                                <dxi-item formatName="codeBlock"></dxi-item>
+                                <dxi-item formatName="blockquote"></dxi-item>
+                                <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+                        
+                                </dxo-toolbar>
+                                <dxo-media-resizing
+                                [enabled]=true>
+                                </dxo-media-resizing>
                             
-                                <dx-html-editor height="550px" class="uk-margin"  [(value)]="beritaForm.body" formControlName="body">
-                                    <dxo-toolbar [multiline]="isMultiline">
-                                    <dxi-item formatName="undo"></dxi-item>
-                                    <dxi-item formatName="redo"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
-                                    <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="bold"></dxi-item>
-                                    <dxi-item formatName="italic"></dxi-item>
-                                    <dxi-item formatName="strike"></dxi-item>
-                                    <dxi-item formatName="underline"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="alignLeft"></dxi-item>
-                                    <dxi-item formatName="alignCenter"></dxi-item>
-                                    <dxi-item formatName="alignRight"></dxi-item>
-                                    <dxi-item formatName="alignJustify"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="orderedList"></dxi-item>
-                                    <dxi-item formatName="bulletList"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="color"></dxi-item>
-                                    <dxi-item formatName="background"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="link"></dxi-item>
-                                    <dxi-item formatName="image"></dxi-item>
-                                    <dxi-item formatName="separator"></dxi-item>
-                                    <dxi-item formatName="clear"></dxi-item>
-                                    <dxi-item formatName="codeBlock"></dxi-item>
-                                    <dxi-item formatName="blockquote"></dxi-item>
-                                    <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
-                            
-                                    </dxo-toolbar>
-                                    <dxo-media-resizing
-                                    [enabled]=true>
-                                    </dxo-media-resizing>
-                                
-                                </dx-html-editor>
-                                <div *ngIf="submitted && f.body.errors" class="uk-text-danger uk-text-italic">
-                                    <div *ngIf="f.body.errors.required">Judul berita wajib diisi</div>
-                                </div>
-                
-                                <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
-                                    <div>{{beritaForm.body}}</div>
-                                </dx-popup>
+                            </dx-html-editor>
+                            <div *ngIf=" beritaForm.body == ''" class="uk-text-danger uk-text-italic">
+                                <div>Konten berita wajib diisi</div>
+                            </div>
+            
+                            <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+                                <div>{{beritaForm.body}}</div>
+                            </dx-popup>
 
                         </div>
-                     </div>
+                    </div>
+
+                   
                     <div>
                         <div class="uk-card uk-card-default uk-card-body">
-                            <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
-                                <div [innerHTML]="beritaForm.body | keepHtml"></div>
-                            </td>
+                            <h1 class="uk-text-center mb-5" *ngIf="beritaForm.title != ''">
+                                <span style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent;">  &nbsp; {{beritaForm.title}} </span> </h1>
+                            <div [innerHTML]="beritaForm.body | keepHtml"></div>
                         </div>
                     </div>
+
+
                     
                 </div>
 
-                
+
+            
 
               
                
             </div>
         </div>
-    </form>
+    </div>
 
 
 
@@ -245,3 +273,28 @@
     </div>
 </div>
 <!-- modal-delete-ppk -->
+
+
+<!-- modal-delete-ppk -->
+<div id="modal-edit-image" class="uk-flex-top" uk-modal>    
+    <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body">
+        <h2 class="uk-modal-title">Upload Gambar</h2>
+
+        <div class="uk-form-controls mt-3">
+            <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."   [ngClass]="{ 'uk-form-danger':  beritaForm.imageName == '' }">
+            <div *ngIf=" beritaForm.imageName == ''" class="uk-text-danger uk-text-italic">
+              <div >Latar Belakang berita wajib diisi</div>
+            </div>
+        </div>
+
+
+        <img width="100%" *ngIf="imageUrl != undefined" [src]="imageUrl" class="image">
+
+        <p class="uk-text-right mt-4">
+            <button class="uk-button uk-button-default uk-modal-close" (click)="btnCancelUpload()" type="button" id="btnHapus">Batal</button> &nbsp;
+            <button class="uk-button uk-button-primary uk-modal-close" type="button">Simpan</button>
+        </p>
+    </div>
+</div>
+<!-- modal-delete-ppk -->
+

@@ -243,6 +243,25 @@ export class AppComponent implements OnInit{
     )
   }
 
+  imageUrl = undefined
+  downloadImg(imgName){
+    this.newsService.downloadImage(imgName).subscribe(
+      data => {
+        console.log('downloadImg success | downloadImage ===>',data);
+        this.imageUrl = data
+      },
+      error => {
+        this.imageUrl = undefined
+        console.log('downloadImg error   | downloadImage ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil mengambil gambar berita', 
+          'error'
+        )
+      }
+    )
+  }
 
   UIkit:any
   onSubmit() {
@@ -256,6 +275,8 @@ export class AppComponent implements OnInit{
         // this.UserProfile = result.user
         this.isResetForm = false;
         this.isLogoutForm = false;
+
+        this.downloadImg(result.user.foto);
         // UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Selamat Datang '  + this.UserProfile.nama ,  status: 'success',pos: 'top-right'})
       },
       error => {
