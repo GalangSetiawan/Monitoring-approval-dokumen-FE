@@ -3,9 +3,6 @@
 <div class="wrapper"  *ngIf="isSignedIn">
   <!-- Sidebar  -->
 
-
-
-
   <nav id="sidebar" class="active">
     <div class="sidebar-header" id="sidebarCollapse" >
         <!-- (click)="sidebarCollapse()"  uk-toggle="target: .closeImg"  untuk toggle sidebar biru -->
@@ -360,48 +357,39 @@
 
         <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow >
 
-            <ul class="uk-slideshow-items" style="height: 100vh !important; ">
-                <li *ngFor="let berita of ListBerita">
-                    <img data-src="https://getuikit.com/docs/images/photo.jpg" alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
+            <ul class="uk-slideshow-items" style="height: 100vh !important; " id="listUIberita">
+                <li *ngFor="let berita of ListBerita; let i = index" id="{{berita.id}}">
+                    <img *ngIf="berita.latarBelakang == undefined"  data-src="https://getuikit.com/docs/images/photo.jpg" alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
+                    <img *ngIf="berita.latarBelakang != undefined" [src]="berita.latarBelakang"  alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
 
                     <div class="uk-position-cover" >
                         <div class="contentBerita uk-position-cover m-3" style="background-color: rgba(227,242,253,0); height: 100%;">
-
-
-
-                            
-
                             <div class="uk-position-center">
                                 <div class="absoluteCenter mt-5 pl-5 pr-5 container-fluid">
                                     <div class="container">
                                         <h1 class="uk-heading-small" style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent;" > &nbsp; {{berita.title}}</h1>
-
                                     </div>
                                 </div>
-    
+
+
+
                                 <div class="absoluteCenter container" >
                                     <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" style="overflow: scroll; max-height: 65vh;background-color: rgba(227,242,253,0.9)">
                                         <div [innerHTML]="berita.body | keepHtml"></div>
                                     </div>
                                 </div>
                             </div>
-                            
-
-
-
-
                         </div>
                     </div>
-    
-                  
-
-
                 </li>
+
+             
+
                 
             </ul>
         
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" (click)="prevNews($event)" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" (click)="nextNews($event)" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
         
         </div>
         

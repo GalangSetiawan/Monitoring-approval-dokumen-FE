@@ -322,22 +322,23 @@ export class BlogComponent implements OnInit {
       console.log('doSave | data ===>',data);
       // this.form.patchValue({bgImage:this.beritaForm.bgImage, imageName:this.beritaForm.imageName})
       this.newsService.createNews(data).subscribe(
-        data => {
+        (data:any) => {
           console.log('create success | createNews ===>',data)
          
-          var result = data;
+          // var result = data;
           // this.getDataBerita();
+          this.ListBerita.push(data.result);
 
-          this.newsService.getNewsbyId(result).subscribe(
-            (data:any)=>{
-              console.log('doEditGeneral | getDataGridById  success ===>',data)
+          // this.newsService.getNewsbyId(result).subscribe(
+          //   (data:any)=>{
+          //     console.log('doEditGeneral | getDataGridById  success ===>',data)
   
-              this.ListBerita.push(data.result);
+          //     this.ListBerita.push(data.result);
   
-            },error =>{
-              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
-            }
-          )
+          //   },error =>{
+          //     console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+          //   }
+          // )
 
           // notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);
           Swal.fire(
