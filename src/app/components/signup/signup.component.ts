@@ -392,6 +392,7 @@ export class SignupComponent implements OnInit {
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.submitted = false;
+    this.imageUrl = undefined
     this.windowModeView('edit');
     this.registerForm.patchValue({
       id                   : row.data.id,
@@ -411,8 +412,8 @@ export class SignupComponent implements OnInit {
     });
     console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
     this.modelRegister = row.data;
-    this.onSatkerChange(row.data.satkerId);
-
+    this.onSatkerChange(row.data.satkerId); 
+    this.isEditImage = false;
     this.downloadImg(row.data.foto);
   }
 

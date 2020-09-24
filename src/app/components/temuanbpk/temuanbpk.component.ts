@@ -154,6 +154,7 @@ export class TemuanbpkComponent implements OnInit {
   batchDokumen = [];
   isiHardcode(){
     this.modelDokumenTemuan = {
+      isEdit                       : null,
       id                           : 2,
       jenisDokumenTemuanId         : 2,
       tglTerimaDokumenTemuan       : '2020-12-31',
@@ -219,6 +220,7 @@ export class TemuanbpkComponent implements OnInit {
     tglLHA                        : null,
     footer                        : null,
     header                        : null,
+    isEdit                        : null,
   }
 
 
@@ -242,6 +244,7 @@ export class TemuanbpkComponent implements OnInit {
     titleHeader              : null,
     nomorHeader              : null,
     responTindakLanjut       : null,
+    
   }
 
   closeAlldokumenForm(){
@@ -411,6 +414,8 @@ export class TemuanbpkComponent implements OnInit {
       tglLHA                        : null,
       footer                        : null,
       header                        : null,
+      isEdit                        : null,
+
     }
   }
 
@@ -845,7 +850,7 @@ export class TemuanbpkComponent implements OnInit {
         this.modelDokumenTemuan = data.result;
         this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
         this.batchDokumen.splice(0);
-        data.result.resultDokumen.responTindakLanjut = ''
+        data.result.resultDokumen.responTindakLanjut = data.result.resultDokumen.responTindakLanjut == null? '':data.result.resultDokumen.responTindakLanjut
         this.batchDokumen.push(data.result.resultDokumen)
         console.log('onEditTindakLanjutGridClick | this.modelTindakLanjut',this.modelTindakLanjut);
 
@@ -871,11 +876,11 @@ export class TemuanbpkComponent implements OnInit {
     
 
     this.dokumenService.getDetailDokumenTemuanGridView(row.data.id).subscribe(
-      data => {
+      (data:any) => {
         console.log('getDetailDokumenTemuanGridView Detail success | getDetailDokumenTemuanGridView ===>',data);
-
         this.modelDokumenTemuan = data.result;
-        // var keadaanSdBulan = this.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
+        this.modelDokumenTemuan.isEdit = row.data.isEdit;
+        // var keadaanSdBulan = t his.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
         this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan );
         
         console.log('this.modelDokumenTemuan ===>', this.modelDokumenTemuan)
@@ -1003,22 +1008,23 @@ export class TemuanbpkComponent implements OnInit {
 
 
   optionsHtml2Pdf = {
-    filename:'HTML2PDF.pdf',
-    jsPDF:{orientation:'landscape'},
-
-    margin: [10,2],
-    image:        { type: 'png' },
-    html2canvas:  { scale: 4 },
+    filename   : 'HTML2PDF.pdf',
+    jsPDF      : {orientation: 'landscape'},
+    margin     : [10,2,50,2],
+    image      : { type      : 'png' },
+    html2canvas: { scale     : 1 },
 
   }
   downloadHtml2Pdf(){
 
+    this.isLoading = true;
     var element = document.getElementById('kertasa4-forPrint');
-
     html2pdf()
     .from(element)
     .set(this.optionsHtml2Pdf)
-    .save()
+    .save(this.isLoading = false)
+   
+
   }
 
 
@@ -1038,9 +1044,19 @@ export class TemuanbpkComponent implements OnInit {
       data =>{
         console.log('doSaveResponTL | saveResponTindakLanjut Success ===>',data);
         this.windowModeView('grid');
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasi disimpan', 
+          'success'
+        )
       },
       error =>{
         console.log('doSaveResponTL | saveResponTindakLanjut error ===>',error);
+        Swal.fire(
+          'Whoops Failed!', 
+          'Data tidak berhasi disimpan', 
+          'error'
+        )
       }
     )
   }
@@ -1128,6 +1144,9 @@ export class TemuanbpkComponent implements OnInit {
         console.log('createDokumenTemuan Success ===>',data.result);
         var tmpDokTemuan = data.result;
 
+
+        this.ListDokumenTemuan.push(data.result);
+
  
         for(var i in this.batchDokumen){
           this.batchDokumen[i].dokumenTemuanId = tmpDokTemuan.id;
@@ -1144,17 +1163,31 @@ export class TemuanbpkComponent implements OnInit {
             console.log('createDokumen Success ===>',data.result);   
             this.windowModeView('grid');
 
+            Swal.fire(
+              'Yay Success!', 
+              'Dokumen Temuan berhasi disimpan', 
+              'success'
+            )
+
           },
           error =>{
-            console.log('createDokumen Gagal ===>',error)
+            console.log('onSubmit | createDokumen Gagal ===>',error);
+            Swal.fire(
+              'Whoops Failed!', 
+              'Dokumen Temuan Tidak berhasi disimpan', 
+              'error'
+            )
+            
           }
         )
-
-        
-
       },
       error =>{
-        console.log('createDokumenTemuan Gagal ===>',error)
+        console.log('onSubmit | createDokumenTemuan Gagal ===>',error)
+        Swal.fire(
+          'Whoops Failed!', 
+          'Dokumen Temuan Tidak berhasi disimpan', 
+          'error'
+        )
       }
     )
 
@@ -1230,7 +1263,7 @@ export class TemuanbpkComponent implements OnInit {
     (doc as any).autoTable({
       head: this.head,
       body: this.dataPrint,
-      theme: 'plain',
+      theme: 'grid',
       didDrawCell: data => {
         console.log(data.column.index)
       }

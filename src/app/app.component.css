@@ -69,15 +69,20 @@ span {
 ----------------------------------------------------- */
 
 .wrapper {
-    display: flex;
+    /* display: flex; */
     align-items: stretch;
     height: 100%;
+}
+
+.listMenu :hover{
+    background-color: rgba(15,122,229,0.8);
+    color: white !important;
 }
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #0F7AE5;
+    /* background: #0F7AE5; */
     color: #fff;
     transition: all 0.3s;
 }
@@ -122,13 +127,12 @@ span {
 
 
 @media  screen and (max-width: 1600px) {
-    .second-sidebar{
-        width: 330px !important;
+    /* .second-sidebar{
+        width: 280px !important;
         position: fixed;
         z-index: 10000 !important;
         background-color: white;
-        margin-left: -5px;
-        height: 100vh;
+        margin-left: 0px;
         margin-top: -20px;
         padding-top: 10px;
         box-shadow: 4px 0 5px -4px #888;
@@ -141,6 +145,10 @@ span {
 
     #imgLogo{
         display: none;
+    } */
+
+    .wrapper{
+        zoom: 0.8;
     }
 
 

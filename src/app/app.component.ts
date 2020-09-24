@@ -162,7 +162,7 @@ export class AppComponent implements OnInit{
         this.ListBerita[idx].latarBelakang = img
       },
       error => {
-        return undefined
+        this.ListBerita[idx].latarBelakang = undefined
         console.log('downloadImg error   | downloadImage ===>',error);
       }
     )

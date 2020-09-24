@@ -82,6 +82,7 @@
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
                 
                 <dxi-column dataField="title" caption="Judul Berita" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="userId" alignment="left" caption="Penulis" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="isActive" caption="Status" alignment="center" [width]="100" cellTemplate="activeSwitch"></dxi-column>
 
 
@@ -131,6 +132,7 @@
 
         <div class="card">
             <div class="card-body m-5" > 
+                
                 
 
                 <div class="uk-margin">
