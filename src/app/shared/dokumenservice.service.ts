@@ -172,7 +172,7 @@ export class DokumenserviceService {
     }
   
     updateDokumen(dataDokumen): Observable<any> {
-      return this.http.post<any>(API_URL+'/dokumen/edit-data/'+dataDokumen.id, dataDokumen);
+      return this.http.post<any>(API_URL+'/dokumen/edit-data/', dataDokumen);
     }
   
     getDokumen(): Observable<any> {

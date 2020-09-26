@@ -14,24 +14,25 @@
               <div  class="uk-margin-small row" >
   
                   <div class="col-md-6">
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Username</label>
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Nama User</label>
                       <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.username" type="text" placeholder="Masukan Username...">
+                          <input class="uk-input " [(ngModel)]="filterData.nama" type="text" placeholder="Masukan nama...">
                       </div>
                   </div>
   
-                  <div class="col-md-6">
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Nama</label>
-                      <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.nama" type="text" placeholder="Masukan nama user...">
-                      </div>
-                  </div>
   
                   <div class="col-md-6">  
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Email</label>
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
                       <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email...">
+                          <!-- <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email..."> -->
+                          <select class="uk-select" [(ngModel)]="filterData.satkerId" >
+                            <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                          </select>
+    
                       </div>
+
+                     
+
                   </div>
   
   
@@ -84,7 +85,7 @@
               <dxo-paging [pageSize]="10"></dxo-paging>
               <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
               
-              <dxi-column dataField="nama" caption="KPA" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="nama" caption="Nama" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="username" caption="Username" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="roleName" caption="Role" [allowSearch]="true"></dxi-column>
@@ -191,7 +192,7 @@
                 </div>
               </div>
     
-              <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+              <!-- <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
                 <label class="uk-form-label" for="form-horizontal-text">PPK</label>
                 <div class="uk-form-controls">
                     <select class="uk-select" [(ngModel)]="modelRegister.ppkId"  formControlName="ppkId" (change)="onPpkChange(modelRegister.ppkId)" [ngClass]="{ 'uk-form-danger': submitted && f.ppkId.errors }" >
@@ -201,7 +202,7 @@
                       <div *ngIf="f.ppkId.errors.required">PPK wajib diisi</div>
                   </div>
                 </div>
-              </div>
+              </div> -->
     
               <div class="uk-margin">
                 <label class="uk-form-label" for="form-horizontal-text">Email</label>

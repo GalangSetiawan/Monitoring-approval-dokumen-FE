@@ -198,7 +198,7 @@
                 <td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Kode</td>
                 <td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;">Ringkasan Tindak Lanjut</td>
                 <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;" >Status Tindak Lanjut</td>
-                <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
+                <td class="uk-text-top isResponseTL" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Tindak lanjut</td>
                 <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" *ngIf="isResponseTL">Respon Tindak lanjut</td>
                 <td class="uk-text-top pr-2 pl-2" style="width:80px;border-left: 0.1px solid black;">Aksi</td>
               </tr>
@@ -248,7 +248,7 @@
                       {{data.statusTindakLanjut}}
                   </td>
                   
-                  <td class="pr-2 pl-2 uk-text-top escapeHTML"  [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">
+                  <td class="pr-2 pl-2 uk-text-top escapeHTML isResponseTL" >
                       <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
                   </td>
 
@@ -841,7 +841,7 @@
 					<td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;">Kode</td>
 					<td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;">Ringkasan Tindak Lanjut</td>
 					<td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;">Status Tindak Lanjut</td>
-					<td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" >Tindak lanjut</td>
+					<td class="uk-text-top isResponseTL" style="width:230px; padding-right: 10px;padding-left: 10px;">Tindak lanjut</td>
 					<td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;" *ngIf="isResponseTL" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Respon Tindak lanjut</td>
 					<!-- <td class="uk-text-top" style="width:80px">Aksi</td> -->
 				</tr>
@@ -934,7 +934,7 @@
             </div>
 					</td>
 
-					<td class=" pr-2 pl-2 uk-text-top" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'"> <!-- Tindak Lanjut -->
+					<td class=" pr-2 pl-2 uk-text-top isResponseTL" > <!-- Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" [hidden]="windowMode=='create'" uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>

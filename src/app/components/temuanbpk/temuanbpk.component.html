@@ -17,28 +17,30 @@
                 <div  class="uk-margin-small row" >
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">KPA</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">No. LHA</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.namaKpa" placeholder="Some text...">
+                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.noLHA" placeholder="Nomor LHA...">
                         </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal LHA</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input"  type="date" [(ngModel)]="filterData.tglLHA">
+                      </div>
                     </div>
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Cabang</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Nama Kegiatan</label>
                         <div class="uk-form-controls">
-                            <select class="uk-select" [(ngModel)]="filterData.idCabang">
-                                <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
-                                <!-- <option [ngValue]="1">Dummy Cabang 100</option>
-                                <option [ngValue]="2">Dummy Cabang 200</option>
-                                <option [ngValue]="3">Dummy Cabang 300</option> -->
-                            </select>
+                          <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.namaKegiatan" placeholder="Nama Kegiatan...">
+
                         </div>
                     </div>
                   
     
-                    <div class="col-md-6"></div>
     
-                    <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
+                    <div class="col-md-12 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
                         <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
                         <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">CARI </button>
                     </div> 
@@ -90,9 +92,9 @@
 
 
                 <dxo-search-panel [visible]="true"></dxo-search-panel>
-                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-paging [pageSize]="20"></dxo-paging>
 
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]" [showInfo]="true"> </dxo-pager>
 
                 <dxi-column dataField="noLHA" caption="Nomor LHA" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="tglLHA" caption="Tanggal LHA" [allowSearch]="true"></dxi-column>
@@ -178,9 +180,9 @@
     <!-- <form class="uk-form-horizontal uk-margin-large" [formGroup]="dokumenTemuanForm" (ngSubmit)="doSave(dokumenTemuanForm.value)"> -->
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
           &nbsp; <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> 
+          &nbsp; <input type="submit" value="TAMBAH TEMUAN" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary"> 
           &nbsp; <input type="submit" value="UPDATE TEMUAN" *ngIf="windowMode == 'edit' && modelDokumenTemuan.isEdit == 1 " (click)="onSubmit()" class="uk-button uk-button-primary">
           &nbsp; <input type="submit" value="SIMPAN" *ngIf="windowMode=='create' && showBtnSimpan" (click)="onSubmit()" class="uk-button uk-button-primary">
-          &nbsp; <input type="submit" value="TAMBAH TEMUAN" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary"> 
           &nbsp; <input type="submit" value="PERBARUI responTindakLanjut" *ngIf="windowMode=='edit' && isResponseTL" (click)="doSaveResponTL()" class="uk-button uk-button-primary">
         </div>  
 
@@ -426,8 +428,10 @@
                                     
   
                                     <td class="uk-text-center uk-text-top">
-                                      <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" *ngIf="!isResponseTL" (click)="onDeleteTemmuanClick(data)" ></a> <br>
-                                      <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
+                                      <span *ngIf="data.isEdit == 1">
+                                        <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" *ngIf="!isResponseTL" (click)="onDeleteTemmuanClick(data)" ></a> <br>
+                                        <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
+                                      </span>
                                     </td>
                 
                                   </tr>
@@ -1147,18 +1151,18 @@
           
           
 					<td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
-            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" [hidden]="flagEdit == 0" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" [hidden]="flagEdit == 0 || modelIsiDokumen.isEdit == 1" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
             <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
               {{modelIsiDokumen.statusTindakLanjut}} <br>
-              <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" [hidden]="flagEdit == 0" uk-icon="icon: pencil"></a>
+              <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" [hidden]="flagEdit == 0 || modelIsiDokumen.isEdit == 1" uk-icon="icon: pencil"></a>
             </div>
 					</td>
 
 					<td class=" pr-2 pl-2 uk-text-top" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'"> <!-- Tindak Lanjut -->
-						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" [hidden]="windowMode=='create'" uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
+						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 " uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
-              <a *ngIf="!isResponseTL" [hidden]="windowMode=='create'" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
+              <a *ngIf="!isResponseTL" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 " (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
               
               <span *ngIf="isResponseTL">
                 <hr>

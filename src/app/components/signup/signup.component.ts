@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
       nama                 : ['', Validators.required],
       NIP                  : ['', Validators.required],
       satkerId             : ['', Validators.required],
-      ppkId                : ['', Validators.required],
+      ppkId                : [null],
       password_confirmation: ['', Validators.required],
       username             : ['',[Validators.required, Validators.minLength(6)]],
       oldPassword          : [''],         
@@ -314,7 +314,7 @@ export class SignupComponent implements OnInit {
   }
 
 
-  filterData = {username:null, nama:null,email:null}
+  filterData = {username:null, nama:null,email:null,satkerId:null}
   doSearch(filter){
     this.filterData = filter; 
     console.log('doSearch ===>',this.filterData);
@@ -335,7 +335,7 @@ export class SignupComponent implements OnInit {
 
   doReset(){
     console.log('this.filterData ===>',this.filterData)
-    this.filterData = {username:null, nama:null,email:null}
+    this.filterData ={username:null, nama:null,email:null,satkerId:null}
   }
 
 

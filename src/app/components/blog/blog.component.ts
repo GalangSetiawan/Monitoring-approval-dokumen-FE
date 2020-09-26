@@ -253,7 +253,7 @@ export class BlogComponent implements OnInit {
   }
 
 
-  filterData = {satkerId:null, namaPpk:""}
+  filterData = {title:null, isActive:null}
   doSearch(filter){
     this.filterData = filter; 
     console.log('doSearch ===>',this.filterData);
@@ -273,7 +273,7 @@ export class BlogComponent implements OnInit {
 
   doReset(){
     console.log('this.filterData ===>',this.filterData)
-    this.filterData = {satkerId:null, namaPpk:""}
+    this.filterData = {title:null, isActive:null};
   }
 
   deleteDataPpk = "";
