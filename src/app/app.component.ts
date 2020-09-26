@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { find } from 'rxjs/operators';
 
 var toggleFullscreen = true;
 
@@ -153,14 +154,31 @@ export class AppComponent implements OnInit{
 
 
 
+  listImg = [];
+  getImgForNews(imgName,idx){
+    this.newsService.downloadImage(imgName).subscribe(
+      img => {
+        // console.log('downloadImg success | downloadImage ===>',img);
+        this.ListBerita[idx].latarBelakang = img
+      },
+      error => {
+        this.ListBerita[idx].latarBelakang = undefined
+        console.log('downloadImg error   | downloadImage ===>',error);
+      }
+    )
+  }
+
   ListBerita = [];
   getDataBerita(){
     this.newsService.getActiveNews().subscribe(
       data => {
         console.log('getDataBerita success | getNews ===>',data);
-        this.ListBerita = data.result;
-
-        console.log('ListBerita ===>',this.ListBerita);
+        this.ListBerita = data.result;    
+        for(var i in this.ListBerita){
+          this.getImgForNews(this.ListBerita[i].bgImage,i);
+        }
+        console.log('getDataBerita | ListBerita ===>',this.ListBerita);
+        console.log('getDataBerita | listImg ===>',this.listImg);
       },
       error => {
         console.log('getDataBerita error   | getNews ===>',error);
@@ -243,6 +261,26 @@ export class AppComponent implements OnInit{
     )
   }
 
+  imageUrl = undefined;
+  downloadImg(imgName){
+    this.newsService.downloadImage(imgName).subscribe(
+      data => {
+        console.log('downloadImg success | downloadImage ===>',data);
+        this.imageUrl = data
+      },
+      error => {
+        this.imageUrl = undefined
+        console.log('downloadImg error   | downloadImage ===>',error);
+        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil mengambil gambar berita', 
+          'error'
+        )      
+      }
+    )
+    
+  }
 
   UIkit:any
   onSubmit() {
@@ -256,6 +294,8 @@ export class AppComponent implements OnInit{
         // this.UserProfile = result.user
         this.isResetForm = false;
         this.isLogoutForm = false;
+
+        this.downloadImg(result.user.foto);
         // UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Selamat Datang '  + this.UserProfile.nama ,  status: 'success',pos: 'top-right'})
       },
       error => {
@@ -319,5 +359,22 @@ export class AppComponent implements OnInit{
     this.router.navigate(selectedMenu.target.id);
   }
 
+
+  prevNews(event){
+    console.log('prevNews | event ===>',event); 
+    console.log('prevNews | listUIberita ==>', $('#listUIberita .uk-active').attr('id'))
+    var findID = parseInt($('#listUIberita .uk-active').attr('id'));
+    var findIndex = _.findIndex(this.ListBerita,{'title':findID});
+    console.log('prevNews | findIndex ==>', findIndex, this.ListBerita[findIndex])
+  }
+
+  nextNews(event){
+    console.log('nextNews | event ===>',event);
+    console.log('nextNews | listUIberita ==>', $('#listUIberita .uk-active').attr('id'))
+    var findID = parseInt($('#listUIberita .uk-active').attr('id'));
+    var findIndex = _.findIndex(this.ListBerita,{'title':findID});
+    console.log('nextNews | findIndex ==>', findIndex, this.ListBerita[findIndex])
+
+  }
 
 }

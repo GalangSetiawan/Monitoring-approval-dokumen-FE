@@ -14,24 +14,25 @@
               <div  class="uk-margin-small row" >
   
                   <div class="col-md-6">
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Username</label>
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Nama User</label>
                       <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.username" type="text" placeholder="Masukan Username...">
+                          <input class="uk-input " [(ngModel)]="filterData.nama" type="text" placeholder="Masukan nama...">
                       </div>
                   </div>
   
-                  <div class="col-md-6">
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Nama</label>
-                      <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.nama" type="text" placeholder="Masukan nama user...">
-                      </div>
-                  </div>
   
                   <div class="col-md-6">  
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Email</label>
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
                       <div class="uk-form-controls">
-                          <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email...">
+                          <!-- <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email..."> -->
+                          <select class="uk-select" [(ngModel)]="filterData.satkerId" >
+                            <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                          </select>
+    
                       </div>
+
+                     
+
                   </div>
   
   
@@ -84,7 +85,7 @@
               <dxo-paging [pageSize]="10"></dxo-paging>
               <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"> </dxo-pager>
               
-              <dxi-column dataField="nama" caption="KPA" [allowSearch]="true"></dxi-column>
+              <dxi-column dataField="nama" caption="Nama" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="username" caption="Username" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="roleName" caption="Role" [allowSearch]="true"></dxi-column>
@@ -115,7 +116,6 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
       <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
       <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'" [disabled]="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != ''" >SIMPAN</button>
-  
     </div>
 
     
@@ -127,193 +127,222 @@
         
 
  
-        <div class="uk-flex uk-flex-center">
-          <div class="uk-card uk-card-body">
+        <div class="uk-child-width-expand@s" uk-grid uk-height-match="target: > div > .uk-card">
+          <div>
+            <div class="uk-card uk-card-default uk-card-body">
 
-          
-            <span style="color:red;" *ngIf="message">{{message}}</span>
-            <input #file type="file" accept='image/*' (change)="preview(file.files)" />
-            <div class="uk-inline uk-dark">
-              <img [src]="imgURL" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;" *ngIf="imgURL">
-              <img src="https://getuikit.com/docs/images/avatar.jpg" class="rounded-circle img-thumbnail" *ngIf="!imgURL" style="width: 150px; height: 150px;" >
-            </div>
-
-<!--         
-            <div class="js-upload" uk-form-custom>
-                <input type="file" multiple>
-                <span type="button"  uk-icon="heart" tabindex="-1"></span>
-            </div>
- -->
-
-
-          </div>
-        </div>
-  
-  
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">Nama</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
-              <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.nama.errors.required">Nama wajib diisi</div>
-              </div>
-          </div>
-        </div>
-
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">NIP</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
-              <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.NIP.errors.required">NIP wajib diisi</div>
-              </div>
-          </div>
-        </div>
-
-
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-select">User Role</label>
-          <div class="uk-form-controls">
-              <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId"  id="form-horizontal-select" formControlName="roleId" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
-                <option [ngValue]="50">Super Admin</option>
-                <option [ngValue]="40">Satker</option>
-              </select>
-  
-              <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
-              </div>
-  
-          </div>
-        </div>
-        
-
-        <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
-          <label class="uk-form-label" for="form-horizontal-text">Satker</label>
-          <div class="uk-form-controls">
-              <select class="uk-select" [(ngModel)]="modelRegister.satkerId"  formControlName="satkerId" (change)="onSatkerChange(modelRegister.satkerId)" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
-                  <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
-              </select>
-              <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
-            </div>
-          </div>
-         </div>
-
-         <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
-          <label class="uk-form-label" for="form-horizontal-text">PPK</label>
-          <div class="uk-form-controls">
-              <select class="uk-select" [(ngModel)]="modelRegister.ppkId"  formControlName="ppkId" [ngClass]="{ 'uk-form-danger': submitted && f.ppkId.errors }" >
-                  <option *ngFor="let ppk of ListPpk" [ngValue]="ppk.id">{{ppk.namaPpk}}</option>
-              </select>
-              <div *ngIf="submitted && f.ppkId.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.ppkId.errors.required">PPK wajib diisi</div>
-            </div>
-          </div>
-         </div>
-  
-        
-
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">Email</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
-              [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
-              <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.email.errors.required">Email wajib diisi</div>
-                <div *ngIf="f.email.errors.email">Masukan Email yang valid</div>
-              </div>
-
-              <div *ngIf="windowMode!='edit' && !isValidEmail && modelRegister.email != ''" class="uk-text-danger uk-text-italic">
-                <div>Email sudah terdaftar</div>
-              </div>
-
-              <div *ngIf="windowMode!='edit' && isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
-                <div>Email dapat digunakan</div>
-              </div>
-          </div>
-        </div>
-  
-
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-horizontal-text">Username</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="text" autocomplete="false" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
-              <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.username.errors.required">Username wajib diisi</div>
-                <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
-
-              </div>
-
-              <div *ngIf="windowMode!='edit' && !isValidUsername && modelRegister.username != ''" class="uk-text-danger uk-text-italic">
-                <div>Username sudah terdaftar</div>
-              </div>
-
-              <div *ngIf="windowMode!='edit' && isValidUsername && modelRegister.username != ''" class="uk-text-success uk-text-italic">
-                <div>Username dapat digunakan</div>
-              </div>
-
-          </div>
-        </div>
-
-        
-        <div class="uk-margin" *ngIf="windowMode == 'edit'">
-          <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
-              [ngClass]="{ 'uk-form-danger': !isValidOldPassword || submitted && f.oldPassword.errors, 'uk-form-success': isValidOldPassword && modelRegister.oldPassword != ''}">
-              <div *ngIf="submitted && f.oldPassword.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.oldPassword.errors.required">Password Lama wajib diisi</div>
-                <div *ngIf="f.oldPassword.errors.minlength">Password Lama minimal 6 karakter</div>        
-              </div>
-
-              <div *ngIf="!isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-danger uk-text-italic">
-                <div>Password lama tidak valid</div>
-              </div>
-
-              <div *ngIf="isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-success uk-text-italic">
-                <div>Password lama Valid</div>
-              </div>
-
-
-          </div>
-        </div>
-                                                                         
-  
-        <div class="uk-margin" *ngIf="windowMode != 'view'">
-          <label class="uk-form-label" for="form-horizontal-text">Password</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
-              <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.password.errors.required">Password wajib diisi</div>
-                <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
-              </div>
-          </div>
-        </div>
-  
-  
-        <div class="uk-margin" *ngIf="windowMode != 'view'">
-          <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
-          <div class="uk-form-controls">
-              <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Konfirmasi Password..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
-              <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
-                <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
-                <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>
-              </div>
-
-
-                <div *ngIf="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != '' " class="uk-text-danger uk-text-italic">
-                  Konfirmasi Password harus sesuai
+              <div class="uk-margin">  
+                <label class="uk-form-label" for="form-horizontal-text"  *ngIf="imageUrl == undefined">Foto Profile</label>  
+                <div class="uk-form-controls"  *ngIf="imageUrl == undefined"> 
+                    <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."   [ngClass]="{ 'uk-form-danger':  modelRegister.namaFoto == '' }">
+                    <div *ngIf=" modelRegister.namaFoto == ''" class="uk-text-danger uk-text-italic">
+                      <div >Foto Profile User wajib diisi</div>
+                    </div>
                 </div>
+              </div>
+              
+               
+      
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Nama</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="nama"  [(ngModel)]="modelRegister.nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
+                    <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.nama.errors.required">Nama wajib diisi</div>
+                    </div>
+                </div>
+              </div>
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">NIP</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="NIP" [(ngModel)]="modelRegister.NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
+                    <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.NIP.errors.required">NIP wajib diisi</div>
+                    </div>
+                </div>
+              </div>
+    
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">User Role</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId"  id="form-horizontal-select" formControlName="roleId" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
+                      <option [ngValue]="50">Super Admin</option>
+                      <option [ngValue]="40">Satker</option>
+                    </select>
+        
+                    <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
+                    </div>
+        
+                </div>
+              </div>
+              
+    
+              <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+                <label class="uk-form-label" for="form-horizontal-text">Satker</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select" [(ngModel)]="modelRegister.satkerId"  formControlName="satkerId" (change)="onSatkerChange(modelRegister.satkerId)" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
+                        <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
+                  </div>
+                </div>
+              </div>
+    
+              <!-- <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+                <label class="uk-form-label" for="form-horizontal-text">PPK</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select" [(ngModel)]="modelRegister.ppkId"  formControlName="ppkId" (change)="onPpkChange(modelRegister.ppkId)" [ngClass]="{ 'uk-form-danger': submitted && f.ppkId.errors }" >
+                        <option *ngFor="let ppk of ListPpk" [ngValue]="ppk.id">{{ppk.namaPpk}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.ppkId.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.ppkId.errors.required">PPK wajib diisi</div>
+                  </div>
+                </div>
+              </div> -->
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Email</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Email..." [readonly]="windowMode=='edit'" (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
+                    [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
+                    <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.email.errors.required">Email wajib diisi</div>
+                      <div *ngIf="f.email.errors.email">Masukan Email yang valid</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && !isValidEmail && modelRegister.email != ''" class="uk-text-danger uk-text-italic">
+                      <div>Email sudah terdaftar</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
+                      <div>Email dapat digunakan</div>
+                    </div>
+                </div>
+              </div>
+        
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Username</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" autocomplete="false" [readonly]="windowMode=='edit'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" formControlName="username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
+                    <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.username.errors.required">Username wajib diisi</div>
+                      <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
+    
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && !isValidUsername && modelRegister.username != ''" class="uk-text-danger uk-text-italic">
+                      <div>Username sudah terdaftar</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && isValidUsername && modelRegister.username != ''" class="uk-text-success uk-text-italic">
+                      <div>Username dapat digunakan</div>
+                    </div>
+    
+                </div>
+              </div>
+              
+              <div class="uk-margin" *ngIf="windowMode == 'edit'">
+                <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
+                    [ngClass]="{ 'uk-form-danger': !isValidOldPassword || submitted && f.oldPassword.errors, 'uk-form-success': isValidOldPassword && modelRegister.oldPassword != ''}">
+                    <div *ngIf="submitted && f.oldPassword.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.oldPassword.errors.required">Password Lama wajib diisi</div>
+                      <div *ngIf="f.oldPassword.errors.minlength">Password Lama minimal 6 karakter</div>        
+                    </div>
+    
+                    <div *ngIf="!isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-danger uk-text-italic">
+                      <div>Password lama tidak valid</div>
+                    </div>
+    
+                    <div *ngIf="isValidOldPassword && modelRegister.oldPassword != ''" class="uk-text-success uk-text-italic">
+                      <div>Password lama Valid</div>
+                    </div>
+    
+    
+                </div>
+              </div>
+                                                                              
+              <div class="uk-margin" *ngIf="windowMode != 'view'">
+                <label class="uk-form-label" for="form-horizontal-text">Password</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
+                    <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.password.errors.required">Password wajib diisi</div>
+                      <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
+                    </div>
+                </div>
+              </div>
+        
+              <div class="uk-margin" *ngIf="windowMode != 'view'">
+                <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Konfirmasi Password..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
+                    <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
+                      <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>
+                    </div>
+    
+    
+                      <div *ngIf="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != '' " class="uk-text-danger uk-text-italic">
+                        Konfirmasi Password harus sesuai
+                      </div>
+    
+                </div>
+              </div>
 
+            </div>
           </div>
+
+
+          <div>
+
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-media-top uk-text-center" >
+                  <img *ngIf="imageUrl != undefined" [src]="imageUrl" alt="" class="mt-5" style="max-height: 300px;">
+                  <a class="uk-position-absolute uk-transform-center"  href="#modal-edit-image" uk-toggle style="
+                  left: 50%; 
+                  top: 40%; 
+                  background: #0F7AE5; 
+                  color: white;     
+                  border-radius: 50%;
+                  width: 30px;
+                  height: 30px;
+                  padding: 5px;"
+                  uk-icon="icon: pencil" *ngIf="imageUrl != undefined" >
+                  </a>
+                </div>
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title uk-text-center" >{{modelRegister.nama}}</h3>
+
+                    <div class="container">
+                      <table style="width:100%;" >
+                        <tr *ngIf="modelRegister.NIP != '' "><td>NIP</td><th>{{modelRegister.NIP}}</th></tr>
+                        <tr *ngIf="modelRegister.username != '' "><td>Username</td><th>{{modelRegister.username}}</th></tr>
+                        <tr *ngIf="modelRegister.email != '' "><td>Email</td><th>{{modelRegister.email}}</th></tr>
+                        <tr *ngIf="modelRegister.roleId != 50 && modelRegister.satkerId != null"><td>Satker</td><th>{{modelRegister.namaSatker}}</th></tr>
+                        <tr *ngIf="modelRegister.roleId != 50 && modelRegister.ppkId != null"><td>PPK</td><th>{{modelRegister.namaPpk}}</th></tr>
+                      </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+      
+              
+          </div>
+
         </div>
+
 
 
        
-          
-          
-  
-  
       </div>
     </div>
   
@@ -335,3 +364,33 @@
   </div>
 </div>
 <!-- modal-delete-user -->
+
+
+<!-- modal-delete-ppk -->
+<div id="modal-edit-image" class="uk-flex-top" uk-modal>    
+  <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body">
+      <h2 class="uk-modal-title">Upload Gambar</h2>
+
+      <div class="uk-form-controls mt-3">
+          <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."   >
+          <div *ngIf=" modelRegister.namaFoto == ''" class="uk-text-danger uk-text-italic">
+            <div >Foto Profile User wajib diisi</div>
+          </div>
+      </div>
+
+
+  
+      <div class="uk-card-media-top uk-text-center" >
+        <img *ngIf="imageUrl != undefined" [src]="imageUrl" alt="" class="mt-4" style="max-height: 300px;">
+       
+      </div>
+      
+
+      <p class="uk-text-right mt-4">
+          <button class="uk-button uk-button-default uk-modal-close" (click)="btnCancelUpload()" type="button" id="btnHapus">Batal</button> &nbsp;
+          <button class="uk-button uk-button-primary uk-modal-close" type="button">Simpan</button>
+      </p>
+  </div>
+</div>
+<!-- modal-delete-ppk -->
+

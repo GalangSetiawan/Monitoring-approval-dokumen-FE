@@ -4,6 +4,7 @@ import { AuthService } from '../../shared/auth.service';
 import { FormBuilder, FormGroup,Validators, ValidatorFn,ValidationErrors } from "@angular/forms";
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
+import { NewsService } from './../../shared/news.service';
 
 
 import { MustMatch } from '../../_helper/must-match.validator';
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   errors = null;
-  modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:null};
+  modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
 
 
   public imagePath;
@@ -37,20 +38,20 @@ export class SignupComponent implements OnInit {
 
 
   constructor(
-    public router: Router,
-    public fb: FormBuilder,
+    public router             : Router,
+    public fb                 : FormBuilder,
     public masterSatkerService: MastersatkerService,
     public masterPpkService   : MasterppkService,
-
-    public authService: AuthService
+    public newsService        : NewsService,
+    public authService        : AuthService
   ) {
     this.registerForm = this.fb.group({
-      id                   : [null],
+      id                   : [0],
       foto                 : [''],
       nama                 : ['', Validators.required],
       NIP                  : ['', Validators.required],
       satkerId             : ['', Validators.required],
-      ppkId                : ['', Validators.required],
+      ppkId                : [null],
       password_confirmation: ['', Validators.required],
       username             : ['',[Validators.required, Validators.minLength(6)]],
       oldPassword          : [''],         
@@ -153,6 +154,51 @@ export class SignupComponent implements OnInit {
       this.imgURL = reader.result; 
     }
   }
+
+  imageUrl:any
+  downloadImg(imgName){
+    this.newsService.downloadImage(imgName).subscribe(
+      data => {
+        console.log('downloadImg success | downloadImage ===>',data);
+        this.imageUrl = data
+      },
+      error => {
+        console.log('downloadImg error   | downloadImage ===>',error);
+        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil mengambil gambar berita', 
+          'error'
+        )
+      }
+    )
+  }
+
+  isEditImage = false;
+  handleFileInput(files :FileList){
+    if(this.windowMode == 'edit'){
+      this.isEditImage = true;
+    }
+    console.log('handleFileInput ===>',files)
+    this.modelRegister.foto = files;
+    this.modelRegister.namaFoto = files[0].name;
+    console.log('handleFileInput |  this.modelRegister ===>',this.modelRegister)
+
+
+    var fileToUpload = files.item(0)
+    let reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    }
+    reader.readAsDataURL(fileToUpload);
+
+    console.log('handleFileInput |  this.imageUrl ===>',this.imageUrl)
+  }
+
+  btnCancelUpload(){
+    console.log('btnCancelUpload | modelRegister ===>', this.modelRegister)
+    this.isEditImage = false;
+  }
   
 
 
@@ -181,7 +227,8 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
-      this.modelRegister = {email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:''};
+      this.modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
+      this.imageUrl = undefined;
 
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
@@ -189,11 +236,6 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb #view').remove();
       this.registerForm.enable();
       this.submitted = false;
-
-      this.registerForm.controls['username'].disable();
-      this.registerForm.controls['email'].disable();
-
-
     }else if (this.windowMode == 'view'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>Lihat</a></li>')
       $('.uk-breadcrumb #create').remove();
@@ -235,10 +277,17 @@ export class SignupComponent implements OnInit {
     )
   }
 
+  onPpkChange(id){
+    console.log('onPpkChange ===>',id)
+    this.modelRegister.namaPpk = (_.find(this.ListPpk,({'id':id}))).namaPpk
+  }
+
   ListPpk = [];
   onSatkerChange(id){
     this.modelRegister.ppkId = null;
     console.log('onSatkerChange ===>',id);
+    this.modelRegister.namaSatker = (_.find(this.ListSatker,({'id':id}))).namaSatker
+
     this.masterPpkService.getPPKbyId(id).subscribe(
       data => {
         console.log('Get data PPK success | getPPKbyId ===>',data);
@@ -265,7 +314,7 @@ export class SignupComponent implements OnInit {
   }
 
 
-  filterData = {username:null, nama:null,email:null}
+  filterData = {username:null, nama:null,email:null,satkerId:null}
   doSearch(filter){
     this.filterData = filter; 
     console.log('doSearch ===>',this.filterData);
@@ -286,7 +335,7 @@ export class SignupComponent implements OnInit {
 
   doReset(){
     console.log('this.filterData ===>',this.filterData)
-    this.filterData = {username:null, nama:null,email:null}
+    this.filterData ={username:null, nama:null,email:null,satkerId:null}
   }
 
 
@@ -343,6 +392,7 @@ export class SignupComponent implements OnInit {
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.submitted = false;
+    this.imageUrl = undefined
     this.windowModeView('edit');
     this.registerForm.patchValue({
       id                   : row.data.id,
@@ -354,13 +404,17 @@ export class SignupComponent implements OnInit {
       roleName             : row.data.roleName,
       email                : row.data.email,
       satkerId             : row.data.satkerId,
-      jabatan              : row.data.jabatan,
+      NIP                  : row.data.NIP,
       ppkId                : row.data.ppkId,
+      namaPpk                : row.data.namaPpk,
+      namaSatker                : row.data.namaSatker,
       // foto                 : row.data.foto,
     });
     console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
-
-    this.onSatkerChange(row.data.satkerId)
+    this.modelRegister = row.data;
+    this.onSatkerChange(row.data.satkerId); 
+    this.isEditImage = false;
+    this.downloadImg(row.data.foto);
   }
 
   onViewClick(row){
@@ -376,11 +430,16 @@ export class SignupComponent implements OnInit {
       roleName             : row.data.roleName,
       email                : row.data.email,
       satkerId             : row.data.satkerId,
-      jabatan              : row.data.jabatan,
-      foto                 : row.data.foto,
+      NIP                  : row.data.NIP,
+      namaPpk                : row.data.namaPpk,
+      namaSatker                : row.data.namaSatker,
+      // foto                 : row.data.foto,
       ppkId                : row.data.ppkId,
     });
     console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
+    this.modelRegister = row.data;
+    this.downloadImg(row.data.foto);
+
   }
 
 
@@ -430,18 +489,34 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log('onsubmit awal ====>',this.registerForm.value)
+    console.log('onsubmit awal ====>',this.registerForm.value);
+
+
+
+    var preData = {
+      id                    : this.modelRegister.id,
+      nama                  : this.modelRegister.nama,
+      NIP                   : this.modelRegister.NIP,
+      ppkId                 : this.modelRegister.ppkId,
+      satkerId              : this.modelRegister.satkerId,
+      roleId                : this.modelRegister.roleId,
+      roleName              : this.modelRegister.roleId == 50? 'Super Admin' : 'Satker',
+      username              : this.modelRegister.username,
+      email                 : this.modelRegister.email,
+      foto                  : this.modelRegister.foto == undefined? null :this.modelRegister.foto ,
+      password              : this.modelRegister.password,
+      password_confirmation : this.modelRegister.password_confirmation
+    }
 
   
     if (this.registerForm.invalid) {
       console.log('invalid input ===>',this.registerForm.value);
       return;
     }else{
-      this.registerForm.value.roleName = this.selectRole(this.registerForm.value.roleId);
-      if(this.registerForm.value.id == null){ //do save
-        console.log('do save ===>',this.registerForm.value)
-        this.authService.register(this.registerForm.value).subscribe(
-          data => {
+      if(preData.id == 0){ //do save
+        console.log('do save ===>',preData)
+        this.authService.register(preData).subscribe(
+          (data:any) => {
 
             console.log('onSubmit create data | success ===>',data.result);
             this.ListUser.push(data.result);
@@ -462,8 +537,10 @@ export class SignupComponent implements OnInit {
       }else{//do update
         console.log('do update ===>',this.registerForm.value)
 
-        this.authService.updateUser(this.registerForm.value).subscribe(
-          data => {
+        
+
+        this.authService.updateUser(preData,this.isEditImage).subscribe(
+          (data:any) => {
 
             console.log('onSubmit Update data | success ===>',data.result);
             this.ListUser.push(data.result);

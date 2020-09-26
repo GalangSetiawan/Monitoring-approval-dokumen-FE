@@ -10,12 +10,16 @@ export class User {
   // password_confirmation: String
 
 
+  id      : Number;
   nama    : String;
-  cabang  : String;
-  jabatan : String;
-  roleId    : String;
+  NIP     : String;
+  ppkId   : Number;
+  satkerId: Number;
+  roleId  : Number;
+  roleName: String;
   username: String;
   email   : String;
+  foto    : FileList;
   password: String;
   password_confirmation: String;
 
@@ -42,12 +46,75 @@ export class AuthService {
     return this.http.delete('http://127.0.0.1:8000/api/auth/delete-data/'+dataUser.id);
   }
 
-  register(user: User): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/register', user);
+
+  
+
+  register(user: User){
+    
+    var modelUser = {
+      nama                 : String(user.nama),
+      username             : String(user.username),
+      NIP                  : String(user.NIP),
+      email                : String(user.email),
+      ppkId                : String(user.ppkId),
+      satkerId             : String(user.satkerId),
+      roleId               : String(user.roleId),
+      roleName             : String(user.roleName),
+      password             : String(user.password),
+      password_confirmation: String(user.password_confirmation),
+    }
+
+    var formData = new FormData();
+    Array.from(user.foto).forEach(f => formData.append('foto',f))
+    formData.append('nama',modelUser.nama)
+    formData.append('username',modelUser.username)
+    formData.append('NIP',modelUser.NIP)
+    formData.append('email',modelUser.email)
+    formData.append('ppkId',modelUser.ppkId)
+    formData.append('satkerId',modelUser.satkerId)
+    formData.append('roleId',modelUser.roleId)
+    formData.append('roleName',modelUser.roleName)
+    formData.append('password',modelUser.password)
+    formData.append('password_confirmation',modelUser.password_confirmation)
+
+    return this.http.post('http://127.0.0.1:8000/api/auth/register', formData);
   }
 
-  updateUser(user): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/edit-data/' +user.id, user);
+
+
+
+
+  updateUser(user:User,isEditImage) {
+
+    var modelUser = {
+      id                   : String(user.id),
+      nama                 : String(user.nama),
+      username             : String(user.username),
+      NIP                  : String(user.NIP),
+      email                : String(user.email),
+      ppkId                : String(user.ppkId),
+      satkerId             : String(user.satkerId),
+      roleId               : String(user.roleId),
+      roleName             : String(user.roleName),
+      password             : String(user.password),
+      password_confirmation: String(user.password_confirmation)
+    }
+
+
+    var formData = new FormData();
+    if(isEditImage)Array.from(user.foto).forEach(f => formData.append('foto',f))
+    formData.append('id',modelUser.id)
+    formData.append('nama',modelUser.nama)
+    formData.append('username',modelUser.username)
+    formData.append('NIP',modelUser.NIP)
+    formData.append('email',modelUser.email)
+    formData.append('ppkId',modelUser.ppkId)
+    formData.append('satkerId',modelUser.satkerId)
+    formData.append('roleId',modelUser.roleId)
+    formData.append('roleName',modelUser.roleName)
+    formData.append('password',modelUser.password)
+    formData.append('password_confirmation',modelUser.password_confirmation)
+    return this.http.post('http://127.0.0.1:8000/api/auth/edit-data/' +user.id, formData);
   }
 
 

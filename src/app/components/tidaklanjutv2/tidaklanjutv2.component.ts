@@ -256,6 +256,7 @@ export class Tidaklanjutv2Component implements OnInit {
     dokumenTemuanId          : null,
     tindakLanjutId           : null,
     responDokumenTemuanId    : null,
+    responTindakLanjut       : null,
     titleHeader              : null,
     nomorHeader              : null,
   }
@@ -454,6 +455,7 @@ export class Tidaklanjutv2Component implements OnInit {
       dokumenTemuanId          : null,
       tindakLanjutId           : null,
       responDokumenTemuanId    : null,
+      responTindakLanjut       : null,
       titleHeader              : "",
       nomorHeader              : "",
     }
@@ -868,6 +870,7 @@ export class Tidaklanjutv2Component implements OnInit {
 
   isUpdateMenungguRespon = false;
   ModelDokumenTemuan = {};
+  isResponseTL = false;
   onEditGridClick(row){
     console.log('btnEdit ===>',row);
     this.windowModeView('edit');
@@ -877,7 +880,6 @@ export class Tidaklanjutv2Component implements OnInit {
     }else{
       this.isUpdateMenungguRespon = false;
     }
-    
 
     this.tindakLanjutService.getDetailTindakLanjut(row.data.id,row.data.dokumenTemuanId).subscribe(
       (data:any) => {
@@ -890,9 +892,18 @@ export class Tidaklanjutv2Component implements OnInit {
         var TglTerimaDokumenTemuan = this.modelDokumenTemuan.tglLHA
         this.modelDokumenTemuan.displayTglLHA = this.onFullDateChange(this.modelDokumenTemuan.tglLHA)
 
+        if(data.result.dataDokumen.responTindakLanjut != null){
+          this.isResponseTL = true;
+        }else{
+          this.isResponseTL = false;
 
+        }
+
+        this.modelIsiDokumen = data.result.dataDokumen;
         this.batchDokumen = [];
         this.batchDokumen.push(data.result.dataDokumen);
+
+        console.log('onEditGridClick | batchDokumen ===>',this.batchDokumen)
 
 
       },
@@ -902,7 +913,13 @@ export class Tidaklanjutv2Component implements OnInit {
         this.batchDokumen = [];
         this.batchDokumen.push(row.data)
 
-        UIkit.notification({message: '<span uk-icon=\'icon: shrink\'></span> tekan ini pake data dummy, blm berhasil get detail '  ,  status: 'primary',pos: 'top-right'})
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak dapat mengambil data', 
+          'error'
+        )
+
+        // UIkit.notification({message: '<span uk-icon=\'icon: shrink\'></span> tekan ini pake data dummy, blm berhasil get detail '  ,  status: 'primary',pos: 'top-right'})
 
         this.isiHardcodeTemuan()
 
@@ -1007,31 +1024,54 @@ export class Tidaklanjutv2Component implements OnInit {
       this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
         data=>{
           console.log('createDokumenTemuan Success ===>',data.result); 
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasi disimpan', 
+            'success'
+          )
+
           this.dokumenService.getDataGridById(data.result.id).subscribe(
             (data:any)=>{
               console.log('doEditGeneral | getDataGridById  success ===>',data)
   
               this.ListTindakLanjut.push(data.result);
+
+              
+
+              console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+              this.windowModeView('grid');
   
             },error =>{
               console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+              
             }
           )
           
   
-          console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
-          this.windowModeView('grid');
+         
           
   
         },
         error =>{
           console.log('createDokumenTemuan Gagal ===>',error)
+          Swal.fire(
+            'Whoops Failed!', 
+            'Data tidak berhasil disimpan', 
+            'error'
+          )
         }
       )
     }else if(this.isUpdateMenungguRespon){ //update
       this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
         data=>{
           console.log('updateDokumenTemuan Success ===>',data.result); 
+
+          Swal.fire(
+            'Yay Success!', 
+            'Data berhasi disimpan', 
+            'success'
+          )
+
           this.dokumenService.getDataGridById(data.result.id).subscribe(
             (data:any)=>{
               console.log('doEditGeneral | getDataGridById  success ===>',data);
@@ -1042,6 +1082,14 @@ export class Tidaklanjutv2Component implements OnInit {
               })
   
               this.ListTindakLanjut.push(data.result);
+
+              Swal.fire(
+                'Yay Success!', 
+                'Data berhasi disimpan', 
+                'success'
+              )
+              console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+              this.windowModeView('grid');
   
             },error =>{
               console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
@@ -1049,13 +1097,19 @@ export class Tidaklanjutv2Component implements OnInit {
           )
           
   
-          console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
-          this.windowModeView('grid');
+          
           
   
         },
         error =>{
           console.log('updateDokumenTemuan Gagal ===>',error)
+          Swal.fire(
+            'Whoops Failed!', 
+            'Data tidak berhasil disimpan', 
+            'error'
+          )
+
+
         }
       )
     }
