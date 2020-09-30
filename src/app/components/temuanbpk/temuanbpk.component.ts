@@ -5,6 +5,7 @@ import { AuthStateService } from '../../shared/auth-state.service';
 import { DokumenserviceService } from './../../shared/dokumenservice.service';
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
+import { Router } from '@angular/router';
 
 declare var UIkit: any;
 
@@ -39,7 +40,7 @@ export class TemuanbpkComponent implements OnInit {
     public masterSatkerService: MastersatkerService,
     public dokumenService     : DokumenserviceService,
     public masterPpkService   : MasterppkService,
-
+    private route             : Router, 
     private token             : TokenService,
     public fb                 : FormBuilder,
     private authState         : AuthStateService,
@@ -335,6 +336,65 @@ export class TemuanbpkComponent implements OnInit {
     }
   }
 
+  disabledSimpanTemuan = false;
+  validasiBtnSimpanTemuan(){
+    if(this.modelIsiDokumen.id == null || (this.modelIsiDokumen.id != null && !this.isResponseTL)){ //add new || edit dokumen yg blm di tindak lanjutin
+      console.log('modalLightInput | add new || edit dokumen yg blm di tindak lanjutin ')
+      if(
+        this.modelIsiDokumen.nomorHeader               == "" ||
+        this.modelIsiDokumen.titleHeader               == "" ||
+        this.modelIsiDokumen.noUraianTemuan            == "" || 
+        this.modelIsiDokumen.uraianTemuan              == "" ||
+        this.modelIsiDokumen.kodeRekomendasi           == "" ||
+        this.modelIsiDokumen.rekomendasi               == "" ||
+        this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
+        this.modelIsiDokumen.ringkasanTindakLanjut     == ""
+      ){
+        this.disabledSimpanTemuan = true;
+      }else{
+        this.disabledSimpanTemuan = false;
+      }
+
+      console.log('validasi 1 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader)
+      console.log('validasi 1 | titleHeader ================>',this.modelIsiDokumen.titleHeader)
+      console.log('validasi 1 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan)
+      console.log('validasi 1 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan)
+      console.log('validasi 1 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi)
+      console.log('validasi 1 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi)
+      console.log('validasi 1 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
+      console.log('validasi 1 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
+
+    }else if(this.modelIsiDokumen.id != null && this.isResponseTL ){ //edit tindak lanjut
+      console.log('modalLightInput | edit tindak lanjut')
+
+      if(
+        this.modelIsiDokumen.nomorHeader               == "" ||
+        this.modelIsiDokumen.titleHeader               == "" ||
+        this.modelIsiDokumen.noUraianTemuan            == "" || 
+        this.modelIsiDokumen.uraianTemuan              == "" ||
+        this.modelIsiDokumen.kodeRekomendasi           == "" ||
+        this.modelIsiDokumen.rekomendasi               == "" ||
+        this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
+        this.modelIsiDokumen.ringkasanTindakLanjut     == "" ||
+        this.modelIsiDokumen.responTindakLanjut        == ""
+      ){
+        this.disabledSimpanTemuan = true;
+      }else{
+        this.disabledSimpanTemuan = false;
+      }
+
+      console.log('validasi 2 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader)
+      console.log('validasi 2 | titleHeader ================>',this.modelIsiDokumen.titleHeader)
+      console.log('validasi 2 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan)
+      console.log('validasi 2 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan)
+      console.log('validasi 2 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi)
+      console.log('validasi 2 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi)
+      console.log('validasi 2 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
+      console.log('validasi 2 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
+      console.log('validasi 2 | responTindakLanjut ======>',this.modelIsiDokumen.responTindakLanjut)
+    }
+  }
+
   simpanForm(){
     this.isOpenEachFormTemuan = false;
     console.log('simpanForm ====>')
@@ -352,7 +412,7 @@ export class TemuanbpkComponent implements OnInit {
   }
 
   showBtnTambahTemuan = true;
-  showBtnSaveTemuan = false;
+  // showBtnSaveTemuan = false;
   showBtnCancelTemuan = false;
 
   showFormTemuan = false;
@@ -360,7 +420,7 @@ export class TemuanbpkComponent implements OnInit {
   addTemuan(satkerId,ppkId){
     this.flagEdit = 0;
     this.showFormTemuan = true;
-    this.showBtnSaveTemuan = true;
+    // this.showBtnSaveTemuan = true;
     this.showBtnCancelTemuan = true;
     this.showBtnTambahTemuan = false;
     this.closeAlldokumenForm();
@@ -368,7 +428,7 @@ export class TemuanbpkComponent implements OnInit {
     this.modelIsiDokumen.flagId = new Date().getTime(),      
     this.modelIsiDokumen.satkerId = satkerId,   
     this.modelIsiDokumen.ppkId = ppkId  
-
+    this.validasiBtnSimpanTemuan();
     console.log('addTemuan | newModel ===>',this.modelIsiDokumen);
   }
 
@@ -450,7 +510,7 @@ export class TemuanbpkComponent implements OnInit {
     
     this.clearModel_isiDokumen()
     this.showFormTemuan      = false;
-    this.showBtnSaveTemuan   = false;
+    // this.showBtnSaveTemuan   = false;
     this.showBtnCancelTemuan = false;
     this.showBtnTambahTemuan = true;
   }
@@ -459,7 +519,7 @@ export class TemuanbpkComponent implements OnInit {
   batalTemuan(){
     this.showFormTemuan = false;
     this.showBtnTambahTemuan = true;
-    this.showBtnSaveTemuan = false;
+    // this.showBtnSaveTemuan = false;
     this.showBtnCancelTemuan = false;
 
 
@@ -704,6 +764,7 @@ export class TemuanbpkComponent implements OnInit {
       this.clearModel_isiDokumen();
 
       this.modelDokumenTemuan.footer = this.footerTemplate;
+      this.progres1Validation = false;
 
       // this.isiHardcode();
 
@@ -762,16 +823,31 @@ export class TemuanbpkComponent implements OnInit {
         this.ListDokumenTemuan = data.result;
       },
       error => {
-        console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error);
+        console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error.error);
         // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        Swal.fire(
-          'Whoops Failed', 
-          'Tidak dapat mengambil data Dokumen Temuan', 
-          'error'
-        )
+        if(!error.error.isAuthorized){
+          this.errorTokenHabis();
+        }else{
+          Swal.fire(
+            'Whoops Failed', 
+            'Tidak dapat mengambil data Dokumen Temuan', 
+            'error'
+          )
+        }
+
+        
       }
     )
 
+  }
+
+  errorTokenHabis(){
+    Swal.fire(
+      'Whoops! Waktu Akses Habis', 
+      'Harap Login ulang untuk melanjutkan', 
+      'error'
+    )
+    $('#parentSignOut').click();
   }
 
 
@@ -835,7 +911,7 @@ export class TemuanbpkComponent implements OnInit {
     console.log('onEditTemuanClick | data ====>',data);
   
     this.showBtnTambahTemuan = false;
-    this.showBtnSaveTemuan = true;
+    // this.showBtnSaveTemuan = true;
     this.showBtnCancelTemuan = true;
 
     this.closeAlldokumenForm();
@@ -883,6 +959,7 @@ export class TemuanbpkComponent implements OnInit {
     console.log('btnEdit ===>',row);
     this.isResponseTL = false;
     this.windowModeView('edit');
+    this.progres1Validation = true;
     
 
     this.dokumenService.getDetailDokumenTemuanGridView(row.data.id).subscribe(
@@ -907,7 +984,7 @@ export class TemuanbpkComponent implements OnInit {
   selectedForDelete = {};
   modalDelete(row){
     console.log('modalDelete ===>',row);
-    this.deleteDokumen = row.noUraianTemuan;
+    this.deleteDokumen = row.noLHA;
     this.selectedForDelete = row;
   }
 
@@ -915,17 +992,17 @@ export class TemuanbpkComponent implements OnInit {
     console.log('selected for delete ===>',this.selectedForDelete);
 
     this.dokumenService.deleteDokumenTemuan(this.selectedForDelete).subscribe(
-      result => {
-        console.log('Delete success | deleteDokumenTemuan ===>',result)
+      data => {
+        console.log('Delete success | deleteDokumenTemuan ===>',this.selectedForDelete)
         // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
         Swal.fire(
           'Yay Success!', 
           'Data berhasil dihapus', 
           'success'
         )
-        this.ListDokumenTemuan = _.remove(this.ListDokumenTemuan, function(data){
-          return data.id != result.result.id;
-        })
+        // this.ListDokumenTemuan = _.remove(this.ListDokumenTemuan, function(data){
+        //   return data.id != data.result.id;
+        // })
         $('#btnHapus').click();
       },
       error => {
@@ -1177,7 +1254,7 @@ export class TemuanbpkComponent implements OnInit {
 
           var seleksiYangMauDiUpdate = [];
           for(var i in this.batchDokumen){
-            if(this.batchDokumen[i].isEdit == 1){
+            if(this.batchDokumen[i].isEdit == 1 || this.batchDokumen[i].id == null ){
               seleksiYangMauDiUpdate.push(this.batchDokumen[i]);
             }
           }
@@ -1425,15 +1502,22 @@ export class TemuanbpkComponent implements OnInit {
     console.log('selectionChanged event ===>',e)
       e.component.collapseAll(-1);
       e.component.expandRow(e.currentSelectedRowKeys[0]);
-      this.dokumenService.getDetailDokumenTemuanGridView(e.selectedRowsData[0].id).subscribe(
-        data => {
-          console.log('selectionChanged Detail success ===>',data);  
-          e.selectedRowsData[0].dataTindakLanjut = data.result.resultDokumen;
-        },
-        error => {
-          console.log('selectionChanged Detail error ===>',error);
+
+      if(this.ListDokumenTemuan.length > 0){
+        if(e.selectedRowsData[0] == undefined){
+          e.selectedRowsData[0] = this.ListDokumenTemuan[0]
         }
-      )
+  
+        this.dokumenService.getDetailDokumenTemuanGridView(e.selectedRowsData[0].id).subscribe(
+          data => {
+            console.log('selectionChanged Detail success ===>',data);  
+            e.selectedRowsData[0].dataTindakLanjut = data.result.resultDokumen;
+          },
+          error => {
+            console.log('selectionChanged Detail error ===>',error);
+          }
+        )
+      }
 
   }
 

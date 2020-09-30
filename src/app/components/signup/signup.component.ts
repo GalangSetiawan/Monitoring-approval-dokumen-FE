@@ -457,7 +457,12 @@ export class SignupComponent implements OnInit {
     this.authService.deleteUser(this.selectedForDelete).subscribe(
       result => {
         console.log('Delete success | deleteUser ===>',result)
-        notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        // notify({ message: "Yosssh! Success to Delete data",position: { my: "center top",at: "center top"}}, "success", 3000);
+        Swal.fire(
+          'Yay Success!', 
+          'Data berhasil dihapus', 
+          'success'
+        )
         this.ListUser = _.remove(this.ListUser, function(data){
           return data.id != result.result.id;
         })
@@ -465,7 +470,12 @@ export class SignupComponent implements OnInit {
       },
       error => {
         console.log('Delete error   | deleteUser ===>',error);
-        notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        // notify({ message: "Whoops! failed to Delete data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak Berhasil Menghapus Data', 
+          'error'
+        )
       }
     )
 
@@ -520,15 +530,25 @@ export class SignupComponent implements OnInit {
 
             console.log('onSubmit create data | success ===>',data.result);
             this.ListUser.push(data.result);
-            notify({ message: "Yayyy! Berhasil menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
-
+            // notify({ message: "Yayyy! Berhasil menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
+            Swal.fire(
+              'Yay Sucess!', 
+              'Data berhasil ditambahkan', 
+              'success'
+            )
+            this.getDataUser();
             this.windowModeView('grid');
             
           },
           error => {
             this.errors = error.error;
 
-            notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+            // notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+            Swal.fire(
+              'Whoops Failed!', 
+              'Data tidak berhasil disimpan', 
+              'error'
+            )
 
           }
             
@@ -543,8 +563,14 @@ export class SignupComponent implements OnInit {
           (data:any) => {
 
             console.log('onSubmit Update data | success ===>',data.result);
-            this.ListUser.push(data.result);
-            notify({ message: "Yayyy! Berhasil memperbaharui data",position: { my: "center top",at: "center top"}}, "success", 3000);
+            // this.ListUser.push(data.result);
+            // notify({ message: "Yayyy! Berhasil memperbaharui data",position: { my: "center top",at: "center top"}}, "success", 3000);
+            Swal.fire(
+              'Yay Sucess!', 
+              'Data berhasil disimpan', 
+              'success'
+            )
+            this.getDataUser();
 
             this.windowModeView('grid');
             
@@ -552,7 +578,12 @@ export class SignupComponent implements OnInit {
           error => {
             this.errors = error.error;
 
-            notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+            // notify({ message: "Whoops! Gagal menambahkan data",position: {my: "center top",at: "center top"}}, "error", 3000)
+            Swal.fire(
+              'Whoops Failed!', 
+              'Tidak berhasil menyimpan data', 
+              'error'
+            )
 
           }
             

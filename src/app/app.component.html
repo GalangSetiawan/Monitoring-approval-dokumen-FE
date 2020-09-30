@@ -449,7 +449,6 @@
                         <div *ngIf="errors?.error" class="alert alert-danger mt-3">
                             {{ errors?.error }}
                         </div>
-            
                         <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
                             Berhasil melakukan perubahan Password
                         </div>
@@ -519,7 +518,7 @@
       <p>Apakah anda yakin ingin keluar dari aplikasi?</p>
       <p class="uk-text-right">
           <button class="uk-button uk-button-default uk-modal-close" uk-toggle="profileModal" type="button">Batal</button> &nbsp;
-          <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" uk-icon="icon: sign-out">Keluar &nbsp;</button>
+          <button class="uk-button uk-button-primary  uk-modal-close" type="button" (click)="signOut()" id="parentSignOut" uk-icon="icon: sign-out">Keluar &nbsp;</button>
       </p>
   </div>
 </div>
