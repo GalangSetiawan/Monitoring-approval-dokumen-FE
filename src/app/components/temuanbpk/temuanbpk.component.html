@@ -109,7 +109,7 @@
                     <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle"  >
                         <tr>
                           <td width="30"> 
-                            <a href="#modal-delete-kpa" uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" *ngIf="cell.data.isEdit == 1"></a>&nbsp;                        
+                            <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" *ngIf="cell.data.isEdit == 1"></a>&nbsp;                        
                           </td>
                           <td width="30">
                             <a (click)="onEditTemuanGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil" *ngIf="cell.data.isEdit == 1"></a>&nbsp;
@@ -140,7 +140,7 @@
                     <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle" *ngIf="cell.data.statusTindakLanjut != 'Tersedia' ">
-                            <a href="#modal-delete-kpa"  uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                            <a href="#modal-delete-dokumen"  uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
                             <a (click)="onEditTindakLanjutGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil"></a> &nbsp;
                         </div> 
                     </div>
@@ -428,7 +428,7 @@
                                     
   
                                     <td class="uk-text-center uk-text-top">
-                                      <span *ngIf="data.isEdit == 1">
+                                      <span *ngIf="data.isEdit == 1 || isResponseTL">
                                         <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data" *ngIf="!isResponseTL" (click)="onDeleteTemmuanClick(data)" ></a> <br>
                                         <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
                                       </span>
@@ -551,18 +551,18 @@
 
 
 
-<!-- modal-delete-kpa -->
-<div id="modal-delete-kpa" class="uk-flex-top" uk-modal>    
+<!-- modal-delete-dokumen -->
+<div id="modal-delete-dokumen" class="uk-flex-top" uk-modal>    
     <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body">
         <h2 class="uk-modal-title">Hapus data?</h2>
-        <p>Apakah anda yakin ingin menghpus data  <span style="font-weight: bold;">{{deleteDataKpa}}</span> </p>
+        <p>Apakah anda yakin ingin menghpus data  <span style="font-weight: bold;">{{deleteDokumen}}</span> </p>
         <p class="uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button" id="btnHapus">Batal</button> &nbsp;
             <button class="uk-button uk-button-primary" (click)="doDelete()" type="button">Hapus</button>
         </p>
     </div>
 </div>
-<!-- modal-delete-kpa -->
+<!-- modal-delete-dokumen -->
 
 <!-- preview Dokumen -->
 <div id="previewDokumen" class="uk-modal-container uk-flex-top" uk-modal>
@@ -741,14 +741,14 @@
 
         <p class="uk-text-right">
           <button class="uk-button uk-button-default"  *ngIf="isOpenEachFormTemuan" (click)="onCancelFormIsiDokumen($event.target.value)" id="cancelPopUpForm" value="jancok" type="button">BATAL</button> &nbsp;
-          <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan" (click)="simpanForm()" type="button">SIMPAN</button>
+          <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan"  (change)="validasiBtnSimpanTemuan()" (click)="simpanForm()" type="button">SIMPAN</button>
         </p>
 
         <div class="card"  [hidden]="!is_titleHeader">
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
               </div>
           </div>
         </div>
@@ -757,7 +757,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
               </div>
           </div>
         </div>
@@ -767,7 +767,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
               </div>
           </div>
         </div>
@@ -776,7 +776,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
               </div>
           </div>
         </div>
@@ -785,7 +785,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
               </div>
           </div>
         </div>
@@ -794,7 +794,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
+                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
               </div>
           </div>
         </div>
@@ -804,7 +804,7 @@
             <div class="uk-margin" [hidden]="!is_statusTindakLanjut">
               <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
               <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut">
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" (change)="validasiBtnSimpanTemuan()">
                   <option *ngIf="!isResponseTL" value="Tersedia">Buka</option>
                   <option value="Dalam Proses">Dalam Proses</option>
                   <option value="Selesai">Selesai</option>
@@ -818,7 +818,7 @@
 
         <div class="card" [hidden]="!is_uraianTemuan">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan" (change)="validasiBtnSimpanTemuan()">
                 <dxo-toolbar [multiline]="isMultiline">
                 <dxi-item formatName="undo"></dxi-item>
                 <dxi-item formatName="redo"></dxi-item>
@@ -863,7 +863,7 @@
 
         <div class="card" [hidden]="!is_rekomendasi">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(ngModel)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi">
+            <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(ngModel)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi" (change)="validasiBtnSimpanTemuan()">
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -908,7 +908,7 @@
 
         <div class="card" [hidden]="!is_tindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut" (change)="validasiBtnSimpanTemuan()">
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -953,7 +953,7 @@
 
         <div class="card" [hidden]="!is_ringkasanTindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut" (change)="validasiBtnSimpanTemuan()"> 
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -998,7 +998,7 @@
 
         <div class="card" [hidden]="!is_responTindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.responTindakLanjut" [hidden]="!is_responTindakLanjut">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.responTindakLanjut" [hidden]="!is_responTindakLanjut" (change)="validasiBtnSimpanTemuan()">
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -1159,10 +1159,10 @@
 					</td>
 
 					<td class=" pr-2 pl-2 uk-text-top" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'"> <!-- Tindak Lanjut -->
-						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 " uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
+						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 || modelIsiDokumen.id == null " uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
 							<div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
-              <a *ngIf="!isResponseTL" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 " (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
+              <a *ngIf="!isResponseTL" [hidden]="windowMode=='create' || modelIsiDokumen.isEdit == 1 || modelIsiDokumen.id == null " (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
               
               <span *ngIf="isResponseTL">
                 <hr>
@@ -1194,7 +1194,7 @@
 
 			<p class="uk-text-right uk-margin-medium-top" >
 				<button class="uk-button uk-button-default uk-modal-close" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button> &nbsp;
-				<span *ngIf="showBtnSaveTemuan"><button class="uk-button uk-button-primary uk-modal-close" (click)="saveTemuan(flagEdit)" >Simpan Temuan</button></span>
+				<span><button class="uk-button uk-button-primary uk-modal-close" [disabled]="disabledSimpanTemuan || isOpenEachFormTemuan" (click)="saveTemuan(flagEdit)" >Simpan Temuan</button></span>
 			</p>
 
 

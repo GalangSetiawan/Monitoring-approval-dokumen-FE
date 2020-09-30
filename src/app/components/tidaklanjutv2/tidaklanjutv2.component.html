@@ -17,28 +17,53 @@
                 <div  class="uk-margin-small row" >
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">KPA</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">No. LHA</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.namaKpa" placeholder="Some text...">
+                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.noLHA" placeholder="No. LHA">
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Judul Tinjauan</label>
+                      <div class="uk-form-controls">
+                          <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.titleHeader" placeholder="Judul Tinjauan">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">  
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
+                      <div class="uk-form-controls">
+                          <select class="uk-select" [(ngModel)]="filterData.satkerId" >
+                            <option value="999">Semua Satker</option>
+                            <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                          </select>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-6">  
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Tgl. Terima Dokumen Temuan</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="filterData.tglTerimaDokumenTemuan">
+                      </div>
+                    </div>
+
+                  
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">Cabang</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Status</label>
                         <div class="uk-form-controls">
-                            <select class="uk-select" [(ngModel)]="filterData.idCabang">
-                                <option *ngFor="let cabang of ListCabang" [ngValue]="cabang.id">{{cabang.cabang}}</option>
-                                <!-- <option [ngValue]="1">Dummy Cabang 100</option>
-                                <option [ngValue]="2">Dummy Cabang 200</option>
-                                <option [ngValue]="3">Dummy Cabang 300</option> -->
+                            <select class="uk-select" [(ngModel)]="filterData.statusTindakLanjut">
+                              <option value="Tersedia">Buka</option>
+                              <option value="Dalam Proses">Dalam Proses</option>
+                              <option value="Selesai">Selesai</option>
                             </select>
                         </div>
                     </div>
                   
     
-                    <div class="col-md-6"></div>
     
-                    <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
+                    <div class="col-md-12 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
                         <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
                         <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">CARI </button>
                     </div> 

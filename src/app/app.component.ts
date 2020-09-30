@@ -236,10 +236,20 @@ export class AppComponent implements OnInit{
       result => {
         console.log('checkPassword OldPassword success | checkPassword ===>',result);
         this.signOut();
+        Swal.fire(
+          'Reset Berhasil', 
+          'Password Berhasil direset, harap login kembali', 
+          'success'
+        )   
         
       },
       error => {
         console.log('checkPassword OldPassword error   | checkPassword ===>',error);
+        Swal.fire(
+          'Whoops Failed', 
+          'Tidak berhasil me-reset password', 
+          'error'
+        )      
       }
     )
 
@@ -294,6 +304,7 @@ export class AppComponent implements OnInit{
         // this.UserProfile = result.user
         this.isResetForm = false;
         this.isLogoutForm = false;
+        this.errors = null;
 
         this.downloadImg(result.user.foto);
         // UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Selamat Datang '  + this.UserProfile.nama ,  status: 'success',pos: 'top-right'})

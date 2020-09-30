@@ -785,7 +785,7 @@ export class Tidaklanjutv2Component implements OnInit {
 
   doReset(){
     console.log('this.filterData ===>',this.filterData)
-    this.filterData = {namaKpa:"", idCabang:null}
+    this.filterData = {noLHA:"", titleHeader:"" ,satkerId:null,tglTerimaDokumenTemuan:"",statusTindakLanjut:""}
   }
 
   cleanBlankKey(obj){
@@ -797,7 +797,7 @@ export class Tidaklanjutv2Component implements OnInit {
     return obj;
   }
 
-  filterData = {namaKpa:"", idCabang:null}
+  filterData = {noLHA:"", titleHeader:"" ,satkerId:null,tglTerimaDokumenTemuan:"",statusTindakLanjut:""}
   doSearch(filter){
     this.filterData = filter; 
     console.log('doSearch ===>',this.filterData);
@@ -807,7 +807,7 @@ export class Tidaklanjutv2Component implements OnInit {
     this.dokumenService.searchDokumenTemuan(this.filterData).subscribe(
       data => {
         console.log('searchPPK PPK success | searchPPK ===>',data);
-        this.ListDokumenTemuan = data.result;
+        this.ListTindakLanjut = data.result;
       },
       error => {
         console.log('searchPPK PPK error   | searchPPK ===>',error);
