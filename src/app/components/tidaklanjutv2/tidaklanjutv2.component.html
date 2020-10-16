@@ -997,8 +997,8 @@
 				<button class="uk-button uk-button-default uk-modal-close" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button> &nbsp;
 				<span *ngIf="showBtnSaveTemuan">
           <button class="uk-button uk-button-primary uk-modal-close" 
-            [disabled]="modelIsiDokumen.tindakLanjut == '' || modelIsiDokumen.tindakLanjut == null ||namafile == '' ||namafile == undefined " 
-            (click)="saveTemuan(flagEdit)" >Simpan Temuan
+            [disabled]="modelIsiDokumen.tindakLanjut == '' || modelIsiDokumen.tindakLanjut == null ||namafile == '' ||namafile == undefined  || isOpenEachFormTemuan" 
+            (click)="saveTemuan(flagEdit)" >Simpan
           </button>
         </span>
 			</p>

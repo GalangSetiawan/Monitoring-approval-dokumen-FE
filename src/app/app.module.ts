@@ -40,6 +40,7 @@ import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
 import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2.component';
+import { PrintreportComponent } from './printreport/printreport.component';
 
 
 
@@ -65,6 +66,7 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
     TemuaninspektoratComponent,
     BlogComponent,
     Tidaklanjutv2Component,
+    PrintreportComponent,
   ],
   imports: [
     BrowserModule,

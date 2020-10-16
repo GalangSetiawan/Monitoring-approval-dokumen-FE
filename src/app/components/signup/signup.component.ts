@@ -288,17 +288,17 @@ export class SignupComponent implements OnInit {
     console.log('onSatkerChange ===>',id);
     this.modelRegister.namaSatker = (_.find(this.ListSatker,({'id':id}))).namaSatker
 
-    this.masterPpkService.getPPKbyId(id).subscribe(
-      data => {
-        console.log('Get data PPK success | getPPKbyId ===>',data);
-        this.ListPpk = data.result;
-        console.log('ListPpk ===>',this.ListPpk);
-      },
-      error => {
-        console.log('Get data PPK error   | getPPKbyId ===>',error);
-        notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-      }
-    )
+    // this.masterPpkService.getPPKbyId(id).subscribe(
+    //   data => {
+    //     console.log('Get data PPK success | getPPKbyId ===>',data);
+    //     this.ListPpk = data.result;
+    //     console.log('ListPpk ===>',this.ListPpk);
+    //   },
+    //   error => {
+    //     console.log('Get data PPK error   | getPPKbyId ===>',error);
+    //     notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+    //   }
+    // )
   }
 
  

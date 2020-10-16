@@ -17,6 +17,7 @@ import { TemuanbpkComponent } from './components/temuanbpk/temuanbpk.component';
 import { TemuaninspektoratComponent } from './components/temuaninspektorat/temuaninspektorat.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2.component';
+import { PrintreportComponent } from './printreport/printreport.component';
 
 // add component
 
@@ -42,6 +43,7 @@ import { Tidaklanjutv2Component } from './components/tidaklanjutv2/tidaklanjutv2
     { path: 'temuaninspektorat', component: TemuaninspektoratComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'tindaklanjutv2', component: Tidaklanjutv2Component },
+    { path: 'printdokumen', component: PrintreportComponent },
   ];
 
 @NgModule({

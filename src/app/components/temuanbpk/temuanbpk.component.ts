@@ -585,6 +585,12 @@ export class TemuanbpkComponent implements OnInit {
   }
 
 
+  printPDFcss(){
+    // $('#kertasa4-forPrint').show().printElement();
+    window.print();
+	  return false;
+  }
+
 
   downloadDokumenHTML2CANVAS(){
     // console.log('downloadDokumen ===>')
@@ -766,7 +772,7 @@ export class TemuanbpkComponent implements OnInit {
       this.modelDokumenTemuan.footer = this.footerTemplate;
       this.progres1Validation = false;
 
-      // this.isiHardcode();
+      this.isiHardcode();
 
       this.batchDokumen.splice(0);
     }else if (this.windowMode == 'edit'){
@@ -1302,6 +1308,8 @@ export class TemuanbpkComponent implements OnInit {
     }else if(this.windowMode =='create'){ // create new data
       console.log('onSubmit | create new data',this.windowMode);
 
+      this.isLoading = true;
+
       this.dokumenService.createDokumenTemuan(this.modelDokumenTemuan).subscribe(
         (data:any)=>{
           console.log('createDokumenTemuan Success ===>',data.result);
@@ -1326,9 +1334,11 @@ export class TemuanbpkComponent implements OnInit {
               console.log('createDokumen Success ===>',data.result);   
               this.windowModeView('grid');
   
+              this.isLoading = false;
+
               Swal.fire(
                 'Yay Success!', 
-                'Dokumen Temuan berhasi ditambahkan', 
+                'Dokumen Temuan berhasi ditambahkan',   
                 'success'
               )
   
