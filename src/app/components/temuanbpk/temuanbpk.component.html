@@ -684,6 +684,7 @@
             </div>
         </div>
 
+        <button (click)="printPDFcss()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF CSS</button>
         <button (click)="createPDFAutoTable()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF AUTOTABLE</button>
         <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML 2 PDF Download  <div uk-spinner *ngIf="isLoading"></div></button>
 
@@ -741,14 +742,14 @@
 
         <p class="uk-text-right">
           <button class="uk-button uk-button-default"  *ngIf="isOpenEachFormTemuan" (click)="onCancelFormIsiDokumen($event.target.value)" id="cancelPopUpForm" value="jancok" type="button">BATAL</button> &nbsp;
-          <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan"  (change)="validasiBtnSimpanTemuan()" (click)="simpanForm()" type="button">SIMPAN</button>
+          <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan" (click)="simpanForm();validasiBtnSimpanTemuan()" type="button">SIMPAN</button>
         </p>
 
         <div class="card"  [hidden]="!is_titleHeader">
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
               </div>
           </div>
         </div>
@@ -757,7 +758,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
               </div>
           </div>
         </div>
@@ -767,7 +768,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
               </div>
           </div>
         </div>
@@ -776,7 +777,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
+                  <input class="uk-input uk-margin"  type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
               </div>
           </div>
         </div>
@@ -785,7 +786,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
+                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
               </div>
           </div>
         </div>
@@ -794,7 +795,7 @@
           <div class="card-body">
               <div class="uk-margin">
                   <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
-                  <input class="uk-input uk-margin" (change)="validasiBtnSimpanTemuan()" type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
+                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
               </div>
           </div>
         </div>
@@ -804,7 +805,7 @@
             <div class="uk-margin" [hidden]="!is_statusTindakLanjut">
               <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
               <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" (change)="validasiBtnSimpanTemuan()">
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" >
                   <option *ngIf="!isResponseTL" value="Tersedia">Buka</option>
                   <option value="Dalam Proses">Dalam Proses</option>
                   <option value="Selesai">Selesai</option>
@@ -818,7 +819,7 @@
 
         <div class="card" [hidden]="!is_uraianTemuan">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan" (change)="validasiBtnSimpanTemuan()">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan" >
                 <dxo-toolbar [multiline]="isMultiline">
                 <dxi-item formatName="undo"></dxi-item>
                 <dxi-item formatName="redo"></dxi-item>
@@ -863,7 +864,7 @@
 
         <div class="card" [hidden]="!is_rekomendasi">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(ngModel)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi" (change)="validasiBtnSimpanTemuan()">
+            <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(ngModel)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi" >
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -908,7 +909,7 @@
 
         <div class="card" [hidden]="!is_tindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut" (change)="validasiBtnSimpanTemuan()">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut" >
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -953,7 +954,7 @@
 
         <div class="card" [hidden]="!is_ringkasanTindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut" (change)="validasiBtnSimpanTemuan()"> 
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut" > 
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -998,7 +999,7 @@
 
         <div class="card" [hidden]="!is_responTindakLanjut">
           <div class="card-body">
-            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.responTindakLanjut" [hidden]="!is_responTindakLanjut" (change)="validasiBtnSimpanTemuan()">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.responTindakLanjut" [hidden]="!is_responTindakLanjut" >
               <dxo-toolbar [multiline]="isMultiline">
               <dxi-item formatName="undo"></dxi-item>
               <dxi-item formatName="redo"></dxi-item>
@@ -1216,6 +1217,38 @@
 
 
 <style>
+
+    @media print{
+        @page {
+          size: A4 landscape;
+          margin-top: -5px;
+        }
+
+        @page :footer { 
+            display: none !important
+        } 
+      
+        @page :header { 
+            display: none !
+        } 
+    }
+
+
+
+
+    @media print {
+      body {
+        visibility: hidden !important;
+      }
+      #kertasa4-forPrint, #kertasa4-forPrint * {
+        visibility: visible !important;
+      }
+      #kertasa4-forPrint {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
 
     /* ======================= TABLE DOCUMENT ==================== */
     .tableDocument{

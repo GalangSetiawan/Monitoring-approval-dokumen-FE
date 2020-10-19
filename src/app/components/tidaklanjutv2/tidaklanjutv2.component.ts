@@ -117,13 +117,28 @@ export class Tidaklanjutv2Component implements OnInit {
         this.isLoading = false;
         console.log('Get data TindakLanjut error   | TindakLanjut ===>',error);
         // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        Swal.fire(
-          'Whoops Failed', 
-          'Tidak dapat mengambil data Tindak Lanjut', 
-          'error'
-        )
+        
+
+        if(!error.error.isAuthorized){
+          this.errorTokenHabis();
+        }else{
+          Swal.fire(
+            'Whoops Failed', 
+            'Tidak dapat mengambil data Tindak Lanjut', 
+            'error'
+          )
+        }
       }
     )
+  }
+
+  errorTokenHabis(){
+    Swal.fire(
+      'Whoops! Waktu Akses Habis', 
+      'Harap Login ulang untuk melanjutkan', 
+      'error'
+    )
+    $('#parentSignOut').click();
   }
 
 

@@ -24,15 +24,10 @@
                   <div class="col-md-6">  
                       <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
                       <div class="uk-form-controls">
-                          <!-- <input class="uk-input " [(ngModel)]="filterData.email" type="text" placeholder="Masukan email..."> -->
                           <select class="uk-select" [(ngModel)]="filterData.satkerId" >
                             <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                           </select>
-    
                       </div>
-
-                     
-
                   </div>
   
   
@@ -183,7 +178,7 @@
               <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
                 <label class="uk-form-label" for="form-horizontal-text">Satker</label>
                 <div class="uk-form-controls">
-                    <select class="uk-select" [(ngModel)]="modelRegister.satkerId"  formControlName="satkerId" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
+                    <select class="uk-select" [(ngModel)]="modelRegister.satkerId" (change)="onSatkerChange(modelRegister.satkerId)"  formControlName="satkerId" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
                         <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                     </select>
                     <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">

@@ -1,5 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+@media print{
+  @page {
+    size: A4 landscape;
+    margin-top: -5px;
+  }
+
+  @page :footer { 
+      display: none !important
+  } 
+
+  @page :header { 
+      display: none !
+  } 
+}
+
+
+
+
+  @media print {
+    body * {
+      visibility: hidden !important;
+    }
+    #kertasa4-forPrint, #kertasa4-forPrint * {
+      visibility: visible;
+    }
+    #kertasa4-forPrint {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  
 html {
     overflow:   scroll;
   }
