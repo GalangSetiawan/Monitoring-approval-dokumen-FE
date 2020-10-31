@@ -37,7 +37,7 @@
                             </ul>
                         </li> -->
                         
-                        <li uk-tooltip="title: Dashboard; pos: right"  [routerLink]="['/dashboard']">
+                        <li uk-tooltip="title: Dashboard; pos: right"  skipLocationChange [routerLink]="['/dashboard']" >
                             <a>
                                 <i  uk-icon="icon: thumbnails" aria-hidden="true"></i>
                                 <span>Dashboard</span>
@@ -115,25 +115,24 @@
                             <!-- <li class="uk-nav-header bgRound bgBlue uk-text-center">Monitoring Approval Document</li> -->
                             <li class="uk-nav-divider mt-3"></li>
                             
-                            <li class="listMenu" (click)="selectMenu()" id="dashboard"><a [routerLink]="['/dashboard']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="dashboard"><a skipLocationChange [routerLink]="['/dashboard']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
                             <li class="uk-parent" *ngIf="UserProfile.roleId == 50">
                                 <a href="#"><span class="uk-margin-small-right uk-margin-small-left listMenu" uk-icon="icon: album"></span>Dokumen Temuan</a>
                                 <ul class="uk-nav-sub">
-                                    <li class="mb-1 listMenu" id="dokumenTemuan" style="font-size: 1.1em !important;"  (click)="selectMenu()" [routerLink]="['/temuanbpk']"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan BPK</a></li>
-                                    <li class="listMenu" id="dokumenTemuanInspektorat" style="font-size: 1.1em !important;" (click)="selectMenu()" [routerLink]="['/temuaninspektorat']"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan Inspektorat</a></li>
+                                    <li class="mb-1 listMenu" id="dokumenTemuan" style="font-size: 1.1em !important;"  (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']"  [queryParams]="{jenisDokumenTemuanId : 1}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan BPK</a></li>
+                                    <li class="listMenu" id="dokumenTemuanInspektorat" style="font-size: 1.1em !important;" (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']" [queryParams]="{jenisDokumenTemuanId : 2}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan Inspektorat</a></li>
                                 </ul>
                             </li>
-                            <li class="listMenu" (click)="selectMenu()" id="tindaklanjutv2"><a [routerLink]="['/tindaklanjutv2']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut </a></li>
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: push"></span> Approval Document</a></li> -->
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
-                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/masterppk']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="cabang"><a [routerLink]="['/cabang']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master Cabang</a></li> -->
-                            <li class="listMenu" (click)="selectMenu()" id="blog"><a [routerLink]="['/blog']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Berita</a></li>
-                            <li class="listMenu" (click)="selectMenu()" id="satker" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/satker']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
-                            <li class="listMenu" (click)="selectMenu()" id="register" *ngIf="UserProfile.roleId == 50"><a [routerLink]="['/register']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: users" ></span> Master User</a></li>
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="login"><a [routerLink]="['/login']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Login</a></li> -->
-                            <!-- <li class="listMenu" (click)="selectMenu()" id="profile"><a [routerLink]="['/profile']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Profile</a></li> -->
+                                                                 <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a skipLocationChange [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a skipLocationChange [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: push"></span> Approval Document</a></li> -->
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a skipLocationChange [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
+                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/masterppk']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="cabang"><a skipLocationChange [routerLink]="['/cabang']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master Cabang</a></li> -->
+                            <li class="listMenu" (click)="selectMenu()" id="blog"><a skipLocationChange [routerLink]="['/blog']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Berita</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="satker" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/satker']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="register" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/register']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: users" ></span> Master User</a></li>
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="login"><a skipLocationChange [routerLink]="['/login']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Login</a></li> -->
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="profile"><a skipLocationChange [routerLink]="['/profile']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Profile</a></li> -->
                 
                             
                             <!-- <li class="uk-nav-divider"></li>
@@ -194,7 +193,7 @@
                     <div class="row col-sm-12 p-4">
                         <div class="col-sm-5" id="header1">
                             <ul class="uk-breadcrumb">
-                                <li><a [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
+                                <li><a skipLocationChange [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
                                 <li id="breadCrumbTitle" class="uk-disabled"><a>Dashboard</a></li>
                                 <!-- <li id="toggle-breadcrumb" class="uk-disabled" hidden><a>Create</a></li> -->
                                 

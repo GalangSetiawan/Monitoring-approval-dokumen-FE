@@ -62,7 +62,9 @@
     <div class="">
         <div class="card mt-5">
           <div class="card-header card-header-primary">
-            <h4 class="card-title">Dokumen Temuan BPK</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId == 1">Dokumen Temuan BPK</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId == 2">Dokumen Temuan Inspektorat</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId != 2 && jenisDokumenTemuanId != 1">Dokumen Temuan</h4>
             <p class="card-category">New employees on 15th September, 2016</p>
           </div>
 
@@ -222,13 +224,12 @@
                         <div class="uk-form-controls">
                             <select class="uk-select" [disabled]="isResponseTL" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()"> 
                                 <option *ngFor="let data of ListJenisDokumenTemuan" [ngValue]="data.id">{{data.jenisDokumenTemuan}}</option>
-                                <!-- <option [ngValue]="1">Dummy Cabang 100</option>
-                                <option [ngValue]="2">Dummy Cabang 200</option>
-                                <option [ngValue]="3">Dummy Cabang 300</option> -->
                             </select>
                 
                         </div>
                     </div>
+
+
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-horizontal-text">Judul Dokumen</label>
