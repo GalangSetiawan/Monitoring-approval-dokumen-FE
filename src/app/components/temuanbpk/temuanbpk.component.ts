@@ -150,6 +150,14 @@ export class TemuanbpkComponent implements OnInit {
       }
     )
   }
+
+
+
+  keteranganDokumenId = 0;
+  onKeteranganDokumenChange(id){
+    console.log('onKeteranganDokumenChange | keteranganDokumenId ====>',this.keteranganDokumenId);
+     this.keteranganDokumenId = id;
+  }
   
 
   progres1Validation = false;
@@ -786,6 +794,7 @@ export class TemuanbpkComponent implements OnInit {
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>');
       $('.uk-breadcrumb #edit').remove();
       this.isResponseTL = false;
+      this.keteranganDokumenId = 0;
       this.clearModel_DokumenTemuan();
       this.clearModel_isiDokumen();
 
