@@ -166,7 +166,7 @@ export class TemuanbpkComponent implements OnInit {
       (this.modelDokumenTemuan.jenisDokumenTemuanId == null || this.modelDokumenTemuan.jenisDokumenTemuanId == "" ) ||
       (this.modelDokumenTemuan.tglTerimaDokumenTemuan == null || this.modelDokumenTemuan.tglTerimaDokumenTemuan == "" ) ||
       (this.modelDokumenTemuan.deadlineDokumenTemuan == null || this.modelDokumenTemuan.deadlineDokumenTemuan == "" ) ||
-      (this.modelDokumenTemuan.keadaanSdBulan == null || this.modelDokumenTemuan.keadaanSdBulan == "" ) ||
+      // (this.modelDokumenTemuan.keadaanSdBulan == null || this.modelDokumenTemuan.keadaanSdBulan == "" ) ||
       (this.modelDokumenTemuan.namaKegiatan == null || this.modelDokumenTemuan.namaKegiatan == "" ) ||
       (this.modelDokumenTemuan.namaInstansi == null || this.modelDokumenTemuan.namaInstansi == "" ) ||
       (this.modelDokumenTemuan.unitKerjaEselon1 == null || this.modelDokumenTemuan.unitKerjaEselon1 == "" ) ||
@@ -798,7 +798,7 @@ export class TemuanbpkComponent implements OnInit {
       this.clearModel_DokumenTemuan();
       this.clearModel_isiDokumen();
 
-      this.isiHardcode();
+      // this.isiHardcode();
       this.modelDokumenTemuan.footer = this.footerTemplate;
       this.modelDokumenTemuan.jenisDokumenTemuanId = this.jenisDokumenTemuanId
       this.progres1Validation = false;
