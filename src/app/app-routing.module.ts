@@ -27,8 +27,8 @@ import { PrintreportComponent } from './printreport/printreport.component';
 
 
   const routes: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: 'login', component: SigninComponent },
+    { path: '', redirectTo: '', pathMatch: 'full' },
+    { path: '', component: SigninComponent },
     { path: 'register', component: SignupComponent }, 
     { path: 'profile', component: UserProfileComponent },
     { path: 'sidebar', component: SidebarComponent },

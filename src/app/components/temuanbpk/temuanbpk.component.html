@@ -62,7 +62,9 @@
     <div class="">
         <div class="card mt-5">
           <div class="card-header card-header-primary">
-            <h4 class="card-title">Dokumen Temuan BPK</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId == 1">Dokumen Temuan BPK</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId == 2">Dokumen Temuan Inspektorat</h4>
+            <h4 class="card-title" *ngIf="jenisDokumenTemuanId != 2 && jenisDokumenTemuanId != 1">Dokumen Temuan</h4>
             <p class="card-category">New employees on 15th September, 2016</p>
           </div>
 
@@ -180,7 +182,7 @@
     <!-- <form class="uk-form-horizontal uk-margin-large" [formGroup]="dokumenTemuanForm" (ngSubmit)="doSave(dokumenTemuanForm.value)"> -->
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
           &nbsp; <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> 
-          &nbsp; <input type="submit" value="TAMBAH TEMUAN" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary"> 
+          &nbsp; <input type="submit" value="TAMBAH TINDAK LANJUT" *ngIf="progres1Validation"  uk-toggle="target: #modalInputSatker" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary"> 
           &nbsp; <input type="submit" value="UPDATE TEMUAN" *ngIf="windowMode == 'edit' && modelDokumenTemuan.isEdit == 1 " (click)="onSubmit()" class="uk-button uk-button-primary">
           &nbsp; <input type="submit" value="SIMPAN" *ngIf="windowMode=='create' && showBtnSimpan" (click)="onSubmit()" class="uk-button uk-button-primary">
           &nbsp; <input type="submit" value="PERBARUI responTindakLanjut" *ngIf="windowMode=='edit' && isResponseTL" (click)="doSaveResponTL()" class="uk-button uk-button-primary">
@@ -220,17 +222,26 @@
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-horizontal-select">Jenis Dokumen Temuan</label>
                         <div class="uk-form-controls">
-                            <select class="uk-select" [disabled]="isResponseTL" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()"> 
+                            <select class="uk-select" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()" readonly="true" > 
                                 <option *ngFor="let data of ListJenisDokumenTemuan" [ngValue]="data.id">{{data.jenisDokumenTemuan}}</option>
-                                <!-- <option [ngValue]="1">Dummy Cabang 100</option>
-                                <option [ngValue]="2">Dummy Cabang 200</option>
-                                <option [ngValue]="3">Dummy Cabang 300</option> -->
                             </select>
                 
                         </div>
                     </div>
 
+
                     <div class="uk-margin">
+                      <label class="uk-form-label" for="form-horizontal-select">Keterangan Dokumen Temuan</label>
+                      <div class="uk-form-controls">
+                          <select class="uk-select"  [(ngModel)]="keteranganDokumenId" (change)="onKeteranganDokumenChange(keteranganDokumenId)"> 
+                            <option [value]="1">Dokumen Temuan Baru</option>
+                            <option [value]="2">Dokumen Temuan Lanjutan</option>
+                          </select>
+              
+                      </div>
+                   </div>
+
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Judul Dokumen</label>
                         <div class="uk-form-controls">
                             <textarea class="uk-textarea" [disabled]="isResponseTL" type="text" placeholder="Masukan Alamat..."  rows="5" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.header"></textarea>
@@ -241,7 +252,7 @@
                     </div>
 
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Tgl. terima Dokumen Temuan</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglTerimaDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.tglTerimaDokumenTemuan);progres1ValidationFunction()">
@@ -251,7 +262,7 @@
     
     
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
                         <label class="uk-form-label" for="form-horizontal-text">Keadaan s/d. bulan </label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="month" [(ngModel)]="modelDokumenTemuan.keadaanSdBulan" (change)="onHalfDateChange(modelDokumenTemuan.keadaanSdBulan);progres1ValidationFunction()">
@@ -261,7 +272,7 @@
                     </div>
     
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Nama Kegiatan</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Kegiatan..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaKegiatan">
@@ -269,7 +280,7 @@
                         </div>
                     </div>
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Nama Instansi</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Instansi..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaInstansi">
@@ -278,7 +289,7 @@
                     </div>
     
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Unit Kerja Eselon 1</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Unit Kerja Eselon 1..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.unitKerjaEselon1">
@@ -287,7 +298,7 @@
                     </div>
     
     
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                         <label class="uk-form-label" for="form-horizontal-text">Nomor LHA</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nomor LHA..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.noLHA" >
@@ -295,7 +306,7 @@
                         </div>
                     </div>
 
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                       <label class="uk-form-label" for="form-horizontal-text">Tgl LHA</label>
                       <div class="uk-form-controls">
                           <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglLHA" (change)="onFullDateChange(modelDokumenTemuan.tglLHA);progres1ValidationFunction()">
@@ -304,7 +315,7 @@
                     </div>
 
 
-                    <div class="uk-margin">
+                    <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
                       <label class="uk-form-label" for="form-horizontal-text">Deadline Dokumen Temuan</label>
                       <div class="uk-form-controls">
                           <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.deadlineDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.deadlineDokumenTemuan);progres1ValidationFunction()">
@@ -323,7 +334,7 @@
 					
 
                             <table class="previewSubheader">
-                                <tr>
+                                <tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
                                   <td style="width:150px">Keadaan s.d. Bulan</td>
                                   <td style="width:15px">:</td> 
                                   <td> {{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
@@ -463,7 +474,7 @@
                 </div>
 
                 <div [hidden]='isProgress != 3'>
-                    <div class="uk-margin">
+                    <!-- <div class="uk-margin">
                         <label class="uk-form-label" for="form-horizontal-text">Footer Dokumen</label>
                         <div class="uk-form-controls">
                             <dx-html-editor [(ngModel)]="modelDokumenTemuan.footer" height="350px">
@@ -488,7 +499,7 @@
                             </dx-html-editor>
 
                         </div>
-                    </div>
+                    </div> -->
                     
                     <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" href="#previewDokumen" uk-toggle (click)="previewDokumen()" style="color:white">Preview Dokumen</a>
                 </div>            
@@ -572,7 +583,7 @@
                 <p class="uk-text-center previewHeader-forPrint mb-3"> {{modelDokumenTemuan.header}} </p>
 
                 <table class="previewSubheader-forPrint">
-                    <tr>
+                    <tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
                       <td style="width:150px"> &nbsp; Keadaan s.d. Bulan</td>
                       <td style="width:15px">:</td> 
                       <td>Juli  2017</td>
@@ -704,7 +715,7 @@
 			<p class="uk-text-center previewHeader mb-5 mt-5"> {{modelDokumenTemuan.header}} </p>
                     
 			<table class="previewSubheader mb-4">
-				<tr>
+				<tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
 					<td style="width:150px">Keadaan s.d. Bulan</td>
 					<td style="width:15px">:</td> 
 					<td> {{modelDokumenTemuan.displayKeadaanSdBulan}}</td>

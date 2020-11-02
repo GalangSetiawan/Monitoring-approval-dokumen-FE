@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl,FormBuilder, Validators} from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TokenService } from '../../shared/token.service';
 import { AuthStateService } from '../../shared/auth-state.service';
 import { DokumenserviceService } from './../../shared/dokumenservice.service';
@@ -34,6 +35,7 @@ export class TemuanbpkComponent implements OnInit {
 
   dokumenTemuanForm: FormGroup;
   isLoading = false;
+  jenisDokumenTemuanId:any
   public titleHeader = "Master DokumenTemuan";
 
   constructor(
@@ -44,13 +46,31 @@ export class TemuanbpkComponent implements OnInit {
     private token             : TokenService,
     public fb                 : FormBuilder,
     private authState         : AuthStateService,
+    private activateRoute     : ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+
+    this.activateRoute.queryParams.subscribe(
+      params => {
+        this.jenisDokumenTemuanId = parseInt(params['jenisDokumenTemuanId'])
+        console.log('Dokumen Temuan id ====>',this.jenisDokumenTemuanId);
+
+        if(this.jenisDokumenTemuanId == 1){
+          this.windowModeView('grid')
+          $('#breadCrumbTitle a').text('Dokumen Temuan BPK');
+        }else if(this.jenisDokumenTemuanId == 2){
+          this.windowModeView('grid')
+          $('#breadCrumbTitle a').text('Dokumen Temuan Inspektorat');
+        }
+      }
+    )
+
+
     this.getDataJenisDokumenTemuan();
     this.getDataSatker();
     this.getDataDokumenTemuan();
-    $('#breadCrumbTitle a').text('Dokumen Temuan BPK');
+   
     this.selectActiveMenu('dokumenTemuan')
     $('#spinner').hide();
   }
@@ -129,6 +149,14 @@ export class TemuanbpkComponent implements OnInit {
         )
       }
     )
+  }
+
+
+
+  keteranganDokumenId = 0;
+  onKeteranganDokumenChange(id){
+    console.log('onKeteranganDokumenChange | keteranganDokumenId ====>',this.keteranganDokumenId);
+     this.keteranganDokumenId = id;
   }
   
 
@@ -766,13 +794,15 @@ export class TemuanbpkComponent implements OnInit {
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>');
       $('.uk-breadcrumb #edit').remove();
       this.isResponseTL = false;
+      this.keteranganDokumenId = 0;
       this.clearModel_DokumenTemuan();
       this.clearModel_isiDokumen();
 
+      this.isiHardcode();
       this.modelDokumenTemuan.footer = this.footerTemplate;
+      this.modelDokumenTemuan.jenisDokumenTemuanId = this.jenisDokumenTemuanId
       this.progres1Validation = false;
 
-      this.isiHardcode();
 
       this.batchDokumen.splice(0);
     }else if (this.windowMode == 'edit'){
