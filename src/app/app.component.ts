@@ -41,7 +41,6 @@ export class AppComponent implements OnInit{
   isLogoutForm = false;
   isWelcomeBar = false;
 
-
   constructor(
     private auth: AuthStateService,
     public router: Router,
@@ -292,7 +291,7 @@ export class AppComponent implements OnInit{
     
   }
 
-  UIkit:any
+  UIkit:any;
   onSubmit() {
     this.authService.signin(this.loginForm.value).subscribe(
       result => {
@@ -301,8 +300,9 @@ export class AppComponent implements OnInit{
         var jsonUserProfileString = JSON.stringify(result.user);
         var user = localStorage.setItem("UserProfile", jsonUserProfileString);
         this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
+
         // this.UserProfile = result.user
-        this.isResetForm = false;
+        this.isResetForm = false
         this.isLogoutForm = false;
         this.errors = null;
 

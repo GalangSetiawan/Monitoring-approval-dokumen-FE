@@ -5,7 +5,7 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataDokumenTemuan()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a>
+        <a uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create'); createNewTindakLanjut() ">BUAT &nbsp;</a>
     </div> 
     
     
@@ -19,7 +19,7 @@
                     <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">No. LHA</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.noLHA" placeholder="Nomor LHA...">
+                            <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.noLHA" placeholder="Nomor LHA...">
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                     <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">Nama Kegiatan</label>
                         <div class="uk-form-controls">
-                          <input class="uk-input " id="form-stacked-text" type="text"  [(ngModel)]="filterData.namaKegiatan" placeholder="Nama Kegiatan...">
+                          <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.namaKegiatan" placeholder="Nama Kegiatan...">
 
                         </div>
                     </div>
@@ -524,8 +524,8 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Satker</label>
             <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId" (change)="onSatkerChange(modelIsiDokumen.satkerId)">
-                    <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId">
+                    <option [ngValue]="modelIsiDokumen.satkerId">{{namaSatker.namaSatker}}</option>
                 </select>
             </div>
         </div>
@@ -548,10 +548,10 @@
             <button class="uk-button uk-button-default uk-modal-close" type="button">BATAL</button> &nbsp;
 			<button class="uk-button uk-button-primary" 
 					uk-toggle="target: #modal-tambah-temuan"
-					(click)="addTemuan(modelIsiDokumen.satkerId,modelIsiDokumen.ppkId)" 
-					[disabled]="(modelIsiDokumen.satkerId=='' || modelIsiDokumen.satkerId == null)||(modelIsiDokumen.ppkId=='' || modelIsiDokumen.ppkId == null)" 
+          (click)="addTemuan(modelIsiDokumen.satkerId,modelIsiDokumen.ppkId)" 
 					type="button">LANJUT
-			</button>
+      </button>
+      <!-- [disabled]="(modelIsiDokumen.satkerId == '' || modelIsiDokumen.satkerId == null)||(modelIsiDokumen.ppkId=='' || modelIsiDokumen.ppkId == null)" -->
         </p>
 
         

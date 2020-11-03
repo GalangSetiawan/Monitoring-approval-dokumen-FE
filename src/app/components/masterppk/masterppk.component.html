@@ -13,7 +13,7 @@
             <div>
                 <div  class="uk-margin-small row" >
     
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="uk-form-label mt-2" for="form-stacked-text">Nama PPK</label>
                         <div class="uk-form-controls">
                             <input class="uk-input" type="text" [(ngModel)]="filterData.namaPpk" placeholder="Nama PPK...">
@@ -21,17 +21,15 @@
                     </div>
     
                    
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <label class="uk-form-label mt-2" for="form-stacked-text">Satker</label>
                         <div class="uk-form-controls">
+                            <input class="uk-input" type="text" [(ngModel)]="filterData.namaPpk">
                             <select class="uk-select" [(ngModel)]="filterData.satkerId">
                                 <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
-                                <!-- <option [ngValue]="1">Dummy Satker Filter 100</option>
-                                <option [ngValue]="2">Dummy Satker Filter 200</option>
-                                <option [ngValue]="3">Dummy Satker Filter 300</option> -->
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
     
     
@@ -137,12 +135,11 @@
                             <label class="uk-form-label" for="form-horizontal-select">Satker</label>
                             <div class="uk-form-controls">
                                 <select class="uk-select"  formControlName="satkerId" [(ngModel)]="formPPK.satkerId" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }">
-                                    <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
-                                    <option [ngValue]="1">Dummy Satker 100</option>
+                                    <option [ngValue]="formPPK.satkerId">{{formPPK.namaSatker}}</option> -->
+                                    <!-- <option [ngValue]="1">Dummy Satker 100</option>
                                     <option [ngValue]="2">Dummy Satker 200</option>
-                                    <option [ngValue]="3">Dummy Satker 300</option>
+                                    <option [ngValue]="3">Dummy Satker 300</option> -->
                                 </select>
-
                                
                     
                                 <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">

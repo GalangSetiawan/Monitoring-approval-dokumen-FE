@@ -116,7 +116,7 @@
                             <li class="uk-nav-divider mt-3"></li>
                             
                             <li class="listMenu" (click)="selectMenu()" id="dashboard"><a skipLocationChange [routerLink]="['/dashboard']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
-                            <li class="uk-parent" *ngIf="UserProfile.roleId == 50">
+                            <li class="uk-parent" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40">
                                 <a href="#"><span class="uk-margin-small-right uk-margin-small-left listMenu" uk-icon="icon: album"></span>Dokumen Temuan</a>
                                 <ul class="uk-nav-sub">
                                     <li class="mb-1 listMenu" id="dokumenTemuan" style="font-size: 1.1em !important;"  (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']"  [queryParams]="{jenisDokumenTemuanId : 1}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan BPK</a></li>
@@ -126,7 +126,7 @@
                                                                  <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a skipLocationChange [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a skipLocationChange [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: push"></span> Approval Document</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a skipLocationChange [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
-                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/masterppk']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40"><a skipLocationChange [routerLink]="['/masterppk'] "><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
                             <!-- <li class="listMenu" (click)="selectMenu()" id="cabang"><a skipLocationChange [routerLink]="['/cabang']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master Cabang</a></li> -->
                             <li class="listMenu" (click)="selectMenu()" id="blog"><a skipLocationChange [routerLink]="['/blog']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Berita</a></li>
                             <li class="listMenu" (click)="selectMenu()" id="satker" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/satker']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-fork" ></span> Master Satker</a></li>

@@ -19,6 +19,8 @@ export class User {
   roleName: String;
   username: String;
   email   : String;
+  email2   : String;
+  email3   : String;
   foto    : FileList;
   password: String;
   password_confirmation: String;
@@ -56,6 +58,8 @@ export class AuthService {
       username             : String(user.username),
       NIP                  : String(user.NIP),
       email                : String(user.email),
+      email2                : String(user.email2),
+      email3                : String(user.email3),
       ppkId                : String(user.ppkId),
       satkerId             : String(user.satkerId),
       roleId               : String(user.roleId),
@@ -70,6 +74,8 @@ export class AuthService {
     formData.append('username',modelUser.username)
     formData.append('NIP',modelUser.NIP)
     formData.append('email',modelUser.email)
+    formData.append('email2',modelUser.email2)
+    formData.append('email3',modelUser.email3)
     formData.append('ppkId',modelUser.ppkId)
     formData.append('satkerId',modelUser.satkerId)
     formData.append('roleId',modelUser.roleId)
@@ -92,6 +98,8 @@ export class AuthService {
       username             : String(user.username),
       NIP                  : String(user.NIP),
       email                : String(user.email),
+      email2                : String(user.email2),
+      email3                : String(user.email3),
       ppkId                : String(user.ppkId),
       satkerId             : String(user.satkerId),
       roleId               : String(user.roleId),
@@ -108,6 +116,8 @@ export class AuthService {
     formData.append('username',modelUser.username)
     formData.append('NIP',modelUser.NIP)
     formData.append('email',modelUser.email)
+    formData.append('email2',modelUser.email2)
+    formData.append('email3',modelUser.email3)
     formData.append('ppkId',modelUser.ppkId)
     formData.append('satkerId',modelUser.satkerId)
     formData.append('roleId',modelUser.roleId)

@@ -9,6 +9,7 @@ import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
 import * as $ from 'jquery'
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class MasterppkComponent implements OnInit {
     public masterPpkService: MasterppkService,
     private token: TokenService,
     private authState: AuthStateService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -106,7 +108,7 @@ export class MasterppkComponent implements OnInit {
   windowModeView(mode){
     this.windowMode = mode;
     if(this.windowMode == 'create'){
-      this.formPPK = {satkerId:null, namaPpk:null,id:null};
+      this.formPPK = {satkerId:this.dataSatker.id, namaSatker:this.dataSatker.namaSatker, namaPpk:null,id:null};
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
@@ -139,13 +141,15 @@ export class MasterppkComponent implements OnInit {
   }
 
   ListPPK = [];
+  dataSatker:any = {};
   getDataPPK(){
     this.masterPpkService.getPPK().subscribe(
       data => {
         console.log('Get data PPK success | getPPK ===>',data);
         this.ListPPK = data.result;
-
+        this.dataSatker = data.dataSatker;
         console.log('ListPPK ===>',this.ListPPK);
+        console.log('dataSatker ===>',this.dataSatker);
       },
       error => {
         console.log('Get data PPK error   | getPPK ===>',error);

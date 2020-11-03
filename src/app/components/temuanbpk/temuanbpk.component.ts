@@ -253,6 +253,9 @@ export class TemuanbpkComponent implements OnInit {
     isEdit                        : null,
   }
 
+  namaSatker = {
+    namaSatker: null
+  }
 
   modelIsiDokumen = {
     id                       : null, 
@@ -667,12 +670,37 @@ export class TemuanbpkComponent implements OnInit {
       onClick: () => this.popupVisible = true
   };
 
+  // onSatkerChange(id){
+  //   this.modelIsiDokumen.ppkId = null;
+  //   console.log('onSatkerChange ===>',id);
+  //   this.masterPpkService.getPPKbyId(id).subscribe(
+  //     data => {
+  //       console.log('Get data PPK success | getPPKbyId ===>',data);
+  //       this.ListPpk = data.result;
+  //       console.log('ListPpk ===>',this.ListPpk);
+  //     },
+  //     error => {
+  //       console.log('Get data PPK error   | getPPKbyId ===>',error);
+  //       // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
+  //       Swal.fire(
+  //         'Whoops Failed', 
+  //         'Tidak dapat mengambil data PPK', 
+  //         'error'
+  //       )
+  //     }
+  //   )
+  // }
 
   ListPpk = [];
-  onSatkerChange(id){
+  createNewTindakLanjut()
+  {
     this.modelIsiDokumen.ppkId = null;
-    console.log('onSatkerChange ===>',id);
-    this.masterPpkService.getPPKbyId(id).subscribe(
+    // console.log('onSatkerChange ===>',id);
+    
+    this.modelIsiDokumen.satkerId = this.dataSatker.id;
+    this.namaSatker.namaSatker = this.dataSatker.namaSatker;
+    
+    this.masterPpkService.getPPKbyId(this.dataSatker.id).subscribe(
       data => {
         console.log('Get data PPK success | getPPKbyId ===>',data);
         this.ListPpk = data.result;
@@ -830,7 +858,7 @@ export class TemuanbpkComponent implements OnInit {
   }
   
 
-  ListJenisDokumenTemuan=[];
+  ListJenisDokumenTemuan = [];
   getDataJenisDokumenTemuan(){
     this.dokumenService.getJenisDokumenTemuan().subscribe(
       (data:any) =>{
@@ -852,11 +880,13 @@ export class TemuanbpkComponent implements OnInit {
 
 
   ListDokumenTemuan = [];
+  dataSatker:any = {};
   getDataDokumenTemuan(){
     this.dokumenService.getDokumenTemuanGridView().subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);
         this.ListDokumenTemuan = data.result;
+        this.dataSatker = data.dataSatker;
       },
       error => {
         console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error.error);

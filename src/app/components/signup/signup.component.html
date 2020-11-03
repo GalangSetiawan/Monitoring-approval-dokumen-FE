@@ -123,7 +123,7 @@
 
  
         <div class="uk-child-width-expand@s" uk-grid uk-height-match="target: > div > .uk-card">
-          <div>
+          <div class="row">
             <div class="uk-card uk-card-default uk-card-body">
 
               <div class="uk-margin">  
@@ -202,7 +202,7 @@
               <div class="uk-margin">
                 <label class="uk-form-label" for="form-horizontal-text">Email</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" placeholder="Masukan Email..." [readonly]="windowMode=='edit'" (change)="onEmailType(modelRegister.email)" [(ngModel)]="modelRegister.email" formControlName="email" 
+                    <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email,1)" [(ngModel)]="modelRegister.email" formControlName="email" 
                     [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
                     <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
                       <div *ngIf="f.email.errors.required">Email wajib diisi</div>
@@ -214,6 +214,46 @@
                     </div>
     
                     <div *ngIf="windowMode!='edit' && isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
+                      <div>Email dapat digunakan</div>
+                    </div>
+                </div>
+              </div>
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Email 2</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email2, 2)" [(ngModel)]="modelRegister.email2" formControlName="email2" 
+                    [ngClass]="{ 'uk-form-danger': !isValidEmail2 || submitted && f.email2.errors, 'uk-form-success': isValidEmail2 && modelRegister.email2 != ''}">
+                    <div *ngIf="submitted && f.email2.errors" class="uk-text-danger uk-text-italic">
+                      <div *ngIf="f.email2.errors.required">Email wajib diisi</div>
+                      <div *ngIf="f.email2.errors.email2">Masukan Email yang valid</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && !isValidEmail2 && modelRegister.email2 != ''" class="uk-text-danger uk-text-italic">
+                      <div>Email sudah terdaftar</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && isValidEmail2 && modelRegister.email2 != ''" class="uk-text-success uk-text-italic">
+                      <div>Email dapat digunakan</div>
+                    </div>
+                </div>
+              </div>
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Email 3 <small> (Optional)</small></label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email3, 3)" [(ngModel)]="modelRegister.email3" formControlName="email3" 
+                    [ngClass]="{ 'uk-form-danger': !isValidEmail3 || submitted && f.email3.errors, 'uk-form-success': isValidEmail3 && modelRegister.email3 != ''}">
+                    <div *ngIf="submitted && f.email3.errors" class="uk-text-danger uk-text-italic">
+                      <!-- <div *ngIf="f.email.errors.required">Email wajib diisi</div> -->
+                      <div *ngIf="f.email3.errors.email3">Masukan Email yang valid</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && !isValidEmail3 && modelRegister.email3 != ''" class="uk-text-danger uk-text-italic">
+                      <div>Email sudah terdaftar</div>
+                    </div>
+    
+                    <div *ngIf="windowMode!='edit' && isValidEmail3 && modelRegister.email3 != ''" class="uk-text-success uk-text-italic">
                       <div>Email dapat digunakan</div>
                     </div>
                 </div>
@@ -240,7 +280,11 @@
                 </div>
               </div>
               
-              <div class="uk-margin" *ngIf="windowMode == 'edit'">
+              <div class="uk-margin col-md-3 offset-md-4">
+                <a class="uk-button uk-button-primary" (click)="isEditPassword()"> Ganti Password</a>
+              </div>
+              
+              <div class="uk-margin" *ngIf="windowMode == 'edit' && showFormPassword">
                 <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
                 <div class="uk-form-controls">
                     <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
@@ -262,7 +306,7 @@
                 </div>
               </div>
                                                                               
-              <div class="uk-margin" *ngIf="windowMode != 'view'">
+              <div class="uk-margin" *ngIf="windowMode != 'view' && showFormPassword">
                 <label class="uk-form-label" for="form-horizontal-text">Password</label>
                 <div class="uk-form-controls">
                     <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password..." [(ngModel)]="modelRegister.password" formControlName="password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
@@ -273,7 +317,7 @@
                 </div>
               </div>
         
-              <div class="uk-margin" *ngIf="windowMode != 'view'">
+              <div class="uk-margin" *ngIf="windowMode != 'view' && showFormPassword">
                 <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
                 <div class="uk-form-controls">
                     <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Konfirmasi Password..." [(ngModel)]="modelRegister.password_confirmation" formControlName="password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
@@ -320,6 +364,8 @@
                         <tr *ngIf="modelRegister.NIP != '' "><td>NIP</td><th>{{modelRegister.NIP}}</th></tr>
                         <tr *ngIf="modelRegister.username != '' "><td>Username</td><th>{{modelRegister.username}}</th></tr>
                         <tr *ngIf="modelRegister.email != '' "><td>Email</td><th>{{modelRegister.email}}</th></tr>
+                        <tr *ngIf="modelRegister.email2 != '' "><td>Email 2</td><th>{{modelRegister.email2}}</th></tr>
+                        <tr *ngIf="modelRegister.email3 != '' "><td>Email 3</td><th>{{modelRegister.email3}}</th></tr>
                         <tr *ngIf="modelRegister.roleId != 50 && modelRegister.satkerId != null"><td>Satker</td><th>{{modelRegister.namaSatker}}</th></tr>
                         <tr *ngIf="modelRegister.roleId != 50 && modelRegister.ppkId != null"><td>PPK</td><th>{{modelRegister.namaPpk}}</th></tr>
                       </table>

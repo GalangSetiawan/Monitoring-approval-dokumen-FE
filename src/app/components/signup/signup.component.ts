@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   errors = null;
-  modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
+  modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'',email2:'',email3:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
 
 
   public imagePath;
@@ -57,6 +57,8 @@ export class SignupComponent implements OnInit {
       oldPassword          : [''],         
       roleId               : ['', Validators.required],
       email                : ['', [Validators.required, Validators.email]],
+      email2                : ['', [Validators.required, Validators.email]],
+      email3                : ['', [Validators.email]],
       password             : ['', [Validators.required, Validators.minLength(6)]],
     },{
       validatorPassword: MustMatch('password', 'password_confirmation'),
@@ -227,7 +229,7 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
-      this.modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
+      this.modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'',email2:'',email3:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
       this.imageUrl = undefined;
 
     }else if (this.windowMode == 'edit'){
@@ -355,14 +357,29 @@ export class SignupComponent implements OnInit {
   }
 
   isValidEmail = true;
-  onEmailType(email){
-    console.log('onEmailType ===>',email);
+  isValidEmail2 = true;
+  isValidEmail3 = true;
+  onEmailType(inputtedEmail, emailIndex){
+    console.log('onEmailType ===>',inputtedEmail);
     console.log('modelRegister =>',this.modelRegister);
+    console.log('emailIndex =>',emailIndex);
 
-    this.authService.checkEmail({email:this.modelRegister.email}).subscribe(
+    
+    this.authService.checkEmail({email: inputtedEmail}).subscribe(
       result => {
         console.log('checkEmail register success | checkEmail ===>',result);
-        this.isValidEmail = result;
+        if (emailIndex == 1)
+        {
+          this.isValidEmail = result;
+        }
+        else if (emailIndex == 2)
+        {
+          this.isValidEmail2 = result;
+        }
+        else
+        {
+          this.isValidEmail3 = result;
+        }
         
       },
       error => {
@@ -389,6 +406,24 @@ export class SignupComponent implements OnInit {
 
   }
 
+  showFormPassword = false;
+  isEditPassword()
+  {
+    if (this.showFormPassword == true)
+    {
+      this.showFormPassword = false
+      this.registerForm.get('password').setValidators([Validators.required])
+      this.registerForm.get('password_confirmation').setValidators([Validators.required])
+    }
+    else
+    {
+      this.showFormPassword = true
+      this.registerForm.get('password').clearValidators()
+      this.registerForm.get('password_confirmation').clearValidators()
+      this.registerForm.patchValue({password : '', password_confirmation : '', oldPassword : ''})
+    }
+  }
+
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.submitted = false;
@@ -403,9 +438,11 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
+      email2                : row.data.email2,
+      email3                : row.data.email3 ,
       satkerId             : row.data.satkerId,
       NIP                  : row.data.NIP,
-      ppkId                : row.data.ppkId,
+      ppkId                : row.data.ppkId == undefined ? '' : this.modelRegister.ppkId,
       namaPpk                : row.data.namaPpk,
       namaSatker                : row.data.namaSatker,
       // foto                 : row.data.foto,
@@ -429,12 +466,14 @@ export class SignupComponent implements OnInit {
       roleId               : row.data.roleId,
       roleName             : row.data.roleName,
       email                : row.data.email,
+      email2                : row.data.email2,
+      email3                : row.data.email3,
       satkerId             : row.data.satkerId,
       NIP                  : row.data.NIP,
       namaPpk                : row.data.namaPpk,
       namaSatker                : row.data.namaSatker,
       // foto                 : row.data.foto,
-      ppkId                : row.data.ppkId,
+      ppkId                : row.data.ppkId == undefined ? '' : this.modelRegister.ppkId,
     });
     console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
     this.modelRegister = row.data;
@@ -507,18 +546,19 @@ export class SignupComponent implements OnInit {
       id                    : this.modelRegister.id,
       nama                  : this.modelRegister.nama,
       NIP                   : this.modelRegister.NIP,
-      ppkId                 : this.modelRegister.ppkId,
+      ppkId                 : this.modelRegister.ppkId == undefined ? '' : this.modelRegister.ppkId ,
       satkerId              : this.modelRegister.satkerId,
       roleId                : this.modelRegister.roleId,
-      roleName              : this.modelRegister.roleId == 50? 'Super Admin' : 'Satker',
+      roleName              : this.modelRegister.roleId == 50 ? 'Super Admin' : 'Satker',
       username              : this.modelRegister.username,
       email                 : this.modelRegister.email,
-      foto                  : this.modelRegister.foto == undefined? null :this.modelRegister.foto ,
-      password              : this.modelRegister.password,
-      password_confirmation : this.modelRegister.password_confirmation
+      email2                : this.modelRegister.email2,
+      email3                : this.modelRegister.email3,
+      foto                  : this.modelRegister.foto == undefined ? null : this.modelRegister.foto ,
+      password              : this.modelRegister.password ,
+      password_confirmation : this.modelRegister.password_confirmation 
     }
 
-  
     if (this.registerForm.invalid) {
       console.log('invalid input ===>',this.registerForm.value);
       return;
