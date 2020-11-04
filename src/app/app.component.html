@@ -123,7 +123,11 @@
                                     <li class="listMenu" id="dokumenTemuanInspektorat" style="font-size: 1.1em !important;" (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']" [queryParams]="{jenisDokumenTemuanId : 2}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan Inspektorat</a></li>
                                 </ul>
                             </li>
-                                                                 <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a skipLocationChange [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
+
+
+                            <li class="listMenu" (click)="selectMenu()" id="dokumentemuaninspektorat"><a skipLocationChange [routerLink]="['/temuaninspektorat']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Temuan Inspektorat</a></li>
+
+                            <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a skipLocationChange [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a skipLocationChange [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: push"></span> Approval Document</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a skipLocationChange [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
                             <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40"><a skipLocationChange [routerLink]="['/masterppk'] "><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>

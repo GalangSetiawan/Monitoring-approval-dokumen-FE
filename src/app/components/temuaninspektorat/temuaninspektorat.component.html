@@ -1,1 +1,989 @@
-<p>temuaninspektorat works!</p>
+<span uk-spinner="ratio: 1.5"  class="uk-flex-center" style="position: fixed;" *ngIf="isLoading" ></span>
+
+
+<section [hidden]="windowMode != 'grid'" >
+    <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+        <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
+        <a (click)="getDataDokumenTemuan()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
+        <a uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create');">BUAT &nbsp;</a>
+    </div> 
+    
+    
+    
+    
+    <div class="card mb-4" id="toggle-usage">
+        <div class="card-body">
+            <div>
+                <div  class="uk-margin-small row" >
+    
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">No. LHA</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.noLHA" placeholder="Nomor LHA...">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal LHA</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input"  type="date" [(ngModel)]="filterData.tglLHA">
+                      </div>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <label class="uk-form-label mt-2" for="form-stacked-text">Nama Kegiatan</label>
+                        <div class="uk-form-controls">
+                          <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.namaKegiatan" placeholder="Nama Kegiatan...">
+
+                        </div>
+                    </div>
+                  
+    
+    
+                    <div class="col-md-12 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
+                        <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
+                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">CARI </button>
+                    </div> 
+    
+                    
+    
+    
+                </div>
+    
+                 
+               
+            </div>
+        </div>
+    </div>
+    
+    
+
+
+    <div class="">
+        <div class="card mt-5">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title" >Dokumen Temuan Inspektorat</h4>
+            <!-- <p class="card-category">New employees on 15th September, 2016</p> -->
+          </div>
+
+
+          <div class="p-5">
+            <dx-data-grid 
+                id="gridContainer"
+                [dataSource]="ListDokumenTemuan"
+                [showBorders]="true"
+                [allowColumnReordering]="true"
+                [columnAutoWidth]="true"
+                [allowColumnResizing]="true"
+
+                (onSelectionChanged)="selectionChanged($event)"
+                (onContentReady)="contentReady($event)"
+                [masterDetail]="{ enabled: false, template: 'detail' }"
+                [selectedRowKeys]="[]"
+
+                >    
+
+                <dxo-export [enabled]="true" fileName="Orders"></dxo-export>
+                <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>    
+                <dxo-load-panel [enabled]="true"> </dxo-load-panel>
+                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+
+                <dxo-selection mode="single"></dxo-selection>
+
+
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-paging [pageSize]="20"></dxo-paging>
+
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]" [showInfo]="true"> </dxo-pager>
+
+                <dxi-column dataField="noLHA" caption="Nomor LHA" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="tglLHA" caption="Tanggal LHA" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="namaKegiatan" caption="Nama Kegiatan" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="unitKerjaEselon1" caption="Unit Kerja Eselon 1" [allowSearch]="true"></dxi-column>
+				
+                <dxi-column dataField="status" caption="Status Tindak Lanjut" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+
+
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle"  >
+                        <tr>
+                          <td width="30"> 
+                            <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" *ngIf="cell.data.isEdit == 1"></a>&nbsp;                        
+                          </td>
+                          <td width="30">
+                            <a (click)="onEditTemuanGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil" *ngIf="cell.data.isEdit == 1"></a>&nbsp;
+                          </td>
+                          <td width="30">
+                            <a (click)="GeneratePDFView(cell.data);" uk-tooltip="title: Lihat PDF; pos: left"  href="#previewDokumen" uk-toggle uk-icon="icon: file-pdf"></a>&nbsp;
+                          </td>
+                        </tr>
+
+                    </div> 
+                </div>
+
+
+                <div *dxTemplate="let tindakLanjut of 'detail' ">
+                  <div class="master-detail-caption">{{ "Nomor LHA : " + tindakLanjut.data.noLHA}}</div>
+                  <dx-data-grid 
+                    [dataSource]="tindakLanjut.data.dataTindakLanjut"
+                    [showBorders]="true"
+                    [height]="200">
+                
+                    <dxi-column dataField="noUraianTemuan"  caption="No. Uraian" alignment="center" [width]="100"></dxi-column>
+                    <dxi-column dataField="namaSatker" caption="Satker"></dxi-column>
+                    <dxi-column dataField="namaPpk" caption="PPK"></dxi-column>
+                    <dxi-column dataField="nomorDraft" [width]="100" alignment="center" caption="No. Draft"></dxi-column>
+                    <dxi-column dataField="statusTindakLanjut" caption="Status Tindak Lanjut"></dxi-column>
+                    <dxi-column dataField="dokumenTindakLanjut" caption="Dokumen Tindak Lanjut" [allowSearch]="true" cellTemplate="downloadTemplate"></dxi-column>
+
+                    <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+                    <div *dxTemplate="let cell of 'cellTemplate'">
+                        <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle" *ngIf="cell.data.statusTindakLanjut != 'Tersedia' ">
+                            <a href="#modal-delete-dokumen"  uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                            <a (click)="onEditTindakLanjutGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil"></a> &nbsp;
+                        </div> 
+                    </div>
+
+
+                    <div *dxTemplate="let cell of 'downloadTemplate'">
+                      <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
+                        <a (click)="onDownloadClick(cell.data);" class="uk-link-text uk-text-primary" *ngIf="cell.data.dokumenTindakLanjut != null">Download</a> &nbsp;                            
+                        <span *ngIf="cell.data.dokumenTindakLanjut == null">-</span>
+                      </div> 
+                    </div>
+
+
+                  </dx-data-grid>                
+                </div>
+            </dx-data-grid>
+          </div>
+
+
+              
+
+          
+        </div>
+      </div>
+
+
+</section >
+
+
+<section [hidden]="windowMode == 'grid'">
+
+    <div class="uk-form-horizontal uk-margin-large">
+        <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
+            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
+            <a *ngIf="progres1Validation && !showBtnSimpan" style="text-decoration: none; color: white;"  uk-toggle="target: #modalInputSatker2" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary">Tambah Tindak Lanjut</a> 
+            <a *ngIf="windowMode=='create' && showBtnSimpan"  style="text-decoration: none; color: white;" class="uk-button uk-button-primary" >SIMPAN</a>&nbsp;
+            <a *ngIf="windowMode=='edit'" style="text-decoration: none; color: white;" class="uk-button uk-button-primary">UPDATE</a>&nbsp;
+        </div>  
+    </div>
+
+    <ol class="steps">
+        <li class="step is-active" (click)="progressStatus(1)" id="step1" data-step="1" >
+            Inisialisasi Dokumen
+        </li>
+
+        <li class="step" (click)="progressStatus(2)" id="step2" data-step="2">
+          Isi Dokumen Temuan
+        </li>
+
+        <li class="step" (click)="progressStatus(3)" id="step3"  data-step="3">
+          Selesai
+        </li>
+    </ol>
+
+
+    <div [hidden]='isProgress != 1'>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-select">Jenis Dokumen Temuan</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()" > 
+                    <option *ngFor="let data of ListJenisDokumenTemuan" [ngValue]="data.id">{{data.jenisDokumenTemuan}}</option>
+                </select>
+    
+            </div>
+        </div>
+
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-select">Keterangan Dokumen Temuan</label>
+          <div class="uk-form-controls">
+              <select class="uk-select" [(ngModel)]="keteranganDokumenId" (change)="onKeteranganDokumenChange(keteranganDokumenId); progres1ValidationFunction()"> 
+                <option [value]="1">Dokumen Temuan Baru</option>
+                <option [value]="2">Dokumen Temuan Lama</option>
+              </select>
+  
+          </div>
+       </div>
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Judul Dokumen</label>
+            <div class="uk-form-controls">
+                <textarea class="uk-textarea" [disabled]="isResponseTL" type="text" placeholder="Masukan Alamat..."  rows="5" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.header"></textarea>
+                <div *ngIf="submitted && f.header.errors" class="uk-text-danger uk-text-italic">
+                    <div *ngIf="f.header.errors.required">Judul Dokumen wajib diisi</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Tgl. terima Dokumen Temuan</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglTerimaDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.tglTerimaDokumenTemuan);progres1ValidationFunction()">
+               
+            </div>
+        </div>
+
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
+            <label class="uk-form-label" for="form-horizontal-text">Keadaan s/d. bulan </label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="month" [(ngModel)]="modelDokumenTemuan.keadaanSdBulan" (change)="onHalfDateChange(modelDokumenTemuan.keadaanSdBulan);progres1ValidationFunction()">
+                       
+               
+            </div>
+        </div>
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Nama Kegiatan</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Kegiatan..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaKegiatan">
+              
+            </div>
+        </div>
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Nama Instansi</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Instansi..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaInstansi">
+        
+            </div>
+        </div>
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Unit Kerja Eselon 1</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Unit Kerja Eselon 1..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.unitKerjaEselon1">
+              
+            </div>
+        </div>
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+            <label class="uk-form-label" for="form-horizontal-text">Nomor LHA</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nomor LHA..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.noLHA" >
+                
+            </div>
+        </div>
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+          <label class="uk-form-label" for="form-horizontal-text">Tgl LHA</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglLHA" (change)="onFullDateChange(modelDokumenTemuan.tglLHA);progres1ValidationFunction()">
+              
+          </div>
+        </div>
+
+
+        <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
+          <label class="uk-form-label" for="form-horizontal-text">Deadline Dokumen Temuan</label>
+          <div class="uk-form-controls">
+              <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.deadlineDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.deadlineDokumenTemuan);progres1ValidationFunction()">
+              
+          </div>
+        </div>
+
+
+        
+    </div>
+
+    <div [hidden]='isProgress != 2'>
+        <div class="kertasa4">
+            <div class="">
+                <p class="uk-text-center previewHeader mb-5"> {{modelDokumenTemuan.header}} </p>
+        
+
+                <table class="previewSubheader">
+                    <tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
+                      <td style="width:150px">Keadaan s.d. Bulan</td>
+                      <td style="width:15px">:</td> 
+                      <td> {{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>Nama Kegiatan</td>
+                      <td>:</td> 
+                      <td>{{modelDokumenTemuan.namaKegiatan}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>Nama Instansi</td>
+                      <td>:</td> 
+                      <td>{{modelDokumenTemuan.namaInstansi}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>Unit Kerja Eselon I</td>
+                      <td>:</td> 
+                      <td>{{modelDokumenTemuan.unitKerjaEselon1}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>No. & Tanggal LHA</td>
+                      <td>:</td> 
+                      <td> {{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
+                    </tr>
+                </table>
+                
+                <table class="mt-3 tableDocument" border="1">
+                    <tr class="uk-text-center" id="tableHeader">
+                      <td class="uk-text-top" style="width:50px ; padding-right: 10px;padding-left: 10px; border-left: 0.1px solid black; border-top: 0.1px solid black;">No.</td>
+                      <td class="uk-text-top" style="width:300px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Uraian Temuan</td>
+                      <td class="uk-text-top" style="width:90px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Kode</td>
+                      <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Rekomendasi</td>
+                      <td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Kode</td>
+                      <td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;">Ringkasan Tindak Lanjut</td>
+                      <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;" >Status Tindak Lanjut</td>
+                      <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
+                      <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" *ngIf="isResponseTL">Respon Tindak lanjut</td>
+                      <td class="uk-text-top" style="width:80px;border-left: 0.1px solid black;">Aksi</td>
+                    </tr>
+                    
+                    
+
+
+                    <!-- ================================ SHOW INPUTED AREA ========================= -->
+
+                    <tbody *ngFor="let data of batchDokumen">
+
+                      <tr>
+                        <td  class="uk-text-center uk-text-top">{{data.nomorHeader}}</td>
+                        <td  class="uk-text-top pr-2 pl-2" colspan="8">{{data.titleHeader}}</td>
+                      </tr>
+
+
+                      <tr >
+                    
+                        <td class="uk-text-center uk-text-top">
+                         <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}}</span>
+                        </td>
+                        
+                        <td class="pr-2 pl-2 uk-text-top escapeHTML" >
+                          <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
+                        </td> 
+                        
+                        <td class="uk-text-center uk-text-top" >
+                          {{data.kodeRekomendasi}}
+                        </td>
+                        
+                        <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
+                            <div [innerHTML]="data.rekomendasi | keepHtml"></div>
+                        </td>
+                        
+                        <td class="uk-text-center uk-text-top">
+                            {{data.kodeRingkasanTindakLanjut}}
+                        </td>
+                        
+                        <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                            <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
+                        </td>
+                        
+                        <td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;">
+                            {{data.statusTindakLanjut}}
+                        </td>
+                        
+                        <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                            <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
+
+                            <span>
+                              <hr>
+                              <a (click)="downloadDokumenTindakLanjut(data.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
+                            </span>
+
+                        </td>
+
+
+                        <!-- <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                          <div [innerHTML]="data.responTindakLanjut | keepHtml"></div>
+                        </td> -->
+                        
+
+                        <td class="uk-text-center uk-text-top">
+                          <span>
+                            <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data"  (click)="onDeleteTemmuanClick(data)" ></a> <br>
+                            <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
+                          </span>
+                        </td>
+    
+                      </tr>
+                    </tbody>
+
+                    
+                    <!-- ================================ SHOW INPUTED AREA ========================= -->
+
+        
+                   
+                </table>  
+
+
+                <!-- =======================FOOTER======================== -->
+                <!-- <table style="width:100% " class="mt-3">
+                    <tr>
+                      <th style="width:70%"></th>
+                      <td class="escapeHTML">
+                          <div [innerHTML]="modelDokumenTemuan.footer | keepHtml"></div>
+                      </td>
+                    </tr>
+                </table> -->
+                <!-- =======================FOOTER======================== -->
+                  <br>
+        
+        
+            </div>
+        </div>
+    </div>
+
+    <div [hidden]='isProgress != 3'>
+        <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" href="#previewDokumen" uk-toggle (click)="previewDokumen()" style="color:white">Preview Dokumen</a>
+    </div> 
+
+ 
+
+</section>
+
+
+<!-- modal-tambah-temuan -->
+<div id="modal-tambah-temuan" class="uk-modal-container uk-flex-top" uk-modal="bg-close:false; esc-close:false">
+	<div class="uk-modal-dialog uk-modal-body" style="width:100%"> 
+		<div class="kertasa4" id="kertasa4">
+
+			<p class="uk-text-center previewHeader mb-5 mt-5"> {{modelDokumenTemuan.header}} </p>
+                    
+			<table class="previewSubheader mb-4">
+				<tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
+					<td style="width:150px">Keadaan s.d. Bulan</td>
+					<td style="width:15px">:</td> 
+					<td> {{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
+				</tr>
+	
+				<tr>
+					<td>Nama Kegiatan</td>
+					<td>:</td> 
+					<td>{{modelDokumenTemuan.namaKegiatan}}</td>
+				</tr>
+	
+				<tr>
+					<td>Nama Instansi</td>
+					<td>:</td> 
+					<td>{{modelDokumenTemuan.namaInstansi}}</td>
+				</tr>
+	
+				<tr>
+					<td>Unit Kerja Eselon I</td>
+					<td>:</td> 
+					<td>{{modelDokumenTemuan.unitKerjaEselon1}}</td>
+				</tr>
+	
+				<tr>
+					<td>No. & Tanggal LHA</td>
+					<td>:</td> 
+					<td> {{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
+				</tr>
+			</table>
+
+			<!-- ================================== FORM AREA ================================== -->
+      <div>
+        <h2 class="uk-modal-title"  *ngIf="isOpenEachFormTemuan" >{{lightInputDokumenTitle}}</h2>
+
+
+        <p class="uk-text-right">
+          <button class="uk-button uk-button-default"  *ngIf="isOpenEachFormTemuan" (click)="onCancelFormIsiDokumen($event.target.value)" id="cancelPopUpForm" value="jancok" type="button">BATAL</button> &nbsp;
+          <button class="uk-button uk-button-primary"  *ngIf="isOpenEachFormTemuan" (click)="simpanForm();validasiBtnSimpanTemuan()" type="button">SIMPAN</button>
+        </p>
+
+        <div class="card"  [hidden]="!is_titleHeader">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.titleHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+              </div>
+          </div>
+        </div>
+
+        <div class="card"  [hidden]="!is_nomorHeader">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.nomorHeader" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : And im Sorry to be the one day" >  
+              </div>
+          </div>
+        </div>
+
+
+        <div class="card"  [hidden]="!is_noUraianTemuan">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text" [(ngModel)]="modelIsiDokumen.noUraianTemuan" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 1" >  
+              </div>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_kodeRekomendasi">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text"  [(ngModel)]="modelIsiDokumen.kodeRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 3.03.07" >  
+              </div>
+          </div>
+        </div>
+      
+        <div class="card" [hidden]="!is_subNomorRekomendasi">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_subNomorRekomendasi" [(ngModel)]="modelIsiDokumen.subNomorRekomendasi" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : B." >  
+              </div>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_kodeRingkasanTindakLanjut">
+          <div class="card-body">
+              <div class="uk-margin">
+                  <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label>
+                  <input class="uk-input uk-margin"  type="text" [hidden]="!is_kodeRingkasanTindakLanjut" [(ngModel)]="modelIsiDokumen.kodeRingkasanTindakLanjut" placeholder="masukan {{lightInputDokumenTitle}} | Contoh : 06" >  
+              </div>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_statusTindakLanjut">
+          <div class="card-body">
+            <div class="uk-margin" [hidden]="!is_statusTindakLanjut">
+              <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
+              <div class="uk-form-controls">
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" >
+                  <option value="Tersedia">Buka</option>
+                  <option value="Dalam Proses">Dalam Proses</option>
+                  <option value="Selesai">Selesai</option>
+                </select>
+      
+              </div>
+            </div>        
+          </div>
+        </div>
+
+
+        <div class="card" [hidden]="!is_uraianTemuan">
+          <div class="card-body">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.uraianTemuan" [hidden]="!is_uraianTemuan" >
+                <dxo-toolbar [multiline]="isMultiline">
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="color"></dxi-item>
+                <dxi-item formatName="background"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="link"></dxi-item>
+                <dxi-item formatName="image"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="clear"></dxi-item>
+                <dxi-item formatName="codeBlock"></dxi-item>
+                <dxi-item formatName="blockquote"></dxi-item>
+                <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+      
+              </dxo-toolbar>
+              <dxo-media-resizing
+                [enabled]=true>
+              </dxo-media-resizing>
+            
+            </dx-html-editor>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_rekomendasi">
+          <div class="card-body">
+            <dx-html-editor height="550px" class="uk-margin"  id="html-editor" [(ngModel)]="modelIsiDokumen.rekomendasi" [hidden]="!is_rekomendasi" >
+              <dxo-toolbar [multiline]="isMultiline">
+              <dxi-item formatName="undo"></dxi-item>
+              <dxi-item formatName="redo"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+              <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="bold"></dxi-item>
+              <dxi-item formatName="italic"></dxi-item>
+              <dxi-item formatName="strike"></dxi-item>
+              <dxi-item formatName="underline"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="alignLeft"></dxi-item>
+              <dxi-item formatName="alignCenter"></dxi-item>
+              <dxi-item formatName="alignRight"></dxi-item>
+              <dxi-item formatName="alignJustify"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="orderedList"></dxi-item>
+              <dxi-item formatName="bulletList"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="color"></dxi-item>
+              <dxi-item formatName="background"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="link"></dxi-item>
+              <dxi-item formatName="image"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="clear"></dxi-item>
+              <dxi-item formatName="codeBlock"></dxi-item>
+              <dxi-item formatName="blockquote"></dxi-item>
+              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+      
+            </dxo-toolbar>
+            <dxo-media-resizing
+              [enabled]=true>
+            </dxo-media-resizing>
+            
+            </dx-html-editor>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_tindakLanjut">
+          <div class="card-body">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.tindakLanjut" [hidden]="!is_tindakLanjut" >
+              <dxo-toolbar [multiline]="isMultiline">
+              <dxi-item formatName="undo"></dxi-item>
+              <dxi-item formatName="redo"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+              <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="bold"></dxi-item>
+              <dxi-item formatName="italic"></dxi-item>
+              <dxi-item formatName="strike"></dxi-item>
+              <dxi-item formatName="underline"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="alignLeft"></dxi-item>
+              <dxi-item formatName="alignCenter"></dxi-item>
+              <dxi-item formatName="alignRight"></dxi-item>
+              <dxi-item formatName="alignJustify"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="orderedList"></dxi-item>
+              <dxi-item formatName="bulletList"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="color"></dxi-item>
+              <dxi-item formatName="background"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="link"></dxi-item>
+              <dxi-item formatName="image"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="clear"></dxi-item>
+              <dxi-item formatName="codeBlock"></dxi-item>
+              <dxi-item formatName="blockquote"></dxi-item>
+              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+      
+              </dxo-toolbar>
+              <dxo-media-resizing
+                [enabled]=true>
+              </dxo-media-resizing>
+              
+            </dx-html-editor>
+
+
+            <div class="uk-margin m-3" >
+              <label class="uk-form-label" for="form-stacked-text">Upload Dokumen Tindak Lanjut</label>
+              <div class="uk-form-controls mt-2">
+                  <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username...">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_ringkasanTindakLanjut">
+          <div class="card-body">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.ringkasanTindakLanjut" [hidden]="!is_ringkasanTindakLanjut" > 
+              <dxo-toolbar [multiline]="isMultiline">
+              <dxi-item formatName="undo"></dxi-item>
+              <dxi-item formatName="redo"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+              <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="bold"></dxi-item>
+              <dxi-item formatName="italic"></dxi-item>
+              <dxi-item formatName="strike"></dxi-item>
+              <dxi-item formatName="underline"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="alignLeft"></dxi-item>
+              <dxi-item formatName="alignCenter"></dxi-item>
+              <dxi-item formatName="alignRight"></dxi-item>
+              <dxi-item formatName="alignJustify"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="orderedList"></dxi-item>
+              <dxi-item formatName="bulletList"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="color"></dxi-item>
+              <dxi-item formatName="background"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="link"></dxi-item>
+              <dxi-item formatName="image"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="clear"></dxi-item>
+              <dxi-item formatName="codeBlock"></dxi-item>
+              <dxi-item formatName="blockquote"></dxi-item>
+              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+      
+              </dxo-toolbar>
+              <dxo-media-resizing
+                [enabled]=true>
+              </dxo-media-resizing>
+              
+            </dx-html-editor>
+          </div>
+        </div>
+
+        <div class="card" [hidden]="!is_responTindakLanjut">
+          <div class="card-body">
+            <dx-html-editor height="550px" class="uk-margin"  [(ngModel)]="modelIsiDokumen.responTindakLanjut" [hidden]="!is_responTindakLanjut" >
+              <dxo-toolbar [multiline]="isMultiline">
+              <dxi-item formatName="undo"></dxi-item>
+              <dxi-item formatName="redo"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+              <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="bold"></dxi-item>
+              <dxi-item formatName="italic"></dxi-item>
+              <dxi-item formatName="strike"></dxi-item>
+              <dxi-item formatName="underline"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="alignLeft"></dxi-item>
+              <dxi-item formatName="alignCenter"></dxi-item>
+              <dxi-item formatName="alignRight"></dxi-item>
+              <dxi-item formatName="alignJustify"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="orderedList"></dxi-item>
+              <dxi-item formatName="bulletList"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="color"></dxi-item>
+              <dxi-item formatName="background"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="link"></dxi-item>
+              <dxi-item formatName="image"></dxi-item>
+              <dxi-item formatName="separator"></dxi-item>
+              <dxi-item formatName="clear"></dxi-item>
+              <dxi-item formatName="codeBlock"></dxi-item>
+              <dxi-item formatName="blockquote"></dxi-item>
+              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+      
+              </dxo-toolbar>
+              <dxo-media-resizing
+                [enabled]=true>
+              </dxo-media-resizing>
+              
+            </dx-html-editor>
+          </div>
+        </div>
+
+        <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+          <div *ngIf="is_uraianTemuan">{{modelIsiDokumen.uraianTemuan}}</div>
+          <div *ngIf="is_rekomendasi">{{modelIsiDokumen.rekomendasi}}</div>
+          <div *ngIf="is_ringkasanTindakLanjut">{{modelIsiDokumen.ringkasanTindakLanjut}}</div>
+          <div *ngIf="is_tindakLanjut">{{modelIsiDokumen.tindakLanjut}}</div>
+          <div *ngIf="is_responTindakLanjut">{{modelIsiDokumen.responTindakLanjut}}</div>
+        </dx-popup>
+        
+
+
+      </div>
+			<!-- ================================== FORM AREA ================================== -->
+							
+
+			<table class="mt-3 tableDocument" border="1">
+				<tr class="uk-text-center" id="tableHeader">
+					<td class="uk-text-top" style="width:50px ; padding-right: 10px;padding-left: 10px;">No.</td>
+					<td class="uk-text-top" style="width:300px; padding-right: 10px;padding-left: 10px;">Uraian Temuan</td>
+					<td class="uk-text-top" style="width:90px; padding-right: 10px;padding-left: 10px;">Kode</td>
+					<td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;">Rekomendasi</td>
+					<td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;">Kode</td>
+					<td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;">Ringkasan Tindak Lanjut</td>
+					<td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;">Status Tindak Lanjut</td>
+					<td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;">Tindak lanjut</td>
+					<!-- <td class="uk-text-top" style="width:80px">Aksi</td> -->
+				  </tr>
+
+
+				<!-- ====================== INPUT AREA ===================== -->
+				<tr [hidden]=!showFormTemuan>
+					<td class="uk-text-center"> <!-- Nomor Header -->
+                    <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.nomorHeader == ''" uk-tooltip="Nomor Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Tinjauan','nomorHeader')"></a>
+                        <div *ngIf="modelIsiDokumen.nomorHeader != ''">
+                        {{modelIsiDokumen.nomorHeader}} <br>
+                        <a (click)="modalLightInput('Nomor Tinjauan','nomorHeader')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+					
+					<td colspan="7" class="pr-2 pl-2"> <!-- Title Header -->
+                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.titleHeader == ''" uk-tooltip="Judul Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Judul Tinjauan','titleHeader')"></a>
+                        <div *ngIf="modelIsiDokumen.titleHeader != ''">
+                        {{modelIsiDokumen.titleHeader}} <br>
+                        <a (click)="modalLightInput('Judul Tinjauan','titleHeader')" uk-icon="icon: pencil"></a>
+                        </div>          
+                    </td>
+				</tr>
+
+				<tr>
+					<td class="uk-text-center uk-text-top"> <!--Nomor Dokumen Temuan -->
+                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.noUraianTemuan == ''" uk-tooltip="Nomor Dokumen Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')"></a>
+                        <div *ngIf="modelIsiDokumen.noUraianTemuan != ''">
+                        {{modelIsiDokumen.noUraianTemuan}} <br>
+                        <a (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+					
+					<td class="pr-2 pl-2 uk-text-top ">  <!-- Uraian Temuan -->
+                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.uraianTemuan == ''" uk-tooltip="Uraian Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Uraian Temuan','uraianTemuan')" ></a>
+                        <div *ngIf="modelIsiDokumen.uraianTemuan != ''" class="escapeHTML">
+                        <div [innerHTML]="modelIsiDokumen.uraianTemuan | keepHtml"></div> <br>
+                        <a (click)="modalLightInput('Uraian Temuan','uraianTemuan')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td> 
+					
+					<td class="uk-text-center uk-text-top" > <!-- Kode Rekomendasi -->
+                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.kodeRekomendasi == ''" uk-tooltip="Kode Rekomendasi" class="mt-2 mb-2"  (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')"></a>
+                        <div *ngIf="modelIsiDokumen.kodeRekomendasi != ''">
+                        {{modelIsiDokumen.kodeRekomendasi}} <br>
+                        <a (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+					
+					<td class="pr-2 pl-2 uk-text-top "> <!-- Rekomendasi -->
+                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.rekomendasi == ''" uk-tooltip="Rekomendasi" class="mt-2 mb-2" (click)="modalLightInput('Rekomendasi','rekomendasi')"></a>
+                        <div *ngIf="modelIsiDokumen.rekomendasi != ''" class="escapeHTML">
+                        <div [innerHTML]="modelIsiDokumen.rekomendasi | keepHtml"></div> <br>
+                        <a (click)="modalLightInput('Rekomendasi','rekomendasi')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+					
+					<td class="uk-text-center uk-text-top"> <!-- Kode Ringkasan Tindak Lanjut -->
+						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut == ''" uk-tooltip="Kode Ringkasan Tindak Lanjut" class="mt-2 mb-2"  (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')"></a>
+						<div *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut != ''">
+                        {{modelIsiDokumen.kodeRingkasanTindakLanjut}} <br>
+                        <a (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+
+					<td class=" pr-2 pl-2 uk-text-top">  <!-- Ringkasan Tindak Lanjut -->
+						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.ringkasanTindakLanjut == ''" uk-tooltip="Ringkasan Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Ringkasan Tindak Lanjut','ringkasanTindakLanjut')"></a>
+						<div *ngIf="modelIsiDokumen.ringkasanTindakLanjut != ''" class="escapeHTML">
+							<div [innerHTML]="modelIsiDokumen.ringkasanTindakLanjut | keepHtml"></div> <br>
+							<a (click)="modalLightInput('Ringkasan Tindak Lanjut','ringkasanTindakLanjut')" uk-icon="icon: pencil"></a>
+						</div>
+					</td>
+          
+					<td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
+                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
+                        <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
+                        {{modelIsiDokumen.statusTindakLanjut}} <br>
+                        <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" uk-icon="icon: pencil"></a>
+                        </div>
+					</td>
+
+                    <td class=" pr-2 pl-2 uk-text-top" > <!-- Tindak Lanjut -->
+                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''"uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
+                        <div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
+                            <div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
+                            <a (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
+                            <span>
+                                <hr>
+                                <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
+                            </span>
+                        </div>
+                    </td>
+                    
+				</tr>
+				<!-- ====================== INPUT AREA ===================== -->
+
+			</table>
+
+			
+
+			<p class="uk-text-right uk-margin-medium-top" >
+				<button class="uk-button uk-button-default uk-modal-close" (click)="batalTemuan()" *ngIf="showBtnCancelTemuan">Batal</button> &nbsp;
+				<span><button class="uk-button uk-button-primary uk-modal-close" [disabled]="disabledSimpanTemuan || isOpenEachFormTemuan" (click)="saveTemuan(flagEdit)" >Simpan Temuan</button></span>
+			</p>
+	
+			
+		</div>
+	</div>
+</div>
+<!-- modal-tambah-temuan -->
+
+
+<!-- modal-assign-dokumen-temuan -->
+<div id="modalInputSatker2" uk-modal="bg-close:false; esc-close:false">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <h2 class="uk-modal-title">Assign Dokumen Temuan</h2>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-select">Satker</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId">
+                    <option [ngValue]="modelIsiDokumen.satkerId">{{namaSatker.namaSatker}}</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-horizontal-select">PPK</label>
+          <div class="uk-form-controls">
+            <select class="uk-select" [(ngModel)]="modelIsiDokumen.ppkId"  >
+              <option *ngFor="let ppk of ListPpk" [ngValue]="ppk.id">{{ppk.namaPpk}}</option>
+            </select>
+          </div>
+        </div>
+
+
+
+
+
+        <p class="uk-text-right uk-margin-medium-top" >
+            <button class="uk-button uk-button-default uk-modal-close" type="button">BATAL</button> &nbsp;
+			<button class="uk-button uk-button-primary" uk-toggle="target: #modal-tambah-temuan" (click)="addTemuan(modelIsiDokumen.satkerId,modelIsiDokumen.ppkId)" type="button">LANJUT  </button>
+        </p>
+
+        
+    </div>
+</div>
+<!-- modal-assign-dokumen-temuan -->

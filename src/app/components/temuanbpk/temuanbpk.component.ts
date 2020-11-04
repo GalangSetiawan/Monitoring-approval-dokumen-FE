@@ -166,7 +166,7 @@ export class TemuanbpkComponent implements OnInit {
       (this.modelDokumenTemuan.jenisDokumenTemuanId == null || this.modelDokumenTemuan.jenisDokumenTemuanId == "" ) ||
       (this.modelDokumenTemuan.tglTerimaDokumenTemuan == null || this.modelDokumenTemuan.tglTerimaDokumenTemuan == "" ) ||
       (this.modelDokumenTemuan.deadlineDokumenTemuan == null || this.modelDokumenTemuan.deadlineDokumenTemuan == "" ) ||
-      (this.modelDokumenTemuan.keadaanSdBulan == null || this.modelDokumenTemuan.keadaanSdBulan == "" ) ||
+      (this.keteranganDokumenId == 2 && (this.modelDokumenTemuan.keadaanSdBulan == null || this.modelDokumenTemuan.keadaanSdBulan == "" )) ||
       (this.modelDokumenTemuan.namaKegiatan == null || this.modelDokumenTemuan.namaKegiatan == "" ) ||
       (this.modelDokumenTemuan.namaInstansi == null || this.modelDokumenTemuan.namaInstansi == "" ) ||
       (this.modelDokumenTemuan.unitKerjaEselon1 == null || this.modelDokumenTemuan.unitKerjaEselon1 == "" ) ||
@@ -189,7 +189,7 @@ export class TemuanbpkComponent implements OnInit {
       jenisDokumenTemuanId         : 2,
       tglTerimaDokumenTemuan       : '2020-12-31',
       deadlineDokumenTemuan        : '2021-01-31',
-      keadaanSdBulan               : '2020-12',
+      keadaanSdBulan               : '',
       forSavekeadaanSdBulan        : '2020-12-01',
       namaKegiatan                 : "Audit Pelaksanaan Tusi Tahun 2015",
       namaInstansi                 : "Ditjen Penegakan Lingkungan Hidup dan Kehutanan (PHLHK)",
@@ -277,6 +277,7 @@ export class TemuanbpkComponent implements OnInit {
     titleHeader              : null,
     nomorHeader              : null,
     responTindakLanjut       : null,
+    dokumenTindakLanjut      : null,
     
   }
 
@@ -395,35 +396,37 @@ export class TemuanbpkComponent implements OnInit {
       console.log('validasi 1 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
       console.log('validasi 1 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
 
-    }else if(this.modelIsiDokumen.id != null && this.isResponseTL ){ //edit tindak lanjut
-      console.log('modalLightInput | edit tindak lanjut')
-
-      if(
-        this.modelIsiDokumen.nomorHeader               == "" ||
-        this.modelIsiDokumen.titleHeader               == "" ||
-        this.modelIsiDokumen.noUraianTemuan            == "" || 
-        this.modelIsiDokumen.uraianTemuan              == "" ||
-        this.modelIsiDokumen.kodeRekomendasi           == "" ||
-        this.modelIsiDokumen.rekomendasi               == "" ||
-        this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
-        this.modelIsiDokumen.ringkasanTindakLanjut     == "" ||
-        this.modelIsiDokumen.responTindakLanjut        == ""
-      ){
-        this.disabledSimpanTemuan = true;
-      }else{
-        this.disabledSimpanTemuan = false;
-      }
-
-      console.log('validasi 2 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader)
-      console.log('validasi 2 | titleHeader ================>',this.modelIsiDokumen.titleHeader)
-      console.log('validasi 2 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan)
-      console.log('validasi 2 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan)
-      console.log('validasi 2 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi)
-      console.log('validasi 2 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi)
-      console.log('validasi 2 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
-      console.log('validasi 2 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
-      console.log('validasi 2 | responTindakLanjut ======>',this.modelIsiDokumen.responTindakLanjut)
     }
+    
+    // else if(this.modelIsiDokumen.id != null && this.isResponseTL ){ //edit tindak lanjut
+    //   console.log('modalLightInput | edit tindak lanjut')
+
+    //   if(
+    //     this.modelIsiDokumen.nomorHeader               == "" ||
+    //     this.modelIsiDokumen.titleHeader               == "" ||
+    //     this.modelIsiDokumen.noUraianTemuan            == "" || 
+    //     this.modelIsiDokumen.uraianTemuan              == "" ||
+    //     this.modelIsiDokumen.kodeRekomendasi           == "" ||
+    //     this.modelIsiDokumen.rekomendasi               == "" ||
+    //     this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
+    //     this.modelIsiDokumen.ringkasanTindakLanjut     == "" ||
+    //     this.modelIsiDokumen.responTindakLanjut        == ""
+    //   ){
+    //     this.disabledSimpanTemuan = true;
+    //   }else{
+    //     this.disabledSimpanTemuan = false;
+    //   }
+
+    //   console.log('validasi 2 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader)
+    //   console.log('validasi 2 | titleHeader ================>',this.modelIsiDokumen.titleHeader)
+    //   console.log('validasi 2 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan)
+    //   console.log('validasi 2 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan)
+    //   console.log('validasi 2 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi)
+    //   console.log('validasi 2 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi)
+    //   console.log('validasi 2 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
+    //   console.log('validasi 2 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
+    //   console.log('validasi 2 | responTindakLanjut ======>',this.modelIsiDokumen.responTindakLanjut)
+    // }
   }
 
   simpanForm(){
@@ -431,6 +434,18 @@ export class TemuanbpkComponent implements OnInit {
     console.log('simpanForm ====>')
     this.closeAlldokumenForm();
   }
+
+
+  namafile :any
+  tmpFileDokumen:any
+  handleFileInput(files :FileList){
+    console.log('handleFileInput ===>',files)
+    this.namafile = files[0].name;
+    this.modelIsiDokumen.dokumenTindakLanjut = files;
+    this.tmpFileDokumen = files;
+    // console.log('uploadFileName ===>',this.modelApprovalDoc.fileDokumen);
+  }
+
   
 
   onCancelFormIsiDokumen(key){
@@ -469,7 +484,7 @@ export class TemuanbpkComponent implements OnInit {
     this.modelIsiDokumen = {
       flagId                   : null,   
       id                       : null, 
-      statusTindakLanjut       : "Tersedia",
+      statusTindakLanjut       : "",
       noUraianTemuan           : "",
       kodeRekomendasi          : "",
       subNomorRekomendasi      : "",
@@ -486,6 +501,7 @@ export class TemuanbpkComponent implements OnInit {
       titleHeader              : "",
       nomorHeader              : "",
       responTindakLanjut       : "",
+      dokumenTindakLanjut      : null,
     }
   }
 
@@ -775,30 +791,30 @@ export class TemuanbpkComponent implements OnInit {
       $('#step1').addClass('is-complete');
       $('#step2').addClass('is-active');
 
-      // this.batchDokumen.push(
-      //   {
-      //     id                       : 999999, 
-      //     flagId                   : 999999,
-      //     tipeDokumenId            : 1,
-      //     satkerId                 : 1,
-      //     statusTindakLanjut       : "Open",
-      //     noUraianTemuan           : '1',
-      //     kodeRekomendasi          : '3.03.07',
-      //     subNomorRekomendasi      : 'B.',
-      //     kodeRingkasanTindakLanjut: '06',
-      //     uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
-      //     rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
-      //     ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
-      //     tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
-      //     dokumenTemuanId          : null,
-      //     tindakLanjutId           : null,
-      //     responDokumenTemuanId    : null,
-      //     titleHeader              : 'Kelemahan Aspek Pendukung',
-      //     nomorHeader              : 'A.2.',
-      //     ppkId                    : 1,
-      //     responTindakLanjut       : ''
-      //   }
-      // )
+      this.batchDokumen.push(
+        {
+          id                       : 999999, 
+          flagId                   : 999999,
+          tipeDokumenId            : 1,
+          satkerId                 : 1,
+          statusTindakLanjut       : "Open",
+          noUraianTemuan           : '1',
+          kodeRekomendasi          : '3.03.07',
+          subNomorRekomendasi      : 'B.',
+          kodeRingkasanTindakLanjut: '06',
+          uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
+          rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
+          ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
+          tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
+          dokumenTemuanId          : null,
+          tindakLanjutId           : null,
+          responDokumenTemuanId    : null,
+          titleHeader              : 'Kelemahan Aspek Pendukung',
+          nomorHeader              : 'A.2.',
+          ppkId                    : 1,
+          responTindakLanjut       : ''
+        }
+      )
 
 
     }else if(step == 3){
@@ -882,7 +898,9 @@ export class TemuanbpkComponent implements OnInit {
   ListDokumenTemuan = [];
   dataSatker:any = {};
   getDataDokumenTemuan(){
-    this.dokumenService.getDokumenTemuanGridView().subscribe(
+    // var generateURL =  '?jenisDokumen='bpk/inspektorat''
+    var generateURL =  '?jenisDokumen=bpk'
+    this.dokumenService.getDokumenTemuanGridView(generateURL).subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);
         this.ListDokumenTemuan = data.result;

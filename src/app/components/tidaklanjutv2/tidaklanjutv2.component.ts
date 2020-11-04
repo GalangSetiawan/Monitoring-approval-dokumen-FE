@@ -776,7 +776,8 @@ export class Tidaklanjutv2Component implements OnInit {
 
   ListDokumenTemuan = [];
   getDataDokumenTemuan(){
-    this.dokumenService.getDokumenTemuanGridView().subscribe(
+    var generateURL =  '?jenisDokumen=bpk'
+    this.dokumenService.getDokumenTemuanGridView(generateURL).subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);
         this.ListDokumenTemuan = data.result;
