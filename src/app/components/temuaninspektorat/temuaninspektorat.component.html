@@ -176,7 +176,7 @@
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
             <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
             <a *ngIf="progres1Validation && !showBtnSimpan" style="text-decoration: none; color: white;"  uk-toggle="target: #modalInputSatker2" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary">Tambah Tindak Lanjut</a> 
-            <a *ngIf="windowMode=='create' && showBtnSimpan"  style="text-decoration: none; color: white;" class="uk-button uk-button-primary" >SIMPAN</a>&nbsp;
+            <a *ngIf="windowMode=='create' && showBtnSimpan"  style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onSubmit()">SIMPAN</a>&nbsp;
             <a *ngIf="windowMode=='edit'" style="text-decoration: none; color: white;" class="uk-button uk-button-primary">UPDATE</a>&nbsp;
         </div>  
     </div>
@@ -718,8 +718,14 @@
             <div class="uk-margin m-3" >
               <label class="uk-form-label" for="form-stacked-text">Upload Dokumen Tindak Lanjut</label>
               <div class="uk-form-controls mt-2">
-                  <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username...">
+                  <input class="uk-input" type="File" id="InputFileDokumen" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username...">
               </div>
+
+              <div class="uk-form-controls mt-2">
+                <button class="uk-button uk-button-primary" (click)="resetFormInputFileDokumen()" *ngIf="namafile != null"> Hapus File </button> &nbsp; &nbsp;
+                <button class="uk-button uk-button-primary" (click)="downloadDokumenTindakLanjut(sasa)" *ngIf="namafile != null"> Download File </button>
+            </div>
+
             </div>
 
           </div>
@@ -958,12 +964,11 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Satker</label>
             <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId">
-                    <option [ngValue]="modelIsiDokumen.satkerId">{{namaSatker.namaSatker}}</option>
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId" (change)="onSatkerChange(modelIsiDokumen.satkerId)">
+                  <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                 </select>
             </div>
         </div>
-
 
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-select">PPK</label>
@@ -974,10 +979,6 @@
           </div>
         </div>
 
-
-
-
-
         <p class="uk-text-right uk-margin-medium-top" >
             <button class="uk-button uk-button-default uk-modal-close" type="button">BATAL</button> &nbsp;
 			<button class="uk-button uk-button-primary" uk-toggle="target: #modal-tambah-temuan" (click)="addTemuan(modelIsiDokumen.satkerId,modelIsiDokumen.ppkId)" type="button">LANJUT  </button>
@@ -987,3 +988,138 @@
     </div>
 </div>
 <!-- modal-assign-dokumen-temuan -->
+
+
+<!-- preview Dokumen -->
+<div id="previewDokumen" class="uk-modal-container uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body" style="width: 100%;">
+      <div class="kertasa4-forPrint" id="kertasa4-forPrint">
+          <div class="">
+              <p class="uk-text-center previewHeader-forPrint mb-3"> {{modelDokumenTemuan.header}} </p>
+
+              <table class="previewSubheader-forPrint">
+                  <tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
+                    <td style="width:150px"> &nbsp; Keadaan s.d. Bulan</td>
+                    <td style="width:15px">:</td> 
+                    <td>Juli  2017</td>
+                  </tr>
+                  
+                  <tr>
+                    <td> &nbsp; Nama Kegiatan</td>
+                    <td>:</td> 
+                    <td>Audit Pelaksanaan Tusi Tahun 2015</td>
+                  </tr>
+                  
+                  <tr>
+                    <td> &nbsp; Nama Instansi</td>
+                    <td>:</td> 
+                    <td>Ditjen Penegakan Lingkungan Hidup dan Kehutanan (PHLHK)</td>
+                  </tr>
+                  
+                  <tr>
+                    <td> &nbsp; Unit Kerja Eselon I</td>
+                    <td>:</td> 
+                    <td>Ditjen PHLHK</td>
+                  </tr>
+                  
+                  <tr>
+                    <td> &nbsp; No. & Tanggal LHA</td>
+                    <td>:</td> 
+                    <td>LHA. 26/Itjen-Ins.3/Rhs/2016 tanggal 24 Februari 2016</td>
+                  </tr>
+              </table>
+
+
+              <table class="mt-3 tableDocument" >
+                  <tr class="uk-text-center" id="tableHeader">
+                    <td class="uk-text-top" style="width:50px ; padding-right: 10px;padding-left: 10px; border-left: 0.1px solid black; border-top: 0.1px solid black;">No.</td>
+                    <td class="uk-text-top" style="width:300px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Uraian Temuan</td>
+                    <td class="uk-text-top" style="width:90px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Kode</td>
+                    <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Rekomendasi</td>
+                    <td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Kode</td>
+                    <td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px; border-top: 0.1px solid black;">Ringkasan Tindak Lanjut</td>
+                    <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-top: 0.1px solid black;" >Status Tindak Lanjut</td>
+                    <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Tindak lanjut</td>
+                  </tr>
+                  
+                  <!-- ================================ SHOW INPUTED AREA ========================= -->
+                  <tbody *ngFor="let data of batchDokumen">
+                    <tr>
+                      <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid black;">
+                        <span> {{data.nomorHeader}} </span>
+                      </td>
+
+                      <td class="pr-2 pl-2" colspan="7">
+                        <span> {{data.titleHeader}} </span>
+                      </td>
+
+                    </tr>
+                    
+                    <tr >
+                      <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid black;">
+                        <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}} </span>
+                      </td>
+                      
+                      <td class="pr-2 pl-2 uk-text-top escapeHTML">
+                        <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
+                      </td> 
+                      
+                      <td class="uk-text-center uk-text-top" >
+                        {{data.kodeRekomendasi}}
+                      </td>
+                      
+                      <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
+                          <div [innerHTML]="data.rekomendasi | keepHtml"></div>                          
+                      </td>
+                      
+                      <td class="uk-text-center uk-text-top escapeHTML">
+                          {{data.kodeRingkasanTindakLanjut}}
+                      </td>
+                      
+                      <td class=" pr-2 pl-2 uk-text-top escapeHTML">
+                          <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
+                      </td>
+                      
+                      <td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;">
+                        {{data.statusTindakLanjut}}
+                      </td>
+                      
+                      <td class=" pr-2 pl-2 uk-text-top escapeHTML">
+                          <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
+                      </td>
+      
+                    </tr>
+                  </tbody>
+                  <!-- ================================ SHOW INPUTED AREA ========================= -->
+
+  
+              </table>  
+
+              <!-- =======================FOOTER======================== -->
+              <!-- <table style="width:100% " class="mt-3">
+                  <tr>
+                    <th style="width:70%"></th>
+                    <td class="escapeHTML">
+                        <div [innerHTML]="modelDokumenTemuan.footer | keepHtml"></div>
+                    </td>
+                  </tr>
+              </table> -->
+              <!-- =======================FOOTER======================== -->
+              <br>             
+     
+          </div>
+      </div>
+
+
+
+      <button (click)="printDefault('previewDokumen')" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PRINT DEFAULT</button>
+      <button (click)="printPDFcss()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF CSS</button>
+      <button (click)="createPDFAutoTable()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF AUTOTABLE</button>
+      <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML 2 PDF Download  <div uk-spinner *ngIf="isLoading"></div></button>
+      <button (click)="downloadDokumenHTML2CANVAS()"class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" style="color:white">HTML 2 CANVAS</button>
+
+
+
+  </div>
+</div>
+<!-- preview Dokumen -->

@@ -20,9 +20,9 @@
 
 
   @media print {
-    body * {
+    /* body * {
       visibility: hidden !important;
-    }
+    } */
     #kertasa4-forPrint, #kertasa4-forPrint * {
       visibility: visible;
     }

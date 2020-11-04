@@ -1,76 +1,220 @@
- /* ============================ PROGRESS BAR =========================== */
- .steps {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    color: #929292;
-    height: 4rem;
-  }
-  .steps > .step {
-    position: relative;
-    display: table-cell;
-    text-align: center;
-    font-size: 0.875rem;
-    color: #6D6875;
-  }
-  .steps > .step:before {
-    content: attr(data-step);
-    display: block;
-    margin: 0 auto;
-    background: #ffffff;
-    border: 2px solid #e6e6e6;
-    color: #e6e6e6;
-    width: 2rem;
-    height: 2rem;
-    text-align: center;
-    margin-bottom: -4.2rem;
-    line-height: 1.9rem;
-    border-radius: 100%;
-    position: relative;
-    z-index: 1;
-    font-weight: 700;
-    font-size: 1rem;
-  }
-  .steps > .step:after {
-    content: '';
-    position: absolute;
-    display: block;
-    background: #e6e6e6;
-    width: 100%;
-    height: 0.125rem;
-    top: 1rem;
-    left: 50%;
-  }
-  .steps > .step:last-child:after {
-    display: none;
-  }
-  .steps > .step.is-complete {
-    color: #6D6875;
-  }
-  .steps > .step.is-complete:before {
-    content: '\2713';
-    color: #1f87f0;
-    background: #fef0e2;
-    border: 2px solid #1f87f0;
-  }
-  .steps > .step.is-complete:after {
-    background: #1f87f0;
-  }
-  .steps > .step.is-active {
-    font-size: 1.5rem;
-  }
-  .steps > .step.is-active:before {
-    color: #FFF;
-    border: 2px solid #1f87f0;
-    background: #1f87f0;
-    margin-bottom: -4.9rem;
-  }
+
+    /* ======================= TABLE DOCUMENT ==================== */
+    .tableDocument{
+      border-spacing: -1px; 
+      table-layout: fixed; 
+    }
+
+    .tableDocument #tableHeader td{
+      word-break: normal !important; 
+    }
+
+    .tableDocument th { 
+      border: 0.1px solid black; 
+    } 
+
+    .tableDocument td { 
+      border-right: 0.1px solid black; 
+      border-bottom: 0.1px solid black; 
+        /* word-break: break-all;  */
+    } 
+    /* ======================= TABLE DOCUMENT ==================== */
 
 
-  .steps {
-    margin-bottom: 3em;
-  }
-  /* ============================ PROGRESS BAR =========================== */
+
+    .previewHeader{
+        font-weight: bold;
+    }
+
+    .kertasa4{
+        padding-top: 40px;
+        padding-right: 15px;
+        padding-left: 15px;
+        /* border:1px solid black; */
+        /* width: calc(297mm + 270px); */
+        width: 297mm;
+        min-height: 595.28px;
+        margin: auto;
+    }
+    
+    .kertasa4 .previewHeader{
+        padding-left: 10%;
+        padding-right: 10%;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .kertasa4 .previewSubheader{
+        font-size: 12px;
+    }
+
+    /* ==== FOR PRINT ======== */
+    .previewHeader-forPrint{
+        font-weight: bold;
+    }
+
+    .kertasa4-forPrint{
+        padding-top: 20px;
+        padding-right: 15px;
+        padding-left: 15px;
+        /* border:1px solid black; */
+        width: 297mm;
+        min-height: 595.28px;
+        margin: auto;
+    }
+    
+    .kertasa4-forPrint .previewHeader-forPrint{
+        padding-left: 10%;
+        padding-right: 10%;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .kertasa4-forPrint .previewSubheader-forPrint{
+        font-size: 12px;
+    }
+
+
+    .isResponseTL{
+      background-color: yellow;
+    }
+
+    .notResponseTL{
+      background-color: transparent;
+    }
+    
+    /* ==== FOR PRINT ======== */
+
+    /* ============================ PROGRESS BAR =========================== */
+    .steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+      color: #929292;
+      height: 4rem;
+    }
+    .steps > .step {
+      position: relative;
+      display: table-cell;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6D6875;
+    }
+    .steps > .step:before {
+      content: attr(data-step);
+      display: block;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 2px solid #e6e6e6;
+      color: #e6e6e6;
+      width: 2rem;
+      height: 2rem;
+      text-align: center;
+      margin-bottom: -4.2rem;
+      line-height: 1.9rem;
+      border-radius: 100%;
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .steps > .step:after {
+      content: '';
+      position: absolute;
+      display: block;
+      background: #e6e6e6;
+      width: 100%;
+      height: 0.125rem;
+      top: 1rem;
+      left: 50%;
+    }
+    .steps > .step:last-child:after {
+      display: none;
+    }
+    .steps > .step.is-complete {
+      color: #6D6875;
+    }
+    .steps > .step.is-complete:before {
+      content: '\2713';
+      color: #1f87f0;
+      background: #fef0e2;
+      border: 2px solid #1f87f0;
+    }
+    .steps > .step.is-complete:after {
+      background: #1f87f0;
+    }
+    .steps > .step.is-active {
+      font-size: 1.5rem;
+    }
+    .steps > .step.is-active:before {
+      color: #FFF;
+      border: 2px solid #1f87f0;
+      background: #1f87f0;
+      margin-bottom: -4.9rem;
+    }
+
+
+    .steps {
+      margin-bottom: 3em;
+    }
+    /* ============================ PROGRESS BAR =========================== */
+
+
+
+    /* ==================================ESCAPE HTML ============================ */
+    .escapeHTML p br{margin-top: -50px !important;}
+    /* ==================================ESCAPE HTML ============================ */
+
+
+    @media print{
+      table { page-break-after:auto }
+      tr    { page-break-inside:avoid; page-break-after:auto }
+      td    { page-break-inside:avoid; page-break-after:auto }
+      thead { display:table-header-group }
+      tfoot { display:table-footer-group }
+    
+      
+    }
+    
+    @media print{
+        @page {
+          size: A4 landscape;
+          margin-top: -5px;
+        }
+    
+        @page :footer { 
+            display: none !important
+        } 
+      
+        @page :header { 
+            display: none !
+        } 
+    
+      
+    
+        
+      }
+    
+    
+      @media print {
+        footer {
+            position: relative;
+            bottom: 0pt;
+            left: 0pt;
+            right: 0pt;
+            text-align: center;
+        }  
+    
+        table{
+          counter-increment: page;
+        }
+    
+        
+        #page-number::after {
+            counter-increment: page;
+            content:"Page " counter(page);
+        }
+    }

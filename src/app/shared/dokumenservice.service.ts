@@ -194,57 +194,56 @@ export class DokumenserviceService {
 
     // =========== RESPON DOKUMEN TINDAK LANJUT =============
     createDokumen(dataDokumen): Observable<any> {
-      console.log('factory create dokumen ===>',dataDokumen)
-
-      
-
-      var formData = new FormData();
-
-        var modelTindakLanjut = {
-          dokumenTemuanId          : String(dataDokumen[0].dokumenTemuanId),                                     
-          // id                       : String(dataDokumen[0].id),                              
-          kodeRekomendasi          : String(dataDokumen[0].kodeRekomendasi),                                    
-          kodeRingkasanTindakLanjut: String(dataDokumen[0].kodeRingkasanTindakLanjut),                     
-          noUraianTemuan           : String(dataDokumen[0].noUraianTemuan),              
-          nomorHeader              : String(dataDokumen[0].nomorHeader),      
-          ppkId                    : String(dataDokumen[0].ppkId),                                 
-          rekomendasi              : String(dataDokumen[0].rekomendasi),                    
-          // responDokumenTemuanId    : String(dataDokumen[0].responDokumenTemuanId),                                         
-          // responTindakLanjut       : String(dataDokumen[0].responTindakLanjut),                         
-          ringkasanTindakLanjut    : String(dataDokumen[0].ringkasanTindakLanjut),                               
-          satkerId                 : String(dataDokumen[0].satkerId),                                 
-          statusTindakLanjut       : String(dataDokumen[0].statusTindakLanjut),                                   
-          // subNomorRekomendasi      : String(dataDokumen[0].subNomorRekomendasi),                                      
-          tindakLanjut             : String(dataDokumen[0].tindakLanjut),                                 
-          // tindakLanjutId           : String(dataDokumen[0].tindakLanjutId),                                        
-          tipeDokumenId            : String(dataDokumen[0].tipeDokumenId),                                       
-          titleHeader              : String(dataDokumen[0].titleHeader),                                    
-          uraianTemuan             : String(dataDokumen[0].uraianTemuan),
-        }
+      for(var i in dataDokumen){
+        console.log('factory create dokumen ===>',dataDokumen)
+        var formData = new FormData();
   
-        var dokumenTindakLanjut : FileList;
-        dokumenTindakLanjut = dataDokumen[0].dokumenTindakLanjut
-        Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
-        formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
-        formData.append('kodeRekomendasi',modelTindakLanjut.kodeRekomendasi)
-        formData.append('kodeRingkasanTindakLanjut',modelTindakLanjut.kodeRingkasanTindakLanjut)
-        formData.append('noUraianTemuan',modelTindakLanjut.noUraianTemuan)
-        formData.append('nomorHeader',modelTindakLanjut.nomorHeader)
-        formData.append('ppkId',modelTindakLanjut.ppkId)
-        formData.append('rekomendasi',modelTindakLanjut.rekomendasi)
-        formData.append('ringkasanTindakLanjut',modelTindakLanjut.ringkasanTindakLanjut)
-        formData.append('satkerId',modelTindakLanjut.satkerId)
-        formData.append('statusTindakLanjut',modelTindakLanjut.statusTindakLanjut)
-        formData.append('tindakLanjut',modelTindakLanjut.tindakLanjut)
-        formData.append('tipeDokumenId',modelTindakLanjut.tipeDokumenId)
-        formData.append('titleHeader',modelTindakLanjut.titleHeader)
-        formData.append('uraianTemuan',modelTindakLanjut.uraianTemuan)
+          var modelTindakLanjut = {
+            dokumenTemuanId          : String(dataDokumen[i].dokumenTemuanId),                                     
+            // id                       : String(dataDokumen[i].id),                              
+            kodeRekomendasi          : String(dataDokumen[i].kodeRekomendasi),                                    
+            kodeRingkasanTindakLanjut: String(dataDokumen[i].kodeRingkasanTindakLanjut),                     
+            noUraianTemuan           : String(dataDokumen[i].noUraianTemuan),              
+            nomorHeader              : String(dataDokumen[i].nomorHeader),      
+            ppkId                    : String(dataDokumen[i].ppkId),                                 
+            rekomendasi              : String(dataDokumen[i].rekomendasi),                    
+            // responDokumenTemuanId    : String(dataDokumen[i].responDokumenTemuanId),                                         
+            // responTindakLanjut       : String(dataDokumen[i].responTindakLanjut),                         
+            ringkasanTindakLanjut    : String(dataDokumen[i].ringkasanTindakLanjut),                               
+            satkerId                 : String(dataDokumen[i].satkerId),                                 
+            statusTindakLanjut       : String(dataDokumen[i].statusTindakLanjut),                                   
+            // subNomorRekomendasi      : String(dataDokumen[i].subNomorRekomendasi),                                      
+            tindakLanjut             : String(dataDokumen[i].tindakLanjut),                                 
+            // tindakLanjutId           : String(dataDokumen[i].tindakLanjutId),                                        
+            tipeDokumenId            : String(dataDokumen[i].tipeDokumenId),                                       
+            titleHeader              : String(dataDokumen[i].titleHeader),                                    
+            uraianTemuan             : String(dataDokumen[i].uraianTemuan),
+          }
+    
+          var dokumenTindakLanjut : FileList;
+          dokumenTindakLanjut = dataDokumen[i].dokumenTindakLanjut
+          Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+          formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
+          formData.append('kodeRekomendasi',modelTindakLanjut.kodeRekomendasi)
+          formData.append('kodeRingkasanTindakLanjut',modelTindakLanjut.kodeRingkasanTindakLanjut)
+          formData.append('noUraianTemuan',modelTindakLanjut.noUraianTemuan)
+          formData.append('nomorHeader',modelTindakLanjut.nomorHeader)
+          formData.append('ppkId',modelTindakLanjut.ppkId)
+          formData.append('rekomendasi',modelTindakLanjut.rekomendasi)
+          formData.append('ringkasanTindakLanjut',modelTindakLanjut.ringkasanTindakLanjut)
+          formData.append('satkerId',modelTindakLanjut.satkerId)
+          formData.append('statusTindakLanjut',modelTindakLanjut.statusTindakLanjut)
+          formData.append('tindakLanjut',modelTindakLanjut.tindakLanjut)
+          formData.append('tipeDokumenId',modelTindakLanjut.tipeDokumenId)
+          formData.append('titleHeader',modelTindakLanjut.titleHeader)
+          formData.append('uraianTemuan',modelTindakLanjut.uraianTemuan)
+        console.log('createDokumen | final ====>',formData);
   
-      
-      console.log('createDokumen | final ====>',formData)
-
-
-      return this.http.post(API_URL+'/dokumen/add-data',formData );
+        
+  
+  
+        return this.http.post(API_URL+'/dokumen/add-data',formData );
+      }
     }
   
     updateDokumen(dataDokumen): Observable<any> {
