@@ -13,19 +13,16 @@ app-printreport{
   /* aplication component and the printing component       */
 
   app-printreport {
-    display: none;
+    display: block;
   }
 
   .hidePrint{
     display: none;
   }
 
-
-  #previewDokumen{
-    display: inline;
+  router-outlet {
+    display: none;
   }
-
-  
 
   @page {
     size: A4 landscape !important;

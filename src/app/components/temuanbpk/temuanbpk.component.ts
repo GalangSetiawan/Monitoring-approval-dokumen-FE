@@ -899,7 +899,7 @@ export class TemuanbpkComponent implements OnInit {
   dataSatker:any = {};
   getDataDokumenTemuan(){
     // var generateURL =  '?jenisDokumen='bpk/inspektorat''
-    var generateURL =  'bpk'
+    var generateURL =  '/bpk'
     this.dokumenService.getDokumenTemuanGridView(generateURL).subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);

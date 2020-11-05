@@ -538,7 +538,7 @@ export class TemuaninspektoratComponent implements OnInit {
       error => {
         console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error.error);
         // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        if(!error.error.isAuthorized){
+        if(error.error.isAuthorized){
           this.errorTokenHabis();
         }else{
           Swal.fire(
