@@ -127,8 +127,9 @@ export class TemuaninspektoratComponent implements OnInit {
   onbeforeNew(){
     this.modelDokumenTemuan.jenisDokumenTemuanId =  2
     this.progressStatus(1);
-    this.modelIsiDokumen.satkerId = this.dataSatker.id;
     this.isiHardcode();
+    
+
   }
 
   filterData = {noLHA:"", jenisDokumenTemuanId:null, tglLHA:null, namaKegiatan:""};
@@ -416,8 +417,35 @@ export class TemuaninspektoratComponent implements OnInit {
   }
 
   btnTambahTemuan(){
-    this.modelIsiDokumen.satkerId = "";
-    this.modelIsiDokumen.ppkId = ""
+    this.onSatkerChange(this.dataSatker.id);
+    this.modelIsiDokumen.ppkId = "";
+
+    this.batchDokumen.push(
+      {
+        id                       : 999999, 
+        flagId                   : 999999,
+        tipeDokumenId            : 1,
+        satkerId                 : this.dataSatker.id,
+        statusTindakLanjut       : "Open",
+        noUraianTemuan           : '1',
+        kodeRekomendasi          : '3.03.07',
+        subNomorRekomendasi      : 'B.',
+        kodeRingkasanTindakLanjut: '06',
+        uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
+        rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
+        ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
+        tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
+        dokumenTemuanId          : null,
+        tindakLanjutId           : null,
+        responDokumenTemuanId    : null,
+        titleHeader              : 'Kelemahan Aspek Pendukung',
+        nomorHeader              : 'A.2.',
+        ppkId                    : 1,
+        responTindakLanjut       : ''
+      }
+    )
+
+
   }
 
 
@@ -463,6 +491,7 @@ export class TemuaninspektoratComponent implements OnInit {
   ListPpk = [];
   onSatkerChange(satkerid){
     console.log('onSatkerChange ====>',satkerid);
+    this.modelIsiDokumen.satkerId =satkerid;
 
     this.masterPpkService.getPPKbyId(satkerid).subscribe(
       data => {
@@ -550,7 +579,7 @@ export class TemuaninspektoratComponent implements OnInit {
         id                       : 999999, 
         flagId                   : 999999,
         tipeDokumenId            : 1,
-        satkerId                 : 1,
+        satkerId                 : this.dataSatker.id,
         statusTindakLanjut       : "Open",
         noUraianTemuan           : '1',
         kodeRekomendasi          : '3.03.07',

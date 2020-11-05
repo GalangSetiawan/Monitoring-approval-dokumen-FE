@@ -1,6 +1,6 @@
 <!-- ======================== CONTENT PAGE ========================== -->
 
-<div class="wrapper"  *ngIf="isSignedIn">
+<div class="wrapper hidePrint"  *ngIf="isSignedIn">
   <div class="uk-grid-collapse" uk-grid >
         <div class="uk-width-auto@m" style="background-color: #0F7AE5;">
             <div class="uk-card">
@@ -370,142 +370,142 @@
     
 
 
-    <div class="uk-grid-collapse" uk-grid *ngIf="!isSignedIn">
-        <div class="uk-width-expand@m">
-            <div class="uk-card">
-                <div style="height: 100vh;" >
+<div class="uk-grid-collapse hidePrint" uk-grid *ngIf="!isSignedIn">
+    <div class="uk-width-expand@m">
+        <div class="uk-card">
+            <div style="height: 100vh;" >
 
 
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow >
-            
-                        <ul class="uk-slideshow-items" style="height: 100vh !important; " id="listUIberita">
-                            <li *ngFor="let berita of ListBerita; let i = index" id="{{berita.id}}">
-                                <img *ngIf="berita.latarBelakang == undefined"  data-src="https://getuikit.com/docs/images/photo.jpg" alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
-                                <img *ngIf="berita.latarBelakang != undefined" [src]="berita.latarBelakang"  alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
-            
-                                <div class="uk-position-cover" >
-                                    <div class="contentBerita uk-position-cover m-3" style="background-color: rgba(227,242,253,0); height: 100%;">
-                                        <div class="uk-position-center">
-                                            <div class="absoluteCenter mt-5 pl-5 pr-5 container-fluid">
-                                                <div class="container">
-                                                    <h1 class="uk-heading-small" style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent;" > &nbsp; {{berita.title}}</h1>
-                                                </div>
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow >
+        
+                    <ul class="uk-slideshow-items" style="height: 100vh !important; " id="listUIberita">
+                        <li *ngFor="let berita of ListBerita; let i = index" id="{{berita.id}}">
+                            <img *ngIf="berita.latarBelakang == undefined"  data-src="https://getuikit.com/docs/images/photo.jpg" alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
+                            <img *ngIf="berita.latarBelakang != undefined" [src]="berita.latarBelakang"  alt="" uk-cover uk-img="target: !ul > :last-child, !* +*">
+        
+                            <div class="uk-position-cover" >
+                                <div class="contentBerita uk-position-cover m-3" style="background-color: rgba(227,242,253,0); height: 100%;">
+                                    <div class="uk-position-center">
+                                        <div class="absoluteCenter mt-5 pl-5 pr-5 container-fluid">
+                                            <div class="container">
+                                                <h1 class="uk-heading-small" style="border-left: 12px solid #0F7AE5; border-bottom: 15px solid transparent;" > &nbsp; {{berita.title}}</h1>
                                             </div>
-            
-            
-            
-                                            <div class="absoluteCenter container" >
-                                                <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" style="overflow: scroll; max-height: 65vh;background-color: rgba(227,242,253,0.9)">
-                                                    <div [innerHTML]="berita.body | keepHtml"></div>
-                                                </div>
+                                        </div>
+        
+        
+        
+                                        <div class="absoluteCenter container" >
+                                            <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" style="overflow: scroll; max-height: 65vh;background-color: rgba(227,242,253,0.9)">
+                                                <div [innerHTML]="berita.body | keepHtml"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </li>
-            
-                         
-            
-                            
-                        </ul>
-                    
-                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" (click)="prevNews($event)" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" (click)="nextNews($event)" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-                    
-                    </div>
-                    
-            
-                    
-                </div>
-            </div>
-        </div>
-      
-        <div class="uk-width-1-4@m">
-            <div class="uk-card p-4" style="height:100vh;">
-                <div>
-
-                    <div class="loginSide mt-5" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
-            
-                        <div class="uk-inline uk-margin d-flex justify-content-center ">
-                            <img src="assets/img/logo.png" style="width: 60%;" >
-                        </div>
-            
-            
-                        <p class="uk-legend uk-heading-small uk-margin-small-bottom" style="color: #2196F3;font-size: 30px; font-weight: 400;">Login</p>
-            
-            
-            
-                        <p class="uk-legend uk-heading-small mb-5" style="font-size: 20px; letter-spacing: 1.2px;">
-                            Bagi kamu yang sudah terdaftar, silakan masuk
-            
-                        </p>
-                      
-            
-                        <!-- <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt=""> -->
-            
-                        <div *ngIf="errors?.username" class="alert alert-danger mt-3">
-                            {{ errors?.username }}
-                        </div>
-                        <div *ngIf="errors?.password" class="alert alert-danger mt-3">
-                            {{ errors?.password }}
-                        </div>
-                        <div *ngIf="errors?.error" class="alert alert-danger mt-3">
-                            {{ errors?.error }}
-                        </div>
-                        <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
-                            Berhasil melakukan perubahan Password
-                        </div>
-            
-            
-            
-            
-                        <form class="form-signin mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            
-                            <div class="uk-margin">
-                                <div class="uk-inline" style="width: 100vh;">
-                                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
-                                    <input class="uk-input" type="text" formControlName="username" placeholder="Masukan Username Anda" >
-                                </div>
                             </div>
-                
-                            <div class="uk-margin mb-5" >
-                                <div class="uk-inline" style="width: 100vh;">
-                                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                                    <input class="uk-input" type="password" formControlName="password" placeholder="Masukan Password Anda">
-                                </div>
-            
-                            </div>
-                
-                
-                            <div class="">
-                                <button  type="submit" class="uk-button uk-button-primary">MASUK</button>
-                
-                            </div>
-            
-            
-                        </form>
-            
-            
-                        
-                        
-            
-                    </div>
-            
-            
-                    <div class="footer d-flex justify-content-center mb-4">
-                        All right reserved | Copyright @ 2020  
-                        <br>
-                        KLHK - Monitoring Approval Document
-                    </div>
-            
-                  
-                    
-            
-                </div>
-            </div>
-        </div>
+                        </li>
         
+                        
+        
+                        
+                    </ul>
+                
+                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" (click)="prevNews($event)" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" (click)="nextNews($event)" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+                
+                </div>
+                
+        
+                
+            </div>
+        </div>
     </div>
+    
+    <div class="uk-width-1-4@m">
+        <div class="uk-card p-4" style="height:100vh;">
+            <div>
+
+                <div class="loginSide mt-5" uk-scrollspy="cls: uk-animation-slide-right; repeat: true"  >
+        
+                    <div class="uk-inline uk-margin d-flex justify-content-center ">
+                        <img src="assets/img/logo.png" style="width: 60%;" >
+                    </div>
+        
+        
+                    <p class="uk-legend uk-heading-small uk-margin-small-bottom" style="color: #2196F3;font-size: 30px; font-weight: 400;">Login</p>
+        
+        
+        
+                    <p class="uk-legend uk-heading-small mb-5" style="font-size: 20px; letter-spacing: 1.2px;">
+                        Bagi kamu yang sudah terdaftar, silakan masuk
+        
+                    </p>
+                    
+        
+                    <!-- <img class="img-fluid" style=" padding-top: calc(15vh - 100px);"  src="https://lh3.googleusercontent.com/proxy/PGEmyJrtQ7w4boOf_hw1bkKBmYtA_bKyZgkhkElrIaza0pqwjt0p7YqMjLEhhuhBPYB57O392RRoF_LENA3YKzDMD1yumiiEQOKi70TMOwdX8pI" alt=""> -->
+        
+                    <div *ngIf="errors?.username" class="alert alert-danger mt-3">
+                        {{ errors?.username }}
+                    </div>
+                    <div *ngIf="errors?.password" class="alert alert-danger mt-3">
+                        {{ errors?.password }}
+                    </div>
+                    <div *ngIf="errors?.error" class="alert alert-danger mt-3">
+                        {{ errors?.error }}
+                    </div>
+                    <div *ngIf="isSuccessResetPass" class="alert alert-success mt-3">
+                        Berhasil melakukan perubahan Password
+                    </div>
+        
+        
+        
+        
+                    <form class="form-signin mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        
+                        <div class="uk-margin">
+                            <div class="uk-inline" style="width: 100vh;">
+                                <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                                <input class="uk-input" type="text" formControlName="username" placeholder="Masukan Username Anda" >
+                            </div>
+                        </div>
+            
+                        <div class="uk-margin mb-5" >
+                            <div class="uk-inline" style="width: 100vh;">
+                                <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                                <input class="uk-input" type="password" formControlName="password" placeholder="Masukan Password Anda">
+                            </div>
+        
+                        </div>
+            
+            
+                        <div class="">
+                            <button  type="submit" class="uk-button uk-button-primary">MASUK</button>
+            
+                        </div>
+        
+        
+                    </form>
+        
+        
+                    
+                    
+        
+                </div>
+        
+        
+                <div class="footer d-flex justify-content-center mb-4">
+                    All right reserved | Copyright @ 2020  
+                    <br>
+                    KLHK - Monitoring Approval Document
+                </div>
+        
+                
+                
+        
+            </div>
+        </div>
+    </div>
+    
+</div>
 
 
     
@@ -740,3 +740,5 @@
         background-color: #fffde7;
     }
 </style>
+
+<app-printreport></app-printreport>

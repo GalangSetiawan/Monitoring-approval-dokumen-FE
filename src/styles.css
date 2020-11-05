@@ -1,10 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
 
-@media print{
+
+app-printreport{
+  /* hide the printing component from @media screen */
+  display: none;
+}
+
+
+@media print {
+  /* invert the display (show/hide) properties of the main */
+  /* aplication component and the printing component       */
+
+  app-printreport {
+    display: block;
+  }
+
+  .hidePrint{
+    display: none;
+  }
+
+  router-outlet {
+    display: none;
+  }
+
   @page {
-    size: A4 landscape;
-    margin-top: -5px;
+    size: A4 landscape !important;
+    margin-top: -5px !important;
   }
 
   @page :footer { 
@@ -18,20 +40,6 @@
 
 
 
-
-  @media print {
-    /* body * {
-      visibility: hidden !important;
-    } */
-    #kertasa4-forPrint, #kertasa4-forPrint * {
-      visibility: visible;
-    }
-    #kertasa4-forPrint {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-  }
 
   
 html {

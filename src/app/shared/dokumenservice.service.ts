@@ -194,56 +194,57 @@ export class DokumenserviceService {
 
     // =========== RESPON DOKUMEN TINDAK LANJUT =============
     createDokumen(dataDokumen): Observable<any> {
-      for(var i in dataDokumen){
+      // for(var i in dataDokumen){
         console.log('factory create dokumen ===>',dataDokumen)
-        var formData = new FormData();
+      //   var formData = new FormData();
   
-          var modelTindakLanjut = {
-            dokumenTemuanId          : String(dataDokumen[i].dokumenTemuanId),                                     
-            // id                       : String(dataDokumen[i].id),                              
-            kodeRekomendasi          : String(dataDokumen[i].kodeRekomendasi),                                    
-            kodeRingkasanTindakLanjut: String(dataDokumen[i].kodeRingkasanTindakLanjut),                     
-            noUraianTemuan           : String(dataDokumen[i].noUraianTemuan),              
-            nomorHeader              : String(dataDokumen[i].nomorHeader),      
-            ppkId                    : String(dataDokumen[i].ppkId),                                 
-            rekomendasi              : String(dataDokumen[i].rekomendasi),                    
-            // responDokumenTemuanId    : String(dataDokumen[i].responDokumenTemuanId),                                         
-            // responTindakLanjut       : String(dataDokumen[i].responTindakLanjut),                         
-            ringkasanTindakLanjut    : String(dataDokumen[i].ringkasanTindakLanjut),                               
-            satkerId                 : String(dataDokumen[i].satkerId),                                 
-            statusTindakLanjut       : String(dataDokumen[i].statusTindakLanjut),                                   
-            // subNomorRekomendasi      : String(dataDokumen[i].subNomorRekomendasi),                                      
-            tindakLanjut             : String(dataDokumen[i].tindakLanjut),                                 
-            // tindakLanjutId           : String(dataDokumen[i].tindakLanjutId),                                        
-            tipeDokumenId            : String(dataDokumen[i].tipeDokumenId),                                       
-            titleHeader              : String(dataDokumen[i].titleHeader),                                    
-            uraianTemuan             : String(dataDokumen[i].uraianTemuan),
-          }
+      //     var modelTindakLanjut = {
+      //       dokumenTemuanId          : String(dataDokumen[i].dokumenTemuanId),                                     
+      //       // id                       : String(dataDokumen[i].id),                              
+      //       kodeRekomendasi          : String(dataDokumen[i].kodeRekomendasi),                                    
+      //       kodeRingkasanTindakLanjut: String(dataDokumen[i].kodeRingkasanTindakLanjut),                     
+      //       noUraianTemuan           : String(dataDokumen[i].noUraianTemuan),              
+      //       nomorHeader              : String(dataDokumen[i].nomorHeader),      
+      //       ppkId                    : String(dataDokumen[i].ppkId),                                 
+      //       rekomendasi              : String(dataDokumen[i].rekomendasi),                    
+      //       // responDokumenTemuanId    : String(dataDokumen[i].responDokumenTemuanId),                                         
+      //       // responTindakLanjut       : String(dataDokumen[i].responTindakLanjut),                         
+      //       ringkasanTindakLanjut    : String(dataDokumen[i].ringkasanTindakLanjut),                               
+      //       satkerId                 : String(dataDokumen[i].satkerId),                                 
+      //       statusTindakLanjut       : String(dataDokumen[i].statusTindakLanjut),                                   
+      //       // subNomorRekomendasi      : String(dataDokumen[i].subNomorRekomendasi),                                      
+      //       tindakLanjut             : String(dataDokumen[i].tindakLanjut),                                 
+      //       // tindakLanjutId           : String(dataDokumen[i].tindakLanjutId),                                        
+      //       tipeDokumenId            : String(dataDokumen[i].tipeDokumenId),                                       
+      //       titleHeader              : String(dataDokumen[i].titleHeader),                                    
+      //       uraianTemuan             : String(dataDokumen[i].uraianTemuan),
+      //     }
     
-          var dokumenTindakLanjut : FileList;
-          dokumenTindakLanjut = dataDokumen[i].dokumenTindakLanjut
-          Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
-          formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
-          formData.append('kodeRekomendasi',modelTindakLanjut.kodeRekomendasi)
-          formData.append('kodeRingkasanTindakLanjut',modelTindakLanjut.kodeRingkasanTindakLanjut)
-          formData.append('noUraianTemuan',modelTindakLanjut.noUraianTemuan)
-          formData.append('nomorHeader',modelTindakLanjut.nomorHeader)
-          formData.append('ppkId',modelTindakLanjut.ppkId)
-          formData.append('rekomendasi',modelTindakLanjut.rekomendasi)
-          formData.append('ringkasanTindakLanjut',modelTindakLanjut.ringkasanTindakLanjut)
-          formData.append('satkerId',modelTindakLanjut.satkerId)
-          formData.append('statusTindakLanjut',modelTindakLanjut.statusTindakLanjut)
-          formData.append('tindakLanjut',modelTindakLanjut.tindakLanjut)
-          formData.append('tipeDokumenId',modelTindakLanjut.tipeDokumenId)
-          formData.append('titleHeader',modelTindakLanjut.titleHeader)
-          formData.append('uraianTemuan',modelTindakLanjut.uraianTemuan)
-        console.log('createDokumen | final ====>',formData);
+      //     var dokumenTindakLanjut : FileList;
+      //     dokumenTindakLanjut = dataDokumen[i].dokumenTindakLanjut
+      //     Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+      //     formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
+      //     formData.append('kodeRekomendasi',modelTindakLanjut.kodeRekomendasi)
+      //     formData.append('kodeRingkasanTindakLanjut',modelTindakLanjut.kodeRingkasanTindakLanjut)
+      //     formData.append('noUraianTemuan',modelTindakLanjut.noUraianTemuan)
+      //     formData.append('nomorHeader',modelTindakLanjut.nomorHeader)
+      //     formData.append('ppkId',modelTindakLanjut.ppkId)
+      //     formData.append('rekomendasi',modelTindakLanjut.rekomendasi)
+      //     formData.append('ringkasanTindakLanjut',modelTindakLanjut.ringkasanTindakLanjut)
+      //     formData.append('satkerId',modelTindakLanjut.satkerId)
+      //     formData.append('statusTindakLanjut',modelTindakLanjut.statusTindakLanjut)
+      //     formData.append('tindakLanjut',modelTindakLanjut.tindakLanjut)
+      //     formData.append('tipeDokumenId',modelTindakLanjut.tipeDokumenId)
+      //     formData.append('titleHeader',modelTindakLanjut.titleHeader)
+      //     formData.append('uraianTemuan',modelTindakLanjut.uraianTemuan)
+      //   console.log('createDokumen | final ====>',formData);
   
         
   
   
-        return this.http.post(API_URL+'/dokumen/add-data',formData );
-      }
+      // }
+      
+      return this.http.post(API_URL+'/dokumen/add-data',dataDokumen );
     }
   
     updateDokumen(dataDokumen): Observable<any> {
