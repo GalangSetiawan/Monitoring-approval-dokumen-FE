@@ -207,7 +207,7 @@ export class TemuanbpkComponent implements OnInit {
         id                       : 999999, 
         flagId                   : 999999,
         tipeDokumenId            : 1,
-        satkerId                 : 1,
+        satkerId                 : this.dataSatker.id,
         statusTindakLanjut       : "Open",
         noUraianTemuan           : '1',
         kodeRekomendasi          : '3.03.07',
@@ -899,7 +899,7 @@ export class TemuanbpkComponent implements OnInit {
   dataSatker:any = {};
   getDataDokumenTemuan(){
     // var generateURL =  '?jenisDokumen='bpk/inspektorat''
-    var generateURL =  '?jenisDokumen=bpk'
+    var generateURL =  'bpk'
     this.dokumenService.getDokumenTemuanGridView(generateURL).subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);

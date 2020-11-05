@@ -49,7 +49,7 @@
     }
 
     /* ==== FOR PRINT ======== */
-    .previewHeader-forPrint{
+    /* .previewHeader-forPrint{
         font-weight: bold;
     }
 
@@ -57,7 +57,7 @@
         padding-top: 20px;
         padding-right: 15px;
         padding-left: 15px;
-        /* border:1px solid black; */
+        border:1px solid black;
         width: 297mm;
         min-height: 595.28px;
         margin: auto;
@@ -72,7 +72,7 @@
 
     .kertasa4-forPrint .previewSubheader-forPrint{
         font-size: 12px;
-    }
+    } */
 
 
     .isResponseTL{
@@ -169,52 +169,3 @@
     /* ==================================ESCAPE HTML ============================ */
 
 
-    @media print{
-      table { page-break-after:auto }
-      tr    { page-break-inside:avoid; page-break-after:auto }
-      td    { page-break-inside:avoid; page-break-after:auto }
-      thead { display:table-header-group }
-      tfoot { display:table-footer-group }
-    
-      
-    }
-    
-    @media print{
-        @page {
-          size: A4 landscape;
-          margin-top: -5px;
-        }
-    
-        @page :footer { 
-            display: none !important
-        } 
-      
-        @page :header { 
-            display: none !
-        } 
-    
-      
-    
-        
-      }
-    
-    
-      @media print {
-        footer {
-            position: relative;
-            bottom: 0pt;
-            left: 0pt;
-            right: 0pt;
-            text-align: center;
-        }  
-    
-        table{
-          counter-increment: page;
-        }
-    
-        
-        #page-number::after {
-            counter-increment: page;
-            content:"Page " counter(page);
-        }
-    }

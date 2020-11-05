@@ -11,6 +11,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { DokumenserviceService } from './../../shared/dokumenservice.service';
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -527,7 +528,7 @@ export class TemuaninspektoratComponent implements OnInit {
   dataSatker:any = {};
   getDataDokumenTemuan(){
     // var generateURL =  '?jenisDokumen='bpk/inspektorat''
-    var generateURL =  '?jenisDokumen=inspektorat'
+    var generateURL =  '/inspektorat'
     this.dokumenService.getDokumenTemuanGridView(generateURL).subscribe(
       (data:any) =>{
         console.log('Get data getDokumenTemuan success | getDokumenTemuan ===>',data.result);
@@ -927,16 +928,22 @@ export class TemuaninspektoratComponent implements OnInit {
 
   }
 
-
   printDefault(divName){
     // $("#previewDokumen").print();
 
 
-    var printContents = document.getElementById(divName).innerHTML;
-  var popupWin = window.open('', '_blank', 'width=300,height=300');
-  popupWin.document.open();
-  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
-  popupWin.document.close();
+  
+    console.log('parent Send | dokumenTemuan ==========>',this.modelDokumenTemuan);
+    console.log('parent Send | dokumenTindakLanjut ====>',this.batchDokumen);
+
+    window.print();
+
+
+  //   var printContents = document.getElementById(divName).innerHTML;
+  // var popupWin = window.open('', '_blank', 'width=300,height=300');
+  // popupWin.document.open();
+  // popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+  // popupWin.document.close();
 
   }
 
