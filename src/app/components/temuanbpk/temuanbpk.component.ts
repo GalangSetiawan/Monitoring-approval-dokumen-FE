@@ -1061,7 +1061,6 @@ export class TemuanbpkComponent implements OnInit {
         console.log('getDetailDokumenTemuanGridView Detail error   | getDetailDokumenTemuanGridView ===>',error);
       }
     )
-
   }
 
   deleteDokumen = "";

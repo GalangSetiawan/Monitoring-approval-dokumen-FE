@@ -1,8 +1,7 @@
 <div class="content container-fluid">
 
     <p class="uk-text-center previewHeader mb-5">
-      MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT
-      INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN
+      {{modelDokumenTemuan.header}}
     </p>
   
   
@@ -15,34 +14,34 @@
          
           <tbody>
   
-            <tr>
+            <tr *ngIf="modelDokumenTemuan.keadaanSdBulan != '' || modelDokumenTemuan.keadaanSdBulan != null"> 
               <td>Keadaan s/d Bulan</td>
               <td>:</td>
-              <td>Juli 2017</td>
+              <td>{{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
             </tr>
   
             <tr>
               <td>Nama Kegiatan</td>
               <td>:</td>
-              <td>Audit Pelaksanaan Tusi Tahun 2015</td>
+              <td>{{modelDokumenTemuan.namaKegiatan}}</td>
             </tr>
   
             <tr>
-              <td>Nama Instans</td>
+              <td>Nama Instansi</td>
               <td>:</td>
-              <td>Ditjen Penegakan Lingkungan Hidup dan Kehutanan (PHLHK)</td>
+              <td>{{modelDokumenTemuan.namaInstansi}}</td>
             </tr>
   
             <tr>
               <td>Unit Kerja Eselon 1</td>
               <td>:</td>
-              <td> Ditjen PHLHK</td>
+              <td>{{modelDokumenTemuan.unitKerjaEselon1}}</td>
             </tr>
   
             <tr>
               <td>No. & Tgl LHA</td>
               <td>:</td>
-              <td>LHA. 26/Itjen-Ins.3/Rhs/2016 tanggal 24 Februari 2016</td>
+              <td>{{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
             </tr>
             
           </tbody>
@@ -62,69 +61,51 @@
                 <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid blue;">Tindak lanjut</td>
               </tr>
           </thead>
-          <tbody>
-              <tr>
-                <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid blue;">B1</td>
-                <td colspan="7" class="pr-2 pl-2">Dummy Data</td>
-              </tr>
-              <tr>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">1</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p>Kegiatan Verifikasi Pengaduan ini update 2</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">29.11.2</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><ol><li><span style="font-family: Calibri, sans-serif; font-size: 12pt;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan </span></li></ol></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">04</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><br></p><p>Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">Tersedia</td>
-                <td></td>
-              </tr>
-  
-              <tr>
-                <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid blue;">B1</td>
-                <td colspan="7" class="pr-2 pl-2">Dummy Data</td>
-              </tr>
-              <tr>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">1</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p>Kegiatan Verifikasi Pengaduan ini update 2</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">29.11.2</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><ol><li><span style="font-family: Calibri, sans-serif; font-size: 12pt;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan </span></li></ol></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">04</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><br></p><p>Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">Tersedia</td>
-                <td></td>
-              </tr>
-  
-  
-              <tr>
-                <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid blue;">B1</td>
-                <td colspan="7" class="pr-2 pl-2">Dummy Data</td>
-              </tr>
-              <tr>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">1</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p>Kegiatan Verifikasi Pengaduan ini update 2</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">29.11.2</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><ol><li><span style="font-family: Calibri, sans-serif; font-size: 12pt;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan </span></li></ol></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">04</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><br></p><p>Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi</p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">Tersedia</td>
-                <td></td>
-              </tr>
-  
-  
-  
-              <tr>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">B1</td>
-                <td style="border-left: 0.1px solid blue;" class="pr-2 pl-2" colspan="7" >Test Judul Tinjauan</td>
-              </tr>
-              <tr>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">B1</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p><span style="font-family: Calibri, sans-serif; font-size: 12pt;">Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</span></p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">3.03.07</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p style="text-align: justify;">  <span style="font-size: 12pt;">b. Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi. </span></p><p>  </p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">06</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top"><p style="text-align: justify;">  <strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><em style="font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada :</span></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><span style="font-size: 12pt;">1.</span><span style="font-size: 7pt; font-family: Times New Roman;">   </span><span style="font-size: 12pt;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></p><p style="text-align: justify;"><span style="font-size: 12pt;">2.</span><span style="font-size: 7pt; font-family: Times New Roman;">   </span><span style="font-size: 12pt;"> Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><em style="font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"><br></p><p>  </p></td>
-                <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">Dalam Proses</td>
-                <td style="border-left: 0.1px solid blue;" class=" pr-2 pl-2 uk-text-top">Revisi</td>
-              </tr>
+
+
+           <tbody *ngFor="let data of batchDokumen">
+
+            <tr>
+              <td  style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">{{data.nomorHeader}}</td>
+              <td  class="uk-text-top pr-2 pl-2" colspan="8">{{data.titleHeader}}</td>
+            </tr>
+
+            <tr >
+          
+              <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">
+                <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}}</span>
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="pr-2 pl-2 uk-text-top escapeHTML" >
+                <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
+              </td> 
+              
+              <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top" >
+                {{data.kodeRekomendasi}}
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="pr-2 pl-2 uk-text-top escapeHTML"> 
+                  <div [innerHTML]="data.rekomendasi | keepHtml"></div>
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top">
+                  {{data.kodeRingkasanTindakLanjut}}
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="pr-2 pl-2 uk-text-top escapeHTML">
+                  <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;">
+                  {{data.statusTindakLanjut}}
+              </td>
+              
+              <td style="border-left: 0.1px solid blue;" class="pr-2 pl-2 uk-text-top escapeHTML">
+                  <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
+              </td>
+
+
+            </tr>
           </tbody>
   
           

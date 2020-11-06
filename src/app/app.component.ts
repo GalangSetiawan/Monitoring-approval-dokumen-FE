@@ -6,6 +6,7 @@ import { AuthService } from './shared/auth.service';
 import { FormBuilder, FormGroup } from "@angular/forms";
 declare var UIkit: any;
 import { NewsService } from './shared/news.service';
+import { SharecomponentService } from './shared/sharecomponent.service';
 
 
 import * as _ from "lodash";
@@ -15,7 +16,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { find } from 'rxjs/operators';
 
 var toggleFullscreen = true;
-
 export class User {
   id      : Number;
   nama    : String;
@@ -42,6 +42,7 @@ export class AppComponent implements OnInit{
   isWelcomeBar = false;
 
   constructor(
+    public shareComponentService : SharecomponentService,
     private auth: AuthStateService,
     public router: Router,
     public fb: FormBuilder,
@@ -57,6 +58,10 @@ export class AppComponent implements OnInit{
       password: []
     })
   }
+
+
+
+
 
   ngOnInit() {    
     $('#breadCrumbTitle a').text('Dashboard');
@@ -96,7 +101,11 @@ export class AppComponent implements OnInit{
     this.getDataBerita();
     $('#spinner').hide();
 
+
+
   }
+
+
 
 
   
@@ -296,10 +305,13 @@ export class AppComponent implements OnInit{
     this.authService.signin(this.loginForm.value).subscribe(
       result => {
         console.log('balikan login ===>',result); 
+        this.shareComponentService.sendDataCetakan(result.user);
         this.responseHandler(result);
         var jsonUserProfileString = JSON.stringify(result.user);
         var user = localStorage.setItem("UserProfile", jsonUserProfileString);
         this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
+
+
 
         // this.UserProfile = result.user
         this.isResetForm = false

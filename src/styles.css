@@ -17,7 +17,7 @@ app-printreport{
   }
 
   .hidePrint{
-    display: none;
+    display: none !important;
   }
 
   router-outlet {

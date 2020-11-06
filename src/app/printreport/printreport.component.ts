@@ -1,5 +1,8 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, } from '@angular/core';
+import { SharecomponentService } from './../shared/sharecomponent.service';
+import { Router } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-printreport',
@@ -8,33 +11,38 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class PrintreportComponent implements OnInit {
 
-
+  subscription: Subscription;
+  intervalId: number;
+  
   constructor(
-    private activateRoute     : ActivatedRoute
-  ) { }
+    public shareComponentService     : SharecomponentService,
+    public router: Router,
 
-
-  @Input() dokumenTemuan = {};
-  @Input() dokumenTindakLanjut = [];
-
+    ) { }
+    
+    
+    
+  modelDokumenTemuan:any = {}
+  batchDokumen = [];
+  
   ngOnInit() {
-
-
-    this.activateRoute.queryParams.subscribe(
-      params => {
-        this.dokumenTemuan = JSON.parse(params['dokumenTemuan'])
-        this.dokumenTindakLanjut = JSON.parse(params['dokumenTindakLanjut'])
-
-
-
-        console.log('Print Report | dokumenTemuan ==========>',this.dokumenTemuan);
-        console.log('Print Report | dokumenTindakLanjut ====>',this.dokumenTindakLanjut);
-
-        
-      }
-    )
-
-
+    const source = interval(500); 
+    this.subscription = source.subscribe(val => this.dataCetakan());
   }
+
+
+
+  dataCetakan(){
+    var data = this.shareComponentService.getDataCetakan();
+    if(data != undefined || data != null ){
+      this.modelDokumenTemuan = this.shareComponentService.getDataCetakan();
+      this.batchDokumen = this.modelDokumenTemuan.dokumenTindakLanjut;
+      // console.log('Print Report | modelDokumenTemuan ===>',this.modelDokumenTemuan)
+      // console.log('Print Report | batchDokumen =========>',this.batchDokumen)
+    }
+    
+  }
+
+
 
 }

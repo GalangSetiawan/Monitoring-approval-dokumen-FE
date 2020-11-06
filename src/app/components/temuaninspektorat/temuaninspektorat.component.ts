@@ -5,9 +5,9 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas'
 import 'jspdf-autotable';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import {Router} from '@angular/router'
 
-
-
+import { SharecomponentService } from './../../shared/sharecomponent.service';
 import { DokumenserviceService } from './../../shared/dokumenservice.service';
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
@@ -22,14 +22,17 @@ import { JsonPipe } from '@angular/common';
 export class TemuaninspektoratComponent implements OnInit {
 
   constructor(
+    public shareComponentService     : SharecomponentService,
     public dokumenService     : DokumenserviceService,
     public masterPpkService   : MasterppkService,
     public masterSatkerService: MastersatkerService,
+    public router             : Router
 
 
 
   ) { }
 
+  userLogin:any = {};
   ngOnInit() {
     $('#breadCrumbTitle a').text('Dokumen Temuan Inspektorat');
     this.selectActiveMenu('dokumentemuaninspektorat')
@@ -37,7 +40,8 @@ export class TemuaninspektoratComponent implements OnInit {
     this.getDataJenisDokumenTemuan();
     this.getDataSatker();
     this.getDataDokumenTemuan();
-
+    this.userLogin = this.shareComponentService.getDataUserLogin();
+    
   }
 
   selectActiveMenu(opened){
@@ -133,6 +137,9 @@ export class TemuaninspektoratComponent implements OnInit {
 
   }
 
+
+  
+
   filterData = {noLHA:"", jenisDokumenTemuanId:null, tglLHA:null, namaKegiatan:""};
   doSearch(filter){
     this.filterData = filter; 
@@ -160,7 +167,7 @@ export class TemuaninspektoratComponent implements OnInit {
   progressStatus(step){
     this.isProgress = step;
 
-
+    
 
     if(step == 1){
       $('#step1').addClass('is-active');
@@ -171,10 +178,13 @@ export class TemuaninspektoratComponent implements OnInit {
       $('#step2').addClass('is-active');
     }else if(step == 3){
       this.showBtnSimpan = true;
-      
       $('#step1').addClass('is-complete');
       $('#step2').addClass('is-complete');
       $('#step3').addClass('is-active');
+
+      var dataCetakan = this.modelDokumenTemuan;
+      dataCetakan.dokumenTindakLanjut = this.batchDokumen;
+      this.shareComponentService.sendDataCetakan(dataCetakan);
     }
   }
 
@@ -418,8 +428,11 @@ export class TemuaninspektoratComponent implements OnInit {
   }
 
   btnTambahTemuan(){
+    console.log('btn Tambah Tindak Lanjut ====>')
     this.onSatkerChange(this.dataSatker.id);
     this.modelIsiDokumen.ppkId = "";
+
+
 
     this.batchDokumen.push(
       {
@@ -446,7 +459,6 @@ export class TemuaninspektoratComponent implements OnInit {
       }
     )
 
-
   }
 
 
@@ -459,9 +471,36 @@ export class TemuaninspektoratComponent implements OnInit {
     this.showBtnCancelTemuan = true;
     this.showBtnTambahTemuan = false;
     this.closeAlldokumenForm();
-    this.modelIsiDokumen.flagId = new Date().getTime(),      
-    this.modelIsiDokumen.satkerId = satkerId,   
-    this.modelIsiDokumen.ppkId = ppkId  
+
+
+    this.modelIsiDokumen.id                        = null; 
+    this.modelIsiDokumen.flagId                    = new Date().getTime();      
+    this.modelIsiDokumen.satkerId                  = satkerId;   
+    this.modelIsiDokumen.ppkId                     = ppkId;
+    this.modelIsiDokumen.statusTindakLanjut        = "";
+    this.modelIsiDokumen.noUraianTemuan            = "";
+    this.modelIsiDokumen.kodeRekomendasi           = "";
+    this.modelIsiDokumen.subNomorRekomendasi       = "";
+    this.modelIsiDokumen.kodeRingkasanTindakLanjut = "";
+    this.modelIsiDokumen.uraianTemuan              = "";
+    this.modelIsiDokumen.rekomendasi               = "";
+    this.modelIsiDokumen.ringkasanTindakLanjut     = "";
+    this.modelIsiDokumen.tindakLanjut              = "";
+    this.modelIsiDokumen.titleHeader               = "";
+    this.modelIsiDokumen.nomorHeader               = "";
+    this.modelIsiDokumen.responTindakLanjut        = "";
+    this.modelIsiDokumen.dokumenTindakLanjut       = null;
+
+    
+    
+    if(this.keteranganDokumenId == 1){ // dokumen baru
+      this.modelIsiDokumen.statusTindakLanjut = 'Tersedia';
+    }else if(this.keteranganDokumenId == 2){//dokumen lama
+      this.modelIsiDokumen.statusTindakLanjut = 'Dalam Proses';
+
+    } 
+    
+
     this.validasiBtnSimpanTemuan();
     console.log('addTemuan | newModel ===>',this.modelIsiDokumen);
   }
@@ -572,7 +611,7 @@ export class TemuaninspektoratComponent implements OnInit {
       noLHA                        : 'LHA. 26/Itjen-Ins.3/Rhs/2016',
       tglLHA                       : '2021-01-31',
       footer                       : '<p>Ini Footer</p>',
-      header                       : 'MATRIK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN',
+      header                       : 'JANCOKK PERKEMBANGAN PELAKSANAAN TINDAK LANJUT TERHADAP LAPORAN HASIL AUDIT INSPEKTORAT JENDERAL KEMENTERIAN LINGKUNGAN HIDUP DAN KEHUTANAN',
     }
 
     this.batchDokumen.push(
@@ -581,7 +620,7 @@ export class TemuaninspektoratComponent implements OnInit {
         flagId                   : 999999,
         tipeDokumenId            : 1,
         satkerId                 : this.dataSatker.id,
-        statusTindakLanjut       : "Open",
+        statusTindakLanjut       : "Tersedia",
         noUraianTemuan           : '1',
         kodeRekomendasi          : '3.03.07',
         subNomorRekomendasi      : 'B.',
@@ -893,15 +932,14 @@ export class TemuaninspektoratComponent implements OnInit {
             (data:any)=>{
               console.log('createDokumen Success ===>',data.result);   
               this.windowModeView('grid');
-  
               this.isLoading = false;
-
+              this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
               Swal.fire(
                 'Yay Success!', 
                 'Dokumen Temuan berhasi ditambahkan',   
                 'success'
-              )
-  
+              )                
+
             },
             error =>{
               console.log('onSubmit | createDokumen Gagal ===>',error);
@@ -928,32 +966,56 @@ export class TemuaninspektoratComponent implements OnInit {
 
   }
 
-  printDefault(divName){
-    // $("#previewDokumen").print();
-
-
-  
-    console.log('parent Send | dokumenTemuan ==========>',this.modelDokumenTemuan);
-    console.log('parent Send | dokumenTindakLanjut ====>',this.batchDokumen);
-
+  printDefault(dokumenTemuanParam, dokumenTindakLanjutParam){
+    var dataCetakan = dokumenTemuanParam;
+    dataCetakan.dokumenTindakLanjut = dokumenTindakLanjutParam;
+    this.shareComponentService.sendDataCetakan(dataCetakan);
+    console.log('parent Send | dataCetakan ==========>',dataCetakan);
+    $("#containerReport").prepend('<app-printreport id="reportTindakLanjut" ></app-printreport>');
+    // $("#reportTindakLanjut").attr("*ngIf",false);
+    // $("#reportTindakLanjut").attr("*ngIf",true);
     window.print();
-
-
-  //   var printContents = document.getElementById(divName).innerHTML;
-  // var popupWin = window.open('', '_blank', 'width=300,height=300');
-  // popupWin.document.open();
-  // popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
-  // popupWin.document.close();
-
   }
 
+  showCetakan = false;
   previewDokumen(){
-
-
-
+    this.showCetakan = true;
+    var dataCetakan = this.modelDokumenTemuan;
+    dataCetakan.dokumenTindakLanjut = this.batchDokumen;
+    this.shareComponentService.sendDataCetakan(dataCetakan);
     console.log('previewDokumen | modelDokumenTemuan ===>',this.modelDokumenTemuan);
     console.log('previewDokumen | modelIsiDokumen ===>',this.modelIsiDokumen);
     console.log('previewDokumen | batchDokumen ===>',this.batchDokumen);
+  }
+
+
+  btnCloseModalPreviewCetakan(){
+    this.shareComponentService.sendDataCetakan(undefined);
+  }
+
+
+  ModelDokumenTemuan = {};
+  onEditTemuanGridClick(row){
+    console.log('btnEdit ===>',row);
+    this.windowModeView('edit');
+    this.progres1Validation = true;
+    
+
+    this.dokumenService.getDetailDokumenTemuanGridView(row.data.id).subscribe(
+      (data:any) => {
+        console.log('getDetailDokumenTemuanGridView Detail success | getDetailDokumenTemuanGridView ===>',data);
+        this.modelDokumenTemuan = data.result;
+        this.modelDokumenTemuan.isEdit = row.data.isEdit;
+        // var keadaanSdBulan = t his.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
+        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan );
+        
+        console.log('this.modelDokumenTemuan ===>', this.modelDokumenTemuan)
+        this.batchDokumen = data.result.resultDokumen;
+      },
+      error => {
+        console.log('getDetailDokumenTemuanGridView Detail error   | getDetailDokumenTemuanGridView ===>',error);
+      }
+    )
   }
 
   

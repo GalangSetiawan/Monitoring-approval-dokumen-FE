@@ -1,7 +1,7 @@
-<span uk-spinner="ratio: 1.5"  class="uk-flex-center" style="position: fixed;" *ngIf="isLoading" ></span>
+<span uk-spinner="ratio: 1.5"  class="uk-flex-center hidePrint" style="position: fixed;" *ngIf="isLoading" ></span>
 
 
-<section [hidden]="windowMode != 'grid'" >
+<section [hidden]="windowMode != 'grid'" class="hidePrint">
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataDokumenTemuan()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
@@ -63,7 +63,7 @@
         <div class="card mt-5">
           <div class="card-header card-header-primary">
             <h4 class="card-title" >Dokumen Temuan Inspektorat</h4>
-            <!-- <p class="card-category">New employees on 15th September, 2016</p> -->
+            <p class="card-category">Menampilkan List data dokumen Temuan Inspektorat</p>
           </div>
 
 
@@ -170,7 +170,7 @@
 </section >
 
 
-<section [hidden]="windowMode == 'grid'">
+<section [hidden]="windowMode == 'grid'" class="hidePrint">
 
     <div class="uk-form-horizontal uk-margin-large">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
@@ -403,7 +403,7 @@
                         <td class="pr-2 pl-2 uk-text-top escapeHTML">
                             <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
 
-                            <span>
+                            <span *ngIf="windowMode != 'create' || data.dokumenTindakLanjut != null">
                               <hr>
                               <a (click)="downloadDokumenTindakLanjut(data.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
                             </span>
@@ -452,7 +452,13 @@
     </div>
 
     <div [hidden]='isProgress != 3'>
-        <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" href="#previewDokumen" uk-toggle (click)="previewDokumen()" style="color:white">Preview Dokumen</a>
+      <div class="kertasa4">
+        <app-printreport class="hidePrint" style="display: block;" *ngIf="showBtnSimpan"></app-printreport>
+      </div>
+
+
+      <!-- <button (click)="printDefault('previewDokumen')" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PRINT DEFAULT</button> -->
+        <!-- <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" href="#previewDokumen" uk-toggle (click)="previewDokumen()" style="color:white">Preview Dokumen</a> -->
     </div> 
 
  
@@ -570,9 +576,9 @@
               <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
               <div class="uk-form-controls">
                 <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" >
-                  <option value="Tersedia">Buka</option>
-                  <option value="Dalam Proses">Dalam Proses</option>
-                  <option value="Selesai">Selesai</option>
+                  <option *ngIf="windowMode == 'create' || keteranganDokumenId == 1" value="Tersedia">Tersedia</option>
+                  <option *ngIf="keteranganDokumenId == 2" value="Dalam Proses">Dalam Proses</option>
+                  <option *ngIf="windowMode != 'create'" value="Selesai">Selesai</option>
                 </select>
       
               </div>
@@ -715,7 +721,7 @@
             </dx-html-editor>
 
 
-            <div class="uk-margin m-3" >
+            <div class="uk-margin m-3" *ngIf="windowMode != 'create'">
               <label class="uk-form-label" for="form-stacked-text">Upload Dokumen Tindak Lanjut</label>
               <div class="uk-form-controls mt-2">
                   <input class="uk-input" type="File" id="InputFileDokumen" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username...">
@@ -852,61 +858,61 @@
 				<!-- ====================== INPUT AREA ===================== -->
 				<tr [hidden]=!showFormTemuan>
 					<td class="uk-text-center"> <!-- Nomor Header -->
-                    <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.nomorHeader == ''" uk-tooltip="Nomor Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Tinjauan','nomorHeader')"></a>
-                        <div *ngIf="modelIsiDokumen.nomorHeader != ''">
-                        {{modelIsiDokumen.nomorHeader}} <br>
-                        <a (click)="modalLightInput('Nomor Tinjauan','nomorHeader')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.nomorHeader == ''" uk-tooltip="Nomor Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Tinjauan','nomorHeader')"></a>
+            <div *ngIf="modelIsiDokumen.nomorHeader != ''">
+              {{modelIsiDokumen.nomorHeader}} <br>
+              <a (click)="modalLightInput('Nomor Tinjauan','nomorHeader')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
 					<td colspan="7" class="pr-2 pl-2"> <!-- Title Header -->
-                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.titleHeader == ''" uk-tooltip="Judul Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Judul Tinjauan','titleHeader')"></a>
-                        <div *ngIf="modelIsiDokumen.titleHeader != ''">
-                        {{modelIsiDokumen.titleHeader}} <br>
-                        <a (click)="modalLightInput('Judul Tinjauan','titleHeader')" uk-icon="icon: pencil"></a>
-                        </div>          
-                    </td>
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.titleHeader == ''" uk-tooltip="Judul Tinjauan" class="mt-2 mb-2"  (click)="modalLightInput('Judul Tinjauan','titleHeader')"></a>
+              <div *ngIf="modelIsiDokumen.titleHeader != ''">
+              {{modelIsiDokumen.titleHeader}} <br>
+            <a (click)="modalLightInput('Judul Tinjauan','titleHeader')" uk-icon="icon: pencil"></a>
+            </div>          
+          </td>
 				</tr>
 
 				<tr>
 					<td class="uk-text-center uk-text-top"> <!--Nomor Dokumen Temuan -->
-                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.noUraianTemuan == ''" uk-tooltip="Nomor Dokumen Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')"></a>
-                        <div *ngIf="modelIsiDokumen.noUraianTemuan != ''">
-                        {{modelIsiDokumen.noUraianTemuan}} <br>
-                        <a (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.noUraianTemuan == ''" uk-tooltip="Nomor Dokumen Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')"></a>
+              <div *ngIf="modelIsiDokumen.noUraianTemuan != ''">
+              {{modelIsiDokumen.noUraianTemuan}} <br>
+              <a (click)="modalLightInput('Nomor Uraian Temuan','noUraianTemuan')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
 					<td class="pr-2 pl-2 uk-text-top ">  <!-- Uraian Temuan -->
-                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.uraianTemuan == ''" uk-tooltip="Uraian Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Uraian Temuan','uraianTemuan')" ></a>
-                        <div *ngIf="modelIsiDokumen.uraianTemuan != ''" class="escapeHTML">
-                        <div [innerHTML]="modelIsiDokumen.uraianTemuan | keepHtml"></div> <br>
-                        <a (click)="modalLightInput('Uraian Temuan','uraianTemuan')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.uraianTemuan == ''" uk-tooltip="Uraian Temuan" class="mt-2 mb-2"  (click)="modalLightInput('Uraian Temuan','uraianTemuan')" ></a>
+            <div *ngIf="modelIsiDokumen.uraianTemuan != ''" class="escapeHTML">
+              <div [innerHTML]="modelIsiDokumen.uraianTemuan | keepHtml"></div> <br>
+              <a (click)="modalLightInput('Uraian Temuan','uraianTemuan')" uk-icon="icon: pencil"></a>
+            </div>
 					</td> 
 					
 					<td class="uk-text-center uk-text-top" > <!-- Kode Rekomendasi -->
-                        <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.kodeRekomendasi == ''" uk-tooltip="Kode Rekomendasi" class="mt-2 mb-2"  (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')"></a>
-                        <div *ngIf="modelIsiDokumen.kodeRekomendasi != ''">
-                        {{modelIsiDokumen.kodeRekomendasi}} <br>
-                        <a (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus"  *ngIf="modelIsiDokumen.kodeRekomendasi == ''" uk-tooltip="Kode Rekomendasi" class="mt-2 mb-2"  (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')"></a>
+            <div *ngIf="modelIsiDokumen.kodeRekomendasi != ''">
+              {{modelIsiDokumen.kodeRekomendasi}} <br>
+              <a (click)="modalLightInput('Kode Rekomendasi','kodeRekomendasi')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
 					<td class="pr-2 pl-2 uk-text-top "> <!-- Rekomendasi -->
-                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.rekomendasi == ''" uk-tooltip="Rekomendasi" class="mt-2 mb-2" (click)="modalLightInput('Rekomendasi','rekomendasi')"></a>
-                        <div *ngIf="modelIsiDokumen.rekomendasi != ''" class="escapeHTML">
-                        <div [innerHTML]="modelIsiDokumen.rekomendasi | keepHtml"></div> <br>
-                        <a (click)="modalLightInput('Rekomendasi','rekomendasi')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.rekomendasi == ''" uk-tooltip="Rekomendasi" class="mt-2 mb-2" (click)="modalLightInput('Rekomendasi','rekomendasi')"></a>
+            <div *ngIf="modelIsiDokumen.rekomendasi != ''" class="escapeHTML">
+            <div [innerHTML]="modelIsiDokumen.rekomendasi | keepHtml"></div> <br>
+              <a (click)="modalLightInput('Rekomendasi','rekomendasi')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 					
 					<td class="uk-text-center uk-text-top"> <!-- Kode Ringkasan Tindak Lanjut -->
 						<a uk-icon="icon: plus" *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut == ''" uk-tooltip="Kode Ringkasan Tindak Lanjut" class="mt-2 mb-2"  (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')"></a>
 						<div *ngIf="modelIsiDokumen.kodeRingkasanTindakLanjut != ''">
-                        {{modelIsiDokumen.kodeRingkasanTindakLanjut}} <br>
-                        <a (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')" uk-icon="icon: pencil"></a>
-                        </div>
+              {{modelIsiDokumen.kodeRingkasanTindakLanjut}} <br>
+              <a (click)="modalLightInput('Kode Ringkasan Tindak Lanjut','kodeRingkasanTindakLanjut')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 
 					<td class=" pr-2 pl-2 uk-text-top">  <!-- Ringkasan Tindak Lanjut -->
@@ -918,24 +924,24 @@
 					</td>
           
 					<td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
-                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
-                        <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
-                        {{modelIsiDokumen.statusTindakLanjut}} <br>
-                        <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" uk-icon="icon: pencil"></a>
-                        </div>
+            <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
+            <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
+            {{modelIsiDokumen.statusTindakLanjut}} <br>
+            <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" uk-icon="icon: pencil"></a>
+            </div>
 					</td>
 
-                    <td class=" pr-2 pl-2 uk-text-top" > <!-- Tindak Lanjut -->
-                        <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''"uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
-                        <div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
-                            <div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
-                            <a (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
-                            <span>
-                                <hr>
-                                <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
-                            </span>
-                        </div>
-                    </td>
+          <td class=" pr-2 pl-2 uk-text-top" > <!-- Tindak Lanjut -->
+              <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''"uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
+              <div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
+                  <div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
+                  <a (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
+                  <span *ngIf="windowMode != 'create' || modelIsiDokumen.dokumenTindakLanjut != null">
+                      <hr>
+                      <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
+                  </span>
+              </div>
+          </td>
                     
 				</tr>
 				<!-- ====================== INPUT AREA ===================== -->
@@ -991,137 +997,11 @@
 
 
 <!-- preview Dokumen -->
-<div id="previewDokumen" class="uk-modal-container uk-flex-top" uk-modal>
+<div id="previewDokumen" class="uk-modal-container uk-flex-top" uk-modal="bg-close:false; esc-close:false">
   <div class="uk-modal-dialog uk-modal-body" style="width: 100%;">
-
-
-      <div class="kertasa4-forPrint" id="kertasa4-forPrint">
-          <div class="">
-              <p class="uk-text-center previewHeader-forPrint mb-3"> {{modelDokumenTemuan.header}} </p>
-
-              <table class="previewSubheader-forPrint">
-                  <tr *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
-                    <td style="width:150px"> &nbsp; Keadaan s.d. Bulan</td>
-                    <td style="width:15px">:</td> 
-                    <td>Juli  2017</td>
-                  </tr>
-                  
-                  <tr>
-                    <td> &nbsp; Nama Kegiatan</td>
-                    <td>:</td> 
-                    <td>Audit Pelaksanaan Tusi Tahun 2015</td>
-                  </tr>
-                  
-                  <tr>
-                    <td> &nbsp; Nama Instansi</td>
-                    <td>:</td> 
-                    <td>Ditjen Penegakan Lingkungan Hidup dan Kehutanan (PHLHK)</td>
-                  </tr>
-                  
-                  <tr>
-                    <td> &nbsp; Unit Kerja Eselon I</td>
-                    <td>:</td> 
-                    <td>Ditjen PHLHK</td>
-                  </tr>
-                  
-                  <tr>
-                    <td> &nbsp; No. & Tanggal LHA</td>
-                    <td>:</td> 
-                    <td>LHA. 26/Itjen-Ins.3/Rhs/2016 tanggal 24 Februari 2016</td>
-                  </tr>
-              </table>
-
-
-              <table class="mt-3 tableDocument" >
-                  <tr class="uk-text-center" id="tableHeader">
-                    <td class="uk-text-top" style="width:50px ; padding-right: 10px;padding-left: 10px; border-left: 0.1px solid black; border-top: 0.1px solid black;">No.</td>
-                    <td class="uk-text-top" style="width:300px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Uraian Temuan</td>
-                    <td class="uk-text-top" style="width:90px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Kode</td>
-                    <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Rekomendasi</td>
-                    <td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Kode</td>
-                    <td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px; border-top: 0.1px solid black;">Ringkasan Tindak Lanjut</td>
-                    <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-top: 0.1px solid black;" >Status Tindak Lanjut</td>
-                    <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px; border-top: 0.1px solid black;">Tindak lanjut</td>
-                  </tr>
-                  
-                  <!-- ================================ SHOW INPUTED AREA ========================= -->
-                  <tbody *ngFor="let data of batchDokumen">
-                    <tr>
-                      <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid black;">
-                        <span> {{data.nomorHeader}} </span>
-                      </td>
-
-                      <td class="pr-2 pl-2" colspan="7">
-                        <span> {{data.titleHeader}} </span>
-                      </td>
-
-                    </tr>
-                    
-                    <tr >
-                      <td class="uk-text-center uk-text-top" style="border-left: 0.1px solid black;">
-                        <span *ngIf="data.noUraianTemuan != undefined"> {{data.noUraianTemuan}} </span>
-                      </td>
-                      
-                      <td class="pr-2 pl-2 uk-text-top escapeHTML">
-                        <div *ngIf="data.uraianTemuan != undefined" [innerHTML]="data.uraianTemuan | keepHtml"></div>
-                      </td> 
-                      
-                      <td class="uk-text-center uk-text-top" >
-                        {{data.kodeRekomendasi}}
-                      </td>
-                      
-                      <td class="pr-2 pl-2 uk-text-top escapeHTML"> 
-                          <div [innerHTML]="data.rekomendasi | keepHtml"></div>                          
-                      </td>
-                      
-                      <td class="uk-text-center uk-text-top escapeHTML">
-                          {{data.kodeRingkasanTindakLanjut}}
-                      </td>
-                      
-                      <td class=" pr-2 pl-2 uk-text-top escapeHTML">
-                          <div [innerHTML]="data.ringkasanTindakLanjut | keepHtml"></div>
-                      </td>
-                      
-                      <td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;">
-                        {{data.statusTindakLanjut}}
-                      </td>
-                      
-                      <td class=" pr-2 pl-2 uk-text-top escapeHTML">
-                          <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
-                      </td>
-      
-                    </tr>
-                  </tbody>
-                  <!-- ================================ SHOW INPUTED AREA ========================= -->
-
-  
-              </table>  
-
-              <!-- =======================FOOTER======================== -->
-              <!-- <table style="width:100% " class="mt-3">
-                  <tr>
-                    <th style="width:70%"></th>
-                    <td class="escapeHTML">
-                        <div [innerHTML]="modelDokumenTemuan.footer | keepHtml"></div>
-                    </td>
-                  </tr>
-              </table> -->
-              <!-- =======================FOOTER======================== -->
-              <br>             
-     
-          </div>
-      </div>
-
-
-
-      <button (click)="printDefault('previewDokumen')" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PRINT DEFAULT</button>
-      <button (click)="printPDFcss()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF CSS</button>
-      <button (click)="createPDFAutoTable()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">PDF AUTOTABLE</button>
-      <button (click)="downloadHtml2Pdf()" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">HTML 2 PDF Download  <div uk-spinner *ngIf="isLoading"></div></button>
-      <button (click)="downloadDokumenHTML2CANVAS()"class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" style="color:white">HTML 2 CANVAS</button>
-
-
-
+      <button class="uk-modal-close-default" type="button" uk-close (click)="btnCloseModalPreviewCetakan()"></button>
+      <!-- <app-printreport class="hidePrint" style="display: block;" *ngIf="showCetakan"></app-printreport> -->
+      <button (click)="printDefault(modelDokumenTemuan, batchDokumen)" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom hidePrint">PRINT DEFAULT</button>
   </div>
 </div>
 <!-- preview Dokumen -->

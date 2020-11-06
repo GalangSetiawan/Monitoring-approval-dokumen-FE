@@ -4,7 +4,7 @@
   <div class="uk-grid-collapse" uk-grid >
         <div class="uk-width-auto@m" style="background-color: #0F7AE5;">
             <div class="uk-card">
-                <nav id="sidebar" class="active" style="min-height: 100vh;">
+                <nav id="sidebar" class="active hidePrint" style="min-height: 100vh;">
                     <!-- <div class="sidebar-header" id="sidebarCollapse" >
                         (click)="sidebarCollapse()"  uk-toggle="target: .closeImg"  untuk toggle sidebar biru
                         <div style="text-align: center;">
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="uk-width-1-5@m" style="max-width: 280px;" id="second-sidebar">
+        <div class="uk-width-1-5@m hidePrint" style="max-width: 280px;" id="second-sidebar">
             <div class="uk-card">
                 <div class="second-sidebar pr-4 pl-4"  >
         
@@ -194,7 +194,7 @@
                 <div class="content-panel">
 
                     <!-- =============================== HEADER ================================= -->
-                    <div class="row col-sm-12 p-4">
+                    <div class="row col-sm-12 p-4 hidePrint" >
                         <div class="col-sm-5" id="header1">
                             <ul class="uk-breadcrumb">
                                 <li><a skipLocationChange [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>
@@ -663,6 +663,9 @@
 <!-- ========User Modal======= -->
     
 
+<span id="containerReport">
+    <app-printreport></app-printreport>
+</span>
 
 
 
@@ -741,4 +744,3 @@
     }
 </style>
 
-<app-printreport></app-printreport>
