@@ -2,7 +2,7 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataPPK()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >Create &nbsp;</a>
+        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a>
     </div> 
     
     
@@ -37,7 +37,7 @@
     
                     <div class="col-md-6 uk-flex uk-flex-right@m uk-flex-right@l uk-margin">
                         <button class="uk-button uk-button-default" (click)="doReset()">Reset</button>  &nbsp;
-                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">Search </button>
+                        <button class="uk-button uk-button-primary" uk-icon="icon: search" (click)="doSearch(filterData)">CARI </button>
                     </div> 
     
                     
@@ -58,7 +58,7 @@
         <div class="card mt-5">
           <div class="card-header card-header-primary">
             <h4 class="card-title">Master PPK</h4>
-            <p class="card-category">New employees on 15th September, 2016</p>
+            <p class="card-category">Menampilkan List Data PPK</p>
           </div>
 
 
@@ -109,9 +109,9 @@
 
     <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
-            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
-            <input type="submit" [disabled]="!form.valid" value="Save" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
-            <input type="submit" [disabled]="!form.valid" value="Update" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
+            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
+            <input type="submit" [disabled]="!form.valid" value="SIMPAN" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
+            <input type="submit" [disabled]="!form.valid" value="UPDATE" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
         </div>  
 
         

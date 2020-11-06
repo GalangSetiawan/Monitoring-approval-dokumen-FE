@@ -1,6 +1,67 @@
 <!-- ======================== CONTENT PAGE ========================== -->
 
 <div class="wrapper hidePrint"  *ngIf="isSignedIn">
+
+
+    <section id="navbar-mobile">
+        <nav class="uk-navbar uk-navbar-container uk-margin uk-margin-remove-top">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-toggle" uk-toggle="target: .toggle">
+                    <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="uk-padding toggle uk-padding-remove-top	uk-padding-remove-bottom" hidden>
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album"></span> Dokumen Temuan BPK
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album"></span> Dokumen Temuan Inspektorat
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-branch"></span> Master Satker
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut"></span> Master PPK
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy"></span> Master Berita
+                    </a>
+                </li>
+                
+                <li>
+                    <a uk-toggle="target: .toggle">
+                        <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: users"></span> Master User
+                    </a>
+                </li>
+        
+            
+                
+            </ul>
+        </div>
+    </section>
+    
   <div class="uk-grid-collapse" uk-grid >
         <div class="uk-width-auto@m" style="background-color: #0F7AE5;">
             <div class="uk-card">
@@ -194,7 +255,7 @@
                 <div class="content-panel">
 
                     <!-- =============================== HEADER ================================= -->
-                    <div class="row col-sm-12 p-4 hidePrint" >
+                    <div class="row col-sm-12 p-4 hidePrint" id="top-bar">
                         <div class="col-sm-5" id="header1">
                             <ul class="uk-breadcrumb">
                                 <li><a skipLocationChange [routerLink]="['/dashboard']" class="uk-text-primary">Home</a></li>

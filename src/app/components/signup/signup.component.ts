@@ -30,6 +30,7 @@ export class SignupComponent implements OnInit {
   modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'',email2:'',email3:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
 
 
+
   public imagePath;
   imgURL: any;
   public message: string;
@@ -45,26 +46,7 @@ export class SignupComponent implements OnInit {
     public newsService        : NewsService,
     public authService        : AuthService
   ) {
-    this.registerForm = this.fb.group({
-      id                   : [0],
-      foto                 : [''],
-      nama                 : ['', Validators.required],
-      NIP                  : ['', Validators.required],
-      satkerId             : ['', Validators.required],
-      ppkId                : [null],
-      password_confirmation: ['', Validators.required],
-      username             : ['',[Validators.required, Validators.minLength(6)]],
-      oldPassword          : [''],         
-      roleId               : ['', Validators.required],
-      email                : ['', [Validators.required, Validators.email]],
-      email2                : ['', [Validators.required, Validators.email]],
-      email3                : ['', [Validators.email]],
-      password             : ['', [Validators.required, Validators.minLength(6)]],
-    },{
-      validatorPassword: MustMatch('password', 'password_confirmation'),
-      validatorEmail: this.comparisonValidator()
-
-    });
+   
   }
 
   ngOnInit(): void {
@@ -224,8 +206,6 @@ export class SignupComponent implements OnInit {
   windowModeView(mode){
     this.windowMode = mode;
     if(this.windowMode == 'create'){
-      this.registerForm.reset();
-      this.registerForm.enable();
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
@@ -236,13 +216,11 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #view').remove();
-      this.registerForm.enable();
       this.submitted = false;
     }else if (this.windowMode == 'view'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>Lihat</a></li>')
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #edit').remove();
-      this.registerForm.disable();
       this.submitted = false;
 
     }else if(this.windowMode == 'grid'){
@@ -254,8 +232,6 @@ export class SignupComponent implements OnInit {
   }
 
 
-
-  get f() { return this.registerForm.controls; }
   
 
   onOlPasswordChange(pass){
@@ -407,47 +383,25 @@ export class SignupComponent implements OnInit {
   }
 
   showFormPassword = false;
-  isEditPassword()
-  {
-    if (this.showFormPassword == true)
-    {
+  isEditPassword(){
+    if (this.showFormPassword == true){
       this.showFormPassword = false
-      this.registerForm.get('password').setValidators([Validators.required])
-      this.registerForm.get('password_confirmation').setValidators([Validators.required])
-    }
-    else
-    {
+    }else{
       this.showFormPassword = true
-      this.registerForm.get('password').clearValidators()
-      this.registerForm.get('password_confirmation').clearValidators()
-      this.registerForm.patchValue({password : '', password_confirmation : '', oldPassword : ''})
     }
+    this.modelRegister.password = '';
+    this.modelRegister.password_confirmation = '';
+    this.modelRegister.oldPassword = '';
   }
 
   onEditClick(row){
-    console.log('btnEdit ===>',row.data);
+    console.log('onEditClick ===>',row.data);
     this.submitted = false;
     this.imageUrl = undefined
     this.windowModeView('edit');
-    this.registerForm.patchValue({
-      id                   : row.data.id,
-      created_at           : row.data.created_at,
-      updated_at           : row.data.updated_at,
-      nama                 : row.data.nama,
-      username             : row.data.username,
-      roleId               : row.data.roleId,
-      roleName             : row.data.roleName,
-      email                : row.data.email,
-      email2                : row.data.email2,
-      email3                : row.data.email3 ,
-      satkerId             : row.data.satkerId,
-      NIP                  : row.data.NIP,
-      ppkId                : row.data.ppkId == undefined ? '' : this.modelRegister.ppkId,
-      namaPpk                : row.data.namaPpk,
-      namaSatker                : row.data.namaSatker,
-      // foto                 : row.data.foto,
-    });
-    console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
+    
+
+
     this.modelRegister = row.data;
     this.onSatkerChange(row.data.satkerId); 
     this.isEditImage = false;
@@ -455,29 +409,14 @@ export class SignupComponent implements OnInit {
   }
 
   onViewClick(row){
-    console.log('btnEdit ===>',row.data);
+    console.log('onViewClick ===>',row.data);
     this.windowModeView('view');
-    this.registerForm.patchValue({
-      id                   : row.data.id,
-      created_at           : row.data.created_at,
-      updated_at           : row.data.updated_at,
-      nama                 : row.data.nama,
-      username             : row.data.username,
-      roleId               : row.data.roleId,
-      roleName             : row.data.roleName,
-      email                : row.data.email,
-      email2                : row.data.email2,
-      email3                : row.data.email3,
-      satkerId             : row.data.satkerId,
-      NIP                  : row.data.NIP,
-      namaPpk                : row.data.namaPpk,
-      namaSatker                : row.data.namaSatker,
-      // foto                 : row.data.foto,
-      ppkId                : row.data.ppkId == undefined ? '' : this.modelRegister.ppkId,
-    });
-    console.log('this.registerForm Clik Edit ===>',this.registerForm.value);
+    
     this.modelRegister = row.data;
     this.downloadImg(row.data.foto);
+
+    this.showFormPassword = false;
+
 
   }
 
@@ -538,9 +477,7 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log('onsubmit awal ====>',this.registerForm.value);
-
-
+    console.log('onsubmit awal | modelRegister ====>',this.modelRegister);
 
     var preData = {
       id                    : this.modelRegister.id,
@@ -559,11 +496,8 @@ export class SignupComponent implements OnInit {
       password_confirmation : this.modelRegister.password_confirmation 
     }
 
-    if (this.registerForm.invalid) {
-      console.log('invalid input ===>',this.registerForm.value);
-      return;
-    }else{
-      if(preData.id == 0){ //do save
+   
+      if(this.windowMode == 'create'){ //do save
         console.log('do save ===>',preData)
         this.authService.register(preData).subscribe(
           (data:any) => {
@@ -595,7 +529,7 @@ export class SignupComponent implements OnInit {
         )
         
       }else{//do update
-        console.log('do update ===>',this.registerForm.value)
+        console.log('do update ===>',preData)
 
         
 
@@ -632,7 +566,7 @@ export class SignupComponent implements OnInit {
       }
 
       
-    }
+    
     
   }
 
