@@ -58,8 +58,8 @@ export class AuthService {
       username             : String(user.username),
       NIP                  : String(user.NIP),
       email                : String(user.email),
-      email2                : String(user.email2),
-      email3                : String(user.email3),
+      email2               : String(user.email2),
+      email3               : String(user.email3),
       ppkId                : String(user.ppkId),
       satkerId             : String(user.satkerId),
       roleId               : String(user.roleId),
@@ -69,7 +69,7 @@ export class AuthService {
     }
 
     var formData = new FormData();
-    Array.from(user.foto).forEach(f => formData.append('foto',f))
+    if(user.foto !== null) Array.from(user.foto).forEach(f => formData.append('foto',f))
     formData.append('nama',modelUser.nama)
     formData.append('username',modelUser.username)
     formData.append('NIP',modelUser.NIP)

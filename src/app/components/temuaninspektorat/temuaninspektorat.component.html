@@ -5,7 +5,7 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataDokumenTemuan()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-        <a uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create');">BUAT &nbsp;</a>
+        <a uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb" *ngIf="dataSatker != null" class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create');">BUAT &nbsp;</a>
     </div> 
     
     
@@ -17,14 +17,14 @@
                 <div  class="uk-margin-small row" >
     
                     <div class="col-md-6">
-                        <label class="uk-form-label mt-2" for="form-stacked-text">No. LHA</label>
+                        <label class="uk-form-label mt-2" for="form-stacked-text">No. LHP</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.noLHA" placeholder="Nomor LHA...">
+                            <input class="uk-input " id="form-stacked-text" type="text" [(ngModel)]="filterData.noLHA" placeholder="Nomor LHP...">
                         </div>
                     </div>
 
                     <div class="col-md-6">
-                      <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal LHA</label>
+                      <label class="uk-form-label mt-2" for="form-stacked-text">Tanggal LHP</label>
                       <div class="uk-form-controls">
                         <input class="uk-input"  type="date" [(ngModel)]="filterData.tglLHA">
                       </div>
@@ -96,8 +96,8 @@
 
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]" [showInfo]="true"> </dxo-pager>
 
-                <dxi-column dataField="noLHA" caption="Nomor LHA" [allowSearch]="true"></dxi-column>
-                <dxi-column dataField="tglLHA" caption="Tanggal LHA" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="noLHA" caption="Nomor LHP" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="tglLHA" caption="Tanggal LHP" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="namaKegiatan" caption="Nama Kegiatan" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="unitKerjaEselon1" caption="Unit Kerja Eselon 1" [allowSearch]="true"></dxi-column>
 				
@@ -109,13 +109,13 @@
                     <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle"  >
                         <tr>
                           <td width="30"> 
-                            <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" *ngIf="cell.data.isEdit == 1"></a>&nbsp;                        
+                            <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" *ngIf="dataSatker != null" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" ></a>&nbsp;                        
                           </td>
                           <td width="30">
-                            <a (click)="onEditTemuanGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil" *ngIf="cell.data.isEdit == 1"></a>&nbsp;
+                            <a (click)="onEditTemuanGridClick(cell);" *ngIf="dataSatker != null" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil" ></a>&nbsp;
                           </td>
                           <td width="30">
-                            <a (click)="GeneratePDFView(cell.data);" uk-tooltip="title: Lihat PDF; pos: left"  href="#previewDokumen" uk-toggle uk-icon="icon: file-pdf"></a>&nbsp;
+                            <a (click)="GeneratePDFView(cell.data);" uk-tooltip="title: Lihat PDF; pos: left"  href="#previewDokumen" uk-toggle uk-icon="icon: file-text"></a>&nbsp;
                           </td>
                         </tr>
 
@@ -124,9 +124,9 @@
 
 
                 <div *dxTemplate="let tindakLanjut of 'detail' ">
-                  <div class="master-detail-caption">{{ "Nomor LHA : " + tindakLanjut.data.noLHA}}</div>
+                  <div class="master-detail-caption">{{ "Nomor LHP : " + tindakLanjut.data.noLHA}}</div>
                   <dx-data-grid 
-                    [dataSource]="tindakLanjut.data.dataTindakLanjut"
+                    [dataSource]="tindakLanjut.data.resultDokumen"
                     [showBorders]="true"
                     [height]="200">
                 
@@ -139,9 +139,10 @@
 
                     <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
-                        <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle" *ngIf="cell.data.statusTindakLanjut != 'Tersedia' ">
+                        <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
                             <a href="#modal-delete-dokumen"  uk-tooltip="title: Hapus; pos: left" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
-                            <a (click)="onEditTindakLanjutGridClick(cell);" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil"></a> &nbsp;
+                            <a (click)="onEditTindakLanjutGridClick(cell);" *ngIf="cell.data.isEdit == 1" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil"></a> &nbsp;
+                            <a (click)="onBeforeView(cell);"  uk-tooltip="title: Lihat; pos: left" uk-icon="icon: file-text"></a> &nbsp;
                         </div> 
                     </div>
 
@@ -174,10 +175,10 @@
 
     <div class="uk-form-horizontal uk-margin-large">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
-            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">Back</a> &nbsp;
-            <a *ngIf="progres1Validation && !showBtnSimpan" style="text-decoration: none; color: white;"  uk-toggle="target: #modalInputSatker2" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary">Tambah Tindak Lanjut</a> 
+            <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
+            <a *ngIf="progres1Validation && !showBtnSimpan && isGridEditTemuan" style="text-decoration: none; color: white;"  uk-toggle="target: #modalInputSatker2" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary">Tambah Tindak Lanjut</a> 
             <a *ngIf="windowMode=='create' && showBtnSimpan"  style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onSubmit()">SIMPAN</a>&nbsp;
-            <a *ngIf="windowMode=='edit'" style="text-decoration: none; color: white;" class="uk-button uk-button-primary">UPDATE</a>&nbsp;
+            <a *ngIf="windowMode=='edit' && showBtnSimpan" style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onUpdate()" >UPDATE</a>&nbsp;
         </div>  
     </div>
 
@@ -190,7 +191,7 @@
           Isi Dokumen Temuan
         </li>
 
-        <li class="step" (click)="progressStatus(3)" id="step3"  data-step="3">
+        <li class="step" (click)="progressStatus(3)" id="step3"  data-step="3" *ngIf="windowMode != 'view'">
           Selesai
         </li>
     </ol>
@@ -200,7 +201,7 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Jenis Dokumen Temuan</label>
             <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()" > 
+                <select class="uk-select" [(ngModel)]="modelDokumenTemuan.jenisDokumenTemuanId" (change)="progres1ValidationFunction()" [disabled]="true"> 
                     <option *ngFor="let data of ListJenisDokumenTemuan" [ngValue]="data.id">{{data.jenisDokumenTemuan}}</option>
                 </select>
     
@@ -211,7 +212,7 @@
         <div class="uk-margin">
           <label class="uk-form-label" for="form-horizontal-select">Keterangan Dokumen Temuan</label>
           <div class="uk-form-controls">
-              <select class="uk-select" [(ngModel)]="keteranganDokumenId" (change)="onKeteranganDokumenChange(keteranganDokumenId); progres1ValidationFunction()"> 
+              <select class="uk-select" [(ngModel)]="keteranganDokumenId" (change)="onKeteranganDokumenChange(keteranganDokumenId); progres1ValidationFunction()" [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'"> 
                 <option [value]="1">Dokumen Temuan Baru</option>
                 <option [value]="2">Dokumen Temuan Lama</option>
               </select>
@@ -222,7 +223,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
             <label class="uk-form-label" for="form-horizontal-text">Judul Dokumen</label>
             <div class="uk-form-controls">
-                <textarea class="uk-textarea" [disabled]="isResponseTL" type="text" placeholder="Masukan Alamat..."  rows="5" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.header"></textarea>
+                <textarea class="uk-textarea" type="text" placeholder="Masukan Alamat..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'"  rows="5" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.header"></textarea>
                 <div *ngIf="submitted && f.header.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.header.errors.required">Judul Dokumen wajib diisi</div>
                 </div>
@@ -233,7 +234,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
             <label class="uk-form-label" for="form-horizontal-text">Tgl. terima Dokumen Temuan</label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglTerimaDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.tglTerimaDokumenTemuan);progres1ValidationFunction()">
+                <input class="uk-input" type="date" [(ngModel)]="modelDokumenTemuan.tglTerimaDokumenTemuan" [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="onFullDateChange(modelDokumenTemuan.tglTerimaDokumenTemuan);progres1ValidationFunction()">
                
             </div>
         </div>
@@ -243,7 +244,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0 && keteranganDokumenId != 1">
             <label class="uk-form-label" for="form-horizontal-text">Keadaan s/d. bulan </label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="month" [(ngModel)]="modelDokumenTemuan.keadaanSdBulan" (change)="onHalfDateChange(modelDokumenTemuan.keadaanSdBulan);progres1ValidationFunction()">
+                <input class="uk-input" type="month" [(ngModel)]="modelDokumenTemuan.keadaanSdBulan" [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="onHalfDateChange(modelDokumenTemuan.keadaanSdBulan);progres1ValidationFunction()">
                        
                
             </div>
@@ -253,7 +254,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
             <label class="uk-form-label" for="form-horizontal-text">Nama Kegiatan</label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Kegiatan..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaKegiatan">
+                <input class="uk-input" type="text" placeholder="Masukan Nama Kegiatan..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaKegiatan">
               
             </div>
         </div>
@@ -261,7 +262,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
             <label class="uk-form-label" for="form-horizontal-text">Nama Instansi</label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nama Instansi..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaInstansi">
+                <input class="uk-input" type="text" placeholder="Masukan Nama Instansi..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.namaInstansi">
         
             </div>
         </div>
@@ -270,24 +271,24 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
             <label class="uk-form-label" for="form-horizontal-text">Unit Kerja Eselon 1</label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Unit Kerja Eselon 1..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.unitKerjaEselon1">
+                <input class="uk-input" type="text" placeholder="Masukan Unit Kerja Eselon 1..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.unitKerjaEselon1">
               
             </div>
         </div>
 
 
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
-            <label class="uk-form-label" for="form-horizontal-text">Nomor LHA</label>
+            <label class="uk-form-label" for="form-horizontal-text">Nomor LHP</label>
             <div class="uk-form-controls">
-                <input class="uk-input" [disabled]="isResponseTL" type="text" placeholder="Masukan Nomor LHA..." (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.noLHA" >
+                <input class="uk-input" type="text" placeholder="Masukan Nomor LHP..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.noLHA" >
                 
             </div>
         </div>
 
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
-          <label class="uk-form-label" for="form-horizontal-text">Tgl LHA</label>
+          <label class="uk-form-label" for="form-horizontal-text">Tgl LHP</label>
           <div class="uk-form-controls">
-              <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.tglLHA" (change)="onFullDateChange(modelDokumenTemuan.tglLHA);progres1ValidationFunction()">
+              <input class="uk-input" type="date" [(ngModel)]="modelDokumenTemuan.tglLHA" [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="onFullDateChange(modelDokumenTemuan.tglLHA);progres1ValidationFunction()">
               
           </div>
         </div>
@@ -296,7 +297,7 @@
         <div class="uk-margin" *ngIf="keteranganDokumenId != 0">
           <label class="uk-form-label" for="form-horizontal-text">Deadline Dokumen Temuan</label>
           <div class="uk-form-controls">
-              <input class="uk-input" [disabled]="isResponseTL" type="date" [(ngModel)]="modelDokumenTemuan.deadlineDokumenTemuan" (change)="onFullDateChange(modelDokumenTemuan.deadlineDokumenTemuan);progres1ValidationFunction()">
+              <input class="uk-input" type="date" [(ngModel)]="modelDokumenTemuan.deadlineDokumenTemuan" [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'" (change)="onFullDateChange(modelDokumenTemuan.deadlineDokumenTemuan);progres1ValidationFunction()">
               
           </div>
         </div>
@@ -337,7 +338,7 @@
                     </tr>
         
                     <tr>
-                      <td>No. & Tanggal LHA</td>
+                      <td>No. & Tanggal LHP</td>
                       <td>:</td> 
                       <td> {{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
                     </tr>
@@ -354,7 +355,7 @@
                       <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;" >Status Tindak Lanjut</td>
                       <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
                       <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" *ngIf="isResponseTL">Respon Tindak lanjut</td>
-                      <td class="uk-text-top" style="width:80px;border-left: 0.1px solid black;">Aksi</td>
+                      <td class="uk-text-top" style="width:80px;border-left: 0.1px solid black;" *ngIf="windowMode != 'view'">Aksi</td>
                     </tr>
                     
                     
@@ -366,7 +367,8 @@
 
                       <tr>
                         <td  class="uk-text-center uk-text-top">{{data.nomorHeader}}</td>
-                        <td  class="uk-text-top pr-2 pl-2" colspan="8">{{data.titleHeader}}</td>
+                        <td  class="uk-text-top pr-2 pl-2" colspan="7" *ngIf="windowMode == 'view'">{{data.titleHeader}}</td>
+                        <td  class="uk-text-top pr-2 pl-2" colspan="8" *ngIf="windowMode != 'view'">{{data.titleHeader}}</td>
                       </tr>
 
 
@@ -403,7 +405,7 @@
                         <td class="pr-2 pl-2 uk-text-top escapeHTML">
                             <div [innerHTML]="data.tindakLanjut | keepHtml"></div>
 
-                            <span *ngIf="windowMode != 'create' || data.dokumenTindakLanjut != null">
+                            <span *ngIf="windowMode == 'view' && data.dokumenTindakLanjut != null">
                               <hr>
                               <a (click)="downloadDokumenTindakLanjut(data.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
                             </span>
@@ -416,8 +418,8 @@
                         </td> -->
                         
 
-                        <td class="uk-text-center uk-text-top">
-                          <span>
+                        <td class="uk-text-center uk-text-top" *ngIf="windowMode != 'view'">
+                          <span *ngIf="!isGridEditTemuan || data.id == null"  >
                             <a uk-icon="icon: trash" class="mt-2 mb-2"  uk-tooltip="Hapus Data"  (click)="onDeleteTemmuanClick(data)" ></a> <br>
                             <a uk-icon="icon: pencil"class="mt-2 mb-2"  uk-tooltip="Edit Data" uk-toggle="target: #modal-tambah-temuan" (click)="onEditTemuanClick(data)"></a> 
                           </span>
@@ -499,7 +501,7 @@
 				</tr>
 	
 				<tr>
-					<td>No. & Tanggal LHA</td>
+					<td>No. & Tanggal LHP</td>
 					<td>:</td> 
 					<td> {{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
 				</tr>
@@ -576,8 +578,8 @@
               <label class="uk-form-label" for="form-horizontal-select">{{lightInputDokumenTitle}}</label> <br>
               <div class="uk-form-controls">
                 <select class="uk-select" [(ngModel)]="modelIsiDokumen.statusTindakLanjut" >
-                  <option *ngIf="windowMode == 'create' || keteranganDokumenId == 1" value="Tersedia">Tersedia</option>
-                  <option *ngIf="keteranganDokumenId == 2" value="Dalam Proses">Dalam Proses</option>
+                  <option *ngIf="windowMode == 'create' && keteranganDokumenId == 1" value="Tersedia">Tersedia</option>
+                  <option *ngIf="keteranganDokumenId == 2 || windowMode == 'edit'" value="Dalam Proses">Dalam Proses</option>
                   <option *ngIf="windowMode != 'create'" value="Selesai">Selesai</option>
                 </select>
       
@@ -721,7 +723,7 @@
             </dx-html-editor>
 
 
-            <div class="uk-margin m-3" *ngIf="windowMode != 'create'">
+            <div class="uk-margin m-3" *ngIf="windowMode != 'create' && modelIsiDokumen.id != null" >
               <label class="uk-form-label" for="form-stacked-text">Upload Dokumen Tindak Lanjut</label>
               <div class="uk-form-controls mt-2">
                   <input class="uk-input" type="File" id="InputFileDokumen" (change)="handleFileInput($event.target.files)" placeholder="Masukan Username...">
@@ -729,7 +731,6 @@
 
               <div class="uk-form-controls mt-2">
                 <button class="uk-button uk-button-primary" (click)="resetFormInputFileDokumen()" *ngIf="namafile != null"> Hapus File </button> &nbsp; &nbsp;
-                <button class="uk-button uk-button-primary" (click)="downloadDokumenTindakLanjut(sasa)" *ngIf="namafile != null"> Download File </button>
             </div>
 
             </div>
@@ -849,8 +850,8 @@
 					<td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;">Rekomendasi</td>
 					<td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;">Kode</td>
 					<td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;">Ringkasan Tindak Lanjut</td>
-					<td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;">Status Tindak Lanjut</td>
-					<td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;">Tindak lanjut</td>
+					<td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL'">Status Tindak Lanjut</td>
+					<td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
 					<!-- <td class="uk-text-top" style="width:80px">Aksi</td> -->
 				  </tr>
 
@@ -923,23 +924,23 @@
 						</div>
 					</td>
           
-					<td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
+					<td class="uk-text-center uk-text-top pr-2 pl-2" style="word-break: normal !important;" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL'" > <!-- Status Tindak Lanjut -->
             <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.statusTindakLanjut == ''" uk-tooltip="Status Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')"></a>
             <div *ngIf="modelIsiDokumen.statusTindakLanjut != ''">
             {{modelIsiDokumen.statusTindakLanjut}} <br>
-            <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" uk-icon="icon: pencil"></a>
+            <a (click)="modalLightInput('Status Tindak Lanjut','statusTindakLanjut')" *ngIf="modelIsiDokumen.id != null" uk-icon="icon: pencil"></a>
             </div>
 					</td>
 
-          <td class=" pr-2 pl-2 uk-text-top" > <!-- Tindak Lanjut -->
+          <td class=" pr-2 pl-2 uk-text-top" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL' "> <!-- Tindak Lanjut -->
               <a uk-icon="icon: plus" *ngIf="modelIsiDokumen.tindakLanjut == ''"uk-tooltip="Tindak Lanjut" class="mt-2 mb-2" (click)="modalLightInput('Tindak Lanjut','tindakLanjut')"></a>
               <div *ngIf="modelIsiDokumen.tindakLanjut != ''" class="escapeHTML">
                   <div [innerHTML]="modelIsiDokumen.tindakLanjut | keepHtml"></div> <br>
                   <a (click)="modalLightInput('Tindak Lanjut','tindakLanjut')" uk-icon="icon: pencil"></a>
-                  <span *ngIf="windowMode != 'create' || modelIsiDokumen.dokumenTindakLanjut != null">
+                  <!-- <span *ngIf="windowMode != 'create' || modelIsiDokumen.dokumenTindakLanjut != null">
                       <hr>
                       <a (click)="downloadDokumenTindakLanjut(modelIsiDokumen.dokumenTindakLanjut)" class="text-primary"><u>Download Dokumen Tindak Lanjut</u></a>
-                  </span>
+                  </span> -->
               </div>
           </td>
                     
@@ -970,7 +971,7 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Satker</label>
             <div class="uk-form-controls">
-                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId" (change)="onSatkerChange(modelIsiDokumen.satkerId)">
+                <select class="uk-select" [(ngModel)]="modelIsiDokumen.satkerId"  [disabled]="true" (change)="onSatkerChange(modelIsiDokumen.satkerId)">
                   <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                 </select>
             </div>
@@ -999,9 +1000,18 @@
 <!-- preview Dokumen -->
 <div id="previewDokumen" class="uk-modal-container uk-flex-top" uk-modal="bg-close:false; esc-close:false">
   <div class="uk-modal-dialog uk-modal-body" style="width: 100%;">
-      <button class="uk-modal-close-default" type="button" uk-close (click)="btnCloseModalPreviewCetakan()"></button>
-      <!-- <app-printreport class="hidePrint" style="display: block;" *ngIf="showCetakan"></app-printreport> -->
-      <button (click)="printDefault(modelDokumenTemuan, batchDokumen)" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom hidePrint">PRINT DEFAULT</button>
+      <!-- <button class="uk-modal-close-default hidePrint" type="button" uk-close (click)="btnCloseModalPreviewCetakan()"></button> -->
+      <app-printreport class="hidePrint" style="display: block;" *ngIf="showCetakan"></app-printreport>
+      
+
+
+      <div class="row container">
+        <div class="col-md-12">
+          <button (click)="printDefault(modelDokumenTemuan, batchDokumen)" class="uk-button uk-button-primary uk-margin-small-bottom hidePrint">PRINT DEFAULT</button> &nbsp; &nbsp;
+          <button (click)="btnCloseModalPreviewCetakan()" class="uk-button uk-button-default uk-margin-small-bottom hidePrint uk-modal-close">KEMBALI </button>
+        </div>
+      </div>
+
   </div>
 </div>
 <!-- preview Dokumen -->

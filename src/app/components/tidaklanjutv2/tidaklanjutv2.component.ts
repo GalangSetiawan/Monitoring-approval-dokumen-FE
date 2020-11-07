@@ -1037,97 +1037,100 @@ export class Tidaklanjutv2Component implements OnInit {
     if(!this.isUpdateMenungguRespon){//create
       var isSuccess = false;
       var getId = null;
-      this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
-        data=>{
-          console.log('createDokumenTemuan Success ===>',data.result); 
-          Swal.fire(
-            'Yay Success!', 
-            'Data berhasi disimpan', 
-            'success'
-          )
+      // this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
+      //   data=>{
+      //     console.log('createDokumenTemuan Success ===>',data.result); 
+      //     Swal.fire(
+      //       'Yay Success!', 
+      //       'Data berhasi disimpan', 
+      //       'success'
+      //     )
 
-          this.dokumenService.getDataGridById(data.result.id).subscribe(
-            (data:any)=>{
-              console.log('doEditGeneral | getDataGridById  success ===>',data)
+      //     this.dokumenService.getDataGridById(data.result.id).subscribe(
+      //       (data:any)=>{
+      //         console.log('doEditGeneral | getDataGridById  success ===>',data)
   
-              this.ListTindakLanjut.push(data.result);
+      //         this.ListTindakLanjut.push(data.result);
 
               
 
-              console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
-              this.windowModeView('grid');
+      //         console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+      //         this.windowModeView('grid');
   
-            },error =>{
-              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+      //       },error =>{
+      //         console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
               
-            }
-          )
+      //       }
+      //     )
           
   
          
           
   
-        },
-        error =>{
-          console.log('createDokumenTemuan Gagal ===>',error)
-          Swal.fire(
-            'Whoops Failed!', 
-            'Data tidak berhasil disimpan', 
-            'error'
-          )
-        }
-      )
+      //   },
+      //   error =>{
+      //     console.log('createDokumenTemuan Gagal ===>',error)
+      //     Swal.fire(
+      //       'Whoops Failed!', 
+      //       'Data tidak berhasil disimpan', 
+      //       'error'
+      //     )
+      //   }
+      // )
     }else if(this.isUpdateMenungguRespon){ //update
-      this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
-        data=>{
-          console.log('updateDokumenTemuan Success ===>',data.result); 
-
-          Swal.fire(
-            'Yay Success!', 
-            'Data berhasi disimpan', 
-            'success'
-          )
-
-          this.dokumenService.getDataGridById(data.result.id).subscribe(
-            (data:any)=>{
-              console.log('doEditGeneral | getDataGridById  success ===>',data);
 
 
-              this.ListTindakLanjut = _.remove(this.ListTindakLanjut, function(n){
-                return n.id != modelTindakLanjut.id
-              })
+      // ini di remark karna ganggu perubahan dokumen temuan yang baruu
+    //   this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
+    //     data=>{
+    //       console.log('updateDokumenTemuan Success ===>',data.result); 
+
+    //       Swal.fire(
+    //         'Yay Success!', 
+    //         'Data berhasi disimpan', 
+    //         'success'
+    //       )
+
+    //       this.dokumenService.getDataGridById(data.result.id).subscribe(
+    //         (data:any)=>{
+    //           console.log('doEditGeneral | getDataGridById  success ===>',data);
+
+
+    //           this.ListTindakLanjut = _.remove(this.ListTindakLanjut, function(n){
+    //             return n.id != modelTindakLanjut.id
+    //           })
   
-              this.ListTindakLanjut.push(data.result);
+    //           this.ListTindakLanjut.push(data.result);
 
-              Swal.fire(
-                'Yay Success!', 
-                'Data berhasi disimpan', 
-                'success'
-              )
-              console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
-              this.windowModeView('grid');
+    //           Swal.fire(
+    //             'Yay Success!', 
+    //             'Data berhasi disimpan', 
+    //             'success'
+    //           )
+    //           console.log('doEditGeneral | this.tempCreateTL ====>',this.tempCreateTL)
+    //           this.windowModeView('grid');
   
-            },error =>{
-              console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
-            }
-          )
+    //         },error =>{
+    //           console.log('doEditGeneral | getDataGridById  Gagal ===>',error)
+    //         }
+    //       )
           
   
           
           
   
-        },
-        error =>{
-          console.log('updateDokumenTemuan Gagal ===>',error)
-          Swal.fire(
-            'Whoops Failed!', 
-            'Data tidak berhasil disimpan', 
-            'error'
-          )
+    //     },
+    //     error =>{
+    //       console.log('updateDokumenTemuan Gagal ===>',error)
+    //       Swal.fire(
+    //         'Whoops Failed!', 
+    //         'Data tidak berhasil disimpan', 
+    //         'error'
+    //       )
 
 
-        }
-      )
+    //     }
+    //   )
     }
 
 

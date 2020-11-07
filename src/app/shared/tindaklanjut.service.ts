@@ -10,12 +10,12 @@ const API_URL = "http://127.0.0.1:8000/api";
 
 export class tindakLanjutStyleCreate {
   dokumenTemuanId           : Number;
-  ppkId                     : Number;
-  dokumenId                 : Number;
+  // ppkId                     : Number;
+  // dokumenId                 : Number;
   tglTindakLanjut           : string;
   dokumenTindakLanjut       : FileList;
 
-  _tipeDokumenId            : String;
+  // _tipeDokumenId            : String;
   _noUraianTemuan           : String;
   _uraianTemuan             : String;
   _rekomendasi              : String;
@@ -30,6 +30,7 @@ export class tindakLanjutStyleCreate {
   _satkerId                 : String;
   _ppkId                    : String;
   _dokumenTemuanId          : String;
+  _uniqueColumn             : String;
   } 
 
   export class tindakLanjutStyleUpdate {
@@ -55,6 +56,7 @@ export class tindakLanjutStyleCreate {
     _satkerId                 : String;
     _ppkId                    : String;
     _dokumenTemuanId          : String;
+    _uniqueColumn             : String;
     } 
 
 
@@ -75,15 +77,17 @@ export class TindaklanjutService {
   }
 
 
-  createTindakLanjut(dataTindakLanjut:tindakLanjutStyleCreate){
+  createTindakLanjut(dataTindakLanjut){
     console.log('dataTindakLanjut createTindakLanjut ===>',dataTindakLanjut)
 
     var modelTindakLanjut = {
+      id                        : String(dataTindakLanjut.id),
+
       dokumenTemuanId           : String(dataTindakLanjut.dokumenTemuanId),
-      ppkId                     : String(dataTindakLanjut.ppkId),
-      dokumenId                 : String(dataTindakLanjut.dokumenId),
+      // ppkId                  : String(dataTindakLanjut.ppkId),
+      // dokumenId              : String(dataTindakLanjut.dokumenId),
       tglTindakLanjut           : String(dataTindakLanjut.tglTindakLanjut),
-      _tipeDokumenId            : String(dataTindakLanjut._tipeDokumenId),
+      // _tipeDokumenId         : String(dataTindakLanjut._tipeDokumenId),
       _noUraianTemuan           : String(dataTindakLanjut._noUraianTemuan),
       _uraianTemuan             : String(dataTindakLanjut._uraianTemuan),
       _rekomendasi              : String(dataTindakLanjut._rekomendasi),
@@ -98,15 +102,19 @@ export class TindaklanjutService {
       _satkerId                 : String(dataTindakLanjut._satkerId),
       _ppkId                    : String(dataTindakLanjut._ppkId),
       _dokumenTemuanId          : String(dataTindakLanjut._dokumenTemuanId),
+      _uniqueColumn             : String(dataTindakLanjut._uniqueColumn),
 
     };
+    var dokumenTindakLanjut : FileList;
+    dokumenTindakLanjut = dataTindakLanjut.dokumenTindakLanjut
     var formData = new FormData();
-    Array.from(dataTindakLanjut.dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+    Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+    formData.append('id',modelTindakLanjut.id)
     formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
-    formData.append('ppkId',modelTindakLanjut.ppkId)
-    formData.append('dokumenId',modelTindakLanjut.dokumenId)
+    // formData.append('ppkId',modelTindakLanjut.ppkId)
+    // formData.append('dokumenId',modelTindakLanjut.dokumenId)
     formData.append('tglTindakLanjut',modelTindakLanjut.tglTindakLanjut)
-    formData.append('_tipeDokumenId',modelTindakLanjut._tipeDokumenId)
+    // formData.append('_tipeDokumenId',modelTindakLanjut._tipeDokumenId)
     formData.append('_noUraianTemuan',modelTindakLanjut._noUraianTemuan)
     formData.append('_uraianTemuan',modelTindakLanjut._uraianTemuan)
     formData.append('_rekomendasi',modelTindakLanjut._rekomendasi)
@@ -121,6 +129,7 @@ export class TindaklanjutService {
     formData.append('_ppkId',modelTindakLanjut._ppkId)
     formData.append('_tindakLanjut',modelTindakLanjut._tindakLanjut)
     formData.append('_kodeRekomendasi',modelTindakLanjut._kodeRekomendasi)
+    formData.append('_uniqueColumn',modelTindakLanjut._uniqueColumn)
     console.log('createTindakLanjut | formData ====>',formData)
     return this.http.post<any>(API_URL+'/tindaklanjut/add-data', formData);
   }
@@ -129,16 +138,13 @@ export class TindaklanjutService {
 
 
 
-  updateTindakLanjut(dataTindakLanjut:tindakLanjutStyleUpdate) {
+  updateTindakLanjut(dataTindakLanjut) {
     console.log('dataTindakLanjut createTindakLanjut ===>',dataTindakLanjut)
 
     var modelTindakLanjut = {
-      id           : String(dataTindakLanjut.id),
+      id                        : String(dataTindakLanjut.id),
       dokumenTemuanId           : String(dataTindakLanjut.dokumenTemuanId),
-      ppkId                     : String(dataTindakLanjut.ppkId),
-      dokumenId                 : String(dataTindakLanjut.dokumenId),
       tglTindakLanjut           : String(dataTindakLanjut.tglTindakLanjut),
-      _tipeDokumenId            : String(dataTindakLanjut._tipeDokumenId),
       _noUraianTemuan           : String(dataTindakLanjut._noUraianTemuan),
       _uraianTemuan             : String(dataTindakLanjut._uraianTemuan),
       _rekomendasi              : String(dataTindakLanjut._rekomendasi),
@@ -153,16 +159,19 @@ export class TindaklanjutService {
       _satkerId                 : String(dataTindakLanjut._satkerId),
       _ppkId                    : String(dataTindakLanjut._ppkId),
       _dokumenTemuanId          : String(dataTindakLanjut._dokumenTemuanId),
-    };
+      _uniqueColumn             : String(dataTindakLanjut._uniqueColumn),
 
+    };
+    var dokumenTindakLanjut : FileList;
+    dokumenTindakLanjut = dataTindakLanjut.dokumenTindakLanjut
     var formData = new FormData();
-    Array.from(dataTindakLanjut.dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
+    Array.from(dokumenTindakLanjut).forEach(f => formData.append('dokumenTindakLanjut',f))
     formData.append('id',modelTindakLanjut.id)
     formData.append('dokumenTemuanId',modelTindakLanjut.dokumenTemuanId)
-    formData.append('ppkId',modelTindakLanjut.ppkId)
-    formData.append('dokumenId',modelTindakLanjut.dokumenId)
+    // formData.append('ppkId',modelTindakLanjut.ppkId)
+    // formData.append('dokumenId',modelTindakLanjut.dokumenId)
     formData.append('tglTindakLanjut',modelTindakLanjut.tglTindakLanjut)
-    formData.append('_tipeDokumenId',modelTindakLanjut._tipeDokumenId)
+    // formData.append('_tipeDokumenId',modelTindakLanjut._tipeDokumenId)
     formData.append('_noUraianTemuan',modelTindakLanjut._noUraianTemuan)
     formData.append('_uraianTemuan',modelTindakLanjut._uraianTemuan)
     formData.append('_rekomendasi',modelTindakLanjut._rekomendasi)
@@ -177,6 +186,7 @@ export class TindaklanjutService {
     formData.append('_ppkId',modelTindakLanjut._ppkId)
     formData.append('_tindakLanjut',modelTindakLanjut._tindakLanjut)
     formData.append('_kodeRekomendasi',modelTindakLanjut._kodeRekomendasi)
+    formData.append('_uniqueColumn',modelTindakLanjut._uniqueColumn)
     console.log('createTindakLanjut | formData ====>',formData)    
 
     return this.http.post<any>(API_URL+'/tindaklanjut/edit-data/'+modelTindakLanjut.id, formData);

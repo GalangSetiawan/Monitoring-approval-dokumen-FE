@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery'
+import { interval, Subscription } from 'rxjs';
+import { DokumenserviceService } from './../../shared/dokumenservice.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,14 +18,64 @@ export class DashboardComponent implements OnInit {
 
 
   public titleHeader = "Dashboard";
-  constructor() { }
+  constructor(
+    public dokumenService : DokumenserviceService,
+  ) { }
 
   ngOnInit(): void {
     $('#breadCrumbTitle a').text(this.titleHeader);
     this.selectActiveMenu('dashboard');
     $('#spinner').hide();
 
+
+    this.getDashboard()
+
+    const intervalTime = interval(20000); 
+    intervalTime.subscribe(val => this.getDashboard() );
   }
+
+
+
+
+  dataDashboard:any
+  getDashboard(){
+
+    if($("#header1 #breadCrumbTitle").text() == 'Dashboard'){
+      this.dokumenService.getDataDashboard().subscribe(
+        result => {
+          // console.log('getDashboard | getDataDashboard |  success  ===>',result);
+          this.dataDashboard = result;
+        },
+        error => {
+          console.log('getDashboard | getDataDashboard |  error    ===>',error);
+            
+          
+          if(!error.error.isAuthorized){
+            this.errorTokenHabis();
+          }else{
+            Swal.fire(
+              'Whoops Failed', 
+              'Tidak berhasil me-reset password', 
+              'error'
+            )  
+          }
+        }
+      )
+    }else{
+      console.log('ga usah ambil data dashboard karna ini bukan menu dashboard')
+    } 
+  }
+
+
+  errorTokenHabis(){
+    Swal.fire(
+      'Whoops! Waktu Akses Habis', 
+      'Harap Login ulang untuk melanjutkan', 
+      'error'
+    )
+    $('#parentSignOut').click();
+  }
+
 
   energySources= [
     { value: "hydro", name: "Dokumen Tersedia" },

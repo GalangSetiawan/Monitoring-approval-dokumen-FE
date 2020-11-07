@@ -5,9 +5,26 @@
 
     <section id="navbar-mobile">
         <nav class="uk-navbar uk-navbar-container uk-margin uk-margin-remove-top">
-            <div class="uk-navbar-left">
+
+
+            <article class="uk-comment uk-comment-primary uk-visible-toggle" tabindex="-1">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-comment-avatar" src="https://getuikit.com/docs/images/avatar.jpg" width="50" height="50" alt="">
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{UserProfile.nama}}</a></h4>
+                        <p class="uk-comment-meta uk-margin-remove-top uk-margin-remove-bottom"><a class="uk-link-reset" href="#">{{UserProfile.roleName}}</a></p>
+                    </div>
+                </div>
+            
+            </article>
+
+
+            <div class="uk-navbar-right">
                 <a class="uk-navbar-toggle" uk-toggle="target: .toggle">
-                    <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
+                    <span class="uk-margin-small-right">Menu</span>
+                    <span uk-navbar-toggle-icon></span> 
                 </a>
             </div>
         </nav>
@@ -15,43 +32,43 @@
         <div class="uk-padding toggle uk-padding-remove-top	uk-padding-remove-bottom" hidden>
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
                 <li>
-                    <a uk-toggle="target: .toggle">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/dashboard']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard
                     </a>
                 </li>
                 
                 <li>
-                    <a uk-toggle="target: .toggle">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/temuanbpk']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album"></span> Dokumen Temuan BPK
                     </a>
                 </li>
                 
                 <li>
-                    <a uk-toggle="target: .toggle">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/temuaninspektorat']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album"></span> Dokumen Temuan Inspektorat
                     </a>
                 </li>
                 
-                <li>
-                    <a uk-toggle="target: .toggle">
+                <li *ngIf="UserProfile.roleId == 50">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/satker']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-branch"></span> Master Satker
                     </a>
                 </li>
                 
-                <li>
-                    <a uk-toggle="target: .toggle">
+                <li *ngIf="UserProfile.roleId == 30">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/masterppk']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut"></span> Master PPK
                     </a>
                 </li>
                 
-                <li>
-                    <a uk-toggle="target: .toggle">
+                <li *ngIf="UserProfile.roleId != 40">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/blog']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy"></span> Master Berita
                     </a>
                 </li>
                 
-                <li>
-                    <a uk-toggle="target: .toggle">
+                <li *ngIf="UserProfile.roleId == 50">
+                    <a uk-toggle="target: .toggle" skipLocationChange [routerLink]="['/register']">
                         <span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: users"></span> Master User
                     </a>
                 </li>
@@ -177,23 +194,24 @@
                             <li class="uk-nav-divider mt-3"></li>
                             
                             <li class="listMenu" (click)="selectMenu()" id="dashboard"><a skipLocationChange [routerLink]="['/dashboard']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: thumbnails"></span> Dashboard</a></li>
-                            <li class="uk-parent" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40">
+                            <!-- <li class="uk-parent" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40">
                                 <a href="#"><span class="uk-margin-small-right uk-margin-small-left listMenu" uk-icon="icon: album"></span>Dokumen Temuan</a>
                                 <ul class="uk-nav-sub">
                                     <li class="mb-1 listMenu" id="dokumenTemuan" style="font-size: 1.1em !important;"  (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']"  [queryParams]="{jenisDokumenTemuanId : 1}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan BPK</a></li>
                                     <li class="listMenu" id="dokumenTemuanInspektorat" style="font-size: 1.1em !important;" (click)="selectMenu()" skipLocationChange [routerLink]="['/temuanbpk']" [queryParams]="{jenisDokumenTemuanId : 2}"><a><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-text"></span>Temuan Inspektorat</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
 
 
-                            <li class="listMenu" (click)="selectMenu()" id="dokumentemuaninspektorat"><a skipLocationChange [routerLink]="['/temuaninspektorat']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Temuan Inspektorat</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="dokumenTemuan"><a skipLocationChange [routerLink]="['/temuanbpk']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album" ></span> Temuan BPK</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="dokumentemuaninspektorat"><a skipLocationChange [routerLink]="['/temuaninspektorat']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: album" ></span> Temuan Inspektorat</a></li>
 
                             <!-- <li class="listMenu" (click)="selectMenu()" id="tindaklanjut"><a skipLocationChange [routerLink]="['/tindaklanjut']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: file-edit"></span> Tindak Lanjut</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="approvaldoc"><a skipLocationChange [routerLink]="['/approvaldoc']"><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: push"></span> Approval Document</a></li> -->
                             <!-- <li class="listMenu" (click)="selectMenu()" id="masterkpa"><a skipLocationChange [routerLink]="['/masterkpa']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master KPA</a></li> -->
-                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 50 || UserProfile.roleId == 40"><a skipLocationChange [routerLink]="['/masterppk'] "><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="masterppk" *ngIf="UserProfile.roleId == 30 || UserProfile.roleId == 40"><a skipLocationChange [routerLink]="['/masterppk'] "><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master PPK</a></li>
                             <!-- <li class="listMenu" (click)="selectMenu()" id="cabang"><a skipLocationChange [routerLink]="['/cabang']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Master Cabang</a></li> -->
-                            <li class="listMenu" (click)="selectMenu()" id="blog"><a skipLocationChange [routerLink]="['/blog']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Berita</a></li>
+                            <li class="listMenu" (click)="selectMenu()" id="blog" *ngIf="UserProfile.roleId != 40"><a skipLocationChange [routerLink]="['/blog']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: copy" ></span> Berita</a></li>
                             <li class="listMenu" (click)="selectMenu()" id="satker" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/satker']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: git-fork" ></span> Master Satker</a></li>
                             <li class="listMenu" (click)="selectMenu()" id="register" *ngIf="UserProfile.roleId == 50"><a skipLocationChange [routerLink]="['/register']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: users" ></span> Master User</a></li>
                             <!-- <li class="listMenu" (click)="selectMenu()" id="login"><a skipLocationChange [routerLink]="['/login']" ><span class="uk-margin-small-right uk-margin-small-left" uk-icon="icon: nut" ></span> Login</a></li> -->

@@ -14,7 +14,7 @@
          
           <tbody>
   
-            <tr *ngIf="modelDokumenTemuan.keadaanSdBulan != '' || modelDokumenTemuan.keadaanSdBulan != null"> 
+            <tr *ngIf="modelDokumenTemuan.keadaanSdBulan != null"> 
               <td>Keadaan s/d Bulan</td>
               <td>:</td>
               <td>{{modelDokumenTemuan.displayKeadaanSdBulan}}</td>
@@ -39,7 +39,8 @@
             </tr>
   
             <tr>
-              <td>No. & Tgl LHA</td>
+              <td *ngIf="modelDokumenTemuan.jenisDokumenTemuanId == 2 ">No. & Tgl LHP</td>
+              <td *ngIf="modelDokumenTemuan.jenisDokumenTemuanId == 1 ">No. & Tgl LHA</td>
               <td>:</td>
               <td>{{modelDokumenTemuan.noLHA}} tanggal {{modelDokumenTemuan.displayTglTerimaDokumenTemuan}}</td>
             </tr>

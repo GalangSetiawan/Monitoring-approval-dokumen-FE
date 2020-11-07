@@ -12,6 +12,7 @@ import { DokumenserviceService } from './../../shared/dokumenservice.service';
 import { MastersatkerService } from './../../shared/mastersatker.service';
 import { MasterppkService } from './../../shared/masterppk.service';
 import { JsonPipe } from '@angular/common';
+import { TindaklanjutService } from './../../shared/tindaklanjut.service';
 
 
 @Component({
@@ -20,13 +21,15 @@ import { JsonPipe } from '@angular/common';
   styleUrls: ['./temuaninspektorat.component.css']
 })
 export class TemuaninspektoratComponent implements OnInit {
+    public titleHeader = "Dokumen Temuan Inspektorat";
 
   constructor(
     public shareComponentService     : SharecomponentService,
     public dokumenService     : DokumenserviceService,
     public masterPpkService   : MasterppkService,
     public masterSatkerService: MastersatkerService,
-    public router             : Router
+    public router             : Router,
+    public tindakLanjutService: TindaklanjutService,
 
 
 
@@ -34,7 +37,7 @@ export class TemuaninspektoratComponent implements OnInit {
 
   userLogin:any = {};
   ngOnInit() {
-    $('#breadCrumbTitle a').text('Dokumen Temuan Inspektorat');
+    $('#breadCrumbTitle a').text(this.titleHeader);
     this.selectActiveMenu('dokumentemuaninspektorat')
     $('#spinner').hide();
     this.getDataJenisDokumenTemuan();
@@ -130,15 +133,116 @@ export class TemuaninspektoratComponent implements OnInit {
 
 
   onbeforeNew(){
+    this.isGridEditTemuan = true;
+    this.keteranganDokumenId = null;
     this.modelDokumenTemuan.jenisDokumenTemuanId =  2
     this.progressStatus(1);
-    this.isiHardcode();
-    
+    this.resetFormInputFileDokumen()
+    // this.isiHardcode();
+    this.btnCloseModalPreviewCetakan();
+    this.clearModel_DokumenTemuan();
+    this.clearModel_isiDokumen();
+    this.closeAlldokumenForm();
+  }
+
+  onBeforeView(row){
+    console.log('onBeforeView ===>',row);
+    this.windowModeView('view');
+
+    this.dokumenService.getDetailTindaKlanjutByID(row.data.id).subscribe(
+      (data:any)=>{
+        console.log('onBeforeView | getDetailTindaKlanjutByID Success',data);
+
+        this.modelDokumenTemuan = data.result;
+
+
+        if(this.modelDokumenTemuan.keadaanSdBulan != null){
+          this.keteranganDokumenId = 2
+          this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+        }else{
+          this.keteranganDokumenId = 1
+        }
+        this.batchDokumen.splice(0);
+
+        this.batchDokumen.push(data.result.resultDokumen);
+        console.log('onBeforeView | this.modelTindakLanjut',this.modelTindakLanjut);
+
+
+      },
+      error =>{
+        console.log('onBeforeView | getDetailTindaKlanjutByID Error',error)
+      }
+    )
+
 
   }
 
 
-  
+  closeAlldokumenForm(){
+    this.is_noUraianTemuan            = false;
+    this.is_kodeRekomendasi           = false;
+    this.is_subNomorRekomendasi       = false;
+    this.is_kodeRingkasanTindakLanjut = false;
+    this.is_statusTindakLanjut        = false;
+    this.is_uraianTemuan              = false;
+    this.is_rekomendasi               = false;
+    this.is_tindakLanjut              = false;
+    this.is_ringkasanTindakLanjut     = false;   
+    this.is_nomorHeader               = false;
+    this.is_titleHeader               = false; 
+    this.is_responTindakLanjut        = false;
+  }
+
+  clearModel_isiDokumen(){
+    this.modelIsiDokumen = {
+      flagId                   : null,   
+      id                       : null, 
+      statusTindakLanjut       : "",
+      noUraianTemuan           : "",
+      kodeRekomendasi          : "",
+      subNomorRekomendasi      : "",
+      kodeRingkasanTindakLanjut: "",
+      uraianTemuan             : "",
+      rekomendasi              : "",
+      ringkasanTindakLanjut    : "",
+      tindakLanjut             : "",
+      satkerId                 : null,
+      ppkId                    : null,
+      dokumenTemuanId          : null,
+      tindakLanjutId           : null,
+      responDokumenTemuanId    : null,
+      titleHeader              : "",
+      nomorHeader              : "",
+      responTindakLanjut       : "",
+      dokumenTindakLanjut      : null,
+    }
+  }
+
+  clearModel_DokumenTemuan(){
+    this.modelDokumenTemuan = {
+      id                            : null,
+      jenisDokumenTemuanId          : 2,
+      tglTerimaDokumenTemuan        : null,
+      deadlineDokumenTemuan         : null,
+      keadaanSdBulan                : null,
+      forSavekeadaanSdBulan         : null,
+      namaKegiatan                  : null,
+      namaInstansi                  : null,
+      unitKerjaEselon1              : null,
+      displayKeadaanSdBulan         : null,
+      displayTglTerimaDokumenTemuan : null,
+      noLHA                         : null,
+      tglLHA                        : null,
+      footer                        : null,
+      header                        : null,
+      isEdit                        : null,
+
+    }
+  }
+
+
+
+
 
   filterData = {noLHA:"", jenisDokumenTemuanId:null, tglLHA:null, namaKegiatan:""};
   doSearch(filter){
@@ -198,25 +302,54 @@ export class TemuaninspektoratComponent implements OnInit {
       console.log('selectionChanged event ===>',e)
         e.component.collapseAll(-1);
         e.component.expandRow(e.currentSelectedRowKeys[0]);
-  
-        // if(this.ListDokumenTemuan.length > 0){
-        //   if(e.selectedRowsData[0] == undefined){
-        //     e.selectedRowsData[0] = this.ListDokumenTemuan[0]
-        //   }
-    
-        //   this.dokumenService.getDetailDokumenTemuanGridView(e.selectedRowsData[0].id).subscribe(
-        //     data => {
-        //       console.log('selectionChanged Detail success ===>',data);  
-        //       e.selectedRowsData[0].dataTindakLanjut = data.result.resultDokumen;
-        //     },
-        //     error => {
-        //       console.log('selectionChanged Detail error ===>',error);
-        //     }
-        //   )
-        // }
-  
     }
   // ======================= TABLE GRID ==========================
+
+
+  modelTindakLanjut:any
+  onEditTindakLanjutGridClick(row){
+    this.isGridEditTemuan = false;
+    console.log('onEditTindakLanjutGridClick ===>',row);
+    this.windowModeView('edit');
+
+    this.dokumenService.getDetailTindaKlanjutByID(row.data.id).subscribe(
+      (data:any)=>{
+        console.log('onEditTindakLanjutGridClick | getDetailTindaKlanjutByID Success',data);
+
+        this.modelDokumenTemuan = data.result;
+
+
+        if(this.modelDokumenTemuan.keadaanSdBulan != null){
+          this.keteranganDokumenId = 2
+          this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+        }else{
+          this.keteranganDokumenId = 1
+        }
+        this.batchDokumen.splice(0);
+
+        if(data.result.resultDokumen.statusTindakLanjut == 'Tersedia'){
+          data.result.resultDokumen.statusTindakLanjut = 'Dalam Proses'
+        }
+        
+        this.batchDokumen.push(data.result.resultDokumen)
+        console.log('onEditTindakLanjutGridClick | this.modelTindakLanjut',this.modelTindakLanjut);
+
+
+        // ========== reset form upload data ===============
+        var $el = $('#InputFileDokumen');
+        $el.wrap('<form>').closest('form').get(0).reset();
+        $el.unwrap()
+        // ========== reset form upload data ===============
+
+      },
+      error =>{
+        console.log('onEditTindakLanjutGridClick | getDetailTindaKlanjutByID Error',error)
+      }
+    )
+
+
+
+  }
 
 
   keteranganDokumenId = 0;
@@ -271,7 +404,6 @@ export class TemuaninspektoratComponent implements OnInit {
 
 
   bulan = ["kwkw","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-
   onFullDateChange(date){
     var dateString = date.split('-');
     var bulanIdx = parseInt(dateString[1])
@@ -309,20 +441,7 @@ export class TemuaninspektoratComponent implements OnInit {
 
 
 
-  closeAlldokumenForm(){
-    this.is_noUraianTemuan            = false;
-    this.is_kodeRekomendasi           = false;
-    this.is_subNomorRekomendasi       = false;
-    this.is_kodeRingkasanTindakLanjut = false;
-    this.is_statusTindakLanjut        = false;
-    this.is_uraianTemuan              = false;
-    this.is_rekomendasi               = false;
-    this.is_tindakLanjut              = false;
-    this.is_ringkasanTindakLanjut     = false;   
-    this.is_nomorHeader               = false;
-    this.is_titleHeader               = false; 
-    this.is_responTindakLanjut        = false;
-  }
+
 
   is_noUraianTemuan            = false;
   is_kodeRekomendasi           = false;
@@ -398,7 +517,7 @@ export class TemuaninspektoratComponent implements OnInit {
 
   disabledSimpanTemuan = false;
   validasiBtnSimpanTemuan(){
-    if(this.modelIsiDokumen.id == null || (this.modelIsiDokumen.id != null )){ //add new || edit dokumen yg blm di tindak lanjutin
+    if(this.windowMode == 'create' || (this.windowMode == 'edit' && this.modelIsiDokumen.id == null)){ //add new || edit dokumen yg blm di tindak lanjutin
       console.log('modalLightInput | add new || edit dokumen yg blm di tindak lanjutin ')
       if(
         this.modelIsiDokumen.nomorHeader               == "" ||
@@ -408,24 +527,42 @@ export class TemuaninspektoratComponent implements OnInit {
         this.modelIsiDokumen.kodeRekomendasi           == "" ||
         this.modelIsiDokumen.rekomendasi               == "" ||
         this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
-        this.modelIsiDokumen.ringkasanTindakLanjut     == ""
+        this.modelIsiDokumen.ringkasanTindakLanjut     == "" 
       ){
         this.disabledSimpanTemuan = true;
       }else{
         this.disabledSimpanTemuan = false;
       }
-
-      console.log('validasi 1 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader)
-      console.log('validasi 1 | titleHeader ================>',this.modelIsiDokumen.titleHeader)
-      console.log('validasi 1 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan)
-      console.log('validasi 1 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan)
-      console.log('validasi 1 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi)
-      console.log('validasi 1 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi)
-      console.log('validasi 1 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut)
-      console.log('validasi 1 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut)
-
+    }else if(this.windowMode == 'edit'){
+      console.log('modalLightInput | edit dokumen yang sudah ada ')
+      if(
+        this.modelIsiDokumen.nomorHeader               == "" ||
+        this.modelIsiDokumen.titleHeader               == "" ||
+        this.modelIsiDokumen.noUraianTemuan            == "" || 
+        this.modelIsiDokumen.uraianTemuan              == "" ||
+        this.modelIsiDokumen.kodeRekomendasi           == "" ||
+        this.modelIsiDokumen.rekomendasi               == "" ||
+        this.modelIsiDokumen.kodeRingkasanTindakLanjut == "" ||
+        this.modelIsiDokumen.ringkasanTindakLanjut     == "" ||
+        this.modelIsiDokumen.tindakLanjut              == "" ||
+        this.modelIsiDokumen.statusTindakLanjut        == "Tersedia" || 
+        this.modelIsiDokumen.dokumenTindakLanjut       == null
+      ){
+        this.disabledSimpanTemuan = true;
+      }else{
+        this.disabledSimpanTemuan = false;
+      }
     }
-  }
+
+    console.log('validasi 1 | nomorHeader ================>',this.modelIsiDokumen.nomorHeader);
+    console.log('validasi 1 | titleHeader ================>',this.modelIsiDokumen.titleHeader);
+    console.log('validasi 1 | noUraianTemuan =============>',this.modelIsiDokumen.noUraianTemuan);
+    console.log('validasi 1 | uraianTemuan ===============>',this.modelIsiDokumen.uraianTemuan);
+    console.log('validasi 1 | kodeRekomendasi ============>',this.modelIsiDokumen.kodeRekomendasi);
+    console.log('validasi 1 | rekomendasi ================>',this.modelIsiDokumen.rekomendasi);
+    console.log('validasi 1 | kodeRingkasanTindakLanjut ==>',this.modelIsiDokumen.kodeRingkasanTindakLanjut);
+    console.log('validasi 1 | ringkasanTindakLanjut ======>',this.modelIsiDokumen.ringkasanTindakLanjut);
+  };
 
   btnTambahTemuan(){
     console.log('btn Tambah Tindak Lanjut ====>')
@@ -434,30 +571,30 @@ export class TemuaninspektoratComponent implements OnInit {
 
 
 
-    this.batchDokumen.push(
-      {
-        id                       : 999999, 
-        flagId                   : 999999,
-        tipeDokumenId            : 1,
-        satkerId                 : this.dataSatker.id,
-        statusTindakLanjut       : "Open",
-        noUraianTemuan           : '1',
-        kodeRekomendasi          : '3.03.07',
-        subNomorRekomendasi      : 'B.',
-        kodeRingkasanTindakLanjut: '06',
-        uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
-        rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
-        ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
-        tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
-        dokumenTemuanId          : null,
-        tindakLanjutId           : null,
-        responDokumenTemuanId    : null,
-        titleHeader              : 'Kelemahan Aspek Pendukung',
-        nomorHeader              : 'A.2.',
-        ppkId                    : 1,
-        responTindakLanjut       : ''
-      }
-    )
+    // this.batchDokumen.push(
+    //   {
+    //     id                       : 999999, 
+    //     flagId                   : 999999,
+    //     tipeDokumenId            : 1,
+    //     satkerId                 : this.dataSatker.id,
+    //     statusTindakLanjut       : "Open",
+    //     noUraianTemuan           : '1',
+    //     kodeRekomendasi          : '3.03.07',
+    //     subNomorRekomendasi      : 'B.',
+    //     kodeRingkasanTindakLanjut: '06',
+    //     uraianTemuan             : '<p>Kegiatan Verifikasi Pengaduan Tahun 2015 Tidak tertib</p>',
+    //     rekomendasi              : '<p><span style = "font-size : 12px; font-family: Calibri, sans-serif;">Memerintahkan Tim Verifikasi Pengaduan Limbah di Jalan Raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) untuk melengkapi laporan pelaksanaan kegiatan dengan berita acara verifikasi.</span></p>',
+    //     ringkasanTindakLanjut    : '<p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Maret 2017 (Surat No. S.141/set/KU/Set. 1/2/20017 tanggal 9 Februari 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tidak lanjut</span></p><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan laporan pelaksanaan kegiatan verifikasi pengaduan limbah di jalan raya Bojonegoro Kab. Serang (Dendy Listyawan dan Indrawan Mifta P.) yang telah dilengkapi berita acara verifikasi.</em></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juni 2017 (Surat No. S.424/Set/KU/Set. 1/5/2017 tanggal 8 Mei 2017)</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Belum ada perkembangan tindak lajut.</span></p><p style="text-align: justify;"><strong style="font-size: 12pt;">Uji Nilai Juli 2017.</strong></p><p style="text-align: justify;"><span style="font-size: 12pt;">Direktur Pengaduan, Pengawasan dan sanksi Administrasi Ditjen PHLHK telah memberikan teguran pembinaan kepada: </span></p><ol><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Dendy Listyawan, S.Sos selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Reya Bojonegara Kab. Serang, sesuai surat No. S. 505/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy terlampir)</span></li><li style="text-align: justify;"><span style="font-size: 12px;">Sdr. Indrawan Mifta Prasetyanda, S.Si selaku Pelaksana Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang sesuai surat No. S.506/PPSA/PP/GKM.0/5/2017 tanggal 5 Mei 2017 (copy surat terlampir).</span></li></ol><p style="text-align: justify;"><em style="color: rgb(0, 0, 0); font-size: 12pt;">Tuntas apabila dilampirkan berita acara verifikasi pada Laporan Kegiatan Verifikasi Pengaduan Limbah di Jl. Raya Bojonegara Kab. Serang.</em></p>',
+    //     tindakLanjut             : '<p style= "text-align: justify;">Surat perjanjian kerja Jasa Konsultasi Pengadaan Barang Perlengkapan Ruang Kerja Pegawai Ditjen PHLHK (terlampir)</p><p style = "text-align: justify;">SK pemilihan jasa konsultan pengawas pada tahun 2017 (terlampir)</p><p><br></p>,',
+    //     dokumenTemuanId          : null,
+    //     tindakLanjutId           : null,
+    //     responDokumenTemuanId    : null,
+    //     titleHeader              : 'Kelemahan Aspek Pendukung',
+    //     nomorHeader              : 'A.2.',
+    //     ppkId                    : 1,
+    //     responTindakLanjut       : ''
+    //   }
+    // )
 
   }
 
@@ -471,8 +608,14 @@ export class TemuaninspektoratComponent implements OnInit {
     this.showBtnCancelTemuan = true;
     this.showBtnTambahTemuan = false;
     this.closeAlldokumenForm();
-
-
+    console.log('addTemuan | modelDokumenTemuan ====>', this.modelDokumenTemuan )
+    console.log('addTemuan | batchDokumen  =========>', this.batchDokumen )
+    console.log('addTemuan | batchDokumen  =========>', this.batchDokumen )
+    if(this.windowMode == 'create'){
+      this.modelIsiDokumen.dokumenTemuanId = null; 
+    }else{
+      this.modelIsiDokumen.dokumenTemuanId = this.modelDokumenTemuan.id; 
+    }
     this.modelIsiDokumen.id                        = null; 
     this.modelIsiDokumen.flagId                    = new Date().getTime();      
     this.modelIsiDokumen.satkerId                  = satkerId;   
@@ -500,9 +643,11 @@ export class TemuaninspektoratComponent implements OnInit {
 
     } 
     
+    console.log('addTemuan | modelDokumenTemuan ====>', this.modelDokumenTemuan )
+    console.log('addTemuan | batchDokumen  =========>', this.batchDokumen )
+    console.log('addTemuan | modelIsiDokumen  ======>', this.modelIsiDokumen )
 
     this.validasiBtnSimpanTemuan();
-    console.log('addTemuan | newModel ===>',this.modelIsiDokumen);
   }
 
 
@@ -577,7 +722,7 @@ export class TemuaninspektoratComponent implements OnInit {
       error => {
         console.log('Get data getDokumenTemuan error   | getDokumenTemuan ===>',error.error);
         // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        if(error.error.isAuthorized){
+        if(!error.error.isAuthorized){
           this.errorTokenHabis();
         }else{
           Swal.fire(
@@ -721,6 +866,7 @@ export class TemuaninspektoratComponent implements OnInit {
     this.showFormTemuan = true;
     this.modelIsiDokumen = data;
     this.tmpEditDdokumen = data;
+    this.validasiBtnSimpanTemuan();
     console.log('onEditTemuanClick | modelIsiDokumen ====>',this.modelIsiDokumen);
   }
 
@@ -799,138 +945,40 @@ export class TemuaninspektoratComponent implements OnInit {
     this.showBtnTambahTemuan = true;
   }
 
-  clearModel_isiDokumen(){
-    this.modelIsiDokumen = {
-      flagId                   : null,   
-      id                       : null, 
-      statusTindakLanjut       : "",
-      noUraianTemuan           : "",
-      kodeRekomendasi          : "",
-      subNomorRekomendasi      : "",
-      kodeRingkasanTindakLanjut: "",
-      uraianTemuan             : "",
-      rekomendasi              : "",
-      ringkasanTindakLanjut    : "",
-      tindakLanjut             : "",
-      satkerId                 : null,
-      ppkId                    : null,
-      dokumenTemuanId          : null,
-      tindakLanjutId           : null,
-      responDokumenTemuanId    : null,
-      titleHeader              : "",
-      nomorHeader              : "",
-      responTindakLanjut       : "",
-      dokumenTindakLanjut      : null,
-    }
-  }
+
 
   onSubmit(){
-    console.log('onSubmit | ModelDokumenTemuan',this.modelDokumenTemuan);
-    console.log('onSubmit | windowMode',this.windowMode);
-    this.modelDokumenTemuan.keadaanSdBulan = this.modelDokumenTemuan.forSavekeadaanSdBulan;
-
-    // console.log('bacth update ===>',JSON.stringify(this.batchDokumen));
-
-    if(this.windowMode == 'edit'){ // update temuan dan TL yg blm di tindak lanjuti
-      console.log('onSubmit | update temuan dan TL yg blm di tindak lanjuti',this.windowMode);
-
-      this.dokumenService.updateDokumenTemuan(this.modelDokumenTemuan).subscribe(
-        (data:any)=>{
-          console.log('updateDokumenTemuan Success ===>',data.result);
-          var tmpDokTemuan = data.result;
-  
-  
-          for(var i in this.ListDokumenTemuan){
-            if(this.ListDokumenTemuan[i].id == this.modelDokumenTemuan.id){
-              this.ListDokumenTemuan[i] = tmpDokTemuan;
-            }
-          }
-
-
-
-          // for(var i in this.batchDokumen){
-          //   this.batchDokumen[i].dokumenTemuanId = tmpDokTemuan.id;
-          //   if(this.batchDokumen[i].dokumenTemuanId != null){
-          //     this.batchDokumen[i].tipeDokumenId = 1;
-          //   }
-          // }
-
-          var seleksiYangMauDiUpdate = [];
-          for(var i in this.batchDokumen){
-            if(this.batchDokumen[i].isEdit == 1 || this.batchDokumen[i].id == null ){
-              seleksiYangMauDiUpdate.push(this.batchDokumen[i]);
-            }
-          }
-  
-  
-          console.log('onSubmit | updateDokumen | seleksiYangMauDiUpdate ====>',seleksiYangMauDiUpdate)
-          this.dokumenService.updateDokumen(seleksiYangMauDiUpdate).subscribe(
-            (data:any)=>{
-              console.log('updateDokumen Success ===>',data.result);   
-              this.windowModeView('grid');
-  
-              Swal.fire(
-                'Yay Success!', 
-                'Dokumen Temuan berhasi disimpan', 
-                'success'
-              )
-  
-            },
-            error =>{
-              console.log('onSubmit | updateDokumen Gagal ===>',error);
-              Swal.fire(
-                'Whoops Failed!', 
-                'Dokumen Temuan Tidak berhasi disimpan', 
-                'error'
-              )
-              
-            }
-          )
-        },
-        error =>{
-          console.log('onSubmit | updateDokumenTemuan Gagal ===>',error)
-          Swal.fire(
-            'Whoops Failed!', 
-            'Dokumen Temuan Tidak berhasi disimpan', 
-            'error'
-          )
-        }
-      )
-    
-
-
-    }
-    // else if(this.windowMode == 'edit' && this.isResponseTL){ // simpan respon Tindak lanjut
-    //   console.log('onSubmit | simpan respon Tindak lanjut',this.windowMode);
-
-    // }
-    else if(this.windowMode =='create'){ // create new data
+    if(this.windowMode =='create'){ // create new data
       console.log('onSubmit | create new data',this.windowMode);
+
+
+      var afterSave_DokumenTemuan:any;
+      var afterSave_DokumenTindakLanjut:any;
+
 
       this.isLoading = true;
 
       this.dokumenService.createDokumenTemuan(this.modelDokumenTemuan).subscribe(
         (data:any)=>{
           console.log('createDokumenTemuan Success ===>',data.result);
-          var tmpDokTemuan = data.result;
-  
-  
-          this.ListDokumenTemuan.push(data.result);
-  
-   
+          afterSave_DokumenTemuan = data.result;
           for(var i in this.batchDokumen){
-            this.batchDokumen[i].dokumenTemuanId = tmpDokTemuan.id;
-            if(this.batchDokumen[i].dokumenTemuanId != null){
-              this.batchDokumen[i].tipeDokumenId = 1;
-  
-            }
+            this.batchDokumen[i].dokumenTemuanId = afterSave_DokumenTemuan.id;
           }
-  
-  
           console.log('onSubmit | createDokumen | batchDokumen ====>',this.batchDokumen)
           this.dokumenService.createDokumen(this.batchDokumen).subscribe(
             (data:any)=>{
-              console.log('createDokumen Success ===>',data.result);   
+              console.log('createDokumen Success ===>',data.result);  
+              afterSave_DokumenTindakLanjut = data.result;
+
+              console.log('onSubmit | afterSave_DokumenTindakLanjut ===>',afterSave_DokumenTindakLanjut);
+
+                afterSave_DokumenTemuan.resultDokumen = afterSave_DokumenTindakLanjut;
+                this.ListDokumenTemuan.push(afterSave_DokumenTemuan);
+
+              console.log('onSubmit | afterSave_DokumenTemuan ===>',afterSave_DokumenTemuan);
+              console.log('onSubmit | this.ListDokumenTemuan ====>',this.ListDokumenTemuan);
+
               this.windowModeView('grid');
               this.isLoading = false;
               this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
@@ -939,7 +987,6 @@ export class TemuaninspektoratComponent implements OnInit {
                 'Dokumen Temuan berhasi ditambahkan',   
                 'success'
               )                
-
             },
             error =>{
               console.log('onSubmit | createDokumen Gagal ===>',error);
@@ -991,23 +1038,31 @@ export class TemuaninspektoratComponent implements OnInit {
 
   btnCloseModalPreviewCetakan(){
     this.shareComponentService.sendDataCetakan(undefined);
+    this.showCetakan = false
   }
 
 
+  isGridEditTemuan = null;
   ModelDokumenTemuan = {};
   onEditTemuanGridClick(row){
     console.log('btnEdit ===>',row);
+    this.isGridEditTemuan = true;
     this.windowModeView('edit');
     this.progres1Validation = true;
-    
+    this.btnCloseModalPreviewCetakan();
 
     this.dokumenService.getDetailDokumenTemuanGridView(row.data.id).subscribe(
       (data:any) => {
         console.log('getDetailDokumenTemuanGridView Detail success | getDetailDokumenTemuanGridView ===>',data);
         this.modelDokumenTemuan = data.result;
-        this.modelDokumenTemuan.isEdit = row.data.isEdit;
+    
         // var keadaanSdBulan = t his.fullDateToHalfDate(this.modelDokumenTemuan.keadaanSdBulan);
-        this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan );
+        if(this.modelDokumenTemuan.keadaanSdBulan != null){
+          this.keteranganDokumenId = 2
+          this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+        }else{
+          this.keteranganDokumenId = 1
+        }
         
         console.log('this.modelDokumenTemuan ===>', this.modelDokumenTemuan)
         this.batchDokumen = data.result.resultDokumen;
@@ -1017,6 +1072,314 @@ export class TemuaninspektoratComponent implements OnInit {
       }
     )
   }
+
+
+  getTodayDateString(){
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth()+1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);  
+
+    var result = year+'-'+month+'-'+day
+    return result
+  }
+
+  onUpdate(){
+    console.log('onUpdate | isGridEditTemuan ===>',this.isGridEditTemuan);
+    this.isLoading = true;
+
+
+
+    if(this.isGridEditTemuan){
+      console.log('onUpdate | ini update Temuannya Saja');
+
+
+      var afterSave_DokumenTemuan:any;
+      var afterSave_DokumenTindakLanjut:any;
+
+      console.log('onUpdate | modelDokumenTemuan ===>',this.modelDokumenTemuan);
+      this.dokumenService.updateDokumenTemuan(this.modelDokumenTemuan).subscribe(
+        (data:any)=>{
+
+
+          var dokumenTindakLanjutBaru = []
+          for(var i in this.batchDokumen){
+            if(this.batchDokumen[i].id == null){
+              dokumenTindakLanjutBaru.push(this.batchDokumen[i]);
+            }
+          }
+
+          afterSave_DokumenTemuan = data.result;
+          afterSave_DokumenTemuan.resultDokumen = data.resultTL;
+          
+          console.log('onUpdate | updateDokumenTemuan Success | result  ===================>',data.result);
+          console.log('onUpdate | updateDokumenTemuan Success | resultTL ==================>',data.resultTL);
+          console.log('onUpdate | updateDokumenTemuan Success | dokumenTindakLanjutBaru ===>',dokumenTindakLanjutBaru);
+
+          if(dokumenTindakLanjutBaru.length > 0){ // kalo pas edit temuan dia nambah tindak lanjut
+            this.dokumenService.createDokumen(dokumenTindakLanjutBaru).subscribe(
+              (data:any)=>{
+                console.log('onUpdate | createDokumen Success ===>',data.result);  
+
+                
+                for(var i in this.ListDokumenTemuan){
+                  if(this.ListDokumenTemuan[i].id == afterSave_DokumenTemuan.id){
+                    this.ListDokumenTemuan[i] = afterSave_DokumenTemuan;
+                  }
+                }
+
+
+                for(var i in this.ListDokumenTemuan){
+                  if(this.ListDokumenTemuan[i].id == afterSave_DokumenTemuan.id){
+                    for(var j in data.result){
+                      if(data.result[j].dokumenTemuanId == afterSave_DokumenTemuan.id){
+                        this.ListDokumenTemuan[i].resultDokumen.push(data.result[j]);
+                      }
+                    }
+                  }
+                }
+
+                
+  
+  
+  
+                this.windowModeView('grid');
+                this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
+                Swal.fire(
+                  'Yay Success!', 
+                  'Dokumen Temuan berhasi disimpan',   
+                  'success'
+                )                
+              },
+              error =>{
+                console.log('onUpdate | createDokumen Gagal ===>',error);
+                Swal.fire(
+                  'Whoops Failed!', 
+                  'Dokumen Temuan Tidak berhasi disimpan', 
+                  'error'
+                )
+                
+              }
+            )
+          }else{ // kalo pas edit temuan dia ga nambah tindak lanjut, 
+            
+  
+            for(var i in this.ListDokumenTemuan){
+              if(this.ListDokumenTemuan[i].id == afterSave_DokumenTemuan.id){
+                this.ListDokumenTemuan[i] = afterSave_DokumenTemuan;
+              }
+            }
+            this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
+            Swal.fire(
+              'Yay Success!', 
+              'Dokumen Temuan berhasi disimpan', 
+              'success'
+            )
+
+          }
+
+          this.windowModeView('grid');
+
+          
+          
+        },
+        error =>{
+          console.log('onUpdate | updateDokumenTemuan Gagal ===>',error)
+          Swal.fire(
+            'Whoops Failed!', 
+            'Dokumen Temuan Tidak berhasi disimpan', 
+            'error'
+          )
+        }
+      )
+
+
+    }else{
+      console.log('onUpdate | ini update Tindak Lanjutnya Saja');
+      console.log('onUpdate | this.batchDokumen ===>',this.batchDokumen);
+
+
+      var modelTindakLanjut = {
+        dokumenTemuanId    : this.modelDokumenTemuan.id,
+        // ppkId              : this.batchDokumen[0].ppkId,
+        tglTindakLanjut    : this.getTodayDateString(),
+        // dokumenId          : this.batchDokumen[0].id,
+        dokumenTindakLanjut: this.tmpFileDokumen,
+        id                 : this.batchDokumen[0].id == null ? "":this.batchDokumen[0].id,
+  
+        // _tipeDokumenId            : this.batchDokumen[0].tipeDokumenId == null ? "" :this.batchDokumen[0].tipeDokumenId,
+        _noUraianTemuan           : this.batchDokumen[0].noUraianTemuan == null ? "":this.batchDokumen[0].noUraianTemuan,
+        _uraianTemuan             : this.batchDokumen[0].uraianTemuan == null ? "":this.batchDokumen[0].uraianTemuan,
+        _rekomendasi              : this.batchDokumen[0].rekomendasi == null ? "":this.batchDokumen[0].rekomendasi,
+        _kodeRekomendasi          : this.batchDokumen[0].kodeRekomendasi == null ? "":this.batchDokumen[0].kodeRekomendasi,
+        _kodeRingkasanTindakLanjut: this.batchDokumen[0].kodeRingkasanTindakLanjut == null ? "":this.batchDokumen[0].kodeRingkasanTindakLanjut,
+        _ringkasanTindakLanjut    : this.batchDokumen[0].ringkasanTindakLanjut == null ? "":this.batchDokumen[0].ringkasanTindakLanjut,
+        _statusTindakLanjut       : this.batchDokumen[0].statusTindakLanjut == null ? "":this.batchDokumen[0].statusTindakLanjut,
+        _tindakLanjut             : this.batchDokumen[0].tindakLanjut == null ? "":this.batchDokumen[0].tindakLanjut,
+        _subNomorRekomendasi      : this.batchDokumen[0].subNomorRekomendasi == null ? "":this.batchDokumen[0].subNomorRekomendasi,
+        _nomorHeader              : this.batchDokumen[0].nomorHeader == null ? "":this.batchDokumen[0].nomorHeader,
+        _titleHeader              : this.batchDokumen[0].titleHeader == null ? "":this.batchDokumen[0].titleHeader,
+        _satkerId                 : this.batchDokumen[0].satkerId == null ? "":this.batchDokumen[0].satkerId,
+        _ppkId                    : this.batchDokumen[0].ppkId == null ? "":this.batchDokumen[0].ppkId,
+        _dokumenTemuanId          : this.batchDokumen[0].dokumenTemuanId == null ? "":this.batchDokumen[0].dokumenTemuanId,
+        _uniqueColumn             : this.batchDokumen[0].uniqueColumn == null ? "":this.batchDokumen[0].uniqueColumn,
+        
+      }
+
+
+      if(this.batchDokumen[0].nomorDraft == 1 && this.batchDokumen[0].dokumenTindakLanjut == null){
+        this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
+          data=>{
+            var result = data.result;
+            console.log('updateTindakLanjut Success ===>',data.result); 
+            for(var i in this.ListDokumenTemuan){
+              for(var j in this.ListDokumenTemuan[i].resultDokumen){
+                if(this.ListDokumenTemuan[i].resultDokumen[j].id == result.id){
+                  this.ListDokumenTemuan[i].resultDokumen[j] = result
+                }
+              }
+            }
+            this.windowModeView('grid');
+            this.isLoading = false;
+            this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
+            Swal.fire(
+              'Yay Success!', 
+              'Data berhasi disimpan', 
+              'success'
+            )
+          },
+          error =>{
+            console.log('updateTindakLanjut Gagal ===>',error)
+            Swal.fire(
+              'Whoops Failed!', 
+              'Data tidak berhasil disimpan', 
+              'error'
+            )
+          }
+        )
+      }else{
+        this.tindakLanjutService.createTindakLanjut(modelTindakLanjut).subscribe(
+          data=>{
+            console.log('createDokumenTemuan Success | Result ======>',data.result); 
+            console.log('createDokumenTemuan Success | resultAll ===>',data.resultAll); 
+            
+            var resultAll = data.resultAll;
+            for(var i in this.ListDokumenTemuan){
+              if(this.ListDokumenTemuan[i].id == data.result.dokumenTemuanId){
+                this.ListDokumenTemuan[i].resultDokumen = resultAll;
+              }
+            }
+
+            this.windowModeView('grid');
+            this.isLoading = false;
+            this.printDefault(this.modelDokumenTemuan,this.batchDokumen);
+            Swal.fire(
+              'Yay Success!', 
+              'Data berhasi ditambahkan', 
+              'success'
+            );
+
+
+
+          },
+          error =>{
+            console.log('createDokumenTemuan Gagal ===>',error)
+            Swal.fire(
+              'Whoops Failed!', 
+              'Data tidak berhasil ditambahkan', 
+              'error'
+            )
+          }
+        )
+      }
+
+
+
+    }
+  } 
+
+
+
+    GeneratePDFView(data){
+    console.log('GeneratePDFView | data ===>',data);
+    this.showCetakan = true;
+
+    // =================================GET DATA INPUTAN TINDAK LANJUT=========================================
+    this.dokumenService.getDetailDokumenTemuanGridView(data.id).subscribe(
+      (data:any) => {
+        console.log('GeneratePDFView |  getDetailDokumenTemuanGridView Detail success ===>',data);
+        this.modelDokumenTemuan = data.result;
+    
+        if(this.modelDokumenTemuan.keadaanSdBulan != null){
+          this.modelDokumenTemuan.keadaanSdBulan = this.onHalfDateChange(this.modelDokumenTemuan.keadaanSdBulan);
+        }else{
+
+
+        }
+        this.batchDokumen = data.result.resultDokumen;
+
+        var dataCetakan = this.modelDokumenTemuan;
+        dataCetakan.dokumenTindakLanjut = this.batchDokumen;
+        this.shareComponentService.sendDataCetakan(dataCetakan);
+
+
+
+      },
+      error => {
+        console.log('GeneratePDFView |  getDetailDokumenTemuanGridView Detail error   ===>',error);
+      }
+    )
+    // =================================GET DATA INPUTAN TINDAK LANJUT=========================================
+  }
+
+
+  onDownloadClick(row){
+    console.log('row.data ===>',row);
+
+    // if(row.fileDokumen == undefined){
+    //   row.fileDokumen = this.namafile
+    // }
+    this.isLoading = true;
+
+    this.dokumenService.downloadDocumentTindakLanjut(row.dokumenTindakLanjut).subscribe(
+      (result:any) => {
+        console.log('download dokumen sukses',result);
+
+        const a = document.createElement('a')
+        const objectUrl = URL.createObjectURL(result)
+        a.href = objectUrl
+        a.download = row.dokumenTindakLanjut+'.jpg';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+
+        this.isLoading = false;
+
+
+      },
+      error =>{
+        this.isLoading = false;
+        console.log('download dokumen Gagal',error)
+        if(error.result !== undefined){
+          // notify({ message: "Whoops!" +error.result ,position: {my: "center top",at: "center top"}}, "error", 3000)
+          Swal.fire(
+            'Whoops Failed', 
+            'Data tidak mengambil data'+ error.result, 
+            'error'
+          )
+        }else{
+          // notify({ message: "Whoops! Gagal mengunduh data",position: {my: "center top",at: "center top"}}, "error", 3000)
+        }
+      }
+    );
+    
+
+  }
+
+
+
+
+
+
 
   
 

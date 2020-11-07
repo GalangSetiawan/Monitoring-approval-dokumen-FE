@@ -8,6 +8,7 @@ declare var UIkit: any;
 import { NewsService } from './shared/news.service';
 import { SharecomponentService } from './shared/sharecomponent.service';
 
+import { DokumenserviceService } from './shared/dokumenservice.service';
 
 import * as _ from "lodash";
 import notify from 'devextreme/ui/notify';
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit{
   constructor(
     public shareComponentService : SharecomponentService,
     private auth: AuthStateService,
+    public dokumenService : DokumenserviceService,
     public router: Router,
     public fb: FormBuilder,
     public token: TokenService,
@@ -76,6 +78,7 @@ export class AppComponent implements OnInit{
     if(this.isSignedIn == true){
       this.UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
       console.log('this.UserProfile ===>',this.UserProfile);
+      this.router.navigate(['dashboard'], {skipLocationChange: true});
     }
 
     console.log('this.isSignedIn ===>',this.isSignedIn);
@@ -100,7 +103,6 @@ export class AppComponent implements OnInit{
 
     this.getDataBerita();
     $('#spinner').hide();
-
 
 
   }
@@ -235,6 +237,8 @@ export class AppComponent implements OnInit{
 
 
 
+
+
   modelReset = {oldPassword : '', newPassword:'', newPasswordConfirmation:''};
   isSuccessResetPass = false;
   doResetPass(data){
@@ -326,7 +330,7 @@ export class AppComponent implements OnInit{
       },() => {
         this.authState.setAuthState(true);
         this.loginForm.reset()
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard'], {skipLocationChange: true});
         $('#headerName #header-dashboard').append('<h1 class="uk-heading-small" id="header-dashboard" >Dashboard</h1>')
       }
     );
@@ -370,7 +374,7 @@ export class AppComponent implements OnInit{
     console.log('sign Out ===>',this.isSignedIn);
     this.auth.setAuthState(false);
     this.token.removeToken();
-    this.router.navigate(['login']);
+    this.router.navigate(['']);
     this.isSuccessResetPass = false;
     this.getDataBerita();
 
@@ -379,7 +383,7 @@ export class AppComponent implements OnInit{
 
   sideMenuClick(selectedMenu){
     console.log('sideMenuClick ===>',selectedMenu)
-    this.router.navigate(selectedMenu.target.id);
+    this.router.navigate(selectedMenu.target.id, {skipLocationChange: true});
   }
 
 

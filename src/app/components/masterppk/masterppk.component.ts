@@ -130,14 +130,29 @@ export class MasterppkComponent implements OnInit {
       },
       error => {
         console.log('Get data Satker error   | getSatker ===>',error);
-        // notify({ message: "Whoops! failed to Get data",position: {my: "center top",at: "center top"}}, "error", 3000)
-        Swal.fire(
-          'Whoops Failed', 
-          'Tidak Berhasil Mengambil Data', 
-          'error'
-        )
+
+        if(!error.error.isAuthorized){
+          this.errorTokenHabis();
+        }else{
+          Swal.fire(
+            'Whoops Failed', 
+            'Tidak Berhasil Mengambil Data', 
+            'error'
+          )
+        }        
       }
     )
+  }
+
+
+
+  errorTokenHabis(){
+    Swal.fire(
+      'Whoops! Waktu Akses Habis', 
+      'Harap Login ulang untuk melanjutkan', 
+      'error'
+    )
+    $('#parentSignOut').click();
   }
 
   ListPPK = [];

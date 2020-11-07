@@ -2,7 +2,7 @@
   <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
       <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
       <a (click)="getDataUser()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-      <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >TAMBAH &nbsp;</a>
+      <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a>
   </div> 
   
   
@@ -110,7 +110,7 @@
 
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
       <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
-      <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'"  (click)="onSubmit()" >SIMPAN</button>
+      <button class="uk-button uk-button-primary" *ngIf="windowMode != 'view'"  [disabled]="disabledBtnSimpan" (click)="onSubmit()" >SIMPAN</button>
     </div>
 
     
@@ -128,10 +128,10 @@
             <div class="uk-margin">  
               <label class="uk-form-label" for="form-horizontal-text"  *ngIf="imageUrl == undefined">Foto Profile</label>  
               <div class="uk-form-controls"  *ngIf="imageUrl == undefined"> 
-                  <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."   [ngClass]="{ 'uk-form-danger':  modelRegister.namaFoto == '' }">
-                  <div *ngIf=" modelRegister.namaFoto == ''" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="File" (change)="handleFileInput($event.target.files)" placeholder="Masukan Gambar Latar Belakang..."  >
+                  <!-- <div *ngIf=" modelRegister.namaFoto == ''" class="uk-text-danger uk-text-italic">
                     <div >Foto Profile User wajib diisi</div>
-                  </div>
+                  </div> -->
               </div>
             </div>
             
@@ -140,7 +140,7 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Nama</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [(ngModel)]="modelRegister.nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
+                  <input class="uk-input" type="text" placeholder="Masukan Nama..." (change)="validasiFormRegister()" [(ngModel)]="modelRegister.nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
                   <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.nama.errors.required">Nama wajib diisi</div>
                   </div>
@@ -150,7 +150,7 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">NIP</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [(ngModel)]="modelRegister.NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
+                  <input class="uk-input" type="text" placeholder="Masukan Nama..." (change)="validasiFormRegister()" [(ngModel)]="modelRegister.NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
                   <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.NIP.errors.required">NIP wajib diisi</div>
                   </div>
@@ -161,9 +161,10 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-select">User Role</label>
               <div class="uk-form-controls">
-                  <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId"  id="form-horizontal-select" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
-                    <option [ngValue]="50">Super Admin</option>
-                    <option [ngValue]="40">Satker</option>
+                  <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId" (change)="validasiFormRegister();onChangeRole(modelRegister.roleId)" id="form-horizontal-select" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
+                    <option [ngValue]="50">Admin</option>
+                    <option [ngValue]="40">Pengawas</option>
+                    <option [ngValue]="30">Satker</option>
                   </select>
       
                   <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
@@ -174,10 +175,10 @@
             </div>
             
   
-            <div class="uk-margin" *ngIf="modelRegister.roleId != 50">
+            <div class="uk-margin" *ngIf="modelRegister.roleId == 30">
               <label class="uk-form-label" for="form-horizontal-text">Satker</label>
               <div class="uk-form-controls">
-                  <select class="uk-select" [(ngModel)]="modelRegister.satkerId" (change)="onSatkerChange(modelRegister.satkerId)" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
+                  <select class="uk-select" [(ngModel)]="modelRegister.satkerId" (change)="onSatkerChange(modelRegister.satkerId);validasiFormRegister()"  [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
                       <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                   </select>
                   <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
@@ -201,38 +202,41 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Email</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email,1)" [(ngModel)]="modelRegister.email"
-                  [ngClass]="{ 'uk-form-danger': !isValidEmail || submitted && f.email.errors, 'uk-form-success': isValidEmail && modelRegister.email != ''}">
-                  <div *ngIf="submitted && f.email.errors" class="uk-text-danger uk-text-italic">
-                    <div *ngIf="f.email.errors.required">Email wajib diisi</div>
-                    <div *ngIf="f.email.errors.email">Masukan Email yang valid</div>
-                  </div>
+                  <input class="uk-input" type="email" name="email" autocomplete="off" title="Masukan Email yang valid" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email,1);validasiFormRegister()" [(ngModel)]="modelRegister.email"
+                  [ngClass]="{ 'uk-form-danger': !isValidEmail && modelRegister.email != '', 'uk-form-success': isValidEmail && modelRegister.email != ''}">
+                 
   
-                  <div *ngIf="windowMode!='edit' && !isValidEmail && modelRegister.email != ''" class="uk-text-danger uk-text-italic">
+                  <div *ngIf="!isValidEmail && modelRegister.email != '' && isValidEmail != null" class="uk-text-danger uk-text-italic">
                     <div>Email sudah terdaftar</div>
                   </div>
+
+                  <div *ngIf="!isValidEmailTyping && modelRegister.email != ''" class="uk-text-danger uk-text-italic">
+                    <div>Masukan Email yang valid</div>
+                  </div>
+
   
-                  <div *ngIf="windowMode!='edit' && isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
+                  <div *ngIf="isValidEmail && modelRegister.email != ''" class="uk-text-success uk-text-italic">
                     <div>Email dapat digunakan</div>
                   </div>
               </div>
             </div>
   
             <div class="uk-margin">
-              <label class="uk-form-label" for="form-horizontal-text">Email 2</label>
+              <label class="uk-form-label" for="form-horizontal-text">Email 2 <small> (Optional)</small></label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email2, 2)" [(ngModel)]="modelRegister.email2" 
-                  [ngClass]="{ 'uk-form-danger': !isValidEmail2 || submitted && f.email2.errors, 'uk-form-success': isValidEmail2 && modelRegister.email2 != ''}">
-                  <div *ngIf="submitted && f.email2.errors" class="uk-text-danger uk-text-italic">
-                    <div *ngIf="f.email2.errors.required">Email wajib diisi</div>
-                    <div *ngIf="f.email2.errors.email2">Masukan Email yang valid</div>
-                  </div>
+                  <input class="uk-input" type="email" name="email2" autocomplete="off" title="Masukan Email yang valid" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email2, 2)" [(ngModel)]="modelRegister.email2" 
+                  [ngClass]="{ 'uk-form-danger': !isValidEmail2 && modelRegister.email2 != '', 'uk-form-success': isValidEmail2 && modelRegister.email2 != ''}">
+                 
   
-                  <div *ngIf="windowMode!='edit' && !isValidEmail2 && modelRegister.email2 != ''" class="uk-text-danger uk-text-italic">
+                  <div *ngIf="!isValidEmail2 && modelRegister.email2 != '' && isValidEmail != null" class="uk-text-danger uk-text-italic">
                     <div>Email sudah terdaftar</div>
                   </div>
+
+                  <div *ngIf="!isValidEmail2Typing && modelRegister.email2 != '' " class="uk-text-danger uk-text-italic">
+                    <div>Masukan Email yang valid</div>
+                  </div>
   
-                  <div *ngIf="windowMode!='edit' && isValidEmail2 && modelRegister.email2 != ''" class="uk-text-success uk-text-italic">
+                  <div *ngIf="isValidEmail2 && modelRegister.email2 != ''" class="uk-text-success uk-text-italic">
                     <div>Email dapat digunakan</div>
                   </div>
               </div>
@@ -241,18 +245,19 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Email 3 <small> (Optional)</small></label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email3, 3)" [(ngModel)]="modelRegister.email3" 
-                  [ngClass]="{ 'uk-form-danger': !isValidEmail3 || submitted && f.email3.errors, 'uk-form-success': isValidEmail3 && modelRegister.email3 != ''}">
-                  <div *ngIf="submitted && f.email3.errors" class="uk-text-danger uk-text-italic">
-                    <!-- <div *ngIf="f.email.errors.required">Email wajib diisi</div> -->
-                    <div *ngIf="f.email3.errors.email3">Masukan Email yang valid</div>
-                  </div>
+                  <input class="uk-input" type="email" name="emai3" autocomplete="off" title="Masukan Email yang valid" placeholder="Masukan Email..." (change)="onEmailType(modelRegister.email3, 3)" [(ngModel)]="modelRegister.email3" 
+                  [ngClass]="{ 'uk-form-danger': !isValidEmail3 && modelRegister.email3 != '', 'uk-form-success': isValidEmail3 && modelRegister.email3 != ''}">
+                  
   
-                  <div *ngIf="windowMode!='edit' && !isValidEmail3 && modelRegister.email3 != ''" class="uk-text-danger uk-text-italic">
+                  <div *ngIf="!isValidEmail3 && modelRegister.email3 != '' && isValidEmail != null " class="uk-text-danger uk-text-italic">
                     <div>Email sudah terdaftar</div>
                   </div>
+
+                  <div *ngIf="!isValidEmail3Typing && modelRegister.email3 != '' " class="uk-text-danger uk-text-italic">
+                    <div>Masukan Email yang valid</div>
+                  </div>
   
-                  <div *ngIf="windowMode!='edit' && isValidEmail3 && modelRegister.email3 != ''" class="uk-text-success uk-text-italic">
+                  <div *ngIf="isValidEmail3 && modelRegister.email3 != ''" class="uk-text-success uk-text-italic">
                     <div>Email dapat digunakan</div>
                   </div>
               </div>
@@ -261,7 +266,7 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Username</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" autocomplete="false" [readonly]="windowMode=='edit'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username)" [(ngModel)]="modelRegister.username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
+                  <input class="uk-input" type="text" [readonly]="windowMode=='edit'" autocomplete="off" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username);validasiFormRegister()" [(ngModel)]="modelRegister.username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
                   <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.username.errors.required">Username wajib diisi</div>
                     <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
@@ -279,14 +284,14 @@
               </div>
             </div>
             
-            <div class="uk-margin col-md-3 offset-md-4" *ngIf="windowMode != create">
-              <a class="uk-button uk-button-primary text-white" (click)="isEditPassword()"> Ganti Password</a>
+            <div class="uk-margin col-md-3 offset-md-4" *ngIf="windowMode != 'create'">
+              <a class="uk-text-primary" (click)="isEditPassword()"> Ganti Password ?</a>
             </div>
             
             <!-- <div class="uk-margin" *ngIf="windowMode == 'edit' && showFormPassword">
               <label class="uk-form-label" for="form-horizontal-text">Password Lama</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
+                  <input class="uk-input" type="password" placeholder="Masukan Password Lama..." formControlName="oldPassword" (change)="onOldPassType(modelRegister.oldPassword)" [(ngModel)]="modelRegister.oldPassword"  
                   [ngClass]="{ 'uk-form-danger': !isValidOldPassword || submitted && f.oldPassword.errors, 'uk-form-success': isValidOldPassword && modelRegister.oldPassword != ''}">
                   <div *ngIf="submitted && f.oldPassword.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.oldPassword.errors.required">Password Lama wajib diisi</div>
@@ -305,10 +310,10 @@
               </div>
             </div> -->
                                                                             
-            <div class="uk-margin" *ngIf="windowMode != 'view' && showFormPassword">
+            <div class="uk-margin" *ngIf="(windowMode != 'view' && showFormPassword) || windowMode == 'create'">
               <label class="uk-form-label" for="form-horizontal-text">Password</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Password..." [(ngModel)]="modelRegister.password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
+                  <input class="uk-input" type="password" placeholder="Masukan Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
                   <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.password.errors.required">Password wajib diisi</div>
                     <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
@@ -316,10 +321,10 @@
               </div>
             </div>
       
-            <div class="uk-margin" *ngIf="windowMode != 'view' && showFormPassword">
+            <div class="uk-margin" *ngIf="(windowMode != 'view' && showFormPassword) || windowMode == 'create'">
               <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="password" autocomplete="false" placeholder="Masukan Konfirmasi Password..." [(ngModel)]="modelRegister.password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
+                  <input class="uk-input" type="password" placeholder="Masukan Konfirmasi Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
                   <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
                     <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>

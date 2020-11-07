@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   errors = null;
-  modelRegister = {nama:'', password:'', password_confirmation:'', id:0,email:'',email2:'',email3:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
+  modelRegister:any = {nama:'', password:'', password_confirmation:'', id:0,email:'',email2:'',email3:'', oldPassword:'',satkerId:null, roleId:40,ppkId:null, username:'', foto:undefined, namaFoto :'',namaPpk:'', namaSatker:'', NIP:''};
 
 
 
@@ -65,6 +65,8 @@ export class SignupComponent implements OnInit {
       $('#listMenu #dashboard').addClass('uk-active');
     }else if(opened == 'dokumenTemuan'){
       $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'dokumentemuaninspektorat'){
+      $('#listMenu #dokumentemuaninspektorat').addClass('uk-active');
     }else if(opened == 'tindaklanjutv2'){
       $('#listMenu #tindaklanjutv2').addClass('uk-active');
     }else if(opened == 'tindaklanjut'){
@@ -90,10 +92,94 @@ export class SignupComponent implements OnInit {
     }
   }
 
+
+  disabledBtnSimpan = true;
+  validasiFormRegister(){
+    if(this.windowMode == 'create'){
+      if(
+        this.modelRegister.roleId                == null ||
+        (this.modelRegister.roleId == 30 && this.modelRegister.satkerId == null) ||
+        this.modelRegister.nama                  == ''  ||
+        this.modelRegister.username              == '' ||
+        this.modelRegister.NIP                   == '' ||
+        this.modelRegister.password              == '' ||
+        this.modelRegister.password_confirmation == '' || 
+        this.modelRegister.email                 == '' ||
+        (this.modelRegister.password             !=  this.modelRegister.password_confirmation) ||
+        this.isValidUsername                     == false ||
+        this.isValidEmail                        == false || 
+        this.isValidEmailTyping                  == false ||
+        (this.modelRegister.email2 != '' && (this.isValidEmail2 == false || this.isValidEmail2Typing  == false)) ||
+        (this.modelRegister.email3 != '' && (this.isValidEmail3 == false || this.isValidEmail3Typing  == false) )
+
+      ){
+        this.disabledBtnSimpan = true;
+      }else{
+        this.disabledBtnSimpan = false;
+      }
+    }else{
+      if(this.showFormPassword){ //ini kalo ganti password
+        
+        if(
+          this.modelRegister.roleId                == null ||
+          (this.modelRegister.roleId == 30 && this.modelRegister.satkerId == null) ||
+          this.modelRegister.nama                  == ''  ||
+          this.modelRegister.username              == '' ||
+          this.modelRegister.NIP                   == '' ||
+          this.modelRegister.password              == '' ||
+          this.modelRegister.password_confirmation == '' || 
+          this.modelRegister.email                 == '' ||
+          (this.modelRegister.password             !=  this.modelRegister.password_confirmation) ||
+          this.isValidEmail                        == false || 
+          this.isValidEmailTyping                  == false ||
+          (this.modelRegister.email2 != '' && (this.isValidEmail2 == false || this.isValidEmail2Typing  == false)) ||
+          (this.modelRegister.email3 != '' && (this.isValidEmail3 == false || this.isValidEmail3Typing  == false) )
+        ){
+          this.disabledBtnSimpan = true;
+        }else{
+          this.disabledBtnSimpan = false;
+        }
+
+      }else{ // ini kalo edit doang ga ganti password
+        if(
+          this.modelRegister.roleId                == null ||
+          (this.modelRegister.roleId == 30 && this.modelRegister.satkerId == null) ||
+          this.modelRegister.nama                  == ''  ||
+          this.modelRegister.username              == '' ||
+          this.modelRegister.NIP                   == '' ||
+          this.modelRegister.email                 == '' ||
+          this.isValidEmail                        == false || 
+          this.isValidEmailTyping                  == false ||
+          (this.modelRegister.email2 != '' && (this.isValidEmail2 == false || this.isValidEmail2Typing  == false)) ||
+          (this.modelRegister.email3 != '' && (this.isValidEmail3 == false || this.isValidEmail3Typing  == false) )
+        ){
+          this.disabledBtnSimpan = true;
+        }else{
+          this.disabledBtnSimpan = false;
+        }
+      }
+    }
+
+
+    
+    console.log('validasiFormRegister | modelRegister.satkerId =====>',this.modelRegister.satkerId);
+    console.log('validasiFormRegister | modelRegister.roleId =====>',this.modelRegister.roleId);
+    console.log('validasiFormRegister | modelRegister.ppkId =====>',this.modelRegister.ppkId);
+    console.log('validasiFormRegister | modelRegister.roleName =====>',this.modelRegister.roleName);
+    console.log('validasiFormRegister | modelRegister.username =====>',this.modelRegister.username);
+    console.log('validasiFormRegister | modelRegister.nama =====>',this.modelRegister.nama);
+    console.log('validasiFormRegister | modelRegister.password =====>',this.modelRegister.password);
+    console.log('validasiFormRegister | modelRegister.password_confirmation =====>',this.modelRegister.password_confirmation);
+    console.log('validasiFormRegister | modelRegister.email =====>',this.modelRegister.email);
+    console.log('validasiFormRegister | modelRegister.email2 =====>',this.modelRegister.email2);
+    console.log('validasiFormRegister | modelRegister.email3 =====>',this.modelRegister.email3);
+  }
+
   
   removeActiveMenu(){
     $('#listMenu #dashboard').removeClass('uk-active');
     $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #dokumentemuaninspektorat').removeClass('uk-active');
     $('#listMenu #tindaklanjutv2').removeClass('uk-active');
     $('#listMenu #tindaklanjut').removeClass('uk-active');
     $('#listMenu #approvaldoc').removeClass('uk-active');
@@ -335,33 +421,41 @@ export class SignupComponent implements OnInit {
   isValidEmail = true;
   isValidEmail2 = true;
   isValidEmail3 = true;
+  isValidEmailTyping = true;
+  isValidEmail2Typing = true;
+  isValidEmail3Typing = true;
+
+
   onEmailType(inputtedEmail, emailIndex){
     console.log('onEmailType ===>',inputtedEmail);
     console.log('modelRegister =>',this.modelRegister);
     console.log('emailIndex =>',emailIndex);
 
+    var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    if(testEmail.test(inputtedEmail)){
+
+      if      (emailIndex == 1) this.isValidEmailTyping  = true;
+      else if (emailIndex == 2) this.isValidEmail2Typing = true;
+      else if (emailIndex == 3) this.isValidEmail3Typing = true;
+
+      this.authService.checkEmail({email: inputtedEmail}).subscribe(
+        result => {
+          console.log('checkEmail register success | checkEmail ===>',result);
+          if      (emailIndex == 1) this.isValidEmail  = result;
+          else if (emailIndex == 2) this.isValidEmail2 = result;
+          else if (emailIndex == 3) this.isValidEmail3 = result;
+        },
+        error => {
+          console.log('checkEmail register error   | checkEmail ===>',error);
+        }
+      )
+    }else{
+      if      (emailIndex == 1) { this.isValidEmailTyping  = false; this.isValidEmail  = null;} 
+      else if (emailIndex == 2) { this.isValidEmail2Typing = false; this.isValidEmail2 = null;}
+      else if (emailIndex == 3) { this.isValidEmail3Typing = false; this.isValidEmail3 = null;}
+    }
     
-    this.authService.checkEmail({email: inputtedEmail}).subscribe(
-      result => {
-        console.log('checkEmail register success | checkEmail ===>',result);
-        if (emailIndex == 1)
-        {
-          this.isValidEmail = result;
-        }
-        else if (emailIndex == 2)
-        {
-          this.isValidEmail2 = result;
-        }
-        else
-        {
-          this.isValidEmail3 = result;
-        }
-        
-      },
-      error => {
-        console.log('checkEmail register error   | checkEmail ===>',error);
-      }
-    )
+    
   }
 
   isValidUsername = true;
@@ -400,12 +494,18 @@ export class SignupComponent implements OnInit {
     this.imageUrl = undefined
     this.windowModeView('edit');
     
-
+    this.showFormPassword = false;
 
     this.modelRegister = row.data;
     this.onSatkerChange(row.data.satkerId); 
     this.isEditImage = false;
     this.downloadImg(row.data.foto);
+
+    this.isValidEmail = true;
+    this.isValidEmail2 = true;
+    this.isValidEmail3 = true;
+    if(this.modelRegister.email2 == null) {}this.modelRegister.email2 = ''
+    if(this.modelRegister.email3 == null) this.modelRegister.email3 = ''
   }
 
   onViewClick(row){
@@ -460,20 +560,22 @@ export class SignupComponent implements OnInit {
   }
 
 
-  selectRole(roleId){
-    switch(roleId){
-      case 50:
-        var roleName = "Super Admin"
-        break;
-      case 40:
-        var roleName = "Satker"
-        break;
-    }
-    return roleName;
-  }
-
   
+  onChangeRole(id){
+    if(id == 50){
+      this.modelRegister.roleName = 'Admin'
+    }else if(id == 40){
+      this.modelRegister.roleName = 'Pengawas'
+    }else if(id == 30){
+      this.modelRegister.roleName = 'Satker'
+    }
 
+
+    this.modelRegister.satkerId = null
+
+    console.log('onChangeRole | roleId =====>',this.modelRegister.roleId)
+    console.log('onChangeRole | roleName ===>',this.modelRegister.roleName)
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -486,11 +588,11 @@ export class SignupComponent implements OnInit {
       ppkId                 : this.modelRegister.ppkId == undefined ? '' : this.modelRegister.ppkId ,
       satkerId              : this.modelRegister.satkerId,
       roleId                : this.modelRegister.roleId,
-      roleName              : this.modelRegister.roleId == 50 ? 'Super Admin' : 'Satker',
+      roleName              : this.modelRegister.roleName,
       username              : this.modelRegister.username,
       email                 : this.modelRegister.email,
-      email2                : this.modelRegister.email2,
-      email3                : this.modelRegister.email3,
+      email2                : this.modelRegister.email2 == '' ? '' :this.modelRegister.email2 ,
+      email3                : this.modelRegister.email3 == '' ? '' :this.modelRegister.email3 ,
       foto                  : this.modelRegister.foto == undefined ? null : this.modelRegister.foto ,
       password              : this.modelRegister.password ,
       password_confirmation : this.modelRegister.password_confirmation 

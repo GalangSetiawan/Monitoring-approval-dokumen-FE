@@ -42,7 +42,7 @@ export class SigninComponent implements OnInit {
       },() => {
         this.authState.setAuthState(true);
         this.loginForm.reset()
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard'], {skipLocationChange: true});
       }
     );
 }

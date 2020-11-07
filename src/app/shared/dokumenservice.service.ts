@@ -36,7 +36,10 @@ export class DokumenserviceService {
 
   constructor(private http: HttpClient) { }
 
-
+ // =========== GET JENIS & TIPE DOKUMEN =============
+ getDataDashboard() {
+  return this.http.get(API_URL+'/dashboard/');
+}
 
 
 
