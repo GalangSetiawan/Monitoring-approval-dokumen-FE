@@ -314,6 +314,8 @@ export class SignupComponent implements OnInit {
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #create').remove();
       $('.uk-breadcrumb #view').remove();
+      this.disabledBtnSimpan = true;
+
     }
   }
 
@@ -490,7 +492,6 @@ export class SignupComponent implements OnInit {
 
   onEditClick(row){
     console.log('onEditClick ===>',row.data);
-    this.submitted = false;
     this.imageUrl = undefined
     this.windowModeView('edit');
     
@@ -506,16 +507,29 @@ export class SignupComponent implements OnInit {
     this.isValidEmail3 = true;
     if(this.modelRegister.email2 == null) {}this.modelRegister.email2 = ''
     if(this.modelRegister.email3 == null) this.modelRegister.email3 = ''
+    this.validasiFormRegister();
   }
 
   onViewClick(row){
     console.log('onViewClick ===>',row.data);
+    this.imageUrl = undefined
     this.windowModeView('view');
     
+    this.showFormPassword = false;
+
     this.modelRegister = row.data;
     this.downloadImg(row.data.foto);
+    this.onSatkerChange(row.data.satkerId);
+    
+    this.isValidEmail = true;
+    this.isValidEmail2 = true;
+    this.isValidEmail3 = true;
+    if(this.modelRegister.email2 == null) {}this.modelRegister.email2 = ''
+    if(this.modelRegister.email3 == null) this.modelRegister.email3 = ''
+    this.validasiFormRegister();
+    
 
-    this.showFormPassword = false;
+
 
 
   }
