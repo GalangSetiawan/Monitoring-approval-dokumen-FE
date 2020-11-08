@@ -88,9 +88,9 @@
               <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                   <div *dxTemplate="let cell of 'cellTemplate'">
                       <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
-                          <a href="#modal-delete-user" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
-                          <a (click)="onEditClick(cell);" uk-icon="icon: pencil"></a> &nbsp;
-                          <a (click)="onViewClick(cell);" uk-icon="icon: file"></a> &nbsp;
+                          <a href="#modal-delete-user" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" uk-tooltip="title: Hapus; pos: left" ></a> &nbsp;
+                          <a (click)="onEditClick(cell);" uk-icon="icon: pencil" uk-tooltip="title: Edit; pos: left"></a> &nbsp;
+                          <a (click)="onViewClick(cell);" uk-icon="icon: file-text" uk-tooltip="title: Lihat; pos: left"></a> &nbsp;
                       </div> 
                   </div>
           </dx-data-grid>

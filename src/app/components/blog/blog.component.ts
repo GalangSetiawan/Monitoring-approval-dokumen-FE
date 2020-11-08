@@ -96,14 +96,33 @@ export class BlogComponent implements OnInit {
       this.isEditImage = true;
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
+      $('.uk-breadcrumb #view').remove();
+
+    }else if (this.windowMode == 'view'){
+      $('.uk-breadcrumb').append('<li class="uk-disabled" id="view"><a>Lihat</a></li>')
+      $('.uk-breadcrumb #create').remove();
+      $('.uk-breadcrumb #edit').remove();
+
     }else if (this.windowMode == 'edit'){
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="edit"><a>Edit</a></li>')
       $('.uk-breadcrumb #create').remove();
+      $('.uk-breadcrumb #view').remove();
+
     }else if(this.windowMode == 'grid'){
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #create').remove();
-      // this.getDataBerita();
+      $('.uk-breadcrumb #view').remove();
     }
+  }
+
+
+  onViewClick(data){
+    console.log('onViewClick ===>',data);
+    this.windowModeView('view');
+
+
+    
+
   }
 
   ListSatker = [];

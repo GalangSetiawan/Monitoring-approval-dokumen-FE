@@ -102,6 +102,8 @@
                     <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
                         <a href="#modal-delete-ppk" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
                         <a (click)="onEditClick(cell);" uk-icon="icon: pencil" class="text-primary"></a> &nbsp;
+                        <a (click)="onViewClick(cell);" uk-icon="icon: file-text" uk-tooltip="title: Lihat; pos: left"></a> &nbsp;
+
                     </div> 
                 </div>
 
@@ -139,7 +141,7 @@
                     
                     <div class="uk-cover-container uk-height-medium" *ngIf="imageUrl != undefined">
                         <img data-src="{{imageUrl}}" alt="" uk-cover>
-                        <a class="uk-position-absolute uk-transform-center"  href="#modal-edit-image" uk-toggle style="
+                        <a class="uk-position-absolute uk-transform-center" *ngIf="windowMode != 'view'" href="#modal-edit-image" uk-toggle style="
                         left: 20%; 
                         top: 30%; 
                         background: #0F7AE5; 
@@ -170,7 +172,7 @@
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-horizontal-text">Judul Berita</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input" type="text" placeholder="Masukan Nama..." [(ngModel)]="beritaForm.title" [ngClass]="{ 'uk-form-danger': beritaForm.title == '' }">
+                        <input class="uk-input" type="text" placeholder="Masukan Nama..." [disabled]="windowMode == 'view'" [(ngModel)]="beritaForm.title" [ngClass]="{ 'uk-form-danger': beritaForm.title == '' }">
                         <div *ngIf=" beritaForm.title == ''" class="uk-text-danger uk-text-italic">
                             <div>Judul berita wajib diisi</div>
                         </div>

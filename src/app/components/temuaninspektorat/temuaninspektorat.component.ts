@@ -135,9 +135,10 @@ export class TemuaninspektoratComponent implements OnInit {
   onbeforeNew(){
     this.isGridEditTemuan = true;
     this.keteranganDokumenId = null;
-    this.modelDokumenTemuan.jenisDokumenTemuanId =  2
+    this.modelDokumenTemuan.jenisDokumenTemuanId =  2;
+
+    this.batchDokumen.splice(0);
     this.progressStatus(1);
-    this.resetFormInputFileDokumen()
     // this.isiHardcode();
     this.btnCloseModalPreviewCetakan();
     this.clearModel_DokumenTemuan();
@@ -329,6 +330,15 @@ export class TemuaninspektoratComponent implements OnInit {
 
         if(data.result.resultDokumen.statusTindakLanjut == 'Tersedia'){
           data.result.resultDokumen.statusTindakLanjut = 'Dalam Proses'
+        }
+
+
+        if(data.result.resultDokumen.dokumenTindakLanjut == null){
+          data.result.resultDokumen.isCreateNewDraft = true;
+          data.result.resultDokumen.keterangan = 'ini pertama kali edit, dia melakukan fungsi update'
+        }else{
+          data.result.resultDokumen.isCreateNewDraft = false;
+          data.result.resultDokumen.keterangan = 'ini masuk ke draft, dia melakukan fungsi add data'
         }
         
         this.batchDokumen.push(data.result.resultDokumen)
@@ -1227,7 +1237,7 @@ export class TemuaninspektoratComponent implements OnInit {
       }
 
 
-      if(this.batchDokumen[0].nomorDraft == 1 && this.batchDokumen[0].dokumenTindakLanjut == null){
+      if(this.batchDokumen[0].nomorDraft == 1 && this.batchDokumen[0].isCreateNewDraft == true ){
         this.tindakLanjutService.updateTindakLanjut(modelTindakLanjut).subscribe(
           data=>{
             var result = data.result;
