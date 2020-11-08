@@ -84,7 +84,7 @@
                 <dxi-column dataField="namaPpk" caption="PPK" [allowSearch]="true"></dxi-column>
                 <dxi-column dataField="namaSatker" caption="Satker" [allowSearch]="true"></dxi-column>
                 <!-- <dxi-column dataField="alamat" caption="Alamat" [allowSearch]="true"></dxi-column> -->
-                <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+                <dxi-column dataField="id" caption="Aksi" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
                             <a href="#modal-delete-ppk" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
@@ -123,9 +123,9 @@
                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-horizontal-text">Nama</label>
                             <div class="uk-form-controls">
-                                <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="namaPpk" [(ngModel)]="formPPK.namaPpk" [ngClass]="{ 'uk-form-danger': submitted && f.namaPpk.errors }">
-                                <div *ngIf="submitted && f.namaPpk.errors" class="uk-text-danger uk-text-italic">
-                                  <div *ngIf="f.namaPpk.errors.required">namaPpk wajib diisi</div>
+                                <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="namaPpk" [(ngModel)]="formPPK.namaPpk" [ngClass]="{ 'uk-form-danger': submitted && form.namaPpk.errors }">
+                                <div *ngIf="submitted && form.namaPpk.errors" class="uk-text-danger uk-text-italic">
+                                  <div *ngIf="form.namaPpk.errors.required">namaPpk wajib diisi</div>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-horizontal-select">Satker</label>
                             <div class="uk-form-controls">
-                                <select class="uk-select"  formControlName="satkerId" [(ngModel)]="formPPK.satkerId" [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }">
+                                <select class="uk-select"  formControlName="satkerId" [(ngModel)]="formPPK.satkerId" [ngClass]="{ 'uk-form-danger': submitted && form.satkerId.errors }">
                                     <option [ngValue]="formPPK.satkerId">{{formPPK.namaSatker}}</option> -->
                                     <!-- <option [ngValue]="1">Dummy Satker 100</option>
                                     <option [ngValue]="2">Dummy Satker 200</option>
@@ -142,8 +142,8 @@
                                 </select>
                                
                     
-                                <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
-                                    <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
+                                <div *ngIf="submitted && form.satkerId.errors" class="uk-text-danger uk-text-italic">
+                                    <div *ngIf="form.satkerId.errors.required">Satker wajib diisi</div>
                                 </div>
                     
                             </div>

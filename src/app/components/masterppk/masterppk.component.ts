@@ -179,7 +179,7 @@ export class MasterppkComponent implements OnInit {
   }
 
   
-  formPPK = {};
+  formPPK:any = {};
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.windowModeView('edit');
@@ -225,7 +225,7 @@ export class MasterppkComponent implements OnInit {
   }
 
   deleteDataPpk = "";
-  selectedForDelete = {};
+  selectedForDelete:any = {};
   modalDelete(row){
     console.log('modalDelete ===>',row.data);
     this.deleteDataPpk = row.data.namaPpk;

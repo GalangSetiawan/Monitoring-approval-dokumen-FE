@@ -85,7 +85,7 @@
               <dxi-column dataField="username" caption="Username" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="roleName" caption="Role" [allowSearch]="true"></dxi-column>
               <dxi-column dataField="email" caption="Email" [allowSearch]="true"></dxi-column>
-              <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
+              <dxi-column dataField="id" caption="Aksi" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                   <div *dxTemplate="let cell of 'cellTemplate'">
                       <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
                           <a href="#modal-delete-user" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" uk-tooltip="title: Hapus; pos: left" ></a> &nbsp;
@@ -140,20 +140,20 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Nama</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [disabled]="windowMode == 'view'" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.nama" [ngClass]="{ 'uk-form-danger': submitted && f.nama.errors }">
-                  <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [disabled]="windowMode == 'view'" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.nama">
+                  <!-- <div *ngIf="submitted && f.nama.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.nama.errors.required">Nama wajib diisi</div>
-                  </div>
+                  </div> -->
               </div>
             </div>
   
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">NIP</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [disabled]="windowMode == 'view'" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.NIP" [ngClass]="{ 'uk-form-danger': submitted && f.NIP.errors }">
-                  <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="text" placeholder="Masukan Nama..." [disabled]="windowMode == 'view'" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.NIP" >
+                  <!-- <div *ngIf="submitted && f.NIP.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.NIP.errors.required">NIP wajib diisi</div>
-                  </div>
+                  </div> -->
               </div>
             </div>
   
@@ -161,15 +161,15 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-select">User Role</label>
               <div class="uk-form-controls">
-                  <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId" [disabled]="windowMode == 'view'" (change)="validasiFormRegister();onChangeRole(modelRegister.roleId)" id="form-horizontal-select" [ngClass]="{ 'uk-form-danger': submitted && f.roleId.errors }">
+                  <select class="uk-select" placeholder="---Pilih Role---" [(ngModel)]="modelRegister.roleId" [disabled]="windowMode == 'view'" (change)="validasiFormRegister();onChangeRole(modelRegister.roleId)" id="form-horizontal-select" >
                     <option [ngValue]="50">Admin</option>
                     <option [ngValue]="40">Pengawas</option>
                     <option [ngValue]="30">Satker</option>
                   </select>
       
-                  <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
+                  <!-- <div *ngIf="submitted && f.roleId.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.roleId.errors.required">Role wajib diisi</div>
-                  </div>
+                  </div> -->
       
               </div>
             </div>
@@ -178,12 +178,12 @@
             <div class="uk-margin" *ngIf="modelRegister.roleId == 30">
               <label class="uk-form-label" for="form-horizontal-text">Satker</label>
               <div class="uk-form-controls">
-                  <select class="uk-select" [(ngModel)]="modelRegister.satkerId" [disabled]="windowMode == 'view'" (change)="onSatkerChange(modelRegister.satkerId);validasiFormRegister()"  [ngClass]="{ 'uk-form-danger': submitted && f.satkerId.errors }" >
+                  <select class="uk-select" [(ngModel)]="modelRegister.satkerId" [disabled]="windowMode == 'view'" (change)="onSatkerChange(modelRegister.satkerId);validasiFormRegister()" >
                       <option *ngFor="let satker of ListSatker" [ngValue]="satker.id">{{satker.namaSatker}}</option>
                   </select>
-                  <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
+                  <!-- <div *ngIf="submitted && f.satkerId.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.satkerId.errors.required">Satker wajib diisi</div>
-                </div>
+                  </div> -->
               </div>
             </div>
   
@@ -266,12 +266,11 @@
             <div class="uk-margin">
               <label class="uk-form-label" for="form-horizontal-text">Username</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="text" [readonly]="windowMode=='edit'" autocomplete="off" [disabled]="windowMode == 'view'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username);validasiFormRegister()" [(ngModel)]="modelRegister.username" [ngClass]="{ 'uk-form-danger': submitted && f.username.errors }">
-                  <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="text" [readonly]="windowMode=='edit'" autocomplete="off" [disabled]="windowMode == 'view'" placeholder="Masukan Username..." (change)="onUsernameType(modelRegister.username);validasiFormRegister()" [(ngModel)]="modelRegister.username">
+                  <!-- <div *ngIf="submitted && f.username.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.username.errors.required">Username wajib diisi</div>
                     <div *ngIf="f.password.errors.minlength">Username minimal 6 karakter</div>        
-  
-                  </div>
+                  </div> -->
   
                   <div *ngIf="windowMode!='edit' && !isValidUsername && modelRegister.username != ''" class="uk-text-danger uk-text-italic">
                     <div>Username sudah terdaftar</div>
@@ -313,22 +312,22 @@
             <div class="uk-margin" *ngIf="(windowMode != 'view' && showFormPassword) || windowMode == 'create'">
               <label class="uk-form-label" for="form-horizontal-text">Password</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="password" placeholder="Masukan Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password" [ngClass]="{ 'uk-form-danger': submitted && f.password.errors }">
-                  <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="password" placeholder="Masukan Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password" >
+                  <!-- <div *ngIf="submitted && f.password.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.password.errors.required">Password wajib diisi</div>
                     <div *ngIf="f.password.errors.minlength">Password minimal 6 karakter</div>        
-                  </div>
+                  </div> -->
               </div>
             </div>
       
             <div class="uk-margin" *ngIf="(windowMode != 'view' && showFormPassword) || windowMode == 'create'">
               <label class="uk-form-label" for="form-horizontal-text">Konfirmasi Password</label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="password" placeholder="Masukan Konfirmasi Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password_confirmation" [ngClass]="{ 'uk-form-danger': submitted && f.password_confirmation.errors }">
-                  <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
+                  <input class="uk-input" type="password" placeholder="Masukan Konfirmasi Password..." autocomplete="off" (change)="validasiFormRegister()" [(ngModel)]="modelRegister.password_confirmation" >
+                  <!-- <div *ngIf="submitted && f.password_confirmation.errors" class="uk-text-danger uk-text-italic">
                     <div *ngIf="f.password_confirmation.errors.required">Konfirmasi password harus diisi</div>
                     <div *ngIf="f.password_confirmation.errors.mustMatch">Konfirmasi Password harus sesuai</div>
-                  </div>
+                  </div> -->
   
   
                     <div *ngIf="modelRegister.password_confirmation != modelRegister.password && modelRegister.password_confirmation != '' " class="uk-text-danger uk-text-italic">

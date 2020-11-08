@@ -247,12 +247,13 @@ export class AppComponent implements OnInit{
     this.authService.gantiPassword(this.UserProfile.id,this.modelReset).subscribe(
       result => {
         console.log('checkPassword OldPassword success | checkPassword ===>',result);
-        this.signOut();
         Swal.fire(
           'Reset Berhasil', 
           'Password Berhasil direset, harap login kembali', 
           'success'
         )   
+        this.signOut();
+        
         
       },
       error => {

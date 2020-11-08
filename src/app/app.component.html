@@ -288,7 +288,7 @@
                             
             
             
-                            <div class="uk-inline uk-margin-medium-right" style="display:inline !important" >
+                            <!-- <div class="uk-inline uk-margin-medium-right" style="display:inline !important" >
                                 <span class="" type="span" uk-icon="icon: mail"><span class="uk-badge">5</span></span>
                                 <div uk-dropdown="mode: click; pos: bottom-right" style="min-width:500px;">
             
@@ -391,7 +391,7 @@
             
                                     
                                 </div>
-                            </div>
+                            </div> -->
                             
                             
                             <!-- <div class="uk-inline uk-margin-medium-right"  style="display:inline !important">
@@ -644,8 +644,7 @@
                                     <table style="width:100%;" >
                                         <tr><td>Nama</td><th>{{UserProfile.nama}}</th></tr>
                                         <tr><td>Email</td><th>{{UserProfile.email}}</th></tr>
-                                        <tr *ngIf="UserProfile.roleId != 50"><td>Satker</td><th>{{UserProfile.namaSatker}}</th></tr>
-                                        <tr *ngIf="UserProfile.roleId != 50"><td>PPK</td><th>{{UserProfile.namaPpk}}</th></tr>
+                                        <tr *ngIf="UserProfile.roleId == 30"><td>Satker</td><th>{{UserProfile.namaSatker}}</th></tr>
                                     </table>
                                 </div>
                             </article>
