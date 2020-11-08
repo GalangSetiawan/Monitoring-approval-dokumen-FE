@@ -116,9 +116,17 @@ export class BlogComponent implements OnInit {
   }
 
 
-  onViewClick(data){
-    console.log('onViewClick ===>',data);
+  onViewClick(row){
+    console.log('onViewClick ===>',row);
+    
     this.windowModeView('view');
+
+    this.beritaForm = row.data;
+    this.isEditImage = false;
+
+    this.downloadImg(this.beritaForm.bgImage);
+
+
 
 
     

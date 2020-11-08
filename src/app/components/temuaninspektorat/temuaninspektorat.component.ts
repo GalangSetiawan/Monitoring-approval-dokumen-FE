@@ -614,6 +614,7 @@ export class TemuaninspektoratComponent implements OnInit {
   showFormTemuan = false;
   addTemuan(satkerId,ppkId){
     this.showFormTemuan = true;
+    this.flagEdit = 0;
     // this.showBtnSaveTemuan = true;
     this.showBtnCancelTemuan = true;
     this.showBtnTambahTemuan = false;

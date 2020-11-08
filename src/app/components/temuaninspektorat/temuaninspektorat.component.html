@@ -177,7 +177,7 @@
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
             <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
             <a *ngIf="progres1Validation && !showBtnSimpan && isGridEditTemuan" style="text-decoration: none; color: white;"  uk-toggle="target: #modalInputSatker2" (click)="progressStatus(2);btnTambahTemuan()"  class="uk-button uk-button-primary">Tambah Tindak Lanjut</a> 
-            <a *ngIf="windowMode=='create' && showBtnSimpan"  style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onSubmit()">SIMPAN</a>&nbsp;
+            <a *ngIf="windowMode=='create' && showBtnSimpan && batchDokumen.length > 0" style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onSubmit()">SIMPAN</a>&nbsp;
             <a *ngIf="windowMode=='edit' && showBtnSimpan" style="text-decoration: none; color: white;" class="uk-button uk-button-primary" (click)="onUpdate()" >UPDATE</a>&nbsp;
         </div>  
     </div>
