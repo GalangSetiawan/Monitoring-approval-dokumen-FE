@@ -103,7 +103,7 @@
 
 
 
-    <div class="col-md-12">
+    <!-- <div class="col-md-12">
       <div class="card card-chart" style="background: linear-gradient(60deg, #3998F8, #0F7AE5); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
         <div class="card-header card-header-info" style="background: white;">
           <div class="ct-chart">
@@ -150,266 +150,93 @@
         </div>
        
       </div>
+    </div> -->
+
+
+  </div>
+
+
+
+  <div class="container-fluid card" *ngFor="let data of dataDashboard">
+    <div class="card-header card-header-primary mb-3 uk-animation-slide-right" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+      <i class="fa fa-bookmark"></i> &nbsp; Satker {{data.namaSatker}} - {{data.inspektorat.total + data.bpk.total}} Dokumen
     </div>
-
-
-  </div>
-
-
-
-
-
-
-
- <!-- ============================================================== -->
- <div class="container-fluid card">
-  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
-    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
-  </div>
-
-  <div class=" row ">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-success card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-folder-open"></i>
-        </div>
-        <p class="card-category">Approval Document</p>
-        <h3 class="card-title">34</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">On-Progres</i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-warning card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-edit"></i>
-        </div>
-        <p class="card-category"> Finding Document</p>
-        <h3 class="card-title">49/50
-          <!-- <small>GB</small> -->
-        </h3>
-      </div>
-      <div class="card-footer">
-          <div class="stats">
-              <i class="material-icons">Open</i>
+  
+    <div class=" row ">
+      <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header card-header-success card-header-icon">
+          <div class="card-icon uk-animation-scale-down ">
+            <i class="fa fa-folder-open"></i>
           </div>
-      </div>
-    </div>
-  </div>
+          <p class="card-category">Dokumen Temuan inspektorat</p>
+          <h3 class="card-title mb-2">{{data.inspektorat.tersedia}}</h3>
 
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-info card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-check"></i>
-        </div>
-        <p class="card-category">Summary</p>
-        <h3 class="card-title">+245</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">Close</i>          
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+          <p class="card-category">Dokumen Temuan bpk</p>
+          <h3 class="card-title">{{data.bpk.tersedia}}</h3>
 
- </div>
- <!-- =============================================================  -->
- <div class="container-fluid card">
-  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
-    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
-  </div>
 
-  <div class=" row ">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-success card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-folder-open"></i>
         </div>
-        <p class="card-category">Approval Document</p>
-        <h3 class="card-title">34</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">On-Progres</i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-warning card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-edit"></i>
-        </div>
-        <p class="card-category"> Finding Document</p>
-        <h3 class="card-title">49/50
-          <!-- <small>GB</small> -->
-        </h3>
-      </div>
-      <div class="card-footer">
+        <div class="card-footer">
           <div class="stats">
-              <i class="material-icons">Open</i>
+            <i class="material-icons">Tersedia</i>
           </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-info card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-check"></i>
-        </div>
-        <p class="card-category">Summary</p>
-        <h3 class="card-title">+245</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">Close</i>          
         </div>
       </div>
     </div>
-  </div>
-  </div>
-
- </div>
- <!-- =============================================================  -->
- <div class="container-fluid card">
-  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
-    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
-  </div>
-
-  <div class=" row ">
+  
     <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-success card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-folder-open"></i>
-        </div>
-        <p class="card-category">Approval Document</p>
-        <h3 class="card-title">34</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">On-Progres</i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-warning card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-edit"></i>
-        </div>
-        <p class="card-category"> Finding Document</p>
-        <h3 class="card-title">49/50
-          <!-- <small>GB</small> -->
-        </h3>
-      </div>
-      <div class="card-footer">
-          <div class="stats">
-              <i class="material-icons">Open</i>
+      <div class="card card-stats">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon uk-animation-scale-down ">
+            <i class="fa fa-edit"></i>
           </div>
-      </div>
-    </div>
-  </div>
+          <p class="card-category">Dokumen Temuan inspektorat</p>
+          <h3 class="card-title  mb-2">{{data.inspektorat.dalamProses}}</h3>
 
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-info card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-check"></i>
+          <p class="card-category">Dokumen Temuan bpk</p>
+          <h3 class="card-title">{{data.bpk.dalamProses}}</h3>
+            <!-- <small>GB</small> -->
+        
         </div>
-        <p class="card-category">Summary</p>
-        <h3 class="card-title">+245</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">Close</i>          
+        <div class="card-footer">
+            <div class="stats">
+                <i class="material-icons">Dalam Proses</i>
+            </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
-
- </div>
- <!-- =============================================================  -->
- <div class="container-fluid card">
-  <div class="card-header card-header-primary mb-3" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
-    <i class="fa fa-bookmark"></i> &nbsp; Satker Bogor (14 PPK)
-  </div>
-
-  <div class=" row ">
+  
     <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-success card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-folder-open"></i>
-        </div>
-        <p class="card-category">Approval Document</p>
-        <h3 class="card-title">34</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">On-Progres</i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-warning card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-edit"></i>
-        </div>
-        <p class="card-category"> Finding Document</p>
-        <h3 class="card-title">49/50
-          <!-- <small>GB</small> -->
-        </h3>
-      </div>
-      <div class="card-footer">
-          <div class="stats">
-              <i class="material-icons">Open</i>
+      <div class="card card-stats">
+        <div class="card-header card-header-info card-header-icon">
+          <div class="card-icon uk-animation-scale-down ">
+            <i class="fa fa-check"></i>
           </div>
-      </div>
-    </div>
-  </div>
+          <p class="card-category">Dokumen Temuan inspektorat</p>
+          <h3 class="card-title  mb-2" >{{data.inspektorat.tuntas}}</h3>
 
-  <div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-header card-header-info card-header-icon">
-        <div class="card-icon">
-          <i class="fa fa-check"></i>
+          <p class="card-category">Dokumen Temuan bpk</p>
+          <h3 class="card-title">{{data.bpk.tuntas}}</h3>
         </div>
-        <p class="card-category">Summary</p>
-        <h3 class="card-title">+245</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">Close</i>          
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">tuntas / Selesai </i>          
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
+    </div>
+  
+   </div>
 
- </div>
- <!-- =============================================================  -->
+
+
+
+<hr>
+
+
+
 
 
 

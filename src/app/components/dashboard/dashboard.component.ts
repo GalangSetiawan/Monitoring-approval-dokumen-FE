@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
     this.getDashboard()
 
-    const intervalTime = interval(20000); 
+    const intervalTime = interval(1000 * 60); 
     intervalTime.subscribe(val => this.getDashboard() );
   }
 
@@ -42,9 +42,9 @@ export class DashboardComponent implements OnInit {
 
     if($("#header1 #breadCrumbTitle").text() == 'Dashboard'){
       this.dokumenService.getDataDashboard().subscribe(
-        result => {
-          // console.log('getDashboard | getDataDashboard |  success  ===>',result);
-          this.dataDashboard = result;
+        (data:any) => {
+          // console.log('getDashboard | getDataDashboard |  success  ===>',data);
+          this.dataDashboard = data.result;
         },
         error => {
           console.log('getDashboard | getDataDashboard |  error    ===>',error);
