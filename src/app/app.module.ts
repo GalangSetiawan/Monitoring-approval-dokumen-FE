@@ -22,7 +22,7 @@ import { DxTemplateModule } from 'devextreme-angular';
 import { DxChartModule } from 'devextreme-angular';
 import { DxSelectBoxModule } from 'devextreme-angular';
 import { AuthInterceptor } from './shared/auth.interceptor';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
 @NgModule({
@@ -62,4 +62,4 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
   bootstrap: [AppComponent]
 })
 export class AppModule { } 
-platformBrowserDynamic().bootstrapModule(AppModule);
+// platformBrowserDynamic().bootstrapModule(AppModule);
