@@ -18,7 +18,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class SatkerComponent implements OnInit {
 
   public titleHeader = "Master Satker";
-  form: FormGroup;
 
   constructor(
     public masterSatkerService: MastersatkerService,
@@ -27,11 +26,7 @@ export class SatkerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      namaSatker      : new FormControl("",Validators.compose([Validators.required,])),
-      alamat      : new FormControl("",Validators.compose([Validators.required,]))
-    })
-
+ 
     this.getDataSatker();
 
 
@@ -42,12 +37,13 @@ export class SatkerComponent implements OnInit {
 
   selectActiveMenu(opened){
     this.removeActiveMenu();
+    $('#listMenu ul .listMenu').removeClass('uk-active');
     if(opened == 'dashboard'){
       $('#listMenu #dashboard').addClass('uk-active');
-    }else if(opened == 'blog'){
-      $('#listMenu #blog').addClass('uk-active');
     }else if(opened == 'dokumenTemuan'){
       $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'dokumentemuaninspektorat'){
+      $('#listMenu #dokumentemuaninspektorat').addClass('uk-active');
     }else if(opened == 'tindaklanjutv2'){
       $('#listMenu #tindaklanjutv2').addClass('uk-active');
     }else if(opened == 'tindaklanjut'){
@@ -73,10 +69,10 @@ export class SatkerComponent implements OnInit {
     }
   }
 
-
   removeActiveMenu(){
     $('#listMenu #dashboard').removeClass('uk-active');
     $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #dokumentemuaninspektorat').removeClass('uk-active');
     $('#listMenu #tindaklanjutv2').removeClass('uk-active');
     $('#listMenu #tindaklanjut').removeClass('uk-active');
     $('#listMenu #approvaldoc').removeClass('uk-active');
@@ -96,7 +92,7 @@ export class SatkerComponent implements OnInit {
   windowModeView(mode){
     this.windowMode = mode;
     if(this.windowMode == 'create'){
-      this.formSatker = {namaPpk:null,id:null,alamat:null};
+      this.formSatker = {namaPpk:'',id:null,alamat:''};
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
     }else if (this.windowMode == 'edit'){
@@ -206,7 +202,7 @@ export class SatkerComponent implements OnInit {
 
 
   
-  formSatker = {};
+  formSatker:any = {};
   onEditClick(row){
     console.log('btnEdit ===>',row.data);
     this.windowModeView('edit');
@@ -214,14 +210,9 @@ export class SatkerComponent implements OnInit {
   }
 
   doSave(data){
-
-    if(this.windowMode == 'edit'){
-      data = this.formSatker;
-    }
-
-    if(data.id == null){
+    if(this.windowMode == 'create'){
       console.log('doSave | data ===>',data);
-      this.masterSatkerService.createSatker(this.form.value).subscribe(
+      this.masterSatkerService.createSatker(data).subscribe(
         data => {
           console.log('create success | createSatker ===>',data)
           // notify({ message: "Yosssh! Success to Create data",position: { my: "center top",at: "center top"}}, "success", 3000);

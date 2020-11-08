@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 // add component
 import { SignupComponent } from './components/signup/signup.component';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MasterppkComponent } from './components/masterppk/masterppk.component';
 import { SatkerComponent } from './components/satker/satker.component';
@@ -22,7 +21,6 @@ import { PrintreportComponent } from './printreport/printreport.component';
   const routes: Routes = [
     { path: '', redirectTo: '', pathMatch: 'full' },
     { path: 'register', component: SignupComponent }, 
-    { path: 'sidebar', component: SidebarComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'masterppk', component: MasterppkComponent },
     { path: 'satker', component: SatkerComponent },

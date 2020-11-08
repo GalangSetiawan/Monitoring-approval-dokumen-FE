@@ -265,13 +265,9 @@ export class MasterppkComponent implements OnInit {
 
   doSave(data){
 
-    if(this.windowMode == 'edit'){
-      data = this.formPPK;
-    }
-
-    if(data.id == null){
-      console.log('doSave | data ===>',data);
-      this.masterPpkService.createPPK(this.form.value).subscribe(
+    if(this.windowMode =='create'){
+      console.log('doSave | data ===>',this.formPPK);
+      this.masterPpkService.createPPK(this.formPPK).subscribe(
         result => {
           console.log('create success | createPPK ===>',result)
           // notify({ message: "Yayyy! Berhasil Menambahkan data",position: { my: "center top",at: "center top"}}, "success", 3000);
@@ -298,8 +294,8 @@ export class MasterppkComponent implements OnInit {
         }
       )
     }else{
-      console.log('do update Data ===>',data)
-      this.masterPpkService.updatePPK(data).subscribe(
+      console.log('do update Data ===>',this.formPPK)
+      this.masterPpkService.updatePPK(this.formPPK).subscribe(
         result => {
           console.log('update success | updatePPK ===>',result)
           // notify({ message: "Yayyy! Success to Update data",position: { my: "center top",at: "center top"}}, "success", 3000);

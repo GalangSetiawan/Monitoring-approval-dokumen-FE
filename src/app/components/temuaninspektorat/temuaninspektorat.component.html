@@ -61,8 +61,8 @@
 
     <div class="">
         <div class="card mt-5">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title" >Dokumen Temuan Inspektorat</h4>
+          <div class="card-header card-header-primary mr-3 ml-3">
+            <h4 class="card-title text-white" >Dokumen Temuan Inspektorat</h4>
             <p class="card-category">Menampilkan List data dokumen Temuan Inspektorat</p>
           </div>
 
@@ -109,7 +109,7 @@
                     <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle"  >
                         <tr>
                           <td width="30"> 
-                            <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" *ngIf="dataSatker != null" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" ></a>&nbsp;                        
+                            <!-- <a href="#modal-delete-dokumen" uk-tooltip="title: Hapus; pos: left" *ngIf="dataSatker != null" (click)="modalDelete(cell.data);" uk-toggle uk-icon="icon: close" ></a>&nbsp;                         -->
                           </td>
                           <td width="30">
                             <a (click)="onEditTemuanGridClick(cell);" *ngIf="dataSatker != null" uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil" ></a>&nbsp;
@@ -140,7 +140,7 @@
                     <dxi-column dataField="id" caption="Action" alignment="center" [width]="100" cellTemplate="cellTemplate"></dxi-column>
                     <div *dxTemplate="let cell of 'cellTemplate'">
                         <div class="uk-flex uk-flex-center@m uk-flex-center@l uk-text-middle">
-                            <a href="#modal-delete-dokumen"  uk-tooltip="title: Hapus; pos: left" *ngIf="dataSatker != null" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp;
+                            <!-- <a href="#modal-delete-dokumen"  uk-tooltip="title: Hapus; pos: left" *ngIf="dataSatker != null" (click)="modalDelete(cell);" uk-toggle uk-icon="icon: close" ></a> &nbsp; -->
                             <a (click)="onEditTindakLanjutGridClick(cell);" *ngIf="cell.data.isEdit == 1 && dataSatker != null"  uk-tooltip="title: Edit; pos: left" uk-icon="icon: pencil"></a> &nbsp;
                             <a (click)="onBeforeView(cell);"  uk-tooltip="title: Lihat; pos: left" uk-icon="icon: file-text"></a> &nbsp;
                         </div> 
@@ -224,9 +224,7 @@
             <label class="uk-form-label" for="form-horizontal-text">Judul Dokumen</label>
             <div class="uk-form-controls">
                 <textarea class="uk-textarea" type="text" placeholder="Masukan Alamat..." [disabled]="(!isGridEditTemuan && windowMode =='edit') || windowMode =='view'"  rows="5" (change)="progres1ValidationFunction()" [(ngModel)]="modelDokumenTemuan.header"></textarea>
-                <div *ngIf="submitted && f.header.errors" class="uk-text-danger uk-text-italic">
-                    <div *ngIf="f.header.errors.required">Judul Dokumen wajib diisi</div>
-                </div>
+                
             </div>
         </div>
 
@@ -353,8 +351,8 @@
                       <td class="uk-text-top" style="width:70px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;">Kode</td>
                       <td class="uk-text-top" style="width:400px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;">Ringkasan Tindak Lanjut</td>
                       <td class="uk-text-top" style="width:80px; padding-right: 20px;padding-left: 20px;border-left: 0.1px solid black;" >Status Tindak Lanjut</td>
-                      <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
-                      <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(isResponseTL === true)?'isResponseTL' : 'notResponseTL'" *ngIf="isResponseTL">Respon Tindak lanjut</td>
+                      <td class="uk-text-top" style="width:230px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL'">Tindak lanjut</td>
+                      <td class="uk-text-top" style="width:250px; padding-right: 10px;padding-left: 10px;border-left: 0.1px solid black;" [ngClass]="(windowMode == 'edit' && modelIsiDokumen.id != null)?'isResponseTL' : 'notResponseTL'">Respon Tindak lanjut</td>
                       <td class="uk-text-top" style="width:80px;border-left: 0.1px solid black;" *ngIf="windowMode != 'view'">Aksi</td>
                     </tr>
                     
@@ -623,7 +621,7 @@
                 <dxi-item formatName="clear"></dxi-item>
                 <dxi-item formatName="codeBlock"></dxi-item>
                 <dxi-item formatName="blockquote"></dxi-item>
-                <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+                <!-- <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item> -->
       
               </dxo-toolbar>
               <dxo-media-resizing
@@ -668,7 +666,7 @@
               <dxi-item formatName="clear"></dxi-item>
               <dxi-item formatName="codeBlock"></dxi-item>
               <dxi-item formatName="blockquote"></dxi-item>
-              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+              <!-- <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item> -->
       
             </dxo-toolbar>
             <dxo-media-resizing
@@ -713,7 +711,7 @@
               <dxi-item formatName="clear"></dxi-item>
               <dxi-item formatName="codeBlock"></dxi-item>
               <dxi-item formatName="blockquote"></dxi-item>
-              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+              <!-- <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item> -->
       
               </dxo-toolbar>
               <dxo-media-resizing
@@ -772,7 +770,7 @@
               <dxi-item formatName="clear"></dxi-item>
               <dxi-item formatName="codeBlock"></dxi-item>
               <dxi-item formatName="blockquote"></dxi-item>
-              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+              <!-- <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item> -->
       
               </dxo-toolbar>
               <dxo-media-resizing
@@ -817,7 +815,7 @@
               <dxi-item formatName="clear"></dxi-item>
               <dxi-item formatName="codeBlock"></dxi-item>
               <dxi-item formatName="blockquote"></dxi-item>
-              <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
+              <!-- <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item> -->
       
               </dxo-toolbar>
               <dxo-media-resizing
@@ -828,14 +826,14 @@
           </div>
         </div>
 
-        <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+        <!-- <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
           <div *ngIf="is_uraianTemuan">{{modelIsiDokumen.uraianTemuan}}</div>
           <div *ngIf="is_rekomendasi">{{modelIsiDokumen.rekomendasi}}</div>
           <div *ngIf="is_ringkasanTindakLanjut">{{modelIsiDokumen.ringkasanTindakLanjut}}</div>
           <div *ngIf="is_tindakLanjut">{{modelIsiDokumen.tindakLanjut}}</div>
           <div *ngIf="is_responTindakLanjut">{{modelIsiDokumen.responTindakLanjut}}</div>
         </dx-popup>
-        
+         -->
 
 
       </div>

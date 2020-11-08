@@ -3,7 +3,7 @@
     <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
         <a href="#" uk-icon="icon: search" uk-toggle="target: #toggle-usage"  class="uk-button uk-button-default"></a> &nbsp;
         <a (click)="getDataSatker()" uk-icon="icon: refresh" class="uk-button uk-button-default"></a> &nbsp;
-        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >Create &nbsp;</a>
+        <a  uk-icon="icon: plus" uk-toggle="target: #toggle-breadcrumb"  class="uk-button uk-button-primary text-light" [hidden]="windowMode != 'grid'" (click)="windowModeView('create')" >BUAT &nbsp;</a>
     </div> 
     
     
@@ -45,8 +45,8 @@
 
     <div >
         <div class="card mt-5">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Master Satker</h4>
+          <div class="card-header card-header-primary mr-3 ml-3">
+            <h4 class="card-title text-white">Master Satker</h4>
             <p class="card-category">Menampilkan List Data Satker</p>
           </div>
 
@@ -97,11 +97,10 @@
 
 <section [hidden]="windowMode == 'grid'">
 
-    <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
+    <div class="uk-form-horizontal uk-margin-large">
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
             <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
-            <input type="submit" [disabled]="!form.valid" value="SIMPAN" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
-            <input type="submit" [disabled]="!form.valid" value="Update" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
+            <input type="submit" [disabled]="formSatker.namaSatker == '' || formSatker.alamat == '' " value="SIMPAN"  (click)="doSave(formSatker)"  class="uk-button uk-button-primary">
         </div>  
 
         
@@ -113,10 +112,8 @@
                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-horizontal-text">Nama Satker</label>
                             <div class="uk-form-controls">
-                                <input class="uk-input" type="text" placeholder="Masukan Nama Satker..." formControlName="namaSatker" [(ngModel)]="formSatker.namaSatker" [ngClass]="{ 'uk-form-danger': submitted && f.namaSatker.errors }">
-                                <div *ngIf="submitted && f.namaSatker.errors" class="uk-text-danger uk-text-italic">
-                                  <div *ngIf="f.namaSatker.errors.required">Nama satker wajib diisi</div>
-                                </div>
+                                <input class="uk-input" type="text" placeholder="Masukan Nama Satker..."  [(ngModel)]="formSatker.namaSatker" >
+                               
                             </div>
                         </div>
                         
@@ -124,16 +121,14 @@
                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-horizontal-text">Alamat</label>
                             <div class="uk-form-controls">
-                                <textarea class="uk-textarea" type="text" placeholder="Masukan Alamat..."  rows="5" formControlName="alamat"  [(ngModel)]="formSatker.alamat" [ngClass]="{ 'uk-form-danger': submitted && f.alamat.errors }"></textarea>
-                                <div *ngIf="submitted && f.alamat.errors" class="uk-text-danger uk-text-italic">
-                                    <div *ngIf="f.alamat.errors.required">Alamat wajib diisi</div>
-                                </div>
+                                <textarea class="uk-textarea" type="text" placeholder="Masukan Alamat..."  rows="5"  [(ngModel)]="formSatker.alamat" ></textarea>
+                                
                             </div>
                         </div>
                
             </div>
         </div>
-    </form>
+    </div>
 
 
 

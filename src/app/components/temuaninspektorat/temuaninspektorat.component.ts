@@ -21,7 +21,8 @@ import { TindaklanjutService } from './../../shared/tindaklanjut.service';
   styleUrls: ['./temuaninspektorat.component.css']
 })
 export class TemuaninspektoratComponent implements OnInit {
-    public titleHeader = "Dokumen Temuan Inspektorat";
+  public titleHeader = "Dokumen Temuan Inspektorat";
+  isMultiline = true
 
   constructor(
     public shareComponentService     : SharecomponentService,
@@ -917,6 +918,19 @@ export class TemuaninspektoratComponent implements OnInit {
       // }
     }
   
+
+  }
+
+  onDeleteTemmuanClick(data){
+    console.log('onDeleteTemmuanClick | data ====>',data);
+
+    this.batchDokumen = _.remove(this.batchDokumen, function(n){
+      if(typeof data.flagId != undefined){
+        return n.flagId != data.flagId
+      }else{
+        return n.id != data.id
+      }
+    })
 
   }
 

@@ -54,8 +54,8 @@
 
     <div >
         <div class="card mt-5">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Berita</h4>
+          <div class="card-header card-header-primary mr-3 ml-3">
+            <h4 class="card-title text-white">Berita</h4>
             <p class="card-category">Menampilkan List Data Berita</p>
           </div>
 
@@ -216,7 +216,6 @@
                                 <dxi-item formatName="clear"></dxi-item>
                                 <dxi-item formatName="codeBlock"></dxi-item>
                                 <dxi-item formatName="blockquote"></dxi-item>
-                                <dxi-item widget="dxButton" [options]="toolbarButtonOptions"></dxi-item>
                         
                                 </dxo-toolbar>
                                 <dxo-media-resizing
@@ -228,9 +227,9 @@
                                 <div>Konten berita wajib diisi</div>
                             </div>
             
-                            <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
+                            <!-- <dx-popup [showTitle]="true" title="Markup" [(visible)]="popupVisible">
                                 <div>{{beritaForm.body}}</div>
-                            </dx-popup>
+                            </dx-popup> -->
 
                         </div>
                     </div>

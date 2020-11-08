@@ -19,6 +19,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class BlogComponent implements OnInit {
 
   public titleHeader = "Master Berita";
+  isMultiline = true;
   form: FormGroup;
   constructor(
     public masterSatkerService: MastersatkerService,
@@ -35,15 +36,17 @@ export class BlogComponent implements OnInit {
     $('#breadCrumbTitle a').text(this.titleHeader);
     this.selectActiveMenu('blog')
   } 
+  
 
   selectActiveMenu(opened){
     this.removeActiveMenu();
+    $('#listMenu ul .listMenu').removeClass('uk-active');
     if(opened == 'dashboard'){
       $('#listMenu #dashboard').addClass('uk-active');
-    }else if(opened == 'blog'){
-      $('#listMenu #blog').addClass('uk-active');
     }else if(opened == 'dokumenTemuan'){
       $('#listMenu #dokumenTemuan').addClass('uk-active');
+    }else if(opened == 'dokumentemuaninspektorat'){
+      $('#listMenu #dokumentemuaninspektorat').addClass('uk-active');
     }else if(opened == 'tindaklanjutv2'){
       $('#listMenu #tindaklanjutv2').addClass('uk-active');
     }else if(opened == 'tindaklanjut'){
@@ -69,10 +72,10 @@ export class BlogComponent implements OnInit {
     }
   }
 
-
   removeActiveMenu(){
     $('#listMenu #dashboard').removeClass('uk-active');
     $('#listMenu #dokumenTemuan').removeClass('uk-active');
+    $('#listMenu #dokumentemuaninspektorat').removeClass('uk-active');
     $('#listMenu #tindaklanjutv2').removeClass('uk-active');
     $('#listMenu #tindaklanjut').removeClass('uk-active');
     $('#listMenu #approvaldoc').removeClass('uk-active');
@@ -94,6 +97,7 @@ export class BlogComponent implements OnInit {
       this.beritaForm = {title:'', body:'',id:null, bgImage:undefined, isActive:null,imageName:''};
       this.imageUrl = undefined;
       this.isEditImage = true;
+      console.log('beritaForm --->',this.beritaForm)
       $('.uk-breadcrumb').append('<li class="uk-disabled" id="create"><a>Buat</a></li>')
       $('.uk-breadcrumb #edit').remove();
       $('.uk-breadcrumb #view').remove();
@@ -132,6 +136,7 @@ export class BlogComponent implements OnInit {
     
 
   }
+
 
   ListSatker = [];
   getDataSatker(){
@@ -242,7 +247,6 @@ export class BlogComponent implements OnInit {
     this.windowModeView('edit');
     this.beritaForm = row.data;
     this.isEditImage = false;
-
     this.downloadImg(this.beritaForm.bgImage)
   }
 

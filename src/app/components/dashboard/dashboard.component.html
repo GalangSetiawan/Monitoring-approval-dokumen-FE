@@ -157,17 +157,17 @@
 
 
 
-  <div class="container-fluid card" *ngFor="let data of dataDashboard">
-    <div class="card-header card-header-primary mb-3 uk-animation-slide-right" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
-      <i class="fa fa-bookmark"></i> &nbsp; Satker {{data.namaSatker}} - {{data.inspektorat.total + data.bpk.total}} Dokumen
+  <div class="container-fluid card mb-5" *ngFor="let data of dataDashboard">
+    <div class="card-header card-header-primary mb-3 uk-animation-slide-right text-white" style="background: linear-gradient(60deg,#0F7AE5, #3998F8); box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #2196f3;">
+      <i class="fa fa-bookmark "></i> &nbsp; Satker {{data.namaSatker}} - {{data.inspektorat.total + data.bpk.total}} Dokumen
     </div>
   
     <div class=" row ">
-      <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="col-lg-4 col-md-6 col-sm-6 p-3">
       <div class="card card-stats">
         <div class="card-header card-header-success card-header-icon">
           <div class="card-icon uk-animation-scale-down ">
-            <i class="fa fa-folder-open"></i>
+            <i class="fa fa-folder-open text-white"></i>
           </div>
           <p class="card-category">Dokumen Temuan inspektorat</p>
           <h3 class="card-title mb-2">{{data.inspektorat.tersedia}}</h3>
@@ -185,11 +185,11 @@
       </div>
     </div>
   
-    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="col-lg-4 col-md-6 col-sm-6 p-3">
       <div class="card card-stats">
         <div class="card-header card-header-warning card-header-icon">
           <div class="card-icon uk-animation-scale-down ">
-            <i class="fa fa-edit"></i>
+            <i class="fa fa-edit text-white"></i>
           </div>
           <p class="card-category">Dokumen Temuan inspektorat</p>
           <h3 class="card-title  mb-2">{{data.inspektorat.dalamProses}}</h3>
@@ -207,11 +207,11 @@
       </div>
     </div>
   
-    <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="col-lg-4 col-md-6 col-sm-6 p-3">
       <div class="card card-stats">
         <div class="card-header card-header-info card-header-icon">
           <div class="card-icon uk-animation-scale-down ">
-            <i class="fa fa-check"></i>
+            <i class="fa fa-check text-white"></i>
           </div>
           <p class="card-category">Dokumen Temuan inspektorat</p>
           <h3 class="card-title  mb-2" >{{data.inspektorat.tuntas}}</h3>
@@ -221,7 +221,7 @@
         </div>
         <div class="card-footer">
           <div class="stats">
-            <i class="material-icons">tuntas / Selesai </i>          
+            <i class="material-icons">Tuntas / Selesai </i>          
           </div>
         </div>
       </div>

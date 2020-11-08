@@ -56,8 +56,8 @@
 
     <div >
         <div class="card mt-5">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Master PPK</h4>
+          <div class="card-header card-header-primary mr-3 ml-3">
+            <h4 class="card-title text-white" >Master PPK</h4>
             <p class="card-category">Menampilkan List Data PPK</p>
           </div>
 
@@ -107,11 +107,10 @@
 
 <section [hidden]="windowMode == 'grid'">
 
-    <form class="uk-form-horizontal uk-margin-large"  [formGroup]="form" (ngSubmit)="doSave(form.value)">
+    <div class="uk-form-horizontal uk-margin-large" >
         <div class="uk-flex uk-flex-right@m uk-flex-right@l uk-text-middle uk-margin">
             <a class="uk-button uk-button-default" (click)="windowModeView('grid')">KEMBALI</a> &nbsp;
-            <input type="submit" [disabled]="!form.valid" value="SIMPAN" *ngIf="windowMode=='create'"  class="uk-button uk-button-primary">
-            <input type="submit" [disabled]="!form.valid" value="UPDATE" *ngIf="windowMode=='edit'"  class="uk-button uk-button-primary">
+            <input type="submit" value="SIMPAN" [disabled]="formPPK.namaPpk == null || formPPK.namaPpk == '' || formPPK.satkerId == null" (click)="doSave(formPPK)"  class="uk-button uk-button-primary">
         </div>  
 
         
@@ -120,38 +119,30 @@
             <div class="card-body m-5"> 
                 
 
-                        <div class="uk-margin">
-                            <label class="uk-form-label" for="form-horizontal-text">Nama</label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" type="text" placeholder="Masukan Nama..." formControlName="namaPpk" [(ngModel)]="formPPK.namaPpk" [ngClass]="{ 'uk-form-danger': submitted && form.namaPpk.errors }">
-                                <div *ngIf="submitted && form.namaPpk.errors" class="uk-text-danger uk-text-italic">
-                                  <div *ngIf="form.namaPpk.errors.required">namaPpk wajib diisi</div>
-                                </div>
-                            </div>
-                        </div>
-                        
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Nama</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" placeholder="Masukan Nama..." [(ngModel)]="formPPK.namaPpk" >
+                    
+                </div>
+            </div>
+            
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">Satker</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select"  [(ngModel)]="formPPK.satkerId">
+                        <option [ngValue]="formPPK.satkerId">{{formPPK.namaSatker}}</option> -->
+                    </select>
+                    
         
-                        <div class="uk-margin">
-                            <label class="uk-form-label" for="form-horizontal-select">Satker</label>
-                            <div class="uk-form-controls">
-                                <select class="uk-select"  formControlName="satkerId" [(ngModel)]="formPPK.satkerId" [ngClass]="{ 'uk-form-danger': submitted && form.satkerId.errors }">
-                                    <option [ngValue]="formPPK.satkerId">{{formPPK.namaSatker}}</option> -->
-                                    <!-- <option [ngValue]="1">Dummy Satker 100</option>
-                                    <option [ngValue]="2">Dummy Satker 200</option>
-                                    <option [ngValue]="3">Dummy Satker 300</option> -->
-                                </select>
-                               
-                    
-                                <div *ngIf="submitted && form.satkerId.errors" class="uk-text-danger uk-text-italic">
-                                    <div *ngIf="form.satkerId.errors.required">Satker wajib diisi</div>
-                                </div>
-                    
-                            </div>
-                        </div>
+        
+                </div>
+            </div>
                
             </div>
         </div>
-    </form>
+    </div>
 
 
 

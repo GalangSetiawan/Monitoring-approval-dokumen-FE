@@ -21,8 +21,8 @@ import { TindaklanjutService } from './../../shared/tindaklanjut.service';
   styleUrls: ['./temuanbpk.component.css']
 })
 export class TemuanbpkComponent implements OnInit {
-    public titleHeader = "Dokumen Temuan BPK";
-
+  public titleHeader = "Dokumen Temuan BPK";
+  isMultiline = true
   constructor(
     public shareComponentService     : SharecomponentService,
     public dokumenService     : DokumenserviceService,
@@ -917,6 +917,19 @@ export class TemuanbpkComponent implements OnInit {
       // }
     }
   
+
+  }
+
+  onDeleteTemmuanClick(data){
+    console.log('onDeleteTemmuanClick | data ====>',data);
+
+    this.batchDokumen = _.remove(this.batchDokumen, function(n){
+      if(typeof data.flagId != undefined){
+        return n.flagId != data.flagId
+      }else{
+        return n.id != data.id
+      }
+    })
 
   }
 
