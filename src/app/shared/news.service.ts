@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, map, tap } from 'rxjs/operators';
 
-const API_URL = "http://127.0.0.1:8000/api";
+// const API_URL = "http://127.0.0.1:8000/api";
+const API_URL = "http://mad-be.kenangncode.com/api";
 
 export class newsStyle {
   id      : Number;

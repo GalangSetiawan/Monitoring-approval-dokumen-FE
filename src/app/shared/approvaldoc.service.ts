@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient,HttpHeaders,HttpParams  } from '@angular/common/http';
 
 
-const API_URL = "http://127.0.0.1:8000/api";
+const API_URL = "http://mad-be.kenangncode.com/api";
 
 export class approvalDocFormat {
   id             : Number

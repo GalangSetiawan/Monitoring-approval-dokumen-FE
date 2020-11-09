@@ -37,15 +37,15 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   getAllUser(){
-    return this.http.get('http://127.0.0.1:8000/api/auth/get-user');
+    return this.http.get('http://mad-be.kenangncode.com/api/auth/get-user');
   }
 
   getUserById(userId): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/auth/get-user/'+userId);
+    return this.http.get('http://mad-be.kenangncode.com/api/auth/get-user/'+userId);
   }
 
   deleteUser(dataUser): Observable<any> {
-    return this.http.delete('http://127.0.0.1:8000/api/auth/delete-data/'+dataUser.id);
+    return this.http.delete('http://mad-be.kenangncode.com/api/auth/delete-data/'+dataUser.id);
   }
 
 
@@ -83,7 +83,7 @@ export class AuthService {
     formData.append('password',modelUser.password)
     formData.append('password_confirmation',modelUser.password_confirmation)
 
-    return this.http.post('http://127.0.0.1:8000/api/auth/register', formData);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/register', formData);
   }
 
 
@@ -124,41 +124,41 @@ export class AuthService {
     formData.append('roleName',modelUser.roleName)
     formData.append('password',modelUser.password)
     formData.append('password_confirmation',modelUser.password_confirmation)
-    return this.http.post('http://127.0.0.1:8000/api/auth/edit-data/' +user.id, formData);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/edit-data/' +user.id, formData);
   }
 
 
   checkUsername(username): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/check-username', username);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/check-username', username);
   }
 
 
   checkEmail(email): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/check-email', email);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/check-email', email);
   }
 
   gantiPassword(id,password){
-    return this.http.post('http://127.0.0.1:8000/api/auth/change-password/' +id, password);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/change-password/' +id, password);
 
   }
   
   checkPassword(id, password): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/check-password/' + id, password);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/check-password/' + id, password);
   }
 
 
   searchUser(filter): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/auth/search',filter);
+    return this.http.post('http://mad-be.kenangncode.com/api/auth/search',filter);
   }
 
   // Login
   signin(user: User): Observable<any> {
-    return this.http.post<any>('http://127.0.0.1:8000/api/auth/login', user);
+    return this.http.post<any>('http://mad-be.kenangncode.com/api/auth/login', user);
   }
 
   // Access user profile
   profileUser(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/api/auth/user');
+    return this.http.get('http://mad-be.kenangncode.com/api/auth/user');
   }
 
 
